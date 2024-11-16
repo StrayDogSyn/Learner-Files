@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://cdn.tlm.cloud/bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="./css/styles.css">
+  <link rel="shortcut icon" href="./assets/images/stray-gear.png" type="image/x-icon">
+  <title>Super Quiz Project</title>
+</head>
+
+<body>
+  <!--Main Quiz Form-->
+  <form id="answers" name="answers-group" class="px-4 py-3 justify-content-between container-fluid fw-bold">
+    <div class="container-fluid">
+      <section id="score" class="fs-1 fw-bold text-center bg-secondary text-white rounded-4 mb-2 box-shadow">
+        <i class="fa fa-medal"></i>
+      </section>
+      <section id="question" class="text-center mb-4 fs-4"></section>
+    </div>
+    <button id="start" form="answers" type="button"
+      class="btn btn-success btn-lg mb-3 border-dark rounded-4 box-shadow">
+      <i class="fa fa-caret-square-right"></i>
+      <span class="me-1">Play</span>
+    </button>
+    <div id="response">
+    <div class="mb-3 fs-4">
+      <input name="answers-group" type="radio" value="0" id="choice1" class="text-center fw-bold initialism">
+      <label for="choice1" id="answer1">
+        <i class="fa fa-question-circle text-success"></i>
+      </label>
+      <!--first answer-->
+    </div>
+    <!--mb-3-->
+    <div class="mb-3 fs-4">
+      <input name="answers-group" type="radio" value="1" id="choice2" class="text-center fw-bold initialism">
+      <label for="choice2" id="answer2">
+        <i class="fa fa-question-circle text-success"></i>
+      </label>
+      <!--2nd answer-->
+    </div>
+    <!--mb-3-->
+    <div class="mb-3 fs-4">
+      <input name="answers-group" type="radio" value="2" id="choice3" class="text-center fw-bold initialism">
+      <label for="choice3" id="answer3">
+        <i class="fa fa-question-circle text-success"></i>
+      </label>
+      <!--3rd answer-->
+    </div>
+    <!--mb-3-->
+    <div class="mb-3 fs-4">
+      <input name="answers-group" type="radio" value="3" id="choice4" class="text-center fw-bold initialism">
+      <label for="choice4" id="answer4">
+        <i class="fa fa-question-circle text-success"></i>
+      </label>
+      <!--4th answer-->
+    </div>
+    </div>
+    <!--mb-3-->
+
+    <!--DOM Elements-->
+    <section id="correct" class="mb-2 bg-success text-white fs-1 text-center me-3 rounded-4 box-shadow"><i
+        class="fa fa-thumbs-up me-2"></i>Correct!</section>
+    <section id="wrong" class="mb-2 bg-danger text-dark fs-1 text-center me-3 rounded-4 box-shadow"><i
+        class="fa fa-thumbs-down me-3"></i>Incorrect!</section>
+    <section id="feedback" class="text-center text-white fw-bold fs-2 mb-2 bg-primary rounded-4 box-shadow"></section>
+    <section id="timer" class="mb-2 text-center bg-warning text-dark fs-4 fw-bold rounded-4 mb-3 box-shadow">
+      <i class="fa fa-hourglass-half"></i>
+    </section>
+    <!--Button Group-->
+    <div id="round" class="btn-group">
+      <button id="submit" type="button" data-bs-toggle="modal" data-bs-target="#submitModal" form="answers"
+        class="btn btn-warning rounded-2 border-dark box-shadow">
+        <i class="fa fa-spell-check me-2"></i>
+        <span class="me-1">Submit A Question <i class="fa fa-question-circle"></i></span>
+      </button>
+      <button id="next" type="reset" form="answers" class="btn btn-warning rounded-2 border-dark box-shadow">
+        <i class="fa fa-sync-alt me-2"></i>
+        <span class="me-1">Next Question <i class="fa fa-question-circle"></i></span>
+      </button>
+      <button id="reset" type="reset" form="answers" class="btn btn-warning rounded-2 border-dark box-shadow">
+        <i class="fa fa-undo-alt me-2"></i>
+        <span class="me-1">Reset Quiz <i class="fa fa-question-circle"></i></span>
+      </button>
+    </div>
+    <!--btn-group-->
+  </form>
+  <!--form-->
+
+  <!-- Question Modal-->
+  <div class="modal fade box-shadow" id="submitModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-dark">
+          <h5 class="modal-title text-white" id="staticBackdropLabel"><i class="fa fa-share-square"></i> Create a
+            Question</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body bg-dark">
+          <form id="submitForm" name="submit-question-form" class="px-4 py-3">
+            <label for="question-text" class="text-white"></label>
+            <textarea type="text" class="text-dark mb-3 px-auto bg-light" id="question-text" minlength="1"
+              maxlength="500" rows="10" cols="50" required="true" placeholder="Enter your Question"
+              autofocus="true"></textarea>
+            <input type="text" class="text-dark bg-light mb-2 mx-auto" id="first-response" min="1" max="175"
+              required="true" placeholder="Add option here">
+            <label for="first-response" class="text-white"> First Response to Question</label>
+            <input type="text" class="text-dark bg-light mb-2 mx-auto" id="second-response" min="1" max="175"
+              required="true" placeholder="Add option here">
+            <label for="second-response" class="text-white"> Second Response to Question</label>
+            <input type="text" class="text-dark bg-light mb-2 mx-auto" id="third-response" min="1" max="175"
+              required="true" placeholder="Add option here">
+            <label for="third-response" class="text-white"> Third Response to Question</label>
+            <input type="text" class="text-dark bg-light mb-2 mx-auto" id="fourth-response" min="1" max="175"
+              required="true" placeholder="Add option here">
+            <label for="fourth-response" class="text-white"> Fourth Response to Question</label>
+            <label for="correct-response" class="text-white"> <i class="fa fa-sort-numeric-down-alt"></i>
+              Confirm Correct Response <i class="fa fa-caret-right"></i></label>
+            <select id="select-answer" name="choice" class="text-white mx-auto px-2">
+              <option value="0" class="text-dark">First Response</option>
+              <option value="1" class="text-dark">Second Response</option>
+              <option value="2" class="text-dark">Third Response</option>
+              <option value="3" class="text-dark">Fourth Response</option>
+            </select>
+          </form>
+        </div>
+        <div class="modal-footer bg-dark">
+          <button id="cancelQuestion" form="submitForm" type="button" class="btn btn-secondary box-shadow"
+            data-bs-dismiss="modal"><i class="fa fa-window-close"></i> Cancel</button>
+          <button id="submitQuestion" form="submitForm" type="button" class="btn btn-success box-shadow"><i
+              class="fa fa-share fa-lg"></i>
+            Submit Question</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer id="credits" class="fixed-bottom text-center">
+    <h4 class="text-shadow"><img class="logo img-sm img-fluid img-thumbnail box-shadow"
+        src="./assets/images/stray-gear.png" alt="StrayDog Syndications Logo"> &copy; StrayDog Syndications LLC 2024.
+      All Rights Reserved.<img class="logo img-sm img-fluid img-thumbnail box-shadow bg-dark"
+        src="./assets/images/tlm-logo.png" alt="The Last Mile Logo">
+      <br>Proud Participant of The Last Mile&trade; Program</h4>
+  </footer>
+  <!--modal-->
+  <script src="https://cdn.tlm.cloud/fontawesome/5.15.2/js/all.js"
+    integrity="sha384-Jd/Up/tJFZ6kyecb3GfFg99ZoDK4yW/Ztv18Stal8RcntwpbERxWVyaWSpEzaaPf"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.tlm.cloud/jquery/3.5.1/jquery-3.5.1.min.js"
+    integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.tlm.cloud/bootstrap/5.2.3/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+    crossorigin="anonymous"></script>
+  <script src="./js/scripts.js"></script>
+</body>
+
+</html>
