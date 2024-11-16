@@ -1,0 +1,16 @@
+/* lookup to main css folder*/
+@import url(./import/header.css);
+@import url(./import/nav-bar.css);
+@import url(./import/styles.css);
+@import url(./import/content.css);
+@import url(./import/images.css);
+@import url(./import/buttons.css);
+@import url(./import/media.css);
+@import url(./import/controls.css);
+@import url(./import/footer.css);
+
+ul>li, li {
+  text-align: center;
+  list-style: none;
+  list-style-position: inside;
+}

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" type="text/css" href="../../../cdn/bootstrap.min.css">
+  <link rel="shortcut icon" href="../assets/logos/stray-gear.png" type="image/x-icon">
+  <link href="https://cdn.tlm.cloud/bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="../css/styles.css">
+  <title>Projects Porfolio</title>
+</head>
+
+<body>
+  <hgroup class="container-fluid text-center fw-bold bg-transparent box-shadow">
+    <canvas id="canvasOne" width="875" height="110" class="my -2 canvas container-fluid rounded-5"></canvas>
+  </hgroup>
+  <nav class="navbar navbar-expand-lg navbar-dark background hunter">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"><i class="fa fa-bars fa-lg hunter"></i></span>
+      </button>
+      <a class="navbar-brand active-me hunter shadow" href="./contacts.html">Would you like to learn more <i
+          class="fa fa-question-circle active-me hunter"></i></a>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link hunter" aria-current="page" href="../index.html"><i class="fa fa-home hunter"> </i>
+              Home Page</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link hunter" href="./bio.html"><i class="fa fa-info-circle hunter"> </i> About Author</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle active-me hunter" href="#" id="navbarDropdown" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa fa-list-ol active-me hunter"> </i> Current Projects
+            </a>
+            <ul class="dropdown-menu background" aria-labelledby="navbarDropdown">
+              <li class="text-center initialism text-muted"> Applications</li>
+              <li><a class="dropdown-item hunter" href="../projects/calculator/index.html"><i
+                    class="fa fa-calculator hunter"></i> Calculator</a></li>
+              <li><a class="dropdown-item hunter" href="#"><i class="fa fa-dice-d20 fa-spin hunter"></i> RPG Dice
+                  Emulator</a></li>
+              <li><a class="dropdown-item hunter" href="../projects/rps/index.html"><i
+                    class="fa fa-hand-scissors hunter"></i> Rock, Paper Scissors Game</a></li>
+              <li class="text-center initialism text-muted">
+                <hr class="dropdown-divider"> Quiz Games</li>
+              <li><a class="dropdown-item hunter" href="../projects/quiz-ninja2.1/index.html"><i
+                    class="fab fa-magento hunter"></i> Marvel Universe
+                  Quiz</a></li>
+              <li><a class="dropdown-item hunter disabled" href="#"><i class="fa fa-jedi hunter"></i> Star Wars Universe Quiz</a>
+              </li>
+              <li><a class="dropdown-item hunter" href="../projects/compTIA/index.html"><i
+                    class="fa fa-desktop hunter"></i> CompTIA&trade;
+                  Certification Super Quiz</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link hunter" href="./contacts.html" tabindex="-1"> <i class="fa fa-mail-bulk hunter"></i>
+              Contact Page</a>
+          </li>
+        </ul>
+        <form class="d-flex">
+          <input class="form-control me-2 background" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+  <!--navbar-expand-->
+  <main class="container-fluid background">
+    <h1 class="display-3 background text-white shadow rounded-4 text-center"> Check out some of my current projects...
+    </h1>
+    <div id="myCarouselPage" class="carousel slide carousel-fade" data-bs-ride="carousel">
+      <div class="carousel-indicators fixed-bottom background rounded-5 box-shadow">
+        <button type="button" data-bs-target="#myCarouselPage" data-bs-slide-to="0" class="active" aria-current="true"
+          aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#myCarouselPage" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#myCarouselPage" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        <button type="button" data-bs-target="#myCarouselPage" data-bs-slide-to="3" aria-label="Slide 4"></button>
+        <button type="button" data-bs-target="#myCarouselPage" data-bs-slide-to="4" aria-label="Slide 5"></button>
+        <button class="carousel-control-prev" type="button" data-bs-target="#myCarouselPage" data-bs-slide="prev">
+          <span class="visually-hidded">Previous</span>
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#myCarouselPage" data-bs-slide="next">
+          <span class="visually-hidden">Next</span>
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        </button>
+      </div>
+      <div class="carousel-inner container-fluid">
+        <div class="carousel-item active">
+            <a class="navbar-brand" href="../projects/compTIA/index.html">
+          <img src="../assets/screenshots/compTIA.png" class="screenshot img-fluid d-block w-100 rounded-4 mx-auto"
+            alt="The CompTIA Practice Exam"></a>
+        </div>
+        <div class="carousel-item container-fluid">
+            <a class="navbar-brand" href="../projects/knucklebones/knuckleBeta.html">
+          <img src="../assets/screenshots/knuckle.png" class="screenshot img-fluid d-block w-100 rounded-4 mx-auto"
+            alt="Knucklebones of Ficklest of Fortunes"></a>
+        </div>
+        <div class="carousel-item container-fluid">
+            <a class="navbar-brand" href="../projects/rps/index.html">
+          <img src="../assets/screenshots/rps.png" class="screenshot img-fluid d-block w-100 rounded-4 mx-auto"
+            alt="A Rock, Paper, Scissors Game"></a>
+        </div>
+      </div>
+      <div class="carousel-item container-fluid">
+          <a class="navbar-brand" href="../projects/calculator/index.html">
+        <img src="../assets/screenshots/calculator.png" class="screenshot img-fluid d-block w-100 rounded-4 mx-auto"
+          alt="A Basic Calculator"></a>
+      </div>
+      <div class="carousel-item container-fluid">
+          <a class="navbar-brand" href="../projects/quiz-ninja2.1/index.html">
+        <img src="../assets/screenshots/quiz.png" class="screenshot img-fluid d-block w-100 rounded-4 mx-auto"
+          alt="A Marvel Comics Quiz"></a>
+      </div>
+    </div>
+
+    </div>
+  </main>
+  <!--main container-fluid-->
+  <!-- Offline CDN Resources -->
+  <script src="https://cdn.tlm.cloud/jquery/3.5.1/jquery-3.5.1.min.js"
+    integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.tlm.cloud/jqueryui/1.12.1/jquery-ui.min.js"
+    integrity="sha384-PtTRqvDhycIBU6x1wwIqnbDo8adeWIWP3AHmnrvccafo35E7oIvW7HPXn2YimvWu"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.tlm.cloud/fontawesome/5.15.2/js/all.js"
+    integrity="sha384-Jd/Up/tJFZ6kyecb3GfFg99ZoDK4yW/Ztv18Stal8RcntwpbERxWVyaWSpEzaaPf"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.tlm.cloud/bootstrap/5.2.3/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+    crossorigin="anonymous"></script>
+  <script src="../js/scripts.js"></script>
+  <script src="../js/canvas.js"></script>
+  <script>
+    $(document).ready(function () {
+
+    }); // end ready
+  </script>
+</body>
+
+</html>

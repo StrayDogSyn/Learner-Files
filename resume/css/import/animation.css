@@ -1,0 +1,23 @@
+#square {
+  text-align: center;
+  font-size: 3.5rem;
+  font-variant: small-caps;
+  font-family: fantasy;
+  margin: 300px;
+  width: 500px;
+  height: 500px;
+  background: hsla(60, 100%, 50%, .7);
+  animation: spin 6s linear infinite;
+}
+@keyframes spin { from { transform:rotate(360deg); } to
+{ transform:rotate(0deg); } }
+
+#small-square {
+  margin: 100px;
+  width: 200px;
+  height: 200px;
+  background: hsla(60, 100%, 50%, .7);
+  animation: spin 8s linear infinite;
+}
+@keyframes spin { from { transform:rotate(360deg); } to
+{ transform:rotate(0deg); } }

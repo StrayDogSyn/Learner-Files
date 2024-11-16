@@ -1,51 +1,84 @@
-# CompTIA Certification Practice Quiz #
+#Introduction#
 
-## Description ##
+##Professional Portfolio##
 
-Using the CompTIA Exam guides, I have created practice quizzes to prepare individuals for the Certification tests for both A+ &amp; Security+
-A 70% or higher completion of these tests is desired in order to achieve the required comprehension of the materials.
+The Last Mile Program,
+RI-JJM-6
+👋 Cohort #1
+Cranston, Rhode Island.
 
-## Typography & Color Palette ##
+🚀 Created by; E. Hunter Petross,
+StrayDog Syndications LLC. 2024.
+All Rights Reserved.
 
-Utilizing the color schema from the actual textbooks allows the quiz to retain the professionalism of the subject materials. Gold for success, knowledge and achievement. Reds for passion about technology, and black to embolden the gold, as well as to signify innovation and integrity for this technical quiz project. Finally, white is added as accents to symbolize what is to come: future certifications being one of them.
+###### Initial upload to GitLab//Sandbox 5/20/24
 
-  1. Gold: #daa520;
-  2. Red: #b22222;
-  3. White: #fdf5e6;
-  4. Yellow: #eee8aa;
-  5. Black: rgb(43, 11, 14);
+    The purpose of this portfolio is to provide real-time examples of my developing skills as I progress through the curriculum, and to save these digital examples for posterity so that they may be accessed later upon my release. All code within has been written bu myself, but many snippets are examples from the copious materials I have been given access to for reference. This includes, but is not limited to:
 
-  1. Times, "Times New Roman", Georgia, serif;
-  2. Geneva, Tahoma, Helvetica, Arial, sans-serif;
-  3. "Hoefler Text", Baskerville, Lucida, "Palatino Linotype", "URW Palladio", serif;
+    1. My favorite source, offline or otherwise is, [DevDocs](https://devdocs.tlm.cloud)
+    2. Second only to [MDN Web Docs](https://mdn.tlm.cloud/en-US/docs/)
+    3. Lastly, my tattered, much perused copy of: *Coding All-in-One For Dummies, Wiley & Sons 2017* which has seen copious hours of use in preparation for this class.
 
+ ##  Building the project  ##
+ ### Errata as of 7/12/2024 ###
 
-### Technologies Used ###
+  Porfolio has been curated and reduced to contain only the most current and/or relevant projects to minimize the size of the folder. Completed projects are located in the ./projects/ folder to provide linkable access from portfolio pages.
 
-  1. jQuery
-  2. Bootstrap 5
-  3. Font Awesome Icons
+## Main Project Description ##
 
-#### Project Requirements ####
+  Project Knucklebones
+  A RPG Tabletop character portfolio and dice emulator application based of the 3.5. Open Game License. The full license is available to view inside the application.
 
-A working quiz game with a bank of possible questions created with a JavaScript class (with a constructor) that you can instantiate multiple times to create many objects. Each instance of the class haz a questionText string value, an answers array of four string values, and a correctAnswer number with a value of 0-3.
-If the user clicks the correct answer, they should receive a message telling them they were right. If they click an incorrect response, they should receive a message telling them they were incorrect.
-Lastly, includes a feature allowing a user to create their own question with a set of possible answers. When the user has finished creating their new question(s), it should be included in the quiz in following attempts.
+### Projects ###
 
-### Works Cited ###
+  1. Rock, Paper, Scissors (JavaScript Project)
+  2. Quiz Ninja, Marvel Universe
+  3. Super Quiz, CompTIA A+ & Security+ exams
+  4. Calculator
+  5. Resume
 
-  1. CompTIA A+ Certification All-in-One Exam Guide,
-     Eighth Edition (Exams 220-801 & 220-802)
-     Mike Myers
-     Copyright 2012 by the McGraw-Hill Companies
+#### Quiz Games Works Cited ####
 
-  2. CompTIA Security+ Certification All-in-One Exam Guide,
-     Sixth Edition (Exam SYO-601)
-     Dr. Wm. Arthur Conklin, Dr. Gregory White, Chuck Cothren,
-     Roger L. Davis & Dwayne Williams
-     Copyright 2021 by McGraw-Hill. All Rights Reserved.
+  JavaScript: Novice to Ninja
+  by Darren Jones
+  Copyright © 2014 SitePoint Pty. Ltd
+  Published by SitePoint Pty. Ltd.
+  48 Cambridge Street Collingwood
+  VIC Australia 3066
+  Web: www.sitepoint.com
+  Email: business@sitepoint.com
+  ISBN 978-0-9924612-2-5 (print)
+  ISBN 978-0-9924612-1-8 (ebook)
 
-  3. JavaScript: The Definitive Guide, Seventh Edition
-     by David Flanagan
-     Copyright © 2020 David Flanagan. All rights reserved.
-     Published by O’Reilly Media, Inc., 1005 Gravenstein Highway North, Sebastopol, CA 95472.
+  JavaScript & jQuery: The Missing Manual
+  by David Sawyer McFarland
+  Copyright © 2014 Sawyer McFarland Media, Inc. All rights reserved.
+  Printed in the United States of America.
+  Published by O’Reilly Media, Inc.,
+  1005 Gravenstein Highway North, Sebastopol, CA 95472.
+
+### Assets Directory [../../cdn/] ###
+
+  [offline use only, finished product will include links only (@tlm.cloud/cdn)]
+
+    - anime.min.js
+    - babel.min.js
+    - bootstrap.bundle.min.js
+    - bootstrap.min.js
+    - bootstrap.min.css
+    - fontawesome.css
+    - fontawesome.js
+    - holder.js
+    - jquery-ui.min.js
+    - jquery.min.js
+    - jquery.slim.min.js
+    - moment.min.js
+    - p5.min.js
+    - p5play.min.js
+    - planck.min.js
+    - popper.min.js
+    - semantic.min.js
+    - semantic.min.css
+    - tf.min.js
+    - tfjs-vis.umd.min.js
+    - tfjs.min.js

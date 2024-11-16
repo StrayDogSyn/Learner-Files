@@ -1,0 +1,127 @@
+/* My Reboot Boilerplate */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background:
+    url(../assets/images/bg-bottom.svg) bottom right no-repeat fixed,
+    url(../assets/images/bg-top.svg) left top no-repeat fixed;
+  }
+#radial,
+hgroup {
+  color: var(--white-100);
+  font-family: var(--fans);
+  background:
+    url(../assets/images/four.webp) center/100%;
+  }
+html {
+  background-color:  var(--background);
+  }
+a:hover {
+  text-decoration: underline;
+  color: hsl(120, 100%, 50%);
+  }
+.canvas {
+  max-width: fit-content;
+  max-height: auto;
+  }
+
+/* My Brand Image */
+h1 {
+  text-shadow: 4px 2px 6px var(--black-100);
+}
+.hunter {
+  color: #3A3F;
+  }
+.active-me {
+  color: hsl(120, 100%, 50%);
+  }
+.background {
+  background-color:  var(--background);
+  }
+.text-glow {
+  /* color | offset-x | offset-y | blur-radius */
+  text-shadow: #fc0 1px 0 8px;
+  }
+.shadow {
+  /* offset-x | offset-y | blur-radius | color */
+  text-shadow: 2px 2px 4px var(--black-100);
+  }
+.outline {
+  /* color | offset-x | offset-y */
+  text-shadow: var(--white-100) -2px 3px;
+  }
+.box-shadow {
+  box-shadow: 10px 5px 5px var(--black-100);
+}
+#splashPage {
+  /* Promotes The Last Mile Program as a background image */
+  background-image:
+  url(../assets/images/tlm-logo.png);
+  }
+.background-image-mission {
+  background:
+  url(../assets/logos/MissionStatementJPEG_withimage.jpg) bottom right no-repeat fixed;
+}
+.background-image-stray {
+  opacity: 2;
+  background:
+  url(../assets/logos/stray-gear.png) bottom right no-repeat fixed;
+}
+.background-image-student {
+  background:
+  url(../assets/logos/Header.png) bottom right no-repeat fixed;
+}
+.screenshot {
+  align-content: center;
+  justify-content: center;
+  width: 50%;
+  height: 50%;
+}
+  /* My Global Variables */
+
+:root {
+
+/* Typography */
+
+  --arial: Verdana, Arial, Helvetica, sans-serif;
+  --curve:  "Lucida Calligraphy", "Lucida Handwriting", "Apple Chancery",cursive;
+  --fans: Papyrus, Herculanum, "Party LET", "Curlz MT", Harrington, fantasy;
+  --mono: "Fira Mono", "Liberation Mono", "Lucida Console", Monaco, Courier, monospace;
+  --sans: "Gill Sans", "Lucida Sans Unicode", "Trebuchet MS", "Liberation Sans",sans-serif;
+  --serif: "Hoefler Text", Baskerville, Lucida, "Palatino Linotype", "URW Palladio", serif;
+  --times: Times, "Times New Roman", Georgia, serif;
+  --impact: Impact, 'Arial Narrow', 'Arial Black';
+  --san-serif: Geneva, Tahoma, Helvetica, Arial, sans-serif;
+
+/* HSLA Color Palette */
+  --black-10: hsla(120, 100%, 0%, .1);
+  --black-40: hsla(120, 100%, 0%, .4);
+  --black-70: hsla(120, 100%, 0%, .7);
+  --black-100: hsla(120, 100%, 0%, 1);
+  --blue-10: hsla(240, 100%, 50%, .1);
+  --blue-40: hsla(240, 100%, 50%, .4);
+  --blue-70: hsla(240, 100%, 50%, .7);
+  --blue-100: hsla(240, 100%, 50%, 1);
+  --gray-10: hsla(120, 0%, 50%, .1);
+  --gray-40: hsla(120, 0%, 50%, .4);
+  --gray-70: hsla(120, 0%, 50%, .7);
+  --gray-100: hsla(120, 0%, 50%, 1);
+  --green-10: hsla(120, 100%, 50%, .1);
+  --green-40: hsla(120, 100%, 50%, .4);
+  --green-70: hsla(120, 100%, 50%, .7);
+  --green-100: hsla(120, 100%, 50%, 1);
+  --red-10: hsla(0, 100%, 50%, .1);
+  --red-40: hsla(0, 100%, 50%, .4);
+  --red-70: hsla(0, 100%, 50%, .7);
+  --red-100: hsla(0, 100%, 50%, 1);
+  --white-10: hsla(120, 100%, 100%, .1);
+  --white-40: hsla(120, 100%, 100%, .4);
+  --white-70: hsla(120, 100%, 100%, .7);
+  --white-100: hsla(120, 100%, 100%, 1);
+  --yellow-10: hsla(60, 100%, 50%, .1);
+  --yellow-40: hsla(60, 100%, 50%, .4);
+  --yellow-70: hsla(60, 100%, 50%, .7);
+  --yellow-100: hsla(60, 100%, 50%, 1);
+ --background: hsla(140, 85%, 2.75%, .7);
+  }

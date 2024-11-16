@@ -1,0 +1,32 @@
+.radio {
+  display: block;
+  border: 3px solid black;
+  background-color: inherit;
+  border-radius: 35%;
+  padding: 3px;
+  margin: 0 auto;
+  box-shadow: 12px 12px 48px rgba(0,0,0,.7);
+  cursor: pointer;
+
+}
+.movie {
+  display: block;
+  border: 3px solid black;
+  background-color: inherit;
+  border-radius: 35%;
+  padding: 3px;
+  margin: 0 auto;
+  box-shadow: 12px 12px 48px rgba(0,0,0,.7);
+  cursor: pointer;
+
+}
+
+#timer {
+  color: var(--white-100);
+  border: 2px solid var(--white-70);
+  border-radius: 45px;
+  box-shadow: 2px 4px 56px var(--white-100);
+  text-align: center;
+  height: 200px;
+  width: 200px;
+}
