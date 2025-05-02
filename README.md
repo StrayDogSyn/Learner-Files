@@ -1,6 +1,10 @@
-# Web Development Portfolio
+# Professional Web Development Portfolio <img src="assets/logos/stray-gear.png" alt="Portfolio Logo" width="40" align="right">
 
-A professional web development portfolio showcasing various projects and skills.
+A comprehensive showcase of web development projects, skills, and technical expertise. This portfolio demonstrates proficiency in modern web technologies and creative problem-solving approaches.
+
+## About This Portfolio
+
+This portfolio represents a collection of web development projects ranging from simple interactive applications to complex multi-page websites. Each project demonstrates various technical skills and design principles.
 
 ## Project Structure
 
@@ -47,6 +51,22 @@ root/
 └── run/                        # Scripts or executables
 ```
 
+## Featured Projects
+
+- **Interactive Calculator**: A fully functional calculator with responsive design
+- **Knucklebones Game**: Interactive web-based implementation of the dice game
+- **CompTIA Quiz**: Technical assessment preparation tool
+- **Rock Paper Scissors**: Classic game with modern UI
+- **Countdown Timer**: Event countdown with visual feedback
+
+## Technologies Used
+
+- **Frontend**: HTML5, CSS3, JavaScript (ES6+)
+- **Styling**: Tailwind CSS, Custom CSS
+- **JavaScript Libraries**: Various project-specific libraries
+- **Version Control**: Git
+- **Build Tools**: npm
+
 ## Development Guidelines
 
 ### Adding New Projects
@@ -71,3 +91,11 @@ The project uses Tailwind CSS for styling. To build the project:
 1. Install dependencies: `npm install`
 2. Run build process: `npm run build`
 3. Deploy the `public` directory to your hosting provider
+
+## Contact and Feedback
+
+Feel free to explore the projects and provide feedback on any aspect of the work presented.
+
+---
+
+&copy; 2025 StrayDog Syndications LLC. All Rights Reserved.
