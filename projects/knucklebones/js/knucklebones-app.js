@@ -40,11 +40,13 @@ $(document).ready(function () {
    * Set up the dice roll buttons
    */
   function setupDiceButtons() {
-    $('.dice-btn').on('click', function() {
+    $('button[id^="btn"]').on('click', function() {
       const id = $(this).attr('id');
       const outputId = id.replace('btn', 'num');
       const dieType = id.match(/btn(\d+)/)[1];
-      const rollFunction = window['roll' + dieType];
+      
+      // FIX: Use DiceUtils object to access roll methods
+      const rollFunction = window.DiceUtils['roll' + dieType];
       
       if (typeof rollFunction === 'function') {
         // Update output with roll result
