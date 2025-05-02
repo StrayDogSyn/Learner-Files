@@ -1,6 +1,9 @@
 class CountdownTimer {
   constructor(targetDate) {
+    this.validateTargetDate(targetDate);
     this.targetDate = new Date(targetDate).getTime();
+    this.interval = null;
+    
     this.elements = {
       day: document.getElementById("cDay"),
       hour: document.getElementById("cHr"),
@@ -28,14 +31,34 @@ class CountdownTimer {
     this.init();
   }
 
+  validateTargetDate(date) {
+    const targetTime = new Date(date).getTime();
+    if (isNaN(targetTime)) {
+      throw new Error('Invalid target date provided');
+    }
+    if (targetTime < Date.now()) {
+      throw new Error('Target date must be in the future');
+    }
+  }
+
   init() {
     document.addEventListener('DOMContentLoaded', () => {
       this.startCountdown();
       this.startAnimation();
     });
+
+    // Handle visibility change to prevent animation desyncs
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        this.pauseAnimations();
+      } else {
+        this.resumeAnimations();
+      }
+    });
   }
 
   startCountdown() {
+    this.updateDisplay(this.calculateTimeLeft());
     this.interval = setInterval(() => {
       const timeLeft = this.calculateTimeLeft();
       
@@ -54,10 +77,10 @@ class CountdownTimer {
 
     return {
       total: distance,
-      days: Math.floor(distance / (1000 * 60 * 60 * 24)),
-      hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-      minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
-      seconds: Math.floor((distance % (1000 * 60)) / 1000)
+      days: Math.max(0, Math.floor(distance / (1000 * 60 * 60 * 24))),
+      hours: Math.max(0, Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))),
+      minutes: Math.max(0, Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))),
+      seconds: Math.max(0, Math.floor((distance % (1000 * 60)) / 1000))
     };
   }
 
@@ -71,31 +94,50 @@ class CountdownTimer {
   updateCounters(unit, value) {
     const formattedValue = value < 10 ? `0${value}` : value;
     this.elements.counters[unit].forEach(el => {
-      el.innerText = formattedValue;
+      if (el.innerText !== formattedValue) {
+        el.innerText = formattedValue;
+        this.triggerAnimation(el);
+      }
     });
   }
 
   handleCountdownEnd() {
     clearInterval(this.interval);
-    Object.values(this.elements.counters).forEach(counters => {
-      counters.forEach(el => {
-        el.innerText = "00";
-      });
+    this.updateDisplay({
+      days: 0,
+      hours: 0,
+      minutes: 0,
+      seconds: 0
     });
+    
+    // Trigger final animation
+    this.animationElements.forEach(el => {
+      this.activateElement(el);
+    });
+
+    // Dispatch custom event
+    document.dispatchEvent(new CustomEvent('countdownComplete'));
   }
 
   startAnimation() {
-    setTimeout(() => {
-      setInterval(() => {
-        // Reset all animations
-        this.animationElements.forEach(el => {
-          el.classList.remove("active");
-        });
+    this.animationInterval = setInterval(() => {
+      this.resetAnimations();
+      this.updateAnimations();
+    }, 1000);
+  }
 
-        // Apply animations based on current state
-        this.updateAnimations();
-      }, 1000);
-    }, 500);
+  pauseAnimations() {
+    clearInterval(this.animationInterval);
+  }
+
+  resumeAnimations() {
+    this.startAnimation();
+  }
+
+  resetAnimations() {
+    this.animationElements.forEach(el => {
+      el.classList.remove("active");
+    });
   }
 
   updateAnimations() {
@@ -121,10 +163,29 @@ class CountdownTimer {
   }
 
   activateElement(element) {
+    if (!element) return;
+    
     element.classList.add("active");
-    element.firstElementChild.classList.add("active");
+    if (element.firstElementChild) {
+      element.firstElementChild.classList.add("active");
+    }
+  }
+
+  triggerAnimation(element) {
+    element.classList.add('flip');
+    setTimeout(() => {
+      element.classList.remove('flip');
+    }, 300);
+  }
+
+  destroy() {
+    clearInterval(this.interval);
+    clearInterval(this.animationInterval);
+    document.removeEventListener('visibilitychange', this.handleVisibilityChange);
   }
 }
 
-// Initialize with target date
-new CountdownTimer('Sep 30, 2024');
+// Export for use in other files
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = CountdownTimer;
+}

@@ -10,11 +10,12 @@ class CompTIAQuiz {
   constructor() {
     this.state = {
       score: 0,
-      currentQuestion: null,
       timeRemaining: 1220, // 20 minutes + 20 seconds
-      interval: null,
+      currentQuestion: null,
       userName: '',
-      isQuizActive: false
+      interval: null,
+      isQuizActive: false,
+      hintPenalty: 1
     };
 
     this.elements = {
@@ -31,6 +32,10 @@ class CompTIAQuiz {
         hint: document.getElementById("cheater"),
         reset: document.getElementById("reset")
       },
+      forms: {
+        answers: document.getElementById("answers"),
+        quiz: document.getElementById("quiz")
+      },
       display: {
         score: document.getElementById("score"),
         timer: document.getElementById("timer"),
@@ -39,10 +44,6 @@ class CompTIAQuiz {
         correct: document.getElementById("correct"),
         wrong: document.getElementById("wrong"),
         intro: document.getElementById("intro")
-      },
-      forms: {
-        answers: document.getElementById("answers"),
-        quiz: document.getElementById("quiz")
       }
     };
 
@@ -82,33 +83,32 @@ class CompTIAQuiz {
   }
 
   attachKeyboardControls() {
-    window.addEventListener('keydown', (event) => {
-      if (event.defaultPrevented) return;
+    document.addEventListener('keydown', (e) => {
+      if (!this.state.isQuizActive) return;
 
       const keyActions = {
         '1': () => this.selectAnswer(0),
         '2': () => this.selectAnswer(1),
         '3': () => this.selectAnswer(2),
         '4': () => this.selectAnswer(3),
-        '[': () => this.startQuiz(),
-        ']': () => this.changeUserName(),
-        'q': () => document.querySelector('#submit').click(),
-        'Escape': () => this.confirmReset(),
-        '/': () => document.querySelector('#toggle').click()
+        'h': () => this.useHint(),
+        'Escape': () => this.confirmReset()
       };
 
-      if (keyActions[event.key]) {
-        event.preventDefault();
-        keyActions[event.key]();
+      if (keyActions[e.key]) {
+        e.preventDefault();
+        keyActions[e.key]();
       }
     });
   }
 
   startQuiz() {
+    if (!this.state.userName) {
+      alert('Please enter your name first!');
+      return;
+    }
+
     this.state.isQuizActive = true;
-    this.state.score = 0;
-    this.updateScore();
-    
     this.toggleElements();
     this.startTimer();
     this.loadNextQuestion();
@@ -121,7 +121,6 @@ class CompTIAQuiz {
   }
 
   startTimer() {
-    this.state.timeRemaining = 1220;
     this.updateTimer();
     this.state.interval = setInterval(() => this.updateTimer(), 1000);
   }
@@ -172,62 +171,119 @@ class CompTIAQuiz {
   }
 
   useHint() {
-    this.state.score = Math.max(0, this.state.score - 1);
+    if (this.state.score <= 0) {
+      alert('You need at least 1 point to use a hint!');
+      return;
+    }
+    
+    this.state.score = Math.max(0, this.state.score - this.state.hintPenalty);
     this.updateScore();
+    this.showElement(this.elements.display.hintText);
+    
+    // Hide hint after 3 seconds
+    setTimeout(() => {
+      this.hideElement(this.elements.display.hintText);
+    }, 3000);
+  }
+
+  handleUserNameInput() {
+    const userName = document.querySelector('#user-name').value;
+    const validName = /(\S+)/gi;
+    
+    if (!validName.test(userName)) {
+      this.state.userName = prompt('Please enter your name to continue!');
+    } else {
+      this.state.userName = userName;
+    }
+    
+    this.updateElement(this.elements.display.name, 
+      `Good Luck on your test, ${this.state.userName}!`);
   }
 
   handleUserQuestion() {
-    const question = {
-      questionText: document.querySelector('#question-text').value,
-      answers: [
-        document.querySelector('#first-response').value,
-        document.querySelector('#second-response').value,
-        document.querySelector('#third-response').value,
-        document.querySelector('#fourth-response').value
-      ],
-      correctAnswer: Number(document.querySelector('#select-answer').value)
-    };
+    const questionText = document.querySelector('#user-question').value.trim();
+    const answers = Array.from({ length: 4 }, (_, i) => 
+      document.querySelector(`#answer-${i + 1}`).value.trim()
+    );
+    const correctAnswer = parseInt(document.querySelector('#correct-answer').value);
 
-    this.questionBank.push(new Question(
-      question.questionText,
-      question.answers,
-      false,
-      question.correctAnswer
-    ));
+    if (!this.validateUserQuestion(questionText, answers, correctAnswer)) {
+      return;
+    }
 
+    this.questionBank.push(new Question(questionText, answers, false, correctAnswer));
     this.clearQuestionForm();
   }
 
+  validateUserQuestion(question, answers, correctAnswer) {
+    if (!question || answers.some(a => !a)) {
+      alert('Please fill in all fields');
+      return false;
+    }
+    
+    if (isNaN(correctAnswer) || correctAnswer < 1 || correctAnswer > 4) {
+      alert('Please enter a valid correct answer number (1-4)');
+      return false;
+    }
+    
+    return true;
+  }
+
   clearQuestionForm() {
-    ['#question-text', '#first-response', '#second-response', 
-     '#third-response', '#fourth-response'].forEach(selector => {
-      document.querySelector(selector).value = '';
-    });
+    document.querySelector('#user-question').value = '';
+    Array.from({ length: 4 }, (_, i) => 
+      document.querySelector(`#answer-${i + 1}`).value = ''
+    );
+    document.querySelector('#correct-answer').value = '';
   }
 
   endQuiz() {
-    const finalScore = ((this.state.score / this.questionBank.length) * 100).toFixed(2);
-    const message = `Quiz over, you scored ${this.state.score} out of ${this.questionBank.length} total points, resulting in a ${finalScore}%!`;
-    
-    this.hideQuizElements();
-    this.updateElement(this.elements.feedback, message);
     clearInterval(this.state.interval);
+    this.state.isQuizActive = false;
+    this.hideQuizElements();
+    this.showElement(this.elements.controls.reset);
+    
+    const finalScore = Math.round((this.state.score / this.questionBank.length) * 100);
+    this.updateElement(this.elements.feedback, 
+      `Quiz complete! Final score: ${finalScore}%`);
   }
 
   hideQuizElements() {
-    const { correct, question, answers, hint, wrong } = this.elements.display;
-    [correct, question, answers, hint, wrong].forEach(el => this.hideElement(el));
-    this.showElement(this.elements.controls.reset);
+    const { answers, hint } = this.elements.controls;
+    const { correct, wrong, hintText } = this.elements.display;
+    
+    [answers, hint, correct, wrong, hintText].forEach(el => this.hideElement(el));
   }
 
   resetQuiz() {
-    window.location.reload();
+    if (confirm('Are you sure you want to reset the quiz? All progress will be lost.')) {
+      this.state = {
+        score: 0,
+        timeRemaining: 1220,
+        currentQuestion: null,
+        userName: '',
+        interval: null,
+        isQuizActive: false,
+        hintPenalty: 1
+      };
+      
+      this.updateScore();
+      this.hideQuizElements();
+      this.showElement(this.elements.display.intro);
+      this.showElement(this.elements.controls.start);
+    }
   }
 
-  confirmReset() {
-    if (confirm("This will reset the quiz, are you sure that's what you want?")) {
-      this.resetQuiz();
+  selectAnswer(num) {
+    const radio = document.querySelector(`#choice${num + 1}`);
+    if (radio && !this.state.isAnswerSelected) {
+      radio.click();
     }
+  }
+
+  clearAnswerSelection() {
+    const radios = document.querySelectorAll('input[type="radio"]');
+    radios.forEach(radio => radio.checked = false);
   }
 
   updateScore() {
@@ -247,35 +303,8 @@ class CompTIAQuiz {
   hideElement(element) {
     if (element) element.style.display = "none";
   }
-
-  handleUserNameInput() {
-    const userName = document.querySelector('#user-name').value;
-    const validName = /(\S+)/gi;
-    
-    if (!validName.test(userName)) {
-      this.state.userName = prompt('Please enter your name to continue!');
-    } else {
-      this.state.userName = userName;
-    }
-    
-    this.updateElement(this.elements.display.name, 
-      `Good Luck on your test, ${this.state.userName}!`);
-  }
-
-  selectAnswer(num) {
-    const radio = document.querySelector(`#choice${num + 1}`);
-    if (radio && !this.state.isAnswerSelected) {
-      radio.click();
-    }
-  }
-
-  clearAnswerSelection() {
-    document.querySelectorAll('input[name="answers-group"]')
-      .forEach(radio => radio.checked = false);
-  }
 }
 
-// Question class definition
 class Question {
   constructor(questionText, answers, asked = false, correctAnswer) {
     this.questionText = questionText;

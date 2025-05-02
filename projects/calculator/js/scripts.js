@@ -2,41 +2,33 @@ class Calculator {
   constructor() {
     this.state = {
       runningTotal: 0,
-      buffer: '0',
+      buffer: "0",
       previousOperator: null,
       needsReset: false
     };
-
-    this.screen = document.querySelector('.screen');
+    this.screen = document.querySelector(".screen");
     this.init();
   }
 
   init() {
-    document.querySelector('.calc-buttons')
-      .addEventListener('click', (event) => this.handleClick(event));
-  }
-
-  handleClick(event) {
-    const value = event.target.innerText;
-    if (!value) return;
-
-    if (this.isNumber(value)) {
-      this.handleNumber(value);
-    } else {
-      this.handleSymbol(value);
-    }
-    
-    this.render();
+    document.querySelector(".calc-buttons")
+      .addEventListener("click", this.handleClick.bind(this));
   }
 
   isNumber(value) {
-    return !isNaN(parseInt(value));
+    return !isNaN(value) && value !== " ";
+  }
+
+  handleClick(event) {
+    if (!event.target.classList.contains("calc-button")) return;
+    
+    const value = event.target.innerText;
+    this.isNumber(value) ? this.handleNumber(value) : this.handleSymbol(value);
+    this.render();
   }
 
   handleNumber(value) {
-    const { buffer, needsReset } = this.state;
-
-    if (buffer === '0' || needsReset) {
+    if (this.state.buffer === "0" || this.state.needsReset) {
       this.state.buffer = value;
       this.state.needsReset = false;
     } else {
@@ -44,80 +36,76 @@ class Calculator {
     }
   }
 
-  handleSymbol(value) {
-    switch (value) {
-      case 'C':
+  handleSymbol(symbol) {
+    switch (symbol) {
+      case "C":
         this.reset();
         break;
-      case '=':
-        this.calculate();
-        break;
-      case '←':
+      case "←":
         this.backspace();
         break;
-      case '+':
-      case '-':
-      case '×':
-      case '÷':
-        this.handleOperator(value);
+      case "=":
+        this.calculate();
         break;
+      default:
+        this.handleOperator(symbol);
     }
   }
 
   reset() {
     this.state = {
       runningTotal: 0,
-      buffer: '0',
+      buffer: "0",
       previousOperator: null,
       needsReset: false
     };
   }
 
   backspace() {
-    const { buffer } = this.state;
-    if (buffer.length === 1) {
-      this.state.buffer = '0';
+    if (this.state.buffer.length === 1) {
+      this.state.buffer = "0";
     } else {
-      this.state.buffer = buffer.slice(0, -1);
+      this.state.buffer = this.state.buffer.slice(0, -1);
     }
   }
 
   handleOperator(operator) {
-    const { buffer, runningTotal, previousOperator } = this.state;
-    const currentValue = parseFloat(buffer);
+    const value = parseFloat(this.state.buffer);
 
-    if (runningTotal === 0) {
-      this.state.runningTotal = currentValue;
-    } else if (previousOperator) {
-      const result = this.executeOperation(runningTotal, currentValue, previousOperator);
-      this.state.runningTotal = result;
-      this.state.buffer = String(result);
+    if (this.state.runningTotal === 0) {
+      this.state.runningTotal = value;
+    } else {
+      this.state.runningTotal = this.executeOperation(
+        this.state.runningTotal,
+        value,
+        this.state.previousOperator
+      );
     }
 
-    this.state.needsReset = true;
     this.state.previousOperator = operator;
+    this.state.buffer = this.state.runningTotal.toString();
+    this.state.needsReset = true;
   }
 
   calculate() {
-    const { buffer, runningTotal, previousOperator } = this.state;
-    
-    if (!previousOperator) return;
+    if (!this.state.previousOperator) return;
 
-    const currentValue = parseFloat(buffer);
-    const result = this.executeOperation(runningTotal, currentValue, previousOperator);
-    
-    this.state.runningTotal = 0;
-    this.state.buffer = String(result);
+    const value = parseFloat(this.state.buffer);
+    this.state.runningTotal = this.executeOperation(
+      this.state.runningTotal,
+      value,
+      this.state.previousOperator
+    );
+    this.state.buffer = this.state.runningTotal.toString();
     this.state.previousOperator = null;
-    this.state.needsReset = true;
   }
 
   executeOperation(a, b, operator) {
     switch (operator) {
-      case '+': return a + b;
-      case '-': return a - b;
-      case '×': return a * b;
-      case '÷': return b !== 0 ? a / b : 'Error';
+      case "+": return a + b;
+      case "-": return a - b;
+      case "×": return a * b;
+      case "÷": return b !== 0 ? a / b : "Error";
       default: return b;
     }
   }

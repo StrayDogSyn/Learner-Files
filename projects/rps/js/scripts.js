@@ -14,7 +14,8 @@ class RockPaperScissors {
         computerChoice: null,
         isComplete: false
       },
-      playerName: ''
+      playerName: '',
+      gameOver: false
     };
 
     this.choices = ['rock', 'paper', 'scissors'];
@@ -92,6 +93,13 @@ class RockPaperScissors {
     // Game controls
     Object.entries(this.elements.buttons).forEach(([choice, button]) => {
       button.addEventListener('click', () => this.handlePlayerChoice(choice));
+      // Add keyboard accessibility
+      button.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          this.handlePlayerChoice(choice);
+        }
+      });
     });
 
     // Game flow
@@ -143,7 +151,7 @@ class RockPaperScissors {
   }
 
   handlePlayerChoice(choice) {
-    if (this.state.currentMatch.isComplete) return;
+    if (this.state.currentMatch.isComplete || this.state.gameOver) return;
 
     const computerChoice = this.getComputerChoice();
     this.updateMatchState(choice, computerChoice);
@@ -153,8 +161,7 @@ class RockPaperScissors {
   }
 
   getComputerChoice() {
-    const randomIndex = Math.floor(Math.random() * this.choices.length);
-    return this.choices[randomIndex];
+    return this.choices[Math.floor(Math.random() * this.choices.length)];
   }
 
   updateMatchState(playerChoice, computerChoice) {
@@ -168,27 +175,28 @@ class RockPaperScissors {
   updateDisplay() {
     const { playerChoice, computerChoice } = this.state.currentMatch;
     
-    // Hide choice buttons
-    Object.values(this.elements.buttons).forEach(btn => this.hideElement(btn));
+    // Hide all icons first
+    Object.values(this.elements.playerIcons).forEach(icon => this.hideElement(icon));
+    Object.values(this.elements.computerIcons).forEach(icon => this.hideElement(icon));
     
-    // Show selected choices
+    // Show selected icons
     this.showElement(this.elements.playerIcons[playerChoice]);
     this.showElement(this.elements.computerIcons[computerChoice]);
   }
 
   determineWinner() {
     const { playerChoice, computerChoice } = this.state.currentMatch;
-    let result;
-
+    
     if (playerChoice === computerChoice) {
-      result = 'tie';
-    } else if (this.outcomes[playerChoice].beats === computerChoice) {
-      result = 'win';
-    } else {
-      result = 'loss';
+      this.updateScore('tie');
+      return;
     }
 
-    this.updateScore(result);
+    if (this.outcomes[playerChoice].beats === computerChoice) {
+      this.updateScore('win');
+    } else {
+      this.updateScore('loss');
+    }
   }
 
   updateScore(result) {
@@ -211,9 +219,11 @@ class RockPaperScissors {
 
   checkGameOver() {
     const { wins, losses } = this.state.score;
-    if (wins >= 10 || losses >= 10) {
-      const winner = wins >= 10;
-      this.showElement(winner ? 
+    const WINNING_SCORE = 10;
+
+    if (wins === WINNING_SCORE || losses === WINNING_SCORE) {
+      this.state.gameOver = true;
+      this.showElement(wins === WINNING_SCORE ? 
         this.elements.displays.results.winner : 
         this.elements.displays.results.loser
       );
@@ -221,29 +231,46 @@ class RockPaperScissors {
   }
 
   playAgain() {
-    this.state.currentMatch.isComplete = false;
-    
-    // Reset display
-    Object.values(this.elements.playerIcons)
-      .concat(Object.values(this.elements.computerIcons))
-      .forEach(icon => this.hideElement(icon));
-    
-    Object.values(this.elements.buttons)
-      .forEach(btn => this.showElement(btn));
-    
-    this.updateElement(this.elements.displays.feedback, 'Choose Again?!');
+    if (!this.state.gameOver) {
+      this.state.currentMatch = {
+        playerChoice: null,
+        computerChoice: null,
+        isComplete: false
+      };
+      this.updateDisplay();
+      this.updateElement(this.elements.displays.feedback, 'Make your choice!');
+    }
   }
 
   resetGame() {
-    window.location.reload();
+    this.state = {
+      score: {
+        wins: 0,
+        losses: 0,
+        ties: 0
+      },
+      currentMatch: {
+        playerChoice: null,
+        computerChoice: null,
+        isComplete: false
+      },
+      playerName: '',
+      gameOver: false
+    };
+
+    Object.values(this.elements.displays.score).forEach(el => this.updateElement(el, '0'));
+    this.hideElement(this.elements.displays.results.winner);
+    this.hideElement(this.elements.displays.results.loser);
+    this.updateElement(this.elements.displays.feedback, 'Game Reset - Make your choice!');
+    this.updateDisplay();
   }
 
   showElement(element) {
-    if (element) element.style.display = 'block';
+    if (element) element.style.display = "block";
   }
 
   hideElement(element) {
-    if (element) element.style.display = 'none';
+    if (element) element.style.display = "none";
   }
 
   updateElement(element, content) {
