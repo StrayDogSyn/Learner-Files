@@ -1,5 +1,7 @@
 /*Project Knucklebones [Tabletop RPG Dice Emulator]
 2024 StrayDog Syndications LLC. All Rights Reserved*/
+@import url('../../../css/modern.css');
+
 * {
     margin: 0;
     padding: 0;
@@ -7,20 +9,36 @@
     background:
       url(../../../assets/svg/bg-pattern-bottom-desktop.svg) bottom right no-repeat fixed,
       url(../../../assets/svg/bg-pattern-top-desktop.svg) left top no-repeat fixed;
-  }
+}
+
+/* Game-specific animations */
+@keyframes spin { 
+  from { transform: rotate(360deg); } 
+  to { transform: rotate(0deg); }
+}
+
+@keyframes counter-spin { 
+  from { transform: rotate(-360deg); } 
+  to { transform: rotate(0deg); }
+}
+
+/* Base styles */
 .fa-hat-wizard {
   color: #0000cd;
   border-radius: 50%;
 }
+
 .icons-link {
   text-decoration: none;
   text-shadow: -1px -1px 2px black;
   font-size: 0.875rem;
 }
+
 .icons-link:hover {
   text-decoration: underline;
   color: gold;
 }
+
 button,
 .popover {
   width: 10rem;
@@ -28,14 +46,17 @@ button,
   border: none;
   background: transparent;
 }
+
 small {
   text-shadow: 2px 1px 1px silver;
 }
+
 .impact {
   font-size: 1.6rem;
   font-family: Papyrus, Herculanum, "Party LET", "Curlz MT", Harrington, fantasy;
   text-shadow: -2px  1px 2px #708090;
 }
+
 .output {
   border-radius: 45%;
   font-weight: bold;
@@ -47,103 +68,58 @@ small {
   background: hsl(120, 100%, 0%);
   color: hsl(120, 100%, 100%);
 }
+
 .output-sml {
   font-weight: bold;
   border-radius: 45%;
   font-size: 1.85rem;
 }
+
 .output-lg {
   font-weight: bold;
   border-radius: 45%;
   font-size: 2rem;
   min-width: 2.75rem;
 }
-.green {
-  color: rgba(0, 0, 0.897);
-  background: rgba(18, 252, 18, 0.918);
-}
-.red {
-  color: rgba(0, 0, 0, 0.897);
-  background: rgba(255, 67, 54, 0.897);
-}
-.orange {
-  color: rgba(0, 0,  0, 0.897);
-  background: rgba(255, 162, 22, 0.87);
-}
-.yellow {
-  color: rgba(0, 0,  0, 0.897);
-  background: rgba(252, 255, 54, 0.897);
-}
-.blue {
-  color: rgba(0, 0,  0, 0.897);
-  background: rgba(5, 163, 202, 0.897);
-}
-.indigo {
-  color: rgba(0, 0,  0, 0.897);
-  background: rgba(74, 102, 255, 0.897);
-}
-.violet {
-  color: rgba(0, 0,  0, 0.897);
-  background: rgba(130, 2, 204, 0.897);
-}
-/*inverted color schemes*/
-.navy {
-  color: ghostwhite;
-  background: navy;
-}
-.dkgreen {
-  color: ghostwhite;
-  background: darkgreen;
-}
-.dkslate {
-  color: ghostwhite;
-  background: darkgreen;
-}
-.dkgold {
-  color: ghostwhite;
-  background: darkgoldenrod;
-}
-.dkblue{
-  color: ghostwhite;
-  background: midnightblue;
-}
-.dkpurple {
-  color: ghostwhite;
-  background: rebeccapurple;
-}
-.dkorange {
-  color: black;
-  background: darkorange;
-}
-.black {
-  color: ghostwhite;
-  background: black;
-}
-.silver {
-  color: black;
-  background: silver;
-}
-.fire {
-  color: ghostwhite;
-  background: firebrick;
-}
+
+/* Color variations */
+.green { color: rgba(0, 0, 0.897); background: rgba(18, 252, 18, 0.918); }
+.red { color: rgba(0, 0, 0, 0.897); background: rgba(255, 67, 54, 0.897); }
+.orange { color: rgba(0, 0, 0, 0.897); background: rgba(255, 162, 22, 0.87); }
+.yellow { color: rgba(0, 0, 0, 0.897); background: rgba(252, 255, 54, 0.897); }
+.blue { color: rgba(0, 0, 0, 0.897); background: rgba(5, 163, 202, 0.897); }
+.indigo { color: rgba(0, 0, 0, 0.897); background: rgba(74, 102, 255, 0.897); }
+.violet { color: rgba(0, 0, 0, 0.897); background: rgba(130, 2, 204, 0.897); }
+
+/* Inverted colors */
+.navy { color: ghostwhite; background: navy; }
+.dkgreen { color: ghostwhite; background: darkgreen; }
+.dkslate { color: ghostwhite; background: darkslategray; }
+.dkgold { color: ghostwhite; background: darkgoldenrod; }
+.dkblue { color: ghostwhite; background: midnightblue; }
+.dkpurple { color: ghostwhite; background: rebeccapurple; }
+.dkorange { color: black; background: darkorange; }
+.black { color: ghostwhite; background: black; }
+.silver { color: black; background: silver; }
+.fire { color: ghostwhite; background: firebrick; }
+
 .btn-menu {
   background-image:
     linear-gradient(45deg, rgba(0,0,0, 33%),
                     rgba(204,204,204, 66%));
 }
+
+/* Game elements */
 .dice {
   z-index: 10;
   animation: spin 4s linear infinite;
   animation-direction: reverse;
 }
-@keyframes counter-spin { from { transform:rotate(-360deg); } to
-{ transform:rotate(0deg); } }
+
 .box {
   animation: spin 9s linear infinite;
 }
-@keyframes spin { from { transform:rotate(360deg); } to
-{ transform:rotate(0deg); } }/* animation box */
+
 #fickle {
   display: block;
   border: 1px solid;
@@ -160,14 +136,9 @@ small {
   margin-top: 50px;
   z-index: 75;
   background: rgba(51, 170, 51, .4);
-  background-image:
-    linear-gradient(45deg, rgba(51,170,51, 33%),
-                    rgba(51,170,51, 66%));
-  animation: spin 9s linear infinite;
-  animation-direction: reverse;
+  background-image: linear-gradient(45deg, rgba(51,170,51, 33%), rgba(51,170,51, 66%));
+  animation: spin 9s linear infinite reverse;
 }
-@keyframes counter-spin { from { transform:rotate(-360deg); } to
-{ transform:rotate(0deg); } }
 
 #small-square {
   display: flex;
@@ -181,10 +152,131 @@ small {
   box-shadow: 2px 3px 4px hsl(120, 100%, 0%);
   animation: spin 9s linear infinite;
 }
-@keyframes spin { from { transform:rotate(360deg); } to
-{ transform:rotate(0deg); } }
 
 .nav-link:hover {
   color: gold;
   text-decoration: underline;
+}
+
+/* Modern game board layout */
+.game-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-lg);
+}
+
+.game-board {
+  display: grid;
+  gap: var(--space-lg);
+  margin: var(--space-xl) 0;
+}
+
+@media (min-width: 768px) {
+  .game-board {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.player-section {
+  background: var(--primary-bg);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  border: 1px solid var(--border-color);
+}
+
+.dice-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+  margin: var(--space-lg) 0;
+}
+
+.dice-cell {
+  aspect-ratio: 1;
+  background: var(--secondary-bg);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid var(--border-color);
+}
+
+.dice-cell:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.dice-cell.active {
+  background: var(--primary-bg);
+  border-color: var(--text-primary);
+}
+
+.current-player {
+  animation: pulse 2s infinite;
+}
+
+.score-display {
+  font-size: 1.25rem;
+  margin: var(--space-md) 0;
+  text-align: center;
+}
+
+.game-controls {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: center;
+  margin: var(--space-lg) 0;
+}
+
+.game-button {
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  background: var(--primary-bg);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.game-button:hover {
+  transform: translateY(-2px);
+  background: var(--secondary-bg);
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
+@media (max-width: 480px) {
+  .game-container {
+    padding: var(--space-md);
+  }
+  
+  .dice-grid {
+    gap: var(--space-sm);
+  }
+  
+  .game-controls {
+    flex-direction: column;
+  }
+  
+  .game-button {
+    width: 100%;
+  }
+}
+
+/* Dice roll animation */
+@keyframes roll {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.rolling {
+  animation: roll 0.5s ease;
 }

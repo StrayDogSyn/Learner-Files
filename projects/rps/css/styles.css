@@ -1,3 +1,5 @@
+@import url('../../../css/modern.css');
+
 /* Rock Paper Scissors Game => TLM Project by E. Hunter RI-JJM-6 */
 /* CSS Reboot */
 *,
@@ -48,20 +50,23 @@ ol>li, li {
 .title {
   z-index: 101;
   box-shadow: 8px 12px 4px hsla(120, 100%, 0%, .7);
+  text-align: center;
+  margin: var(--space-lg) 0;
+  animation: fadeIn 0.5s ease;
 }
 
 /* scoreboard effects */
 .won,
 #won {
-    color: hsla(120, 100%, 50%, 1);
+    color: var(--win-color);
 }
 .tied,
 #tied {
-    color: hsla(60, 100%, 50%, 1);
+    color: var(--tie-color);
 }
 .lose,
 #lost {
-    color: hsla(0, 100%, 50%, 1);
+    color: var(--lose-color);
 }
 .logo,
 .scorecard {
@@ -69,7 +74,12 @@ ol>li, li {
   margin-top: 1rem;
   max-width: fit-content;
   box-shadow: 8px 12px 4px hsla(120, 100%, 0%, .7);
-
+  background: var(--primary-bg);
+  backdrop-filter: blur(10px);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+  margin-top: var(--space-md);
 }
 
 /* game intro page */
@@ -101,12 +111,13 @@ ol>li, li {
 }
 /*code adapted from https://mdn.tlm.cloud/en-US/docs/Learn/CSS/CSS_layout/Practical_positioning_examples/*/
 .top-label[for="toggle"] {
-  font-size: 3rem;
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  z-index: 1;
+  font-size: 2rem;
+  position: fixed;
+  top: var(--space-md);
+  right: var(--space-md);
+  z-index: 1000;
   cursor: pointer;
+  color: var(--text-primary);
 }
 
 input[type="checkbox"] {
@@ -114,21 +125,80 @@ input[type="checkbox"] {
   top: -100px;
 }
 #top-hidden-nav {
-  background-color: rgba(255,255,255, 0.4);
-  color: var(--black-100);
-  background-image:
-    linear-gradient(45deg, rgba(0,0,0, 33%),
-                    rgba(204,204,204, 66%));
-  width: 375px;
-  max-height: fit-content;
-  padding: 0 18px;
-  overflow: auto;
   position: fixed;
   top: 0;
-  right: -370px;
-
-  transition: 0.6s all;
+  right: -300px;
+  width: 300px;
+  height: 100vh;
+  background: var(--primary-bg);
+  backdrop-filter: blur(10px);
+  transition: 0.3s ease;
+  padding: var(--space-lg);
+  z-index: 999;
 }
+
 input[type=checkbox]:checked + #top-hidden-nav {
-  right: 0px;
+  right: 0;
+}
+
+/* Game-specific variables */
+:root {
+  --win-color: hsla(120, 100%, 50%, 1);
+  --tie-color: hsla(60, 100%, 50%, 1);
+  --lose-color: hsla(0, 100%, 50%, 1);
+}
+
+.game-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-md);
+}
+
+.game-board {
+  display: grid;
+  gap: var(--space-md);
+  margin: var(--space-lg) 0;
+}
+
+@media (min-width: 768px) {
+  .game-board {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.game-button {
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-md);
+  border: 2px solid var(--border-color);
+  background: var(--primary-bg);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.game-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.game-button:active {
+  transform: translateY(1px);
+}
+
+/* Responsive images */
+.game-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+}
+
+@media (max-width: 480px) {
+  .game-button {
+    width: 100%;
+    margin-bottom: var(--space-sm);
+  }
+  
+  .scorecard {
+    font-size: 0.9rem;
+  }
 }
