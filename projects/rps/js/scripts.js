@@ -127,9 +127,11 @@ function show(element) {
 // updates DOM Elements
 
 function update(element, content) {
+  if (!element.firstChild) {
+    element.appendChild(document.createElement('p'));
+  }
   let p = element.firstChild;
   p.textContent = content;
-  element.appendChild(p);
   }
 
 // begins the game by hiding splash screen

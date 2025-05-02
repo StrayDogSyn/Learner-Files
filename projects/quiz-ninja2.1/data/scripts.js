@@ -19,9 +19,11 @@
 
   /// view functions ///
   function update(element, content, klass) {
-    let p = element.firstChild || document.createElement("p");
+    if (!element.firstChild) {
+      element.appendChild(document.createElement('p'));
+    }
+    let p = element.firstChild;
     p.textContent = content;
-    element.appendChild(p);
     if (klass) {
       p.className = klass;
     }

@@ -1,0 +1,26 @@
+{
+  "name": "learner-files-1",
+  "version": "1.0.0",
+  "description": "The Last Mile Program,\r RI-JJM-6\r 👋 Cohort #1\r Cranston, Rhode Island.",
+  "main": "tailwind.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StrayDogSyn/Learner-Files.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/StrayDogSyn/Learner-Files/issues"
+  },
+  "homepage": "https://github.com/StrayDogSyn/Learner-Files#readme",
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^4.1.5"
+  }
+}

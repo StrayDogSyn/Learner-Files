@@ -1,107 +1,134 @@
 $(() => {
   "use strict";
 
-  //////////////////////
-  //* DOM References *//
-  //////////////////////
-
-  const $end = document.getElementById('result');
-  let count = 0;
-  let name = '';
-  $('#result').hide(),
-  $('#reset').hide(),
-  $('#intro').hide(),
-  $('#maestro').hide(),
-  $('#outro').hide();
-
-  ///////////////////////
-  //* Event Listeners *//
-  ///////////////////////
-
-  $('#start').on('click', startingLine);
-  $('#submitOne').on('click', () => {
-    name = $('#first').val();
-    if(name.toLowerCase() !== 'your name'){
-      runContinue();
-    } else {
-      smartGuy();
-    }
-  });
-  $('#submitTwo').on('click', () => {
-    name = $('#second').val();
-    if(name.toLowerCase() !== 'your name'){
-      runCarryOn();
-    } else {
-      smartGuy();
-    }
-  });
-  $('#submitThree').on('click', () => {
-    name = $('#third').val();
-    if(name.toLowerCase() !== 'your name'){
-      runReturn();
-    } else {
-      smartGuy();
-    }
-  });
-
-
-  $('#cancelOne').on('click', soreLoser);
-  $('#cancelTwo').on('click', soreLoser);
-  $('#cancelThree').on('click', soreLoser);
-  $('#reset').on('click', resetPage);
-
-  /////////////////
-  //* Functions *//
-  /////////////////
-
-  function update(element, content) {
-    element.innerHTML = content;
-  }
-
-  function startingLine(){
-    count++;
-    $('#start').hide(), $('#start').removeAttr('autofocus');
-    $('#intro').show(), $('#intro').attr('autofocus');
-
-  }
-  function runContinue(){
-    $('#intro').hide(), $('#intro').removeAttr('autofocus');
-    $('#maestro').show(), $('#maestro').attr('autofocus');
-    count++;
-    if(count >= 5){
-      $('#manyFaces').removeClass('fa-grimace').addClass('fa-angry');
-    }
-  }
-  function runCarryOn(){
-    $('#maestro').hide(), $('#maestro').removeAttr('autofocus');
-    $('#outro').show(), $('#outro').attr('autofocus');
-    count++;
-    if(count >= 10){
-      $('#manyFaces').removeClass('fa-angry').addClass('fa-sad-tear');
+  class QuizGame {
+    constructor() {
+      this.marvelService = new MarvelService();
+      this.currentQuestion = 0;
+      this.score = 0;
+      this.count = 0;
+      this.name = '';
+      this.questions = [];
+      this.initializeDOM();
+      this.attachEventListeners();
     }
 
-    }
-  function runReturn(){
-    $('#outro').hide(), $('#outro').removeAttr('autofocus');
-    $('#intro').show(), $('#intro').attr('autofocus');
-    count++;
-    if(count >= 15){
-      $('#manyFaces').removeClass('fa-sad-tear').addClass('fa-sad-cry');
+    initializeDOM() {
+      this.$end = document.getElementById('result');
+      $('#result, #reset, #intro, #maestro, #outro').hide();
     }
 
-  }
-  function smartGuy() {
-    $('#result').show();
-    update($end, `You the man! It only took ${count} tries to catch on...`);
-    $('#reset').show();
-  }
+    attachEventListeners() {
+      $('#start').on('click', () => this.startGame());
+      $('#submitOne').on('click', () => this.handleSubmit('first', '#intro', '#maestro'));
+      $('#submitTwo').on('click', () => this.handleSubmit('second', '#maestro', '#outro'));
+      $('#submitThree').on('click', () => this.handleSubmit('third', '#outro', '#intro'));
+      $('.btn-cancel').on('click', () => this.soreLoser());
+      $('#reset').on('click', () => this.resetPage());
+    }
 
-  function soreLoser(){
-    $('#result').show();
-    update($end, `Ha Ha Ha, I caught mad rec on you ${count} times!!!`);
-    $('#reset').show();
-  }
-  function resetPage(){
+    async startGame() {
+      try {
+        await this.marvelService.fetchCharacters();
+        this.questions = this.marvelService.generateQuestions();
+        this.count++;
+        $('#start').hide().removeAttr('autofocus');
+        $('#intro').show().attr('autofocus');
+        this.displayCurrentQuestion();
+      } catch (error) {
+        console.error('Failed to start game:', error);
+        this.showError('Failed to load Marvel characters. Please try again.');
+      }
+    }
+
+    handleSubmit(inputId, currentPanel, nextPanel) {
+      this.name = $(`#${inputId}`).val();
+      if (this.name.toLowerCase() !== 'your name') {
+        $(currentPanel).hide().removeAttr('autofocus');
+        $(nextPanel).show().attr('autofocus');
+        this.count++;
+        this.updateEmoji();
+        this.displayCurrentQuestion();
+      } else {
+        this.smartGuy();
+      }
+    }
+
+    displayCurrentQuestion() {
+      if (this.questions.length > 0) {
+        const question = this.questions[this.currentQuestion];
+        $('#counter').html(`
+          <img src="${question.image}" alt="${question.name}" class="marvel-character-img">
+          <h3 class="mt-3">Who is this Marvel character?</h3>
+          <div class="options-container mt-3">
+            ${question.options.map(option => 
+              `<button class="option-btn btn btn-primary m-2" data-answer="${option}">${option}</button>`
+            ).join('')}
+          </div>
+        `);
+
+        $('.option-btn').on('click', (e) => this.checkAnswer($(e.target).data('answer')));
+      }
+    }
+
+    checkAnswer(selectedAnswer) {
+      const correctAnswer = this.questions[this.currentQuestion].name;
+      if (selectedAnswer === correctAnswer) {
+        this.score++;
+      }
+      this.currentQuestion++;
+      if (this.currentQuestion < this.questions.length) {
+        this.displayCurrentQuestion();
+      } else {
+        this.showFinalScore();
+      }
+    }
+
+    updateEmoji() {
+      const $faces = $('#manyFaces');
+      if (this.count >= 15) {
+        $faces.removeClass('fa-sad-tear').addClass('fa-sad-cry');
+      } else if (this.count >= 10) {
+        $faces.removeClass('fa-angry').addClass('fa-sad-tear');
+      } else if (this.count >= 5) {
+        $faces.removeClass('fa-grimace').addClass('fa-angry');
+      }
+    }
+
+    showFinalScore() {
+      $('#result').show();
+      this.updateElement(this.$end, 
+        `Game Over! You scored ${this.score} out of ${this.questions.length} questions!`);
+      $('#reset').show();
+    }
+
+    smartGuy() {
+      $('#result').show();
+      this.updateElement(this.$end, `You the man! It only took ${this.count} tries to catch on...`);
+      $('#reset').show();
+    }
+
+    soreLoser() {
+      $('#result').show();
+      this.updateElement(this.$end, `Ha Ha Ha, I caught mad rec on you ${this.count} times!!!`);
+      $('#reset').show();
+    }
+
+    updateElement(element, content) {
+      element.innerHTML = content;
+    }
+
+    showError(message) {
+      $('#result').show();
+      this.updateElement(this.$end, message);
+      $('#reset').show();
+    }
+
+    resetPage() {
       window.location.reload();
+    }
   }
+
+  // Initialize the game
+  new QuizGame();
 });
