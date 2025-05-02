@@ -10,39 +10,45 @@
     integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="css/styles.css">
   <title>Knuckle Beta</title>
-</head>Í
+</head>
 
 <body>
   <div class="container-fluid">
-    <nav class="navbar navbar-expand-md navbar-light bg-light">
-      <div class="container-fluid">
-        <a class="navbar-brand d-sm-inline" href="../../splash.html"><img class="img-fluid thumbnail mr-0 pr-0"
-            src="../../assets/logos/stray-gear.png" style="width: 65%; border-radius: 15px;"></a>
-        <h3 class="mr-5 impact"><i class="fa fa-hat-wizard fa-2x"></i> Knucklebones of the Ficklest of Fortunes</h3><i
-          class="fa fa-dice fa-3x"></i><small class="text-muted"> Fizban&trade; Approved Materials</small>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#myTogglerNav"
-          aria-controls="myTogglerNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon btn-light"><i class="fa fa-arrow-alt-circle-down fa-lg"></i></span>
+    <nav class="navbar navbar-expand-lg navbar-dark background box-shadow mb-4">
+      <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="../../index.html">
+          <img src="../../assets/logos/stray-gear.png" width="40" height="40" class="d-inline-block align-top rounded-circle" alt="StrayDog Logo">
+          <h3 class="ms-3 mb-0 text-white"><i class="fa fa-hat-wizard"></i> Knucklebones of the Ficklest of Fortunes</h3>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="myTogglerNav">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="../../html/projects.html"><i class="fa fa-home"></i>
-                Home</a>
+              <a class="nav-link" href="../../index.html"><i class="fa fa-home"></i> Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link disabled" href="#"><i class="fab fa-d-and-d"></i> Character Creation</a>
+              <a class="nav-link" href="../../mainIndex.html"><i class="fa fa-compass"></i> Main Menu</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"><i class="fa fa-dragon"></i> The
-                Book
-                of Pasa Phist</a>
+              <a class="nav-link" href="../../html/projects.html"><i class="fa fa-code"></i> Projects</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="gameDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fab fa-d-and-d"></i> Game Options
+              </a>
+              <ul class="dropdown-menu background" aria-labelledby="gameDropdown">
+                <li><a class="dropdown-item hunter" href="#"><i class="fa fa-user-circle"></i> Character Creation</a></li>
+                <li><a class="dropdown-item hunter" href="#"><i class="fa fa-book"></i> Rules Reference</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item hunter" href="#"><i class="fa fa-download"></i> Download Game</a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="../../html/contacts.html"><i class="fa fa-envelope"></i> Contact</a>
             </li>
           </ul>
-          <form id="search-box" class="d-flex">
-            <input id="search-input" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit"><i class="fa fa-search"></i> Search</button>
-          </form>
         </div>
       </div>
     </nav>
