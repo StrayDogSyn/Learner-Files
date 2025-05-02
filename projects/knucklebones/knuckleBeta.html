@@ -59,91 +59,214 @@
       <!-- Dice Selection Panel -->
       <section class="dice-panel">
         <div class="dice-sets">
-          <!-- Group dice by type with modern dropdown buttons -->
+          <!-- D3 Dice -->
+          <div class="dice-set">
+            <button class="game-button dice-select" data-dice="d3">
+              <i class="fas fa-dice"></i> d3
+            </button>
+            <div class="dice-grid" id="d3Grid">
+              <button id="btn3a" class="dice-btn" title="Click to Roll 1d3">
+                <i id="d3a" class="fas fa-dice fa-4x fa-spin"></i>
+                <output id="num3a" class="output-sml" type="number">0</output>
+              </button>
+              <button id="btn3b" class="dice-btn" title="Click to Roll 1d3">
+                <i id="d3b" class="fas fa-dice fa-4x fa-spin"></i>
+                <output id="num3b" class="output-sml" type="number">0</output>
+              </button>
+              <button id="btn3c" class="dice-btn" title="Click to Roll 1d3">
+                <i id="d3c" class="fas fa-dice fa-4x fa-spin"></i>
+                <output id="num3c" class="output-sml" type="number">0</output>
+              </button>
+              <button id="btn3d" class="dice-btn" title="Click to Roll 1d3">
+                <i id="d3d" class="fas fa-dice fa-4x fa-spin"></i>
+                <output id="num3d" class="output-sml" type="number">0</output>
+              </button>
+            </div>
+          </div>
+
+          <!-- D4 Dice -->
           <div class="dice-set">
             <button class="game-button dice-select" data-dice="d4">
-              <i class="fa fa-dice-d20"></i> d4
+              <i class="fas fa-dice-d4"></i> d4
             </button>
             <div class="dice-grid" id="d4Grid">
-              <button id="btn4a" class="popover" title="Click to Roll 1d4">
-                <i id="d4a" class="fa fa-dice-d20 fa-4x fa-spin"></i>
+              <button id="btn4a" class="dice-btn" title="Click to Roll 1d4">
+                <i id="d4a" class="fas fa-dice-d4 fa-4x fa-spin"></i>
                 <output id="num4a" class="output-sml" type="number">0</output>
               </button>
-              <button id="btn4b" class="popover" title="Click to Roll 1d4">
-                <i id="d4b" class="fa fa-dice-d20 fa-4x fa-spin"></i>
+              <button id="btn4b" class="dice-btn" title="Click to Roll 1d4">
+                <i id="d4b" class="fas fa-dice-d4 fa-4x fa-spin"></i>
                 <output id="num4b" class="output-sml" type="number">0</output>
               </button>
-              <button id="btn4c" class="popover" title="Click to Roll 1d4">
-                <i id="d4c" class="fa fa-dice-d20 fa-4x fa-spin"></i>
+              <button id="btn4c" class="dice-btn" title="Click to Roll 1d4">
+                <i id="d4c" class="fas fa-dice-d4 fa-4x fa-spin"></i>
                 <output id="num4c" class="output-sml" type="number">0</output>
               </button>
-              <button id="btn4d" class="popover" title="Click to Roll 1d4">
-                <i id="d4d" class="fa fa-dice-d20 fa-4x fa-spin"></i>
+              <button id="btn4d" class="dice-btn" title="Click to Roll 1d4">
+                <i id="d4d" class="fas fa-dice-d4 fa-4x fa-spin"></i>
                 <output id="num4d" class="output-sml" type="number">0</output>
               </button>
-              <button id="btn4e" class="popover" title="Click to Roll 1d4">
-                <i id="d4e" class="fa fa-dice-d20 fa-4x fa-spin"></i>
+              <button id="btn4e" class="dice-btn" title="Click to Roll 1d4">
+                <i id="d4e" class="fas fa-dice-d4 fa-4x fa-spin"></i>
                 <output id="num4e" class="output-sml" type="number">0</output>
               </button>
-              <button id="btn4f" class="popover" title="Click to Roll 1d4">
-                <i id="d4f" class="fa fa-dice-d20 fa-4x fa-spin"></i>
+              <button id="btn4f" class="dice-btn" title="Click to Roll 1d4">
+                <i id="d4f" class="fas fa-dice-d4 fa-4x fa-spin"></i>
                 <output id="num4f" class="output-sml" type="number">0</output>
               </button>
             </div>
           </div>
 
+          <!-- D6 Dice -->
           <div class="dice-set">
             <button class="game-button dice-select" data-dice="d6">
-              <i class="fa fa-dice-d6"></i> d6
+              <i class="fas fa-dice-d6"></i> d6
             </button>
             <div class="dice-grid" id="d6Grid">
-              <button id="btn6a" class="popover" title="Click to Roll 1d6">
-                <i id="d6a" class="fa fa-dice-d6 fa-4x fa-spin"></i>
+              <button id="btn6a" class="dice-btn" title="Click to Roll 1d6">
+                <i id="d6a" class="fas fa-dice-d6 fa-4x fa-spin"></i>
                 <output id="num6a" class="output-sml" type="number">0</output>
               </button>
-              <button id="btn6b" class="popover" title="Click to Roll 1d6">
-                <i id="d6b" class="fa fa-dice-d6 fa-4x fa-spin"></i>
+              <button id="btn6b" class="dice-btn" title="Click to Roll 1d6">
+                <i id="d6b" class="fas fa-dice-d6 fa-4x fa-spin"></i>
                 <output id="num6b" class="output-sml" type="number">0</output>
               </button>
-              <button id="btn6c" class="popover" title="Click to Roll 1d6">
-                <i id="d6c" class="fa fa-dice-d6 fa-4x fa-spin"></i>
+              <button id="btn6c" class="dice-btn" title="Click to Roll 1d6">
+                <i id="d6c" class="fas fa-dice-d6 fa-4x fa-spin"></i>
                 <output id="num6c" class="output-sml" type="number">0</output>
               </button>
-              <button id="btn6d" class="popover" title="Click to Roll 1d6">
-                <i id="d6d" class="fa fa-dice-d6 fa-4x fa-spin"></i>
+              <button id="btn6d" class="dice-btn" title="Click to Roll 1d6">
+                <i id="d6d" class="fas fa-dice-d6 fa-4x fa-spin"></i>
                 <output id="num6d" class="output-sml" type="number">0</output>
               </button>
-              <button id="btn6e" class="popover" title="Click to Roll 1d6">
-                <i id="d6e" class="fa fa-dice-d6 fa-4x fa-spin"></i>
+              <button id="btn6e" class="dice-btn" title="Click to Roll 1d6">
+                <i id="d6e" class="fas fa-dice-d6 fa-4x fa-spin"></i>
                 <output id="num6e" class="output-sml" type="number">0</output>
               </button>
-              <button id="btn6f" class="popover" title="Click to Roll 1d6">
-                <i id="d6f" class="fa fa-dice-d6 fa-4x fa-spin"></i>
+              <button id="btn6f" class="dice-btn" title="Click to Roll 1d6">
+                <i id="d6f" class="fas fa-dice-d6 fa-4x fa-spin"></i>
                 <output id="num6f" class="output-sml" type="number">0</output>
               </button>
             </div>
           </div>
 
+          <!-- D8 Dice -->
+          <div class="dice-set">
+            <button class="game-button dice-select" data-dice="d8">
+              <i class="fas fa-dice"></i> d8
+            </button>
+            <div class="dice-grid" id="d8Grid">
+              <button id="btn8a" class="dice-btn" title="Click to Roll 1d8">
+                <i id="d8a" class="fas fa-dice fa-4x fa-spin"></i>
+                <output id="num8a" class="output-sml" type="number">0</output>
+              </button>
+              <button id="btn8b" class="dice-btn" title="Click to Roll 1d8">
+                <i id="d8b" class="fas fa-dice fa-4x fa-spin"></i>
+                <output id="num8b" class="output-sml" type="number">0</output>
+              </button>
+              <button id="btn8c" class="dice-btn" title="Click to Roll 1d8">
+                <i id="d8c" class="fas fa-dice fa-4x fa-spin"></i>
+                <output id="num8c" class="output-sml" type="number">0</output>
+              </button>
+              <button id="btn8d" class="dice-btn" title="Click to Roll 1d8">
+                <i id="d8d" class="fas fa-dice fa-4x fa-spin"></i>
+                <output id="num8d" class="output-sml" type="number">0</output>
+              </button>
+            </div>
+          </div>
+
+          <!-- D10 Dice -->
+          <div class="dice-set">
+            <button class="game-button dice-select" data-dice="d10">
+              <i class="fas fa-dice-d10"></i> d10
+            </button>
+            <div class="dice-grid" id="d10Grid">
+              <button id="btn10a" class="dice-btn" title="Click to Roll 1d10">
+                <i id="d10a" class="fas fa-dice-d10 fa-4x fa-spin"></i>
+                <output id="num10a" class="output-sml" type="number">0</output>
+              </button>
+              <button id="btn10b" class="dice-btn" title="Click to Roll 1d10">
+                <i id="d10b" class="fas fa-dice-d10 fa-4x fa-spin"></i>
+                <output id="num10b" class="output-sml" type="number">0</output>
+              </button>
+              <button id="btn10c" class="dice-btn" title="Click to Roll 1d10">
+                <i id="d10c" class="fas fa-dice-d10 fa-4x fa-spin"></i>
+                <output id="num10c" class="output-sml" type="number">0</output>
+              </button>
+              <button id="btn10d" class="dice-btn" title="Click to Roll 1d10">
+                <i id="d10d" class="fas fa-dice-d10 fa-4x fa-spin"></i>
+                <output id="num10d" class="output-sml" type="number">0</output>
+              </button>
+            </div>
+          </div>
+
+          <!-- D12 Dice -->
+          <div class="dice-set">
+            <button class="game-button dice-select" data-dice="d12">
+              <i class="fas fa-dice-d12"></i> d12
+            </button>
+            <div class="dice-grid" id="d12Grid">
+              <button id="btn12a" class="dice-btn" title="Click to Roll 1d12">
+                <i id="d12a" class="fas fa-dice-d12 fa-4x fa-spin"></i>
+                <output id="num12a" class="output-sml" type="number">0</output>
+              </button>
+              <button id="btn12b" class="dice-btn" title="Click to Roll 1d12">
+                <i id="d12b" class="fas fa-dice-d12 fa-4x fa-spin"></i>
+                <output id="num12b" class="output-sml" type="number">0</output>
+              </button>
+              <button id="btn12c" class="dice-btn" title="Click to Roll 1d12">
+                <i id="d12c" class="fas fa-dice-d12 fa-4x fa-spin"></i>
+                <output id="num12c" class="output-sml" type="number">0</output>
+              </button>
+              <button id="btn12d" class="dice-btn" title="Click to Roll 1d12">
+                <i id="d12d" class="fas fa-dice-d12 fa-4x fa-spin"></i>
+                <output id="num12d" class="output-sml" type="number">0</output>
+              </button>
+            </div>
+          </div>
+
+          <!-- D20 Dice -->
           <div class="dice-set">
             <button class="game-button dice-select" data-dice="d20">
-              <i class="fa fa-dice-d20"></i> d20
+              <i class="fas fa-dice-d20"></i> d20
             </button>
             <div class="dice-grid" id="d20Grid">
-              <button id="btn20a" class="popover" title="Click to Roll 1d20">
-                <i id="d20a" class="fa fa-dice-d20 fa-5x fa-spin"></i>
+              <button id="btn20a" class="dice-btn" title="Click to Roll 1d20">
+                <i id="d20a" class="fas fa-dice-d20 fa-5x fa-spin"></i>
                 <output id="num20a" class="output-lg mb-3 text-center" type="number">0</output>
               </button>
-              <button id="btn20b" class="popover" title="Click to Roll 1d20">
-                <i id="d20b" class="fa fa-dice-d20 fa-5x fa-spin"></i>
+              <button id="btn20b" class="dice-btn" title="Click to Roll 1d20">
+                <i id="d20b" class="fas fa-dice-d20 fa-5x fa-spin"></i>
                 <output id="num20b" class="output-lg mb-2 text-center" type="number">0</output>
               </button>
-              <button id="btn20c" class="popover" title="Click to Roll 1d20">
-                <i id="d20c" class="fa fa-dice-d20 fa-5x fa-spin"></i>
+              <button id="btn20c" class="dice-btn" title="Click to Roll 1d20">
+                <i id="d20c" class="fas fa-dice-d20 fa-5x fa-spin"></i>
                 <output id="num20c" class="output-lg mb-2 text-center" type="number">0</output>
               </button>
-              <button id="btn20d" class="popover" title="Click to Roll 1d20">
-                <i id="d20d" class="fa fa-dice-d20 fa-5x fa-spin"></i>
+              <button id="btn20d" class="dice-btn" title="Click to Roll 1d20">
+                <i id="d20d" class="fas fa-dice-d20 fa-5x fa-spin"></i>
                 <output id="num20d" class="output-lg mb-2 text-center" type="number">0</output>
+              </button>
+            </div>
+          </div>
+
+          <!-- D100 Percentile Dice -->
+          <div class="dice-set">
+            <button class="game-button dice-select" data-dice="d100">
+              <i class="fas fa-percentage"></i> d%
+            </button>
+            <div class="dice-grid" id="d100Grid">
+              <button id="btn100a" class="dice-btn" title="Click to Roll Percentile (d100)">
+                <i id="d100a" class="fas fa-percentage fa-4x fa-spin"></i>
+                <output id="num100a" class="output-lg" type="number">0</output>
+              </button>
+              <button id="btn100b" class="dice-btn" title="Click to Roll Percentile (d100)">
+                <i id="d100b" class="fas fa-percentage fa-4x fa-spin"></i>
+                <output id="num100b" class="output-lg" type="number">0</output>
+              </button>
+              <button id="btn100c" class="dice-btn" title="Click to Roll Percentile (d100)">
+                <i id="d100c" class="fas fa-percentage fa-4x fa-spin"></i>
+                <output id="num100c" class="output-lg" type="number">0</output>
               </button>
             </div>
           </div>
