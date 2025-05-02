@@ -8,68 +8,132 @@
 class DiceGame {
   constructor() {
     this.diceTypes = {
-      d2: new Dice(2),
-      d3: new Dice(3),
       d4: new Dice(4),
       d6: new Dice(6),
-      d8: new Dice(8),
-      d10: new Dice(10),
-      d12: new Dice(12),
-      d20: new Dice(20),
-      d100: new Dice(100)
+      d20: new Dice(20)
     };
 
     this.colors = [
-      "red", "dkorange", "dkpurple", "green", "dkblue", 
-      "indigo", "silver", "navy", "dkgreen", "orange", 
-      "dkgold", "black", "violet", "fire", "yellow", 
-      "dkslate", "blue"
+      "red", "blue", "green", "yellow", "purple"
     ];
     
     this.currentColor = 0;
+    this.rollHistory = [];
+    this.isRolling = false;
     this.init();
   }
 
   init() {
-    // Initialize each die type
-    Object.entries(this.diceTypes).forEach(([type, die]) => {
-      die.sides = die.constructor.sides;
-    });
-
     this.attachEventListeners();
+    this.setupDicePanels();
+  }
+
+  setupDicePanels() {
+    // Initially hide all dice grids except d6
+    $('.dice-grid').hide();
+    $('#d6Grid').show();
+    
+    // Setup dice type selection
+    $('.dice-select').click(function() {
+      const diceType = $(this).data('dice');
+      $('.dice-grid').hide();
+      $(`#${diceType}Grid`).show();
+      $('.dice-select').removeClass('active');
+      $(this).addClass('active');
+    });
   }
 
   attachEventListeners() {
-    const diceGroups = {
-      d4: 6,   // 6 d4 dice
-      d6: 6,   // 6 d6 dice
-      d8: 6,   // 6 d8 dice
-      d10: 6,  // 6 d10 dice
-      d12: 6,  // 6 d12 dice
-      d20: 4,  // 4 d20 dice
-      d100: 4  // 4 d100 dice
-    };
+    // Attach roll handlers
+    $('.popover').click((e) => {
+      if (this.isRolling) return;
+      
+      const $button = $(e.currentTarget);
+      const $icon = $button.find('i');
+      const $output = $button.find('output');
+      const dieType = $icon.attr('id').substring(1, 3);
+      
+      this.handleDiceRoll(dieType, $output, $icon);
+    });
 
-    // Attach click handlers for each die group
-    Object.entries(diceGroups).forEach(([dieType, count]) => {
-      for (let i = 0; i < count; i++) {
-        const letter = String.fromCharCode(97 + i); // a, b, c, etc.
-        const buttonId = `btn${dieType.slice(1)}${letter}`;
-        const outputId = `num${dieType.slice(1)}${letter}`;
+    // Roll all dice button
+    $('#rollAll').click(() => this.rollAllDice());
 
-        $(`#${buttonId}`).click(() => this.handleDiceRoll(dieType, outputId));
-      }
+    // Clear all results button
+    $('#clearAll').click(() => this.clearAllResults());
+  }
+
+  async handleDiceRoll(dieType, $output, $icon) {
+    this.isRolling = true;
+    
+    // Add rolling animation
+    $icon.addClass('rolling');
+    $output.parent().addClass('active');
+    
+    // Simulate roll delay
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    const result = this.diceTypes[dieType].roll;
+    
+    // Update display with animation
+    $output
+      .html(result)
+      .removeClass(this.colors.join(' '))
+      .addClass(this.colors[this.getNextColor()])
+      .addClass('pop-in');
+    
+    // Add to roll history
+    this.addToHistory(dieType, result);
+    
+    // Remove animations
+    setTimeout(() => {
+      $icon.removeClass('rolling');
+      $output.removeClass('pop-in');
+      $output.parent().removeClass('active');
+      this.isRolling = false;
+    }, 300);
+  }
+
+  addToHistory(dieType, result) {
+    this.rollHistory.push({ dieType, result, timestamp: new Date() });
+    this.updateResults();
+  }
+
+  updateResults() {
+    const $results = $('#rollResults');
+    $results.empty();
+    
+    // Show last 5 rolls
+    this.rollHistory.slice(-5).forEach(roll => {
+      const $result = $('<div>')
+        .addClass('result-item')
+        .html(`
+          <span class="die-type">d${roll.dieType}</span>
+          <span class="roll-value ${this.colors[this.currentColor]}">${roll.result}</span>
+        `);
+      $results.append($result);
     });
   }
 
-  handleDiceRoll(dieType, outputId) {
-    const result = this.diceTypes[dieType].roll;
-    const display = dieType === 'd100' ? `${result}%` : result;
+  async rollAllDice() {
+    if (this.isRolling) return;
+    
+    const $visibleDice = $('.dice-grid:visible .popover');
+    for (const die of $visibleDice) {
+      const $die = $(die);
+      const $icon = $die.find('i');
+      const $output = $die.find('output');
+      const dieType = $icon.attr('id').substring(1, 3);
+      
+      await this.handleDiceRoll(dieType, $output, $icon);
+      await new Promise(resolve => setTimeout(resolve, 200));
+    }
+  }
 
-    $(`#${outputId}`)
-      .html(display)
-      .removeClass(this.colors[this.currentColor])
-      .addClass(this.colors[this.getNextColor()]);
+  clearAllResults() {
+    $('.output').html('0').removeClass(this.colors.join(' '));
+    this.rollHistory = [];
+    this.updateResults();
   }
 
   getNextColor() {
@@ -90,11 +154,40 @@ class Dice {
   rollDie() {
     return Math.floor(Math.random() * this.sides) + 1;
   }
-
-  static get sides() {
-    return this.constructor.sides;
-  }
 }
+
+// Add CSS animations
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes pop-in {
+    0% { transform: scale(0.8); opacity: 0; }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .pop-in {
+    animation: pop-in 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  .result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: var(--radius-md);
+    background: var(--surface-color);
+    margin-bottom: 0.5rem;
+    transform-origin: center;
+    animation: pop-in 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  .active {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  }
+`;
+
+document.head.appendChild(style);
 
 // Initialize the game
 const game = new DiceGame();
