@@ -42,12 +42,16 @@
 
 /* Custom Animations */
 .fade-in {
-  animation: fadeIn 0.5s ease-in;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeIn 0.6s ease forwards;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Modern Color System */
@@ -76,11 +80,9 @@ html {
 /* Modern Container */
 .container-modern {
   width: 100%;
-  margin-right: auto;
-  margin-left: auto;
-  padding-right: 1rem;
-  padding-left: 1rem;
-  box-sizing: border-box;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
 
 @media (min-width: 640px) { 
@@ -110,8 +112,8 @@ html {
 
 /* Improved section spacing */
 .section-modern {
+  margin: 2rem 0;
   padding: 2rem 0;
-  margin-bottom: 2rem;
 }
 
 @media (min-width: 768px) {
@@ -133,6 +135,7 @@ html {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+  align-items: center;
 }
 
 .flex-modern-center {
@@ -154,8 +157,13 @@ html {
 /* Modern grid layout */
 .grid-modern {
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.grid-modern > * {
+  animation-delay: calc(var(--order) * 0.1s);
 }
 
 @media (min-width: 640px) {
@@ -176,6 +184,16 @@ html {
   }
 }
 
+@media (max-width: 768px) {
+  .grid-modern {
+    grid-template-columns: 1fr;
+  }
+  
+  .flex-modern {
+    justify-content: center;
+  }
+}
+
 /* Button alignment fix for mobile */
 .btn-container {
   display: flex;
@@ -193,4 +211,29 @@ html {
     width: 100%;
     text-align: center;
   }
+}
+
+/* Box shadow utility */
+.box-shadow {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.box-shadow:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Card styling */
+.card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  color: white;
+}
+
+.card:hover {
+  background: rgba(255, 255, 255, 0.15);
 }

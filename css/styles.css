@@ -381,13 +381,35 @@ p {
 }
 
 /* Carousel improvements */
-.carousel-item {
+#skillsCarousel {
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 1rem;
-  overflow: hidden;
+  padding: 2rem 0;
+}
+
+.carousel-item {
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+}
+
+.carousel-item.active {
+  opacity: 1;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  width: 5%;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+  opacity: 1;
 }
 
 .carousel-indicators {
-  margin-bottom: 1rem;
+  bottom: -2rem;
 }
 
 .carousel-indicators button {
@@ -396,10 +418,23 @@ p {
   border-radius: 50%;
   background-color: rgba(255, 255, 255, 0.5);
   margin: 0 5px;
+  transition: all 0.3s ease;
 }
 
-.carousel-indicators .active {
+.carousel-indicators button.active {
   background-color: var(--green-100);
+  transform: scale(1.2);
+}
+
+@media (max-width: 768px) {
+  #skillsCarousel {
+    padding: 1rem 0;
+  }
+  
+  .carousel-control-prev,
+  .carousel-control-next {
+    width: 10%;
+  }
 }
 
 /* Footer styling */
