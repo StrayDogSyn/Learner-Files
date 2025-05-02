@@ -3,7 +3,9 @@ class CountdownTimer {
     this.validateTargetDate(targetDate);
     this.targetDate = new Date(targetDate).getTime();
     this.interval = null;
+    this.animationInterval = null;
     
+    // Initialize DOM elements
     this.elements = {
       day: document.getElementById("cDay"),
       hour: document.getElementById("cHr"),
@@ -19,15 +21,16 @@ class CountdownTimer {
 
     this.animationElements = [
       this.elements.second,
-      this.elements.second.firstElementChild,
       this.elements.minute,
-      this.elements.minute.firstElementChild,
       this.elements.hour,
-      this.elements.hour.firstElementChild,
-      this.elements.day,
-      this.elements.day.firstElementChild
+      this.elements.day
     ];
 
+    // Add announcement element
+    this.announcementElement = document.getElementById('countdown-announcement');
+
+    // Bind methods
+    this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
     this.init();
   }
 
@@ -42,19 +45,22 @@ class CountdownTimer {
   }
 
   init() {
+    // Start countdown when DOM is ready
     document.addEventListener('DOMContentLoaded', () => {
       this.startCountdown();
       this.startAnimation();
     });
 
     // Handle visibility change to prevent animation desyncs
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        this.pauseAnimations();
-      } else {
-        this.resumeAnimations();
-      }
-    });
+    document.addEventListener('visibilitychange', this.handleVisibilityChange);
+  }
+
+  handleVisibilityChange() {
+    if (document.hidden) {
+      this.pauseAnimations();
+    } else {
+      this.resumeAnimations();
+    }
   }
 
   startCountdown() {
@@ -89,6 +95,21 @@ class CountdownTimer {
     this.updateCounters('hours', hours);
     this.updateCounters('minutes', minutes);
     this.updateCounters('seconds', seconds);
+
+    // Update screen reader announcement
+    if (this.announcementElement) {
+      this.announceTimeLeft({ days, hours, minutes, seconds });
+    }
+  }
+
+  announceTimeLeft({ days, hours, minutes, seconds }) {
+    const timeLeft = [];
+    if (days > 0) timeLeft.push(`${days} days`);
+    if (hours > 0) timeLeft.push(`${hours} hours`);
+    if (minutes > 0) timeLeft.push(`${minutes} minutes`);
+    if (seconds > 0 || timeLeft.length === 0) timeLeft.push(`${seconds} seconds`);
+
+    this.announcementElement.textContent = `Time remaining: ${timeLeft.join(', ')}`;
   }
 
   updateCounters(unit, value) {
@@ -96,13 +117,16 @@ class CountdownTimer {
     this.elements.counters[unit].forEach(el => {
       if (el.innerText !== formattedValue) {
         el.innerText = formattedValue;
-        this.triggerAnimation(el);
+        this.triggerFlipAnimation(el);
       }
     });
   }
 
   handleCountdownEnd() {
     clearInterval(this.interval);
+    clearInterval(this.animationInterval);
+    
+    // Update display to show all zeros
     this.updateDisplay({
       days: 0,
       hours: 0,
@@ -110,20 +134,56 @@ class CountdownTimer {
       seconds: 0
     });
     
-    // Trigger final animation
+    // Add expired animation to all blocks
     this.animationElements.forEach(el => {
-      this.activateElement(el);
+      el.classList.add('expired');
     });
 
-    // Dispatch custom event
+    // Dispatch event for external handling
     document.dispatchEvent(new CustomEvent('countdownComplete'));
+
+    if (this.announcementElement) {
+      this.announcementElement.textContent = 'Countdown complete!';
+    }
   }
 
   startAnimation() {
+    // Clear any existing animation interval
+    if (this.animationInterval) {
+      clearInterval(this.animationInterval);
+    }
+
     this.animationInterval = setInterval(() => {
-      this.resetAnimations();
       this.updateAnimations();
     }, 1000);
+  }
+
+  updateAnimations() {
+    const timeLeft = this.calculateTimeLeft();
+    
+    // Remove active state from all elements
+    this.animationElements.forEach(el => {
+      el.classList.remove('active');
+    });
+
+    // Add active state based on time changes
+    if (timeLeft.seconds % 60 === 0) this.elements.minute.classList.add('active');
+    if (timeLeft.minutes % 60 === 0 && timeLeft.seconds === 0) this.elements.hour.classList.add('active');
+    if (timeLeft.hours % 24 === 0 && timeLeft.minutes === 0 && timeLeft.seconds === 0) this.elements.day.classList.add('active');
+    
+    // Always animate seconds
+    this.elements.second.classList
+    .add('active');
+  }
+
+  triggerFlipAnimation(element) {
+    const block = element.closest('.block');
+    if (block) {
+      block.classList.remove('flip');
+      // Force reflow
+      void block.offsetWidth;
+      block.classList.add('flip');
+    }
   }
 
   pauseAnimations() {
@@ -132,50 +192,6 @@ class CountdownTimer {
 
   resumeAnimations() {
     this.startAnimation();
-  }
-
-  resetAnimations() {
-    this.animationElements.forEach(el => {
-      el.classList.remove("active");
-    });
-  }
-
-  updateAnimations() {
-    const { seconds, minutes, hours } = this.elements.counters;
-    
-    if (seconds[0].innerText !== "00") {
-      this.activateElement(this.elements.second);
-    }
-
-    if (seconds[0].innerText === "00") {
-      this.activateElement(this.elements.minute);
-    }
-
-    if (minutes[0].innerText === "00" && seconds[0].innerText === "00") {
-      this.activateElement(this.elements.hour);
-    }
-
-    if (hours[0].innerText === "00" && 
-        minutes[0].innerText === "00" && 
-        seconds[0].innerText === "00") {
-      this.activateElement(this.elements.day);
-    }
-  }
-
-  activateElement(element) {
-    if (!element) return;
-    
-    element.classList.add("active");
-    if (element.firstElementChild) {
-      element.firstElementChild.classList.add("active");
-    }
-  }
-
-  triggerAnimation(element) {
-    element.classList.add('flip');
-    setTimeout(() => {
-      element.classList.remove('flip');
-    }, 300);
   }
 
   destroy() {
