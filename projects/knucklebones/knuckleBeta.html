@@ -307,7 +307,7 @@
   <script src="https://cdn.tlm.cloud/bootstrap/5.2.3/js/bootstrap.bundle.min.js"
     integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
     crossorigin="anonymous"></script>
-  <script src="js/rollDice.js"></script>
+  <!-- <script src="js/rollDice.js"></script> -->
   <script>
     // Make roll functions globally available
     window.roll3 = function() { return Math.floor(3 * Math.random()) + 1; };
@@ -341,7 +341,7 @@
       let currentColor = 0;
 
       // Fix for dice buttons click handling
-      $('.dice-btn').click(function() {
+      $('.dice-btn').on('click', function() {
         const id = $(this).attr('id');
         const outputId = id.replace('btn', 'num');
         const dieType = id.match(/btn(\d+)/)[1];
@@ -349,9 +349,11 @@
         
         if (typeof rollFunction === 'function') {
           // Update output with roll result
-          const result = dieType == 100 ? rollFunction() + '%' : rollFunction();
+          const result = rollFunction();
+          const displayResult = dieType == 100 ? result + '%' : result;
+          
           $('#' + outputId)
-            .html(result)
+            .text(displayResult)
             .removeClass(rainbowColors.join(' '))
             .addClass(rainbowColors[currentColor]);
           
@@ -359,7 +361,7 @@
           currentColor = (currentColor + 1) % rainbowColors.length;
           
           // Add roll to results
-          addToRollHistory(dieType, result);
+          addToRollHistory(dieType, displayResult);
         }
       });
 
@@ -372,7 +374,7 @@
 
       // Clear All button functionality
       $('#clearAll').click(function() {
-        $('output').html('0').removeClass(rainbowColors.join(' '));
+        $('output').text('0').removeClass(rainbowColors.join(' '));
         $('#rollResults').empty();
       });
       
