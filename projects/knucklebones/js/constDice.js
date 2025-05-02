@@ -84,8 +84,8 @@ class DiceGame {
   }
 
   attachEventListeners() {
-    // Attach roll handlers
-    $('.popover').click((e) => {
+    // Attach roll handlers - changed from .popover to .dice-btn
+    $('.dice-btn').click((e) => {
       if (this.isRolling) return;
       
       const $button = $(e.currentTarget);
@@ -250,7 +250,7 @@ class DiceGame {
   async rollAllDice() {
     if (this.isRolling) return;
     
-    const $visibleDice = $('.dice-grid:visible .popover');
+    const $visibleDice = $('.dice-grid:visible .dice-btn');
     
     // Add shake animation to all visible dice
     $visibleDice.addClass('shake-all');

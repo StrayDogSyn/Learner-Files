@@ -307,16 +307,131 @@
   <script src="https://cdn.tlm.cloud/bootstrap/5.2.3/js/bootstrap.bundle.min.js"
     integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
     crossorigin="anonymous"></script>
-  <script src="js/constDice.js"></script>
+  <script src="js/rollDice.js"></script>
   <script>
-    $(document).ready(function () {
+    // Make roll functions globally available
+    window.roll3 = function() { return Math.floor(3 * Math.random()) + 1; };
+    window.roll4 = function() { return Math.floor(4 * Math.random()) + 1; };
+    window.roll6 = function() { return Math.floor(6 * Math.random()) + 1; };
+    window.roll8 = function() { return Math.floor(8 * Math.random()) + 1; };
+    window.roll10 = function() { return Math.floor(10 * Math.random()) + 1; };
+    window.roll12 = function() { return Math.floor(12 * Math.random()) + 1; };
+    window.roll20 = function() { return Math.floor(20 * Math.random()) + 1; };
+    window.roll100 = function() { return Math.floor(100 * Math.random()) + 1; };
 
-      // activate popovers [jQuery]
-      $(function () {
-        $('[data-toggle="popover"]').popover();
+    $(document).ready(function () {
+      // Setup dice tabs
+      $('.dice-grid').hide();
+      $('#d6Grid').show();
+      $('.dice-select').removeClass('active');
+      $('.dice-select[data-dice="d6"]').addClass('active');
+
+      // Dice tab selection
+      $('.dice-select').click(function() {
+        const diceType = $(this).data('dice');
+        $('.dice-grid').hide();
+        $(`#${diceType}Grid`).show();
+        $('.dice-select').removeClass('active');
+        $(this).addClass('active');
       });
 
-    }); // end ready
+      // Rainbow colors for dice results
+      const rainbowColors = ["red", "dkorange", "dkpurple", "green", "dkblue", 
+                           "indigo", "silver", "navy", "dkgreen", "orange"];
+      let currentColor = 0;
+
+      // Fix for dice buttons click handling
+      $('.dice-btn').click(function() {
+        const id = $(this).attr('id');
+        const outputId = id.replace('btn', 'num');
+        const dieType = id.match(/btn(\d+)/)[1];
+        const rollFunction = window['roll' + dieType];
+        
+        if (typeof rollFunction === 'function') {
+          // Update output with roll result
+          const result = dieType == 100 ? rollFunction() + '%' : rollFunction();
+          $('#' + outputId)
+            .html(result)
+            .removeClass(rainbowColors.join(' '))
+            .addClass(rainbowColors[currentColor]);
+          
+          // Update color for next roll
+          currentColor = (currentColor + 1) % rainbowColors.length;
+          
+          // Add roll to results
+          addToRollHistory(dieType, result);
+        }
+      });
+
+      // Roll All button functionality
+      $('#rollAll').click(function() {
+        $('.dice-grid:visible .dice-btn').each(function() {
+          $(this).trigger('click');
+        });
+      });
+
+      // Clear All button functionality
+      $('#clearAll').click(function() {
+        $('output').html('0').removeClass(rainbowColors.join(' '));
+        $('#rollResults').empty();
+      });
+      
+      // Function to add roll to history
+      function addToRollHistory(dieType, result) {
+        const iconClass = dieType == 20 ? 'fa-dice-d20' : 
+                         dieType == 6 ? 'fa-dice-d6' : 
+                         dieType == 4 ? 'fa-dice-d4' : 
+                         dieType == 10 ? 'fa-dice-d10' :
+                         dieType == 12 ? 'fa-dice-d12' :
+                         dieType == 100 ? 'fa-percentage' : 'fa-dice';
+                         
+        const time = new Date().toLocaleTimeString();
+        
+        const $result = $('<div>')
+          .addClass('result-item')
+          .html(`
+            <span class="die-type">
+              <i class="fas ${iconClass}"></i> d${dieType}
+            </span>
+            <span class="roll-time">${time}</span>
+            <span class="roll-value ${rainbowColors[currentColor]}">
+              ${result}
+            </span>
+          `);
+        
+        $('#rollResults').prepend($result);
+        
+        // Keep only last 5 results
+        if ($('#rollResults .result-item').length > 5) {
+          $('#rollResults .result-item').last().remove();
+        }
+      }
+
+      // Add some basic styles for results
+      $('<style>')
+        .html(`
+          .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem;
+            background: rgba(0,0,0,0.2);
+            margin-bottom: 0.5rem;
+            border-radius: 5px;
+          }
+          .red { color: #ff5555; }
+          .dkorange { color: #ff8800; }
+          .dkpurple { color: #aa55ff; }
+          .green { color: #55ff55; }
+          .dkblue { color: #5555ff; }
+          .indigo { color: #8855ff; }
+          .silver { color: #dddddd; }
+          .navy { color: #0000aa; }
+          .dkgreen { color: #00aa00; }
+          .orange { color: #ffaa00; }
+        `)
+        .appendTo('head');
+    });
   </script>
 </body>
 
