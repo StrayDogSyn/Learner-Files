@@ -1,0 +1,9 @@
+*,
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background:
+      url(../assets/svg/bg-pattern-bottom-desktop.svg) bottom right no-repeat fixed,
+      url(../assets/svg/bg-pattern-top-desktop.svg) left top no-repeat fixed;
+  }

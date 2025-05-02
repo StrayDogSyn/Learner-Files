@@ -1,0 +1,252 @@
+/* Modern Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background:
+    url(../assets/images/bg-bottom.svg) bottom right no-repeat fixed,
+    url(../assets/images/bg-top.svg) left top no-repeat fixed;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+#radial,
+hgroup {
+  color: var(--white-100);
+  font-family: var(--fans);
+  background:
+    url(../assets/images/four.webp) center/100%;
+  }
+html {
+  background-color:  var(--background);
+  }
+/* Modern Navigation Styles */
+.navbar {
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-link {
+  position: relative;
+  padding: 0.5rem 1rem;
+  transition: color 0.3s ease;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 50%;
+  background-color: var(--green-100);
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+a:hover {
+  text-decoration: none;
+  color: var(--green-100);
+  transform: translateY(-1px);
+}
+.canvas {
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* My Brand Image */
+h1 {
+  text-shadow: 4px 2px 6px var(--black-100);
+}
+.hunter {
+  color: var(--green-100);
+  transition: color 0.3s ease;
+}
+.active-me {
+  color: hsl(120, 100%, 50%);
+  }
+.background {
+  background-color:  var(--background);
+  }
+.text-glow {
+  /* color | offset-x | offset-y | blur-radius */
+  text-shadow: #fc0 1px 0 8px;
+  }
+.shadow {
+  /* offset-x | offset-y | blur-radius | color */
+  text-shadow: 2px 2px 4px var(--black-100);
+  }
+.outline {
+  /* color | offset-x | offset-y */
+  text-shadow: var(--white-100) -2px 3px;
+  }
+.box-shadow {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.box-shadow:hover {
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Modern Button Styles */
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.btn-outline-success {
+  border: 2px solid var(--green-100);
+  background: transparent;
+  color: var(--green-100);
+}
+
+.btn-outline-success:hover {
+  background: var(--green-100);
+  color: white;
+  transform: translateY(-1px);
+}
+#splashPage {
+  background-image: url(../assets/images/tlm-logo.png);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 2rem;
+  margin: 1rem 0;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.background-image-mission {
+  background:
+  url(../assets/logos/MissionStatementJPEG_withimage.jpg) bottom right no-repeat fixed;
+}
+.background-image-stray {
+  opacity: 2;
+  background:
+  url(../assets/logos/stray-gear.png) bottom right no-repeat fixed;
+}
+.background-image-student {
+  background:
+  url(../assets/logos/Header.png) bottom right no-repeat fixed;
+}
+.screenshot {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1rem auto;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.screenshot:hover {
+  transform: scale(1.02);
+}
+  /* Modern Layout and Responsive Design */
+.container-fluid {
+  padding: 1rem;
+  width: 100%;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .container-fluid {
+    padding: 2rem;
+  }
+}
+
+/* Modern Card Styles */
+.card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* Dropdown Menu Styles */
+.dropdown-menu {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+
+.dropdown-item {
+  border-radius: 0.3rem;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(5px);
+}
+
+/* Typography System */
+:root {
+
+/* Typography */
+
+  --arial: Verdana, Arial, Helvetica, sans-serif;
+  --curve:  "Lucida Calligraphy", "Lucida Handwriting", "Apple Chancery",cursive;
+  --fans: Papyrus, Herculanum, "Party LET", "Curlz MT", Harrington, fantasy;
+  --mono: "Fira Mono", "Liberation Mono", "Lucida Console", Monaco, Courier, monospace;
+  --sans: "Gill Sans", "Lucida Sans Unicode", "Trebuchet MS", "Liberation Sans",sans-serif;
+  --serif: "Hoefler Text", Baskerville, Lucida, "Palatino Linotype", "URW Palladio", serif;
+  --times: Times, "Times New Roman", Georgia, serif;
+  --impact: Impact, 'Arial Narrow', 'Arial Black';
+  --san-serif: Geneva, Tahoma, Helvetica, Arial, sans-serif;
+
+/* HSLA Color Palette */
+  --black-10: hsla(120, 100%, 0%, .1);
+  --black-40: hsla(120, 100%, 0%, .4);
+  --black-70: hsla(120, 100%, 0%, .7);
+  --black-100: hsla(120, 100%, 0%, 1);
+  --blue-10: hsla(240, 100%, 50%, .1);
+  --blue-40: hsla(240, 100%, 50%, .4);
+  --blue-70: hsla(240, 100%, 50%, .7);
+  --blue-100: hsla(240, 100%, 50%, 1);
+  --gray-10: hsla(120, 0%, 50%, .1);
+  --gray-40: hsla(120, 0%, 50%, .4);
+  --gray-70: hsla(120, 0%, 50%, .7);
+  --gray-100: hsla(120, 0%, 50%, 1);
+  --green-10: hsla(120, 100%, 50%, .1);
+  --green-40: hsla(120, 100%, 50%, .4);
+  --green-70: hsla(120, 100%, 50%, .7);
+  --green-100: hsla(120, 100%, 50%, 1);
+  --red-10: hsla(0, 100%, 50%, .1);
+  --red-40: hsla(0, 100%, 50%, .4);
+  --red-70: hsla(0, 100%, 50%, .7);
+  --red-100: hsla(0, 100%, 50%, 1);
+  --white-10: hsla(120, 100%, 100%, .1);
+  --white-40: hsla(120, 100%, 100%, .4);
+  --white-70: hsla(120, 100%, 100%, .7);
+  --white-100: hsla(120, 100%, 100%, 1);
+  --yellow-10: hsla(60, 100%, 50%, .1);
+  --yellow-40: hsla(60, 100%, 50%, .4);
+  --yellow-70: hsla(60, 100%, 50%, .7);
+  --yellow-100: hsla(60, 100%, 50%, 1);
+ --background: hsla(140, 85%, 2.75%, .7);
+  }
