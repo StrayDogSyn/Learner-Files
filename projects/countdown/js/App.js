@@ -1,99 +1,130 @@
-const day = document.getElementById("cDay");
-const hour = document.getElementById("cHr");
-const minute = document.getElementById("cMin");
-const second = document.getElementById("cSec");
-const allTimers = [
-  second,
-  second.firstElementChild,
-  minute,
-  minute.firstElementChild,
-  hour,
-  hour.firstElementChild,
-  day,
-  day.firstElementChild,
-];
+class CountdownTimer {
+  constructor(targetDate) {
+    this.targetDate = new Date(targetDate).getTime();
+    this.elements = {
+      day: document.getElementById("cDay"),
+      hour: document.getElementById("cHr"),
+      minute: document.getElementById("cMin"),
+      second: document.getElementById("cSec"),
+      counters: {
+        days: document.querySelectorAll(".day"),
+        hours: document.querySelectorAll(".hr"),
+        minutes: document.querySelectorAll(".min"),
+        seconds: document.querySelectorAll(".sec")
+      }
+    };
 
-// change the below date as you wish
-const countDownDate = new Date("Sep 30, 2024").getTime();
+    this.animationElements = [
+      this.elements.second,
+      this.elements.second.firstElementChild,
+      this.elements.minute,
+      this.elements.minute.firstElementChild,
+      this.elements.hour,
+      this.elements.hour.firstElementChild,
+      this.elements.day,
+      this.elements.day.firstElementChild
+    ];
 
-const dayCount = document.querySelectorAll(".day");
-const hrCount = document.querySelectorAll(".hr");
-const minCount = document.querySelectorAll(".min");
-const secCount = document.querySelectorAll(".sec");
+    this.init();
+  }
 
-window.addEventListener("DOMContentLoaded", () => {
-  const countDown = setInterval(() => {
-    const now = new Date().getTime();
-    const distance = countDownDate - now;
-    /* still don't understand why this is necessary */
-    // const remainingMilliseconds = distance % (1000 * 60 * 60 * 24);
-
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor(
-      (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-    );
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    dayCount.forEach((el) => {
-      el.innerText = days < 10 ? `0${days}` : days;
+  init() {
+    document.addEventListener('DOMContentLoaded', () => {
+      this.startCountdown();
+      this.startAnimation();
     });
-    hrCount.forEach((el) => {
-      el.innerText = hours < 10 ? `0${hours}` : hours;
-    });
-    minCount.forEach((el) => {
-      el.innerText = minutes < 10 ? `0${minutes}` : minutes;
-    });
-    secCount.forEach((el) => {
-      el.innerText = seconds < 10 ? `0${seconds}` : seconds;
-    });
+  }
 
-    if (distance <= 0) {
-      clearInterval(countDown);
-      dayCount.forEach((el) => {
-        el.innerText = "00";
-      });
-      hrCount.forEach((el) => {
-        el.innerText = "00";
-      });
-      minCount.forEach((el) => {
-        el.innerText = "00";
-      });
-      secCount.forEach((el) => {
-        el.innerText = "00";
-      });
-    }
-  }, 1000);
-
-  const animation = setTimeout(() => {
-    setInterval(() => {
-      allTimers.map((el) => {
-        el.classList.remove("active");
-      });
-
-      if (secCount[0].innerText) {
-        second.classList.add("active");
-        second.firstElementChild.classList.add("active");
+  startCountdown() {
+    this.interval = setInterval(() => {
+      const timeLeft = this.calculateTimeLeft();
+      
+      if (timeLeft.total <= 0) {
+        this.handleCountdownEnd();
+        return;
       }
 
-      if (secCount[0].innerText === "00") {
-        minute.classList.add("active");
-        minute.firstElementChild.classList.add("active");
-      }
-
-      if (minCount[0].innerText === "00" && secCount[0].innerText === "00") {
-        hour.classList.add("active");
-        hour.firstElementChild.classList.add("active");
-      }
-
-      if (
-        hrCount[0].innerText === "00" &&
-        minCount[0].innerText === "00" &&
-        secCount[0].innerText === "00"
-      ) {
-        day.classList.add("active");
-        day.firstElementChild.classList.add("active");
-      }
+      this.updateDisplay(timeLeft);
     }, 1000);
-  }, 500);
-});
+  }
+
+  calculateTimeLeft() {
+    const now = new Date().getTime();
+    const distance = this.targetDate - now;
+
+    return {
+      total: distance,
+      days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+      hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+      minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+      seconds: Math.floor((distance % (1000 * 60)) / 1000)
+    };
+  }
+
+  updateDisplay({ days, hours, minutes, seconds }) {
+    this.updateCounters('days', days);
+    this.updateCounters('hours', hours);
+    this.updateCounters('minutes', minutes);
+    this.updateCounters('seconds', seconds);
+  }
+
+  updateCounters(unit, value) {
+    const formattedValue = value < 10 ? `0${value}` : value;
+    this.elements.counters[unit].forEach(el => {
+      el.innerText = formattedValue;
+    });
+  }
+
+  handleCountdownEnd() {
+    clearInterval(this.interval);
+    Object.values(this.elements.counters).forEach(counters => {
+      counters.forEach(el => {
+        el.innerText = "00";
+      });
+    });
+  }
+
+  startAnimation() {
+    setTimeout(() => {
+      setInterval(() => {
+        // Reset all animations
+        this.animationElements.forEach(el => {
+          el.classList.remove("active");
+        });
+
+        // Apply animations based on current state
+        this.updateAnimations();
+      }, 1000);
+    }, 500);
+  }
+
+  updateAnimations() {
+    const { seconds, minutes, hours } = this.elements.counters;
+    
+    if (seconds[0].innerText !== "00") {
+      this.activateElement(this.elements.second);
+    }
+
+    if (seconds[0].innerText === "00") {
+      this.activateElement(this.elements.minute);
+    }
+
+    if (minutes[0].innerText === "00" && seconds[0].innerText === "00") {
+      this.activateElement(this.elements.hour);
+    }
+
+    if (hours[0].innerText === "00" && 
+        minutes[0].innerText === "00" && 
+        seconds[0].innerText === "00") {
+      this.activateElement(this.elements.day);
+    }
+  }
+
+  activateElement(element) {
+    element.classList.add("active");
+    element.firstElementChild.classList.add("active");
+  }
+}
+
+// Initialize with target date
+new CountdownTimer('Sep 30, 2024');

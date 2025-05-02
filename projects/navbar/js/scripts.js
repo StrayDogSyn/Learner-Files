@@ -1,61 +1,88 @@
-// Default Page settings
 $(() => {
-  $('.navbar-main').hide();
-  $('.inner-nav').hide();
-  $('.innermost-nav').hide();
+  'use strict';
 
-  // Event Listeners for buttons
+  class NavigationManager {
+    constructor() {
+      this.menus = {
+        main: $('.navbar-main'),
+        inner: $('.inner-nav'),
+        innermost: $('.innermost-nav')
+      };
+      
+      this.init();
+      this.attachEventListeners();
+    }
 
-  $('#dropdownMenu').on('click', () => {
-    $('.navbar-main').toggle('fast').fadeTo('fast');
-    $('.inner-nav').hide('fast');
-    $('.innermost-nav').hide('fast');
-  });
+    init() {
+      Object.values(this.menus).forEach(menu => menu.hide());
+    }
 
-  $('.menu-button').on('click', () => {
-    $('.inner-nav').toggle('fast').fadeTo('fast');
-    $('.innermost-nav').hide('fast');
-  });
+    toggleMenu(menuToShow, menusToHide) {
+      menusToHide.forEach(menu => menu.hide('fast'));
+      menuToShow.toggle('fast').fadeTo('fast', 1);
+    }
 
-  $('.second-button').on('click', () => {
-    $('.innermost-nav').toggle('fast').fadeTo('fast');
-  });
+    attachEventListeners() {
+      // Main dropdown menu
+      $('#dropdownMenu').on('click', () => {
+        this.toggleMenu(
+          this.menus.main, 
+          [this.menus.inner, this.menus.innermost]
+        );
+      });
 
-  $('.third-button').on('click', () => {
-    $('.navbar-main').hide('fast').fadeTo('fast');
-    $('.inner-nav').hide('fast').fadeTo('fast');
-    $('.innermost-nav').hide('fast').fadeTo('fast');
-  });
+      // First level submenu
+      $('.menu-button').on('click', () => {
+        this.toggleMenu(
+          this.menus.inner, 
+          [this.menus.innermost]
+        );
+      });
 
-  // hover/toggle effect for 1st submenu
+      // Second level submenu
+      $('.second-button').on('click', () => {
+        this.toggleMenu(
+          this.menus.innermost, 
+          []
+        );
+      });
 
-  $('.firstMenu').hover(() => {
-    $('.inner-nav').show('fast')
-      .slideDown('slow');
-  });
+      // Close all menus
+      $('.third-button').on('click', () => {
+        Object.values(this.menus).forEach(menu => 
+          menu.hide('fast').fadeTo('fast', 0)
+        );
+      });
 
-  // hover/toggle effect for 2nd submenu
+      // Hover effects
+      $('.firstMenu').hover(
+        () => this.menus.inner.show('fast').slideDown('slow'),
+        () => {} // Keep open on hover out
+      );
 
-  $('.secondMenu').hover(() => {
-    $('.innermost-nav').show('fast')
-      .slideDown('slow');
-  });
+      $('.secondMenu').hover(
+        () => this.menus.innermost.show('fast').slideDown('slow'),
+        () => {} // Keep open on hover out
+      );
 
-  $('.secondMenu').click(() => {
-    $('.innermost-nav').toggle('fast');
-  });
+      // Toggle effects for second submenu
+      $('.secondMenu, .thirdmenu').on('click', () => {
+        this.menus.innermost.toggle('fast');
+      });
 
-  $('.thirdmenu').click(() => {
-    $('.innermost-nav').toggle('fast');
-  })
-  // adds item added from input to dropdown menu
+      // Dynamic list item addition
+      $('#input-submit').on('click', () => {
+        const input = $('.input-box');
+        const text = input.val().trim();
+        
+        if (text) {
+          $('.empty').append(`<li>${text}</li>`);
+          input.val('');
+        }
+      });
+    }
+  }
 
-  $('#input-submit').click(function () {
-    let userText = $('.input-box').val();
-    // appends the text to the bottom of the list
-    $('.empty').append("<li>" + userText + "</li>");
-    // clears the input box
-    $('.input-box').val('');
-  });
-  // end ready
+  // Initialize Navigation
+  new NavigationManager();
 });

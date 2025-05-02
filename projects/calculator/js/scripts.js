@@ -1,97 +1,131 @@
-let runningTotal = 0;
-let buffer = "0";
-let previousOperator = null;
-const screen = document.querySelector(".screen");
+class Calculator {
+  constructor() {
+    this.state = {
+      runningTotal: 0,
+      buffer: '0',
+      previousOperator: null,
+      needsReset: false
+    };
 
-function buttonClick(value) {
-  if (isNaN(parseInt(value))) {
-    handleSymbol(value);
-  } else {
-    handleNumber(value);
-  }
-  rerender();
-}
-
-function handleNumber(value) {
-  if (buffer === "0") {
-    buffer = value;
-  } else {
-    buffer += value;
-  }
-}
-
-function handleMath(value) {
-  if (buffer === "0") {
-    // do nothing
-    return;
+    this.screen = document.querySelector('.screen');
+    this.init();
   }
 
-  const intBuffer = parseInt(buffer);
-  if (runningTotal === 0) {
-    runningTotal = intBuffer;
-  } else {
-    flushOperation(intBuffer);
+  init() {
+    document.querySelector('.calc-buttons')
+      .addEventListener('click', (event) => this.handleClick(event));
   }
 
-  previousOperator = value;
+  handleClick(event) {
+    const value = event.target.innerText;
+    if (!value) return;
 
-  buffer = "0";
-}
+    if (this.isNumber(value)) {
+      this.handleNumber(value);
+    } else {
+      this.handleSymbol(value);
+    }
+    
+    this.render();
+  }
 
-function flushOperation(intBuffer) {
-  if (previousOperator === "+") {
-    runningTotal += intBuffer;
-  } else if (previousOperator === "-") {
-    runningTotal -= intBuffer;
-  } else if (previousOperator === "×") {
-    runningTotal *= intBuffer;
-  } else {
-    runningTotal /= intBuffer;
+  isNumber(value) {
+    return !isNaN(parseInt(value));
+  }
+
+  handleNumber(value) {
+    const { buffer, needsReset } = this.state;
+
+    if (buffer === '0' || needsReset) {
+      this.state.buffer = value;
+      this.state.needsReset = false;
+    } else {
+      this.state.buffer += value;
+    }
+  }
+
+  handleSymbol(value) {
+    switch (value) {
+      case 'C':
+        this.reset();
+        break;
+      case '=':
+        this.calculate();
+        break;
+      case '←':
+        this.backspace();
+        break;
+      case '+':
+      case '-':
+      case '×':
+      case '÷':
+        this.handleOperator(value);
+        break;
+    }
+  }
+
+  reset() {
+    this.state = {
+      runningTotal: 0,
+      buffer: '0',
+      previousOperator: null,
+      needsReset: false
+    };
+  }
+
+  backspace() {
+    const { buffer } = this.state;
+    if (buffer.length === 1) {
+      this.state.buffer = '0';
+    } else {
+      this.state.buffer = buffer.slice(0, -1);
+    }
+  }
+
+  handleOperator(operator) {
+    const { buffer, runningTotal, previousOperator } = this.state;
+    const currentValue = parseFloat(buffer);
+
+    if (runningTotal === 0) {
+      this.state.runningTotal = currentValue;
+    } else if (previousOperator) {
+      const result = this.executeOperation(runningTotal, currentValue, previousOperator);
+      this.state.runningTotal = result;
+      this.state.buffer = String(result);
+    }
+
+    this.state.needsReset = true;
+    this.state.previousOperator = operator;
+  }
+
+  calculate() {
+    const { buffer, runningTotal, previousOperator } = this.state;
+    
+    if (!previousOperator) return;
+
+    const currentValue = parseFloat(buffer);
+    const result = this.executeOperation(runningTotal, currentValue, previousOperator);
+    
+    this.state.runningTotal = 0;
+    this.state.buffer = String(result);
+    this.state.previousOperator = null;
+    this.state.needsReset = true;
+  }
+
+  executeOperation(a, b, operator) {
+    switch (operator) {
+      case '+': return a + b;
+      case '-': return a - b;
+      case '×': return a * b;
+      case '÷': return b !== 0 ? a / b : 'Error';
+      default: return b;
+    }
+  }
+
+  render() {
+    this.screen.innerText = this.state.buffer;
   }
 }
 
-function handleSymbol(value) {
-  switch (value) {
-    case "C":
-      buffer = "0";
-      runningTotal = 0;
-      break;
-    case "=":
-      if (previousOperator === null) {
-        // need two numbers to do math
-        return;
-      }
-      flushOperation(parseInt(buffer));
-      previousOperator = null;
-      buffer = runningTotal;
-      runningTotal = 0;
-      break;
-    case "←":
-      if (buffer.length === 1) {
-        buffer = "0";
-      } else {
-        buffer = buffer.substring(0, buffer.length - 1);
-      }
-      break;
-    case "+":
-    case "-":
-    case "×":
-    case "÷":
-      handleMath(value);
-      break;
-  }
-}
-
-function rerender() {
-  screen.innerText = buffer;
-}
-
-function init() {
-  document
-    .querySelector(".calc-buttons")
-    .addEventListener("click", function (event) {
-      buttonClick(event.target.innerText);
-    });
-}
-
-init();
+// Initialize calculator
+new Calculator();

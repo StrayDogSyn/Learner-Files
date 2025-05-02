@@ -1,23 +1,39 @@
-var tabs = document.querySelectorAll('.info-box li a');
-var panels = document.querySelectorAll('.info-box article');
+class WorkInfoTabs {
+  constructor() {
+    this.tabs = document.querySelectorAll('.info-box li a');
+    this.panels = document.querySelectorAll('.info-box article');
+    this.init();
+  }
 
-for (i = 0; i < tabs.length; i++) {
-  var tab = tabs[i];
-  setTabHandler(tab, i);
-}
+  init() {
+    this.tabs.forEach((tab, index) => {
+      tab.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.activateTab(tab, index);
+      });
+    });
 
-function setTabHandler(tab, tabPos) {
-  tab.onclick = function () {
-    for (i = 0; i < tabs.length; i++) {
-      tabs[i].className = '';
+    // Activate first tab by default
+    if (this.tabs.length) {
+      this.activateTab(this.tabs[0], 0);
     }
+  }
 
-    tab.className = 'active';
+  activateTab(selectedTab, panelIndex) {
+    // Deactivate all tabs
+    this.tabs.forEach(tab => tab.classList.remove('active'));
+    this.panels.forEach(panel => panel.classList.remove('active-panel'));
 
-    for (i = 0; i < panels.length; i++) {
-      panels[i].className = '';
-    }
+    // Activate selected tab and panel
+    selectedTab.classList.add('active');
+    this.panels[panelIndex].classList.add('active-panel');
 
-    panels[tabPos].className = 'active-panel';
+    // Ensure panel is visible and scrolled into view
+    this.panels[panelIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 }
+
+// Initialize tabs when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+  new WorkInfoTabs();
+});

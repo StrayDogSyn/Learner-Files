@@ -1,21 +1,75 @@
+class CircleMaker {
+  constructor() {
+    this.body = document.querySelector('body');
+    this.dimensions = {
+      height: window.innerHeight,
+      width: window.innerWidth
+    };
+    
+    this.init();
+  }
 
-let body = document.querySelector('body');
-let height = window.innerHeight;
-let width = window.innerWidth;
-// key press Event Listeners
-const circleMaker = () => {
-    let r = Math.floor(Math.random() * 256); 
-    let g = Math.floor(Math.random() * 256); 
-    let b = Math.floor(Math.random() * 256); 
-    let first = Math.random() * height;
-    let second = Math.random() * width;
-    let newBall = document.createElement(`div`);
-    body.appendChild(newBall);
-    newBall.className = `ball`
-    newBall.style.cssText = `top: ${first}px; left: ${second}px; background-color: rgb(${r}, ${g}, ${b});`
+  init() {
+    window.addEventListener('keydown', () => this.createCircle());
+    window.addEventListener('resize', () => this.updateDimensions());
+  }
 
+  updateDimensions() {
+    this.dimensions = {
+      height: window.innerHeight,
+      width: window.innerWidth
+    };
+  }
 
+  getRandomColor() {
+    return {
+      r: Math.floor(Math.random() * 256),
+      g: Math.floor(Math.random() * 256),
+      b: Math.floor(Math.random() * 256)
+    };
+  }
+
+  getRandomPosition() {
+    return {
+      top: Math.random() * this.dimensions.height,
+      left: Math.random() * this.dimensions.width
+    };
+  }
+
+  createCircle() {
+    const circle = document.createElement('div');
+    const { r, g, b } = this.getRandomColor();
+    const { top, left } = this.getRandomPosition();
+    
+    circle.className = 'ball';
+    circle.style.cssText = `
+      top: ${top}px; 
+      left: ${left}px; 
+      background-color: rgb(${r}, ${g}, ${b});
+      opacity: 0;
+      transform: scale(0);
+      transition: all 0.3s ease-out;
+    `;
+
+    this.body.appendChild(circle);
+
+    // Trigger animation after a brief delay
+    requestAnimationFrame(() => {
+      circle.style.opacity = '1';
+      circle.style.transform = 'scale(1)';
+    });
+
+    // Clean up circles after animation to prevent memory leaks
+    setTimeout(() => {
+      circle.style.opacity = '0';
+      circle.style.transform = 'scale(0)';
+      
+      // Remove from DOM after fade out
+      setTimeout(() => circle.remove(), 300);
+    }, 2000);
+  }
 }
 
-window.addEventListener('keydown', circleMaker);
+// Initialize the CircleMaker
+new CircleMaker();
 
