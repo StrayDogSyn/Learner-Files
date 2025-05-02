@@ -5,58 +5,87 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="Eric H. Petross - Web Development Projects Portfolio">
   <link rel="shortcut icon" href="../assets/logos/stray-gear.png" type="image/x-icon">
   <link href="https://cdn.tlm.cloud/bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="../css/modern.css">
   <link rel="stylesheet" type="text/css" href="../css/styles.css">
-  <title>Projects Porfolio</title>
+  <title>Projects Portfolio</title>
 </head>
 
 <body>
-  <hgroup class="container-fluid text-center fw-bold bg-transparent box-shadow">
-    <canvas id="canvasOne" width="875" height="110" class="my -2 canvas container-fluid rounded-5"></canvas>
+  <hgroup class="container-modern text-center fw-bold bg-transparent box-shadow py-3">
+    <canvas id="canvasOne" width="875" height="110" class="my-2 canvas rounded-5"></canvas>
   </hgroup>
-  <nav class="navbar navbar-expand-lg navbar-dark background hunter box-shadow container-modern">
-    <div class="container-fluid">
+  
+  <nav class="navbar navbar-expand-lg navbar-dark background box-shadow mb-4">
+    <div class="container-modern">
       <button class="navbar-toggler btn-modern" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"><i class="fa fa-bars fa-lg hunter"></i></span>
+        <span class="navbar-toggler-icon"></span>
       </button>
-      <a class="navbar-brand active-me hunter shadow nav-link-modern fade-in" href="./contacts.html">Would you like to learn more <i
-          class="fa fa-question-circle active-me hunter"></i></a>
+      
+      <a class="navbar-brand hunter shadow d-flex align-items-center" href="./contacts.html">
+        <i class="fa fa-question-circle hunter me-2"></i>
+        <span class="d-none d-sm-inline">Would you like to learn more</span>
+      </a>
+      
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link hunter nav-link-modern" aria-current="page" href="../index.html"><i class="fa fa-home hunter"> </i>
-              Home Page</a>
+            <a class="nav-link hunter" href="../index.html">
+              <i class="fa fa-home hunter me-1"></i> Home Page
+            </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link hunter nav-link-modern" href="./bio.html"><i class="fa fa-info-circle hunter"> </i> About Author</a>
+            <a class="nav-link hunter" href="./bio.html">
+              <i class="fa fa-info-circle hunter me-1"></i> About Author
+            </a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle active-me hunter" href="#" id="navbarDropdown" role="button"
               data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="fa fa-list-ol active-me hunter"> </i> Current Projects
+              <i class="fa fa-list-ol active-me hunter me-1"></i> Current Projects
             </a>
             <ul class="dropdown-menu background" aria-labelledby="navbarDropdown">
-              <li class="text-center initialism text-muted"> Applications</li>
-              <li><a class="dropdown-item hunter" href="../projects/calculator/index.html"><i class="fa fa-calculator hunter"></i> Calculator</a></li>
-              <li><a class="dropdown-item hunter" href="../projects/knucklebones/knuckleBeta.html"><i class="fa fa-dice-d20 fa-spin hunter"></i> Knucklebones Game</a></li>
-              <li><a class="dropdown-item hunter" href="../projects/circle-maker/index.html"><i class="fa fa-circle hunter"></i> Circle Maker</a></li>
-              <li><a class="dropdown-item hunter" href="../projects/rps/index.html"><i class="fa fa-hand-scissors hunter"></i> Rock, Paper, Scissors Game</a></li>
-              <li><a class="dropdown-item hunter" href="../projects/toDoList/index.html"><i class="fa fa-tasks hunter"></i> To-Do List</a></li>
-              <li><a class="dropdown-item hunter" href="../projects/navbar/index.html"><i class="fa fa-bars hunter"></i> Navbar Demo</a></li>
-              <li><a class="dropdown-item hunter" href="../projects/countdown/index.html"><i class="fa fa-clock hunter"></i> Countdown Timer</a></li>
+              <li class="text-center initialism text-muted">Applications</li>
+              <li><a class="dropdown-item hunter" href="../projects/calculator/index.html">
+                <i class="fa fa-calculator hunter me-2"></i> Calculator
+              </a></li>
+              <li><a class="dropdown-item hunter" href="../projects/knucklebones/knuckleBeta.html">
+                <i class="fa fa-dice-d20 fa-spin hunter me-2"></i> Knucklebones Game
+              </a></li>
+              <li><a class="dropdown-item hunter" href="../projects/circle-maker/index.html">
+                <i class="fa fa-circle hunter me-2"></i> Circle Maker
+              </a></li>
+              <li><a class="dropdown-item hunter" href="../projects/rps/index.html">
+                <i class="fa fa-hand-scissors hunter me-2"></i> Rock, Paper, Scissors Game
+              </a></li>
+              <li><a class="dropdown-item hunter" href="../projects/toDoList/index.html">
+                <i class="fa fa-tasks hunter me-2"></i> To-Do List
+              </a></li>
+              <li><a class="dropdown-item hunter" href="../projects/navbar/index.html">
+                <i class="fa fa-bars hunter me-2"></i> Navbar Demo
+              </a></li>
+              <li><a class="dropdown-item hunter" href="../projects/countdown/index.html">
+                <i class="fa fa-clock hunter me-2"></i> Countdown Timer
+              </a></li>
               <li class="text-center initialism text-muted">
-                <hr class="dropdown-divider"> Quiz Games</li>
-              <li><a class="dropdown-item hunter" href="../projects/quiz-ninja2.1/index.html"><i class="fab fa-magento hunter"></i> Marvel Universe Quiz</a></li>
-              <li><a class="dropdown-item hunter" href="../projects/compTIA/index.html"><i class="fa fa-desktop hunter"></i> CompTIA&trade; Certification Super Quiz</a></li>
+                <hr class="dropdown-divider">Quiz Games
+              </li>
+              <li><a class="dropdown-item hunter" href="../projects/quiz-ninja2.1/index.html">
+                <i class="fab fa-magento hunter me-2"></i> Marvel Universe Quiz
+              </a></li>
+              <li><a class="dropdown-item hunter" href="../projects/compTIA/index.html">
+                <i class="fa fa-desktop hunter me-2"></i> CompTIA&trade; Certification Super Quiz
+              </a></li>
             </ul>
           </li>
           <li class="nav-item">
-            <a class="nav-link hunter" href="./contacts.html" tabindex="-1"> <i class="fa fa-mail-bulk hunter"></i>
-              Contact Page</a>
+            <a class="nav-link hunter" href="./contacts.html">
+              <i class="fa fa-mail-bulk hunter me-1"></i> Contact Page
+            </a>
           </li>
         </ul>
         <form class="d-flex">
@@ -66,58 +95,186 @@
       </div>
     </div>
   </nav>
-  <!--navbar-expand-->
-  <main class="container-fluid background">
-    <h1 class="display-3 background text-white shadow rounded-4 text-center"> Check out some of my current projects...
-    </h1>
-    <div id="myCarouselPage" class="carousel slide carousel-fade container-modern" data-bs-ride="carousel">
-      <div class="carousel-indicators fixed-bottom background rounded-5 box-shadow fade-in">
-        <button type="button" data-bs-target="#myCarouselPage" data-bs-slide-to="0" class="active btn-modern" aria-current="true"
-          aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#myCarouselPage" data-bs-slide-to="1" class="btn-modern" aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#myCarouselPage" data-bs-slide-to="2" class="btn-modern" aria-label="Slide 3"></button>
-        <button type="button" data-bs-target="#myCarouselPage" data-bs-slide-to="3" class="btn-modern" aria-label="Slide 4"></button>
-        <button type="button" data-bs-target="#myCarouselPage" data-bs-slide-to="4" class="btn-modern" aria-label="Slide 5"></button>
+
+  <main class="container-modern py-4">
+    <header class="text-center mb-5 fade-in">
+      <h1 class="display-4 text-white fw-bold mb-3">Project Portfolio</h1>
+      <p class="lead text-white">Check out some of my current projects and applications</p>
+    </header>
+    
+    <div id="projectsShowcase" class="mb-5">
+      <div id="myCarouselPage" class="carousel slide carousel-fade" data-bs-ride="carousel">
+        <div class="carousel-inner rounded-4 box-shadow overflow-hidden">
+          <div class="carousel-item active fade-in">
+            <a href="../projects/compTIA/index.html" class="card-modern">
+              <img src="../assets/screenshots/compTIA.png" class="screenshot img-fluid d-block w-100"
+                alt="The CompTIA Practice Exam">
+              <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-75 rounded-3">
+                <h5>CompTIA Practice Exam</h5>
+                <p>Test your knowledge with this comprehensive CompTIA certification quiz.</p>
+              </div>
+            </a>
+          </div>
+          
+          <div class="carousel-item fade-in">
+            <a href="../projects/knucklebones/knuckleBeta.html" class="card-modern">
+              <img src="../assets/screenshots/knuckle.png" class="screenshot img-fluid d-block w-100"
+                alt="Knucklebones of Ficklest of Fortunes">
+              <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-75 rounded-3">
+                <h5>Knucklebones Game</h5>
+                <p>An interactive dice game with strategic gameplay.</p>
+              </div>
+            </a>
+          </div>
+          
+          <div class="carousel-item fade-in">
+            <a href="../projects/rps/index.html" class="card-modern">
+              <img src="../assets/screenshots/rps.png" class="screenshot img-fluid d-block w-100"
+                alt="A Rock, Paper, Scissors Game">
+              <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-75 rounded-3">
+                <h5>Rock, Paper, Scissors</h5>
+                <p>A modern take on the classic hand game.</p>
+              </div>
+            </a>
+          </div>
+          
+          <div class="carousel-item fade-in">
+            <a href="../projects/calculator/index.html" class="card-modern">
+              <img src="../assets/screenshots/calculator.png" class="screenshot img-fluid d-block w-100"
+                alt="A Basic Calculator">
+              <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-75 rounded-3">
+                <h5>Calculator</h5>
+                <p>A sleek and functional calculator application.</p>
+              </div>
+            </a>
+          </div>
+          
+          <div class="carousel-item fade-in">
+            <a href="../projects/quiz-ninja2.1/index.html" class="card-modern">
+              <img src="../assets/screenshots/quiz.png" class="screenshot img-fluid d-block w-100"
+                alt="A Marvel Comics Quiz">
+              <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-75 rounded-3">
+                <h5>Marvel Universe Quiz</h5>
+                <p>Test your knowledge of Marvel comics and characters.</p>
+              </div>
+            </a>
+          </div>
+        </div>
+        
         <button class="carousel-control-prev" type="button" data-bs-target="#myCarouselPage" data-bs-slide="prev">
-          <span class="visually-hidded">Previous</span>
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
         </button>
         <button class="carousel-control-next" type="button" data-bs-target="#myCarouselPage" data-bs-slide="next">
-          <span class="visually-hidden">Next</span>
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
         </button>
       </div>
-      <div class="carousel-inner container-modern">
-        <div class="carousel-item active fade-in">
-            <a class="navbar-brand card-modern" href="../projects/compTIA/index.html">
-          <img src="../assets/screenshots/compTIA.png" class="screenshot img-fluid d-block w-100 rounded-4 mx-auto box-shadow"
-            alt="The CompTIA Practice Exam"></a>
+      
+      <div class="carousel-indicators mt-3 justify-content-center">
+        <button type="button" data-bs-target="#myCarouselPage" data-bs-slide-to="0" class="active rounded-circle" aria-current="true" aria-label="CompTIA Quiz"></button>
+        <button type="button" data-bs-target="#myCarouselPage" data-bs-slide-to="1" class="rounded-circle" aria-label="Knucklebones"></button>
+        <button type="button" data-bs-target="#myCarouselPage" data-bs-slide-to="2" class="rounded-circle" aria-label="RPS Game"></button>
+        <button type="button" data-bs-target="#myCarouselPage" data-bs-slide-to="3" class="rounded-circle" aria-label="Calculator"></button>
+        <button type="button" data-bs-target="#myCarouselPage" data-bs-slide-to="4" class="rounded-circle" aria-label="Marvel Quiz"></button>
+      </div>
+    </div>
+
+    <section class="section-modern">
+      <h2 class="text-white mb-4">All Projects</h2>
+      <div class="grid-modern">
+        <div class="card box-shadow fade-in">
+          <div class="card-body text-center">
+            <i class="fa fa-dice-d20 fa-3x mb-3 text-success"></i>
+            <h3 class="h5">Knucklebones Game</h3>
+            <p>An interactive dice game built with JavaScript.</p>
+            <a href="../projects/knucklebones/knuckleBeta.html" class="btn btn-sm btn-outline-success mt-2">
+              <i class="fa fa-play me-1"></i> Try it
+            </a>
+          </div>
         </div>
-        <div class="carousel-item fade-in">
-            <a class="navbar-brand card-modern" href="../projects/knucklebones/knuckleBeta.html">
-          <img src="../assets/screenshots/knuckle.png" class="screenshot img-fluid d-block w-100 rounded-4 mx-auto box-shadow"
-            alt="Knucklebones of Ficklest of Fortunes"></a>
+        
+        <div class="card box-shadow fade-in">
+          <div class="card-body text-center">
+            <i class="fa fa-hand-scissors fa-3x mb-3 text-warning"></i>
+            <h3 class="h5">Rock, Paper, Scissors</h3>
+            <p>A classic game reimagined with modern web technologies.</p>
+            <a href="../projects/rps/index.html" class="btn btn-sm btn-outline-success mt-2">
+              <i class="fa fa-play me-1"></i> Try it
+            </a>
+          </div>
         </div>
-        <div class="carousel-item fade-in">
-            <a class="navbar-brand card-modern" href="../projects/rps/index.html">
-          <img src="../assets/screenshots/rps.png" class="screenshot img-fluid d-block w-100 rounded-4 mx-auto box-shadow"
-            alt="A Rock, Paper, Scissors Game"></a>
+        
+        <div class="card box-shadow fade-in">
+          <div class="card-body text-center">
+            <i class="fa fa-calculator fa-3x mb-3 text-info"></i>
+            <h3 class="h5">Calculator</h3>
+            <p>A sleek, functional calculator using HTML, CSS, and JavaScript.</p>
+            <a href="../projects/calculator/index.html" class="btn btn-sm btn-outline-success mt-2">
+              <i class="fa fa-play me-1"></i> Try it
+            </a>
+          </div>
         </div>
-        <div class="carousel-item fade-in">
-          <a class="navbar-brand card-modern" href="../projects/calculator/index.html">
-        <img src="../assets/screenshots/calculator.png" class="screenshot img-fluid d-block w-100 rounded-4 mx-auto box-shadow"
-          alt="A Basic Calculator"></a>
+        
+        <div class="card box-shadow fade-in">
+          <div class="card-body text-center">
+            <i class="fa fa-clock fa-3x mb-3 text-primary"></i>
+            <h3 class="h5">Countdown Timer</h3>
+            <p>A visually appealing countdown timer with animations.</p>
+            <a href="../projects/countdown/index.html" class="btn btn-sm btn-outline-success mt-2">
+              <i class="fa fa-play me-1"></i> Try it
+            </a>
+          </div>
         </div>
-        <div class="carousel-item fade-in">
-          <a class="navbar-brand card-modern" href="../projects/quiz-ninja2.1/index.html">
-        <img src="../assets/screenshots/quiz.png" class="screenshot img-fluid d-block w-100 rounded-4 mx-auto box-shadow"
-          alt="A Marvel Comics Quiz"></a>
+        
+        <div class="card box-shadow fade-in">
+          <div class="card-body text-center">
+            <i class="fa fa-desktop fa-3x mb-3 text-danger"></i>
+            <h3 class="h5">CompTIA Quiz</h3>
+            <p>Test your knowledge with this certification practice quiz.</p>
+            <a href="../projects/compTIA/index.html" class="btn btn-sm btn-outline-success mt-2">
+              <i class="fa fa-play me-1"></i> Try it
+            </a>
+          </div>
+        </div>
+        
+        <div class="card box-shadow fade-in">
+          <div class="card-body text-center">
+            <i class="fab fa-magento fa-3x mb-3 text-danger"></i>
+            <h3 class="h5">Marvel Universe Quiz</h3>
+            <p>Test your knowledge of Marvel comics and characters.</p>
+            <a href="../projects/quiz-ninja2.1/index.html" class="btn btn-sm btn-outline-success mt-2">
+              <i class="fa fa-play me-1"></i> Try it
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="container-fluid background text-white py-5 mt-5">
+    <div class="container-modern">
+      <div class="row">
+        <div class="col-md-6 mb-4 mb-md-0">
+          <h2 class="h4 mb-4">Navigation</h2>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="../index.html" class="text-white"><i class="fa fa-home me-2"></i>Home</a></li>
+            <li class="mb-2"><a href="../resume/index.html" class="text-white"><i class="fa fa-pen-alt me-2"></i>Resume</a></li>
+            <li class="mb-2"><a href="./projects.html" class="text-white"><i class="fa fa-code me-2"></i>Projects</a></li>
+            <li class="mb-2"><a href="./bio.html" class="text-white"><i class="fa fa-info-circle me-2"></i>About</a></li>
+            <li class="mb-2"><a href="./contacts.html" class="text-white"><i class="fa fa-mail-bulk me-2"></i>Contact</a></li>
+          </ul>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <img class="img-fluid rounded-circle mb-3" style="max-width: 80px;" src="../assets/logos/stray-gear.png" alt="StrayDog Logo">
+          <p class="mb-1">&copy; 2025 StrayDog Syndications LLC.</p>
+          <p class="small">Powered by <a href="#" class="text-white">The Last Mile&trade;</a></p>
         </div>
       </div>
     </div>
-  </main>
-  <!--main container-fluid-->
-  <!-- Offline CDN Resources -->
+  </footer>
+
+  <!-- CDN Resources -->
   <script src="https://cdn.tlm.cloud/jquery/3.5.1/jquery-3.5.1.min.js"
     integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2"
     crossorigin="anonymous"></script>
@@ -132,11 +289,6 @@
     crossorigin="anonymous"></script>
   <script src="../js/scripts.js"></script>
   <script src="../js/canvas.js"></script>
-  <script>
-    $(document).ready(function () {
-
-    }); // end ready
-  </script>
 </body>
 
 </html>

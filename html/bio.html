@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="Eric H. Petross - About Me and Professional Background">
   <link rel="shortcut icon" href="../assets/logos/stray-gear.png" type="image/x-icon">
   <link href="https://cdn.tlm.cloud/bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
@@ -14,49 +15,77 @@
 </head>
 
 <body>
-  <hgroup class="container-fluid text-center fw-bold bg-transparent box-shadow">
-    <canvas id="canvasOne" width="875" height="110" class="my -2 canvas container-fluid rounded-5"></canvas>
+  <hgroup class="container-modern text-center fw-bold bg-transparent box-shadow py-3">
+    <canvas id="canvasOne" width="875" height="110" class="my-2 canvas rounded-5"></canvas>
   </hgroup>
-  <nav class="navbar navbar-expand-lg navbar-dark background hunter">
-    <div class="container-fluid">
+  
+  <nav class="navbar navbar-expand-lg navbar-dark background box-shadow mb-4">
+    <div class="container-modern">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"><i class="fa fa-bars fa-lg hunter"></i></span>
+        <span class="navbar-toggler-icon"></span>
       </button>
-      <a class="navbar-brand active-me hunter shadow" href="/html/projects.html">Would you like to learn more <i
-          class="fa fa-question-circle active-me hunter"></i></a>
+      
+      <a class="navbar-brand hunter shadow d-flex align-items-center" href="./projects.html">
+        <i class="fa fa-question-circle hunter me-2"></i>
+        <span class="d-none d-sm-inline">Would you like to learn more</span>
+      </a>
+      
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link hunter" aria-current="page" href="../index.html"><i class="fa fa-home hunter"> </i>
-              Home Page</a>
+            <a class="nav-link hunter" href="../index.html">
+              <i class="fa fa-home hunter me-1"></i> Home Page
+            </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active-me hunter" href="../resume/index.html"><i class="fa fa-info-circle active-me hunter"> </i> Web Resume</a>
+            <a class="nav-link active-me hunter" href="../resume/index.html">
+              <i class="fa fa-info-circle active-me hunter me-1"></i> Web Resume
+            </a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle hunter" href="#" id="navbarDropdown" role="button"
               data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="fa fa-list-ol hunter"> </i> Current Projects
+              <i class="fa fa-list-ol hunter me-1"></i> Current Projects
             </a>
             <ul class="dropdown-menu background" aria-labelledby="navbarDropdown">
-              <li class="text-center initialism text-muted"> Applications</li>
-              <li><a class="dropdown-item hunter" href="../projects/calculator/index.html"><i class="fa fa-calculator hunter"></i> Calculator</a></li>
-              <li><a class="dropdown-item hunter" href="../projects/knucklebones/knuckleBeta.html"><i class="fa fa-dice-d20 fa-spin hunter"></i> Knucklebones Game</a></li>
-              <li><a class="dropdown-item hunter" href="../projects/circle-maker/index.html"><i class="fa fa-circle hunter"></i> Circle Maker</a></li>
-              <li><a class="dropdown-item hunter" href="../projects/rps/index.html"><i class="fa fa-hand-scissors hunter"></i> Rock, Paper, Scissors Game</a></li>
-              <li><a class="dropdown-item hunter" href="../projects/toDoList/index.html"><i class="fa fa-tasks hunter"></i> To-Do List</a></li>
-              <li><a class="dropdown-item hunter" href="../projects/navbar/index.html"><i class="fa fa-bars hunter"></i> Navbar Demo</a></li>
-              <li><a class="dropdown-item hunter" href="../projects/countdown/index.html"><i class="fa fa-clock hunter"></i> Countdown Timer</a></li>
+              <li class="text-center initialism text-muted">Applications</li>
+              <li><a class="dropdown-item hunter" href="../projects/calculator/index.html">
+                <i class="fa fa-calculator hunter me-2"></i> Calculator
+              </a></li>
+              <li><a class="dropdown-item hunter" href="../projects/knucklebones/knuckleBeta.html">
+                <i class="fa fa-dice-d20 fa-spin hunter me-2"></i> Knucklebones Game
+              </a></li>
+              <li><a class="dropdown-item hunter" href="../projects/circle-maker/index.html">
+                <i class="fa fa-circle hunter me-2"></i> Circle Maker
+              </a></li>
+              <li><a class="dropdown-item hunter" href="../projects/rps/index.html">
+                <i class="fa fa-hand-scissors hunter me-2"></i> Rock, Paper, Scissors Game
+              </a></li>
+              <li><a class="dropdown-item hunter" href="../projects/toDoList/index.html">
+                <i class="fa fa-tasks hunter me-2"></i> To-Do List
+              </a></li>
+              <li><a class="dropdown-item hunter" href="../projects/navbar/index.html">
+                <i class="fa fa-bars hunter me-2"></i> Navbar Demo
+              </a></li>
+              <li><a class="dropdown-item hunter" href="../projects/countdown/index.html">
+                <i class="fa fa-clock hunter me-2"></i> Countdown Timer
+              </a></li>
               <li class="text-center initialism text-muted">
-                <hr class="dropdown-divider"> Quiz Games</li>
-              <li><a class="dropdown-item hunter" href="../projects/quiz-ninja2.1/index.html"><i class="fab fa-magento hunter"></i> Marvel Universe Quiz</a></li>
-              <li><a class="dropdown-item hunter" href="../projects/compTIA/index.html"><i class="fa fa-desktop hunter"></i> CompTIA&trade; Certification Super Quiz</a></li>
+                <hr class="dropdown-divider">Quiz Games
+              </li>
+              <li><a class="dropdown-item hunter" href="../projects/quiz-ninja2.1/index.html">
+                <i class="fab fa-magento hunter me-2"></i> Marvel Universe Quiz
+              </a></li>
+              <li><a class="dropdown-item hunter" href="../projects/compTIA/index.html">
+                <i class="fa fa-desktop hunter me-2"></i> CompTIA&trade; Certification Super Quiz
+              </a></li>
             </ul>
           </li>
           <li class="nav-item">
-            <a class="nav-link hunter" href="./contacts.html" tabindex="-1"> <i class="fa fa-mail-bulk hunter"></i>
-              Contact Page</a>
+            <a class="nav-link hunter" href="./contacts.html">
+              <i class="fa fa-mail-bulk hunter me-1"></i> Contact Page
+            </a>
           </li>
         </ul>
         <form class="d-flex">
@@ -66,68 +95,155 @@
       </div>
     </div>
   </nav>
-  <!--navbar-expand-->
-  <main class="container-fluid background">
-    <div class="card-group gap-5 me-auto row justify-content-between mb-3">
-      <div class="card rounded-4 background text-light box-shadow">
-        <img src="" class="card-img-top" alt="">
-        <div class="card-body text-center">
-          <h5 class="card-title">
-            <i class="fab fa-html5 fa-lg"></i>
-            <i class="fab fa-css3-alt fa-lg"></i>
-            <i class="fab fa-bootstrap fa-lg"></i> Web Development Fundamentals</h5>
-          <p class="card-text">As an active alumni of the ever-expanding, <i class="fa fa-quote-left"></i> The Last Mile
-            Program &trade; <i class="fa fa-quote-right"></i>, I have learned the fundamentals of modern web
-            development.
-            Utilizing
-            up-to-date technologies by completing various intensive study technical bootcamps in order to be as current
-            as possible with today's ever changing digital enviroments.</p>
-          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+
+  <main class="container-modern py-4">
+    <header class="text-center mb-5 fade-in">
+      <h1 class="display-4 text-white fw-bold mb-3">About Me</h1>
+      <p class="lead text-white">Professional background and skills</p>
+    </header>
+
+    <div class="row mb-5">
+      <div class="col-lg-8 order-2 order-lg-1 mb-4 mb-lg-0">
+        <div class="grid-modern">
+          <div class="card rounded-4 background text-light box-shadow fade-in">
+            <div class="card-body text-center p-4">
+              <div class="mb-3">
+                <i class="fab fa-html5 fa-3x text-warning me-3"></i>
+                <i class="fab fa-css3-alt fa-3x text-info me-3"></i>
+                <i class="fab fa-bootstrap fa-3x text-primary"></i>
+              </div>
+              <h2 class="card-title h4">Web Development Fundamentals</h2>
+              <p class="card-text">
+                As an active alumni of the ever-expanding, <i class="fa fa-quote-left fa-xs me-1"></i>The Last Mile
+                Program&trade;<i class="fa fa-quote-right fa-xs ms-1"></i>, I have learned the fundamentals of modern web
+                development. Utilizing up-to-date technologies by completing various intensive study technical bootcamps in order to be as current
+                as possible with today's ever changing digital environments.
+              </p>
+              <p class="card-text"><small class="text-muted">Last updated May 2025</small></p>
+            </div>
+          </div>
+          
+          <div class="card rounded-4 background text-light box-shadow fade-in">
+            <div class="card-body text-center p-4">
+              <div class="mb-3">
+                <i class="fab fa-js-square fa-3x text-warning"></i>
+              </div>
+              <h2 class="card-title h4">Object Oriented Programming</h2>
+              <p class="card-text">
+                As a fundamental programming language for both server-side &amp; client-side web-based
+                applications, web pages, and object-oriented programming, JavaScript has become one of the most used
+                languages on the web today. Therefore, a mastery of this language is not only essential, but an
+                excellent gateway into learning the plethora of C-based programming languages available today.
+              </p>
+              <p class="card-text"><small class="text-muted">Last updated May 2025</small></p>
+            </div>
+          </div>
+          
+          <div class="card rounded-4 background text-light box-shadow fade-in">
+            <div class="card-body text-center p-4">
+              <div class="mb-3">
+                <i class="fab fa-unity fa-3x text-secondary me-3"></i>
+                <i class="fab fa-react fa-3x text-info me-3"></i>
+                <i class="fab fa-python fa-3x text-success"></i>
+              </div>
+              <h2 class="card-title h4">Expanding Knowledge Base</h2>
+              <p class="card-text">
+                <i class="fa fa-quote-left fa-xs me-1"></i>Never stop learning<i class="fa fa-quote-right fa-xs ms-1"></i>
+                ...The best advice ever given in life to a young man. Following this personal credo, my ever-expanding
+                knowledge base continues to grow daily. I continue to expand my repertoire by learning the following new
+                technical skills. Working to eventually become a full-stack developer, through learning the fundamentals
+                of the <i class="fa fa-database me-1"></i>M.E.R.N. &amp; M.E.A.N. stacks; expanding language skills with 
+                <i class="fab fa-js-square me-1"></i>TypeScript, as well as <i class="fab fa-python me-1"></i>Python - even going as
+                far as learning new technologies like <i class="fab fa-unity me-1"></i>Unity programming for tablet gaming.
+              </p>
+              <p class="card-text"><small class="text-muted">Last updated May 2025</small></p>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="card rounded-4 background text-light box-shadow">
-        <img src="" class="card-img-top" alt="">
-        <div class="card-body text-center">
-          <h5 class="card-title"><i class="fab fa-js-square fa-lg"></i> Object Orientated Programming</h5>
-          <p class="card-text">As a fundamental programming language for both server-side &amp; client-side web-based
-            applications, web pages, and object-orientated programming, JavaScript has become one of the most used
-            languages on the web today.<br> Therefore, a mastery of this language is not only essential, but an
-            excellent
-            gateway into learning the plethora of C-based programming languages available today.</p>
-          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+      
+      <div class="col-lg-4 order-1 order-lg-2">
+        <div class="card background text-light box-shadow mb-4 fade-in">
+          <img class="img-fluid rounded-top" src="../assets/images/rubix.jpeg" alt="A rubix cube">
+          <div class="card-body text-center">
+            <h3 class="h5">The Ever-Evolving Puzzle</h3>
+            <p>Programming has become my personal ever-evolving puzzle game - a challenge that constantly presents new learning opportunities and creative solutions.</p>
+          </div>
         </div>
-      </div>
-      <div class="card rounded-4 background text-light box-shadow">
-        <img src="" class="card-img-top" alt="">
-        <div class="card-body text-center">
-          <h5 class="card-title">
-            <i class="fab fa-unity fa-lg"></i>
-            <i class="fab fa-react fa-lg"></i>
-            <i class="fab fa-python fa-lg"></i> Expanding Knowledge Base</h5>
-          <p class="card-text"><i class="fa fa-quote-left"></i> Never stop learning <i class="fa fa-quote-right"></i>
-            ...The best advice ever given in life to a young man. Following this personal credo, my ever-expanding
-            knowledge base continues to grow daily. I continue to expand my repertoire by learning the following new
-            technical skills.<br> Working to eventually become a full-stack developer, through learning the fundamentals
-            of the <i class="fa fa-database"></i> M.E.R.N. &amp; M.E.A.N. stacks; expanding language skills with <i
-              class="fab fa-js-square"></i> Typescript, as well as <i class="fab fa-python"></i> Python - even going as
-            far as learning new technologies like <i class="fab fa-unity"></i> Unity programming for tablet gaming.</p>
-          <p class="card-text"><small class="text-muted"> Last updated 3 mins ago</small></p>
+        
+        <div class="card background text-light box-shadow fade-in">
+          <img class="img-fluid rounded-top" src="../assets/logos/Header3.png" alt="The Last Mile program">
+          <div class="card-body text-center">
+            <h3 class="h5">The Last Mile Program</h3>
+            <p>All thanks to The Last Mile Program&trade; - an amazing social endeavor that transforms lives through technology education.</p>
+            <a href="https://thelastmile.org" class="btn btn-outline-success" target="_blank">
+              <i class="fa fa-external-link-alt me-2"></i>Learn More
+            </a>
+          </div>
         </div>
       </div>
     </div>
-    <figure class="d-none d-lg-inline gap-5 float-md-end">
-      <img class="img-fluid rounded-4 box-shadow mb-3" src="../assets/logos/Header3.png" alt="A rubix cube">
-      <figcaption class="text-white text-center shadow">All Thanks to The Last Mile Program&trade;
-        <br> Learn more about this amazing social endeavor @ <a href="#"> wwwthelastmile.org</a>
-      </figcaption>
-    </figure>
-    <figure class="d-none d-lg-inline gap-5">
-      <img class="img-fluid rounded-4 box-shadow mb-3" src="../assets/images/rubix.jpeg" alt="A rubix cube">
-      <figcaption class="text-white shadow">Programming has become my personal ever-evolving puzzle game...</figcaption>
-    </figure>
+    
+    <section class="section-modern fade-in">
+      <div class="card background text-light box-shadow">
+        <div class="card-body p-4">
+          <div class="row align-items-center">
+            <div class="col-lg-8">
+              <h2 class="mb-4">My Development Journey</h2>
+              <p>My path in web development has been one of continuous learning and growth. I'm passionate about creating clean, efficient, and user-friendly web applications that provide real value to users.</p>
+              <p>I specialize in front-end technologies while continually expanding my knowledge of back-end systems. This balance allows me to understand the full development lifecycle and create more cohesive applications.</p>
+              <div class="mb-4">
+                <h3 class="h5">Core Skills:</h3>
+                <div class="flex-modern">
+                  <span class="skill-tag"><i class="fab fa-html5 me-2"></i>HTML5</span>
+                  <span class="skill-tag"><i class="fab fa-css3-alt me-2"></i>CSS3</span>
+                  <span class="skill-tag"><i class="fab fa-js-square me-2"></i>JavaScript</span>
+                  <span class="skill-tag"><i class="fab fa-bootstrap me-2"></i>Bootstrap</span>
+                  <span class="skill-tag"><i class="fab fa-react me-2"></i>Learning React</span>
+                </div>
+              </div>
+              <div class="btn-container">
+                <a href="../resume/index.html" class="btn btn-outline-success">
+                  <i class="fa fa-file-alt me-2"></i>View Resume
+                </a>
+                <a href="./contacts.html" class="btn btn-outline-success">
+                  <i class="fa fa-envelope me-2"></i>Contact Me
+                </a>
+              </div>
+            </div>
+            <div class="col-lg-4 text-center mt-4 mt-lg-0">
+              <img class="img-fluid rounded-circle box-shadow" style="max-width: 200px;" 
+                   src="../assets/images/stray-gear.png" alt="StrayDog Syndications Logo">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
-  <!--main container-fluid-->
-  <!-- Offline CDN Resources -->
+
+  <footer class="container-fluid background text-white py-5 mt-5">
+    <div class="container-modern">
+      <div class="row">
+        <div class="col-md-6 mb-4 mb-md-0">
+          <h2 class="h4 mb-4">Navigation</h2>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="../index.html" class="text-white"><i class="fa fa-home me-2"></i>Home</a></li>
+            <li class="mb-2"><a href="../resume/index.html" class="text-white"><i class="fa fa-pen-alt me-2"></i>Resume</a></li>
+            <li class="mb-2"><a href="./projects.html" class="text-white"><i class="fa fa-code me-2"></i>Projects</a></li>
+            <li class="mb-2"><a href="./bio.html" class="text-white"><i class="fa fa-info-circle me-2"></i>About</a></li>
+            <li class="mb-2"><a href="./contacts.html" class="text-white"><i class="fa fa-mail-bulk me-2"></i>Contact</a></li>
+          </ul>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <img class="img-fluid rounded-circle mb-3" style="max-width: 80px;" src="../assets/logos/stray-gear.png" alt="StrayDog Logo">
+          <p class="mb-1">&copy; 2025 StrayDog Syndications LLC.</p>
+          <p class="small">Powered by <a href="https://thelastmile.org" class="text-white">The Last Mile&trade;</a></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CDN Resources -->
   <script src="https://cdn.tlm.cloud/jquery/3.5.1/jquery-3.5.1.min.js"
     integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2"
     crossorigin="anonymous"></script>
@@ -142,11 +258,23 @@
     crossorigin="anonymous"></script>
   <script src="../js/scripts.js"></script>
   <script src="../js/canvas.js"></script>
-  <script>
-    $(document).ready(function () {
-
-    }); // end ready
-  </script>
+  
+  <style>
+    .skill-tag {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      margin: 0.25rem;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 2rem;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+    
+    .skill-tag:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-3px);
+    }
+  </style>
 </body>
 
 </html>

@@ -1,24 +1,43 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* If not using a build process that supports Tailwind directives */
+@import url('https://unpkg.com/tailwindcss@^2/dist/utilities.css');
 
 /* Modern Design System */
-@layer components {
-  .btn-modern {
-    @apply transition-all duration-300 ease-in-out shadow-lg hover:shadow-xl;
-  }
-  
-  .card-modern {
-    @apply bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300;
-  }
+.btn-modern {
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+.btn-modern:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
 
-  .nav-link-modern {
-    @apply text-gray-700 hover:text-green-500 transition-colors duration-200;
-  }
+.card-modern {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s;
+}
+.card-modern:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
 
-  .input-modern {
-    @apply border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all duration-200;
-  }
+.nav-link-modern {
+  color: #374151;
+  transition: color 0.2s;
+}
+.nav-link-modern:hover {
+  color: #10B981;
+}
+
+.input-modern {
+  border: 2px solid #D1D5DB;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  transition: all 0.2s;
+}
+.input-modern:focus {
+  border-color: #10B981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+  outline: none;
 }
 
 /* Custom Animations */
@@ -61,9 +80,117 @@ html {
   margin-left: auto;
   padding-right: 1rem;
   padding-left: 1rem;
+  box-sizing: border-box;
 }
 
-@media (min-width: 640px) { .container-modern { max-width: 640px; } }
-@media (min-width: 768px) { .container-modern { max-width: 768px; } }
-@media (min-width: 1024px) { .container-modern { max-width: 1024px; } }
-@media (min-width: 1280px) { .container-modern { max-width: 1280px; } }
+@media (min-width: 640px) { 
+  .container-modern { 
+    max-width: 640px; 
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+  } 
+}
+@media (min-width: 768px) { 
+  .container-modern { 
+    max-width: 768px; 
+    padding-right: 2rem;
+    padding-left: 2rem;
+  } 
+}
+@media (min-width: 1024px) { 
+  .container-modern { 
+    max-width: 1024px; 
+  } 
+}
+@media (min-width: 1280px) { 
+  .container-modern { 
+    max-width: 1280px; 
+  } 
+}
+
+/* Improved section spacing */
+.section-modern {
+  padding: 2rem 0;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+  .section-modern {
+    padding: 3rem 0;
+    margin-bottom: 3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-modern {
+    padding: 4rem 0;
+    margin-bottom: 4rem;
+  }
+}
+
+/* Modern flex layout helpers */
+.flex-modern {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.flex-modern-center {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-modern-between {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Modern grid layout */
+.grid-modern {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .grid-modern {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-modern {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .grid-modern {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Button alignment fix for mobile */
+.btn-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+@media (max-width: 767px) {
+  .btn-container {
+    justify-content: center;
+  }
+  
+  .btn-modern {
+    width: 100%;
+    text-align: center;
+  }
+}

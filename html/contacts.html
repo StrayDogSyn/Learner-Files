@@ -5,58 +5,87 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="Eric H. Petross - Contact Me">
   <link rel="shortcut icon" href="../assets/logos/stray-gear.png" type="image/x-icon">
   <link href="https://cdn.tlm.cloud/bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="../css/modern.css">
   <link rel="stylesheet" type="text/css" href="../css/styles.css">
-  <title>Contact Page</title>
+  <title>Contact Me</title>
 </head>
 
 <body>
-  <hgroup class="container-fluid text-center fw-bold bg-transparent box-shadow">
-    <canvas id="canvasOne" width="875" height="110" class="my -2 canvas container-fluid rounded-5"></canvas>
+  <hgroup class="container-modern text-center fw-bold bg-transparent box-shadow py-3">
+    <canvas id="canvasOne" width="875" height="110" class="my-2 canvas rounded-5"></canvas>
   </hgroup>
-  <nav class="navbar navbar-expand-lg navbar-dark background hunter">
-    <div class="container-fluid">
+  
+  <nav class="navbar navbar-expand-lg navbar-dark background box-shadow mb-4">
+    <div class="container-modern">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"><i class="fa fa-bars fa-lg hunter"></i></span>
+        <span class="navbar-toggler-icon"></span>
       </button>
-      <a class="navbar-brand active-me hunter shadow" href="/html/bio.html">Would you like to learn more <i
-          class="fa fa-question-circle active-me hunter"></i></a>
+      
+      <a class="navbar-brand hunter shadow d-flex align-items-center" href="./bio.html">
+        <i class="fa fa-question-circle hunter me-2"></i>
+        <span class="d-none d-sm-inline">Would you like to learn more</span>
+      </a>
+      
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link hunter" aria-current="page" href="../index.html"><i class="fa fa-home hunter"> </i>
-              Home Page</a>
+            <a class="nav-link hunter" href="../index.html">
+              <i class="fa fa-home hunter me-1"></i> Home Page
+            </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link hunter" href="./bio.html"><i class="fa fa-info-circle hunter"> </i> About Author</a>
+            <a class="nav-link hunter" href="./bio.html">
+              <i class="fa fa-info-circle hunter me-1"></i> About Author
+            </a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle hunter" href="#" id="navbarDropdown" role="button"
               data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="fa fa-list-ol hunter"> </i> Current Projects
+              <i class="fa fa-list-ol hunter me-1"></i> Current Projects
             </a>
             <ul class="dropdown-menu background" aria-labelledby="navbarDropdown">
-              <li class="text-center initialism text-muted"> Applications</li>
-              <li><a class="dropdown-item hunter" href="../projects/calculator/index.html"><i class="fa fa-calculator hunter"></i> Calculator</a></li>
-              <li><a class="dropdown-item hunter" href="../projects/knucklebones/knuckleBeta.html"><i class="fa fa-dice-d20 fa-spin hunter"></i> Knucklebones Game</a></li>
-              <li><a class="dropdown-item hunter" href="../projects/circle-maker/index.html"><i class="fa fa-circle hunter"></i> Circle Maker</a></li>
-              <li><a class="dropdown-item hunter" href="../projects/rps/index.html"><i class="fa fa-hand-scissors hunter"></i> Rock, Paper, Scissors Game</a></li>
-              <li><a class="dropdown-item hunter" href="../projects/toDoList/index.html"><i class="fa fa-tasks hunter"></i> To-Do List</a></li>
-              <li><a class="dropdown-item hunter" href="../projects/navbar/index.html"><i class="fa fa-bars hunter"></i> Navbar Demo</a></li>
-              <li><a class="dropdown-item hunter" href="../projects/countdown/index.html"><i class="fa fa-clock hunter"></i> Countdown Timer</a></li>
+              <li class="text-center initialism text-muted">Applications</li>
+              <li><a class="dropdown-item hunter" href="../projects/calculator/index.html">
+                <i class="fa fa-calculator hunter me-2"></i> Calculator
+              </a></li>
+              <li><a class="dropdown-item hunter" href="../projects/knucklebones/knuckleBeta.html">
+                <i class="fa fa-dice-d20 fa-spin hunter me-2"></i> Knucklebones Game
+              </a></li>
+              <li><a class="dropdown-item hunter" href="../projects/circle-maker/index.html">
+                <i class="fa fa-circle hunter me-2"></i> Circle Maker
+              </a></li>
+              <li><a class="dropdown-item hunter" href="../projects/rps/index.html">
+                <i class="fa fa-hand-scissors hunter me-2"></i> Rock, Paper, Scissors Game
+              </a></li>
+              <li><a class="dropdown-item hunter" href="../projects/toDoList/index.html">
+                <i class="fa fa-tasks hunter me-2"></i> To-Do List
+              </a></li>
+              <li><a class="dropdown-item hunter" href="../projects/navbar/index.html">
+                <i class="fa fa-bars hunter me-2"></i> Navbar Demo
+              </a></li>
+              <li><a class="dropdown-item hunter" href="../projects/countdown/index.html">
+                <i class="fa fa-clock hunter me-2"></i> Countdown Timer
+              </a></li>
               <li class="text-center initialism text-muted">
-                <hr class="dropdown-divider"> Quiz Games</li>
-              <li><a class="dropdown-item hunter" href="../projects/quiz-ninja2.1/index.html"><i class="fab fa-magento hunter"></i> Marvel Universe Quiz</a></li>
-              <li><a class="dropdown-item hunter" href="../projects/compTIA/index.html"><i class="fa fa-desktop hunter"></i> CompTIA&trade; Certification Super Quiz</a></li>
+                <hr class="dropdown-divider">Quiz Games
+              </li>
+              <li><a class="dropdown-item hunter" href="../projects/quiz-ninja2.1/index.html">
+                <i class="fab fa-magento hunter me-2"></i> Marvel Universe Quiz
+              </a></li>
+              <li><a class="dropdown-item hunter" href="../projects/compTIA/index.html">
+                <i class="fa fa-desktop hunter me-2"></i> CompTIA&trade; Certification Super Quiz
+              </a></li>
             </ul>
           </li>
           <li class="nav-item">
-            <a class="nav-link active-me hunter" href="../resume/index.html" tabindex="-1"> <i
-                class="fa fa-mail-bulk active-me hunter"></i> Professional Resume</a>
+            <a class="nav-link active-me hunter" href="../resume/index.html">
+              <i class="fa fa-file-alt active-me hunter me-1"></i> Professional Resume
+            </a>
           </li>
         </ul>
         <form class="d-flex">
@@ -66,125 +95,209 @@
       </div>
     </div>
   </nav>
-  <!--navbar-expand-->
-  <main class="container-fluid background me-auto">
-    <header class="background hunter mx-5">
-      <h1 class="display-4 fw-bold text-center box-shadow">Create a Message</h1>
+
+  <main class="container-modern py-4">
+    <header class="text-center mb-5 fade-in">
+      <h1 class="display-4 text-white fw-bold mb-3">Get In Touch</h1>
+      <p class="lead text-white">Fill out the form below to send me a message</p>
     </header>
-    <form id="messageBoard" class="hunter background rounded-2 mx-5 box-shadow">
-      <div class="form-row align-items-center">
-        <div class="form-group col-md-12 mb-3">
-          <label for="message">Write your message here</label>
-          <textarea class="form-control" name="message" spellcheck="true" minlength="1" maxlength="750"></textarea>
-        </div>
-        <div class="row">
-          <div class="col">
-            <label for="First name"> First Name</label>
-            <input type="text" class="form-control" placeholder="First name">
+    
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        <div class="card background text-light box-shadow fade-in mb-5">
+          <div class="card-body p-4">
+            <form id="messageBoard" class="hunter needs-validation" novalidate>
+              <div class="mb-4">
+                <label for="message" class="form-label">Message</label>
+                <textarea class="form-control" id="message" name="message" rows="5" spellcheck="true" minlength="1" maxlength="750" placeholder="Write your message here..." required></textarea>
+                <div class="form-text text-white-50">Max 750 characters</div>
+              </div>
+              
+              <div class="row mb-4">
+                <div class="col-md-6 mb-3 mb-md-0">
+                  <label for="firstName" class="form-label">First Name</label>
+                  <input type="text" class="form-control" id="firstName" placeholder="First name" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="lastName" class="form-label">Last Name</label>
+                  <input type="text" class="form-control" id="lastName" placeholder="Last name" required>
+                </div>
+              </div>
+              
+              <div class="mb-4">
+                <label for="inputEmail" class="form-label">Email</label>
+                <input type="email" class="form-control" id="inputEmail" placeholder="Email" required>
+                <div class="invalid-feedback">Please provide a valid email address.</div>
+              </div>
+              
+              <div class="mb-4">
+                <label for="inputSubject" class="form-label">Subject</label>
+                <input type="text" class="form-control" id="inputSubject" placeholder="Subject" required>
+              </div>
+              
+              <div class="accordion mb-4" id="addressAccordion">
+                <div class="accordion-item bg-transparent text-light border-light">
+                  <h2 class="accordion-header" id="addressHeading">
+                    <button class="accordion-button collapsed bg-transparent text-light" type="button" data-bs-toggle="collapse" data-bs-target="#addressCollapse" aria-expanded="false" aria-controls="addressCollapse">
+                      Optional: Your Address Information
+                    </button>
+                  </h2>
+                  <div id="addressCollapse" class="accordion-collapse collapse" aria-labelledby="addressHeading">
+                    <div class="accordion-body">
+                      <div class="mb-3">
+                        <label for="inputAddress" class="form-label">Address</label>
+                        <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                      </div>
+                      <div class="mb-3">
+                        <label for="inputAddress2" class="form-label">Address 2</label>
+                        <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+                      </div>
+                      <div class="row mb-3">
+                        <div class="col-md-6 mb-3 mb-md-0">
+                          <label for="inputCity" class="form-label">City</label>
+                          <input type="text" class="form-control" id="inputCity">
+                        </div>
+                        <div class="col-md-4 mb-3 mb-md-0">
+                          <label for="inputState" class="form-label">State</label>
+                          <select id="inputState" class="form-select">
+                            <option selected>Choose...</option>
+                            <option>AK - Alaska</option>
+                            <option>AL - Alabama</option>
+                            <option>AR - Arkansas</option>
+                            <option>AZ - Arizona</option>
+                            <option>CA - California</option>
+                            <option>CO - Colorado</option>
+                            <option>CT - Connecticut</option>
+                            <option>DC - District of Columbia</option>
+                            <option>DE - Delaware</option>
+                            <option>FL - Florida</option>
+                            <option>GA - Georgia</option>
+                            <option>HI - Hawaii</option>
+                            <option>ID - Idaho</option>
+                            <option>IL - Illinois</option>
+                            <option>IN - Indiana</option>
+                            <option>IA - Iowa</option>
+                            <option>KS - Kansas</option>
+                            <option>KT - Kentucky</option>
+                            <option>LA - Louisiana</option>
+                            <option>MN - Maine</option>
+                            <option>MD - Maryland</option>
+                            <option>MA - Massachusetts</option>
+                            <option>MI - Michigan</option>
+                            <option>MO - Missouri</option>
+                            <option>MS - Mississippi</option>
+                            <option>MT - Montana</option>
+                            <option>NB - Nebraska</option>
+                            <option>NH - New Hampshire</option>
+                            <option>NJ - New Jersey</option>
+                            <option>NY - New York</option>
+                            <option>NV - Nevada</option>
+                            <option>NM - New Mexico</option>
+                            <option>NC - North Carolina</option>
+                            <option>ND - North Dakota</option>
+                            <option>OH - Ohio</option>
+                            <option>OK - Oklahoma</option>
+                            <option>OR - Oregon</option>
+                            <option>PA - Pennsylvania</option>
+                            <option>PR - Puerto Rico</option>
+                            <option>RI - Rhode Island</option>
+                            <option>SC - South Carolina</option>
+                            <option>SD - South Dakota</option>
+                            <option>TN - Tennessee</option>
+                            <option>TX - Texas</option>
+                            <option>UT - Utah</option>
+                            <option>VT - Vermont</option>
+                            <option>VI - Virginia</option>
+                            <option>WA - Washington</option>
+                            <option>WV - West Virginia</option>
+                            <option>WI - Wisconsin</option>
+                            <option>WY - Wyoming</option>
+                          </select>
+                        </div>
+                        <div class="col-md-2">
+                          <label for="inputZip" class="form-label">Zip</label>
+                          <input type="text" class="form-control" id="inputZip">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="mb-4 form-check">
+                <input class="form-check-input" type="checkbox" id="subscribe" checked>
+                <label class="form-check-label" for="subscribe">
+                  Subscribe to newsletter
+                </label>
+              </div>
+              
+              <div class="text-center">
+                <button type="submit" class="btn btn-outline-success btn-lg">
+                  <i class="fa fa-paper-plane me-2"></i>Send Message
+                </button>
+              </div>
+            </form>
           </div>
-          <div class="col">
-            <label for="First name"> Last Name</label>
-            <input type="text" class="form-control" placeholder="Last name">
+        </div>
+        
+        <div class="row text-white text-center g-4 fade-in">
+          <div class="col-md-4">
+            <div class="card background text-light box-shadow h-100">
+              <div class="card-body">
+                <i class="fa fa-envelope fa-3x mb-3 text-info"></i>
+                <h3 class="h5 mb-3">Email</h3>
+                <p>contact@straydogsyndications.com</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-4">
+            <div class="card background text-light box-shadow h-100">
+              <div class="card-body">
+                <i class="fa fa-map-marker-alt fa-3x mb-3 text-danger"></i>
+                <h3 class="h5 mb-3">Location</h3>
+                <p>San Francisco Bay Area, CA</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-4">
+            <div class="card background text-light box-shadow h-100">
+              <div class="card-body">
+                <i class="fa fa-globe fa-3x mb-3 text-success"></i>
+                <h3 class="h5 mb-3">Website</h3>
+                <p>www.straydogsyndications.com</p>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="form-group col-md-10">
-          <label for="inputEmail4">Email</label>
-          <input type="email" class="form-control" id="inputEmail4" placeholder="Email" required="true">
-        </div>
-        <div class="form-group col-md-6">
-          <label for="inputPassword4">Password</label>
-          <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
-        </div>
       </div>
-      <div class="form-group col-md-10">
-        <label for="inputAddress">Address</label>
-        <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-      </div>
-      <div class="form-group col-md-10">
-        <label for="inputAddress2">Address 2</label>
-        <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-8">
-          <label for="inputCity">City</label>
-          <input type="text" class="form-control" id="inputCity">
-        </div>
-        <div class="form-group col-md-4">
-          <label for="inputState">State</label>
-          <select id="inputState" class="form-control">
-            <option selected>Choose...</option>
-            <option>AK - Alaska</option>
-            <option>AL - Alabama</option>
-            <option>AR - Arkansas</option>
-            <option>AZ - Arizona</option>
-            <option>CA - California</option>
-            <option>CO - Colorado</option>
-            <option>CT - Connecticut</option>
-            <option>DC - District of Columbia</option>
-            <option>DE - Delaware</option>
-            <option>FL - Florida</option>
-            <option>GA - Georgia</option>
-            <option>HI - Hawaii</option>
-            <option>ID - Idaho</option>
-            <option>IL - Illinois</option>
-            <option>IN - Indiana</option>
-            <option>IA - Iowa</option>
-            <option>KS - Kansas</option>
-            <option>KT - Kentucky</option>
-            <option>LA - Louisiana</option>
-            <option>MN - Maine</option>
-            <option>MD - Maryland</option>
-            <option>MA - Massachusetts</option>
-            <option>MI - Michigan</option>
-            <option>MO - Missouri</option>
-            <option>MS - Mississippi</option>
-            <option>MT - Montana</option>
-            <option>NB - Nebraska</option>
-            <option>NH - New Hampshire</option>
-            <option>NJ - New Jersey</option>
-            <option>NY - New York</option>
-            <option>NV - Nevada</option>
-            <option>NM - New Mexico</option>
-            <option>NC - North Carolina</option>
-            <option>ND - North Dakota</option>
-            <option>OH - Ohio</option>
-            <option>OK - Oklahoma</option>
-            <option>OR - Oregon</option>
-            <option>PA - Pennsylvania</option>
-            <option>PR - Puerto Rico</option>
-            <option>RI - Rhode Island</option>
-            <option>SC - South Carolina</option>
-            <option>SD - South Dakota</option>
-            <option>TN - Tennessee</option>
-            <option>TX - Texas</option>
-            <option>UT - Utah</option>
-            <option>VT - Vermont</option>
-            <option>VI - Virginia</option>
-            <option>WA - Washington</option>
-            <option>WV - West Virginia</option>
-            <option>WI - Wisconsin</option>
-            <option>WY - Wyoming</option>
-          </select>
-        </div>
-        <div class="form-group col-md-2">
-          <label for="inputZip">Zip</label>
-          <input type="text" class="form-control" id="inputZip">
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="gridCheck">
-          <label class="form-check-label" for="gridCheck">
-            Check me out
-          </label>
-        </div>
-      </div>
-      <button form="messageBoard" type="submit" class="btn btn-success btn-lg">Remember Me <i
-          class="fa fa-check-double"></i></button>
-    </form>
+    </div>
   </main>
-  <!--main container-fluid-->
-  <!-- Offline CDN Resources -->
+
+  <footer class="container-fluid background text-white py-5 mt-5">
+    <div class="container-modern">
+      <div class="row">
+        <div class="col-md-6 mb-4 mb-md-0">
+          <h2 class="h4 mb-4">Navigation</h2>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="../index.html" class="text-white"><i class="fa fa-home me-2"></i>Home</a></li>
+            <li class="mb-2"><a href="../resume/index.html" class="text-white"><i class="fa fa-pen-alt me-2"></i>Resume</a></li>
+            <li class="mb-2"><a href="./projects.html" class="text-white"><i class="fa fa-code me-2"></i>Projects</a></li>
+            <li class="mb-2"><a href="./bio.html" class="text-white"><i class="fa fa-info-circle me-2"></i>About</a></li>
+            <li class="mb-2"><a href="./contacts.html" class="text-white"><i class="fa fa-mail-bulk me-2"></i>Contact</a></li>
+          </ul>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <img class="img-fluid rounded-circle mb-3" style="max-width: 80px;" src="../assets/logos/stray-gear.png" alt="StrayDog Logo">
+          <p class="mb-1">&copy; 2025 StrayDog Syndications LLC.</p>
+          <p class="small">Powered by <a href="https://thelastmile.org" class="text-white">The Last Mile&trade;</a></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CDN Resources -->
   <script src="https://cdn.tlm.cloud/jquery/3.5.1/jquery-3.5.1.min.js"
     integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2"
     crossorigin="anonymous"></script>
@@ -199,10 +312,29 @@
     crossorigin="anonymous"></script>
   <script src="../js/scripts.js"></script>
   <script src="../js/canvas.js"></script>
+  
   <script>
-    $(document).ready(function () {
-
-    }); // end ready
+    // Form validation script
+    (function() {
+      'use strict';
+      window.addEventListener('load', function() {
+        // Fetch all forms we want to apply validation styles to
+        var forms = document.querySelectorAll('.needs-validation');
+        
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms).forEach(function(form) {
+          form.addEventListener('submit', function(event) {
+            if (!form.checkValidity()) {
+              event.preventDefault();
+              event.stopPropagation();
+            } else {
+              alert('Thank you! Your message has been sent.');
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
   </script>
 </body>
 
