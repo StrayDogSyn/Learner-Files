@@ -1,4 +1,4 @@
-# Professional Web Development Portfolio <img src="assets/logos/stray-gear.png" alt="Portfolio Logo" width="40" align="right">
+# Professional Web Development Portfolio ![Portfolio Logo](assets/logos/stray-gear.png)
 
 A comprehensive showcase of web development projects, skills, and technical expertise. This portfolio demonstrates proficiency in modern web technologies and creative problem-solving approaches.
 
@@ -8,7 +8,6 @@ This portfolio represents a collection of web development projects ranging from 
 
 ## Project Structure
 
-```
 root/
 ├── public/                     # Publicly accessible files
 │   ├── index.html              # Main entry point
@@ -32,10 +31,17 @@ root/
 │   │   ├── rps/
 │   │   └── toDoList/
 │   └── assets/                 # Shared assets
-│       ├── images/
-│       ├── logos/
-│       ├── lowFi/
-│       └── screenshots/
+├── assets/                     # Source assets
+│   ├── images/                 # Image assets
+│   ├── logos/                  # Logo files
+│   ├── lowFi/                  # Low fidelity designs
+│   └── screenshots/            # Project screenshots
+│       ├── calculator.png
+│       ├── compTIA.png
+│       ├── knuckle.png
+│       ├── quiz.png
+│       ├── rps.png
+│       └── webpage/            # Website screenshots
 ├── src/                        # Source files for development
 │   ├── css/                    # Shared styles
 │   │   ├── colors.css
@@ -49,7 +55,23 @@ root/
 │   ├── tailwind.config.js
 │   └── package.json
 └── run/                        # Scripts or executables
-```
+
+### Screenshots
+
+![Portfolio Homepage](assets/screenshots/webpage/Screenshot%20(159).png)
+*Homepage with project overview and skills showcase*
+
+![Projects Gallery](assets/screenshots/webpage/Screenshot%20(160).png)
+*Interactive projects gallery with carousel navigation*
+
+![Knucklebones Game](assets/screenshots/webpage/Screenshot%20(161).png)
+*Knucklebones dice game with interactive game board*
+
+![CompTIA Quiz Interface](assets/screenshots/webpage/Screenshot%20(162).png)
+*CompTIA certification quiz with multiple choice questions*
+
+![Contact Page](assets/screenshots/webpage/Screenshot%20(163).png)
+*Contact form and developer information*
 
 ## Featured Projects
 
@@ -82,7 +104,7 @@ root/
 
 - Import shared styles from `src/css/`
 - Import shared scripts from `src/js/`
-- Reference shared assets from `public/assets/`
+- Reference shared assets from `assets/` or `public/assets/` as appropriate
 
 ## Build and Deployment
 
