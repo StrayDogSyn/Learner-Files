@@ -9,6 +9,8 @@ This portfolio represents a collection of web development projects ranging from 
 ## Project Structure
 
 The following outlines the directory structure of the portfolio project, providing an overview of its organization and key components.
+
+```
 ├── public/                     # Publicly accessible files
 │   ├── index.html              # Main entry point
 │   ├── splash.html             # Splash page
@@ -16,18 +18,19 @@ The following outlines the directory structure of the portfolio project, providi
 │   ├── contacts.html           # Contact information
 │   ├── projects.html           # Projects overview
 │   ├── resume/                 # Resume section
-│   │   ├── index.html
-│   ├── resume/                 # Resume section
-│   │   ├── circle-maker/       # Circle maker project
-│   │   ├── compTIA/            # CompTIA quiz project
-│   │   ├── countdown/          # Countdown timer project
-│   │   ├── knucklebones/       # Knucklebones game project
-│   │   ├── navbar/             # Navbar component project
-│   │   ├── noid/               # Noid game project
-│   │   ├── quiz-ninja2.1/      # Quiz Ninja project
-│   │   ├── rps/                # Rock Paper Scissors project
-│   │   └── toDoList/           # To-Do List project
-│   └── assets/                 # Shared assets
+│   │   └── index.html          # Resume main page
+│   ├── projects/               # Project collection
+│       ├── calculator/         # Calculator project
+│       ├── circle-maker/       # Circle maker project
+│       ├── compTIA/            # CompTIA quiz project
+│       ├── countdown/          # Countdown timer project
+│       ├── knucklebones/       # Knucklebones game project
+│       ├── navbar/             # Navbar component project
+│       ├── noid/               # Noid game project
+│       ├── quiz-ninja2.1/      # Quiz Ninja project
+│       ├── rps/                # Rock Paper Scissors project
+│       └── toDoList/           # To-Do List project
+│   └── assets/                 # Shared public assets
 ├── assets/                     # Source assets
 │   ├── images/                 # Image assets
 │   ├── logos/                  # Logo files
@@ -41,19 +44,17 @@ The following outlines the directory structure of the portfolio project, providi
 │       └── webpage/            # Website screenshots
 ├── src/                        # Source files for development
 │   ├── css/                    # Shared styles
-│   │   ├── colors.css          # Color definitions
-├── src/                        # Source files for development, including styles, scripts, and components
-│   ├── css/                    # Shared styles
+│   │   └── colors.css          # Color definitions
 │   ├── js/                     # Shared scripts
 │   │   ├── canvas.js           # Canvas utilities
 │   │   └── scripts.js          # General scripts
 │   └── components/             # Reusable components
 ├── config/                     # Configuration files
-│   ├── tailwind.config.js      # Tailwind CSS configuration file, defines custom styles and theme settings
-│   └── package.json            # Contains project metadata and dependencies
-└── run/                        # Contains scripts or executables for project setup or deployment
-│   └── package.json
+│   ├── tailwind.config.js      # Tailwind CSS configuration
+│   └── package.json            # Project metadata and dependencies
 └── run/                        # Scripts or executables
+    └── package.json            # Script dependencies
+```
 
 ### Screenshots
 
