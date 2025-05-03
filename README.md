@@ -8,7 +8,7 @@ This portfolio represents a collection of web development projects ranging from 
 
 ## Project Structure
 
-root/
+The following outlines the directory structure of the portfolio project, providing an overview of its organization and key components.
 ├── public/                     # Publicly accessible files
 │   ├── index.html              # Main entry point
 │   ├── splash.html             # Splash page
@@ -17,42 +17,41 @@ root/
 │   ├── projects.html           # Projects overview
 │   ├── resume/                 # Resume section
 │   │   ├── index.html
-│   │   ├── css/
-│   │   └── js/
-│   ├── projects/               # Individual projects
-│   │   ├── calculator/
-│   │   ├── circle-maker/
-│   │   ├── compTIA/
-│   │   ├── countdown/
-│   │   ├── knucklebones/
-│   │   ├── navbar/
-│   │   ├── noid/
-│   │   ├── quiz-ninja2.1/
-│   │   ├── rps/
-│   │   └── toDoList/
+│   ├── resume/                 # Resume section
+│   │   ├── circle-maker/       # Circle maker project
+│   │   ├── compTIA/            # CompTIA quiz project
+│   │   ├── countdown/          # Countdown timer project
+│   │   ├── knucklebones/       # Knucklebones game project
+│   │   ├── navbar/             # Navbar component project
+│   │   ├── noid/               # Noid game project
+│   │   ├── quiz-ninja2.1/      # Quiz Ninja project
+│   │   ├── rps/                # Rock Paper Scissors project
+│   │   └── toDoList/           # To-Do List project
 │   └── assets/                 # Shared assets
 ├── assets/                     # Source assets
 │   ├── images/                 # Image assets
 │   ├── logos/                  # Logo files
 │   ├── lowFi/                  # Low fidelity designs
 │   └── screenshots/            # Project screenshots
-│       ├── calculator.png
-│       ├── compTIA.png
-│       ├── knuckle.png
-│       ├── quiz.png
-│       ├── rps.png
+│       ├── calculator.png      # Calculator screenshot
+│       ├── compTIA.png         # CompTIA quiz screenshot
+│       ├── knuckle.png         # Knucklebones game screenshot
+│       ├── quiz.png            # Quiz Ninja screenshot
+│       ├── rps.png             # Rock Paper Scissors screenshot
 │       └── webpage/            # Website screenshots
 ├── src/                        # Source files for development
 │   ├── css/                    # Shared styles
-│   │   ├── colors.css
-│   │   ├── modern.css
-│   │   └── styles.css
+│   │   ├── colors.css          # Color definitions
+├── src/                        # Source files for development, including styles, scripts, and components
+│   ├── css/                    # Shared styles
 │   ├── js/                     # Shared scripts
-│   │   ├── canvas.js
-│   │   └── scripts.js
+│   │   ├── canvas.js           # Canvas utilities
+│   │   └── scripts.js          # General scripts
 │   └── components/             # Reusable components
 ├── config/                     # Configuration files
-│   ├── tailwind.config.js
+│   ├── tailwind.config.js      # Tailwind CSS configuration file, defines custom styles and theme settings
+│   └── package.json            # Contains project metadata and dependencies
+└── run/                        # Contains scripts or executables for project setup or deployment
 │   └── package.json
 └── run/                        # Scripts or executables
 
