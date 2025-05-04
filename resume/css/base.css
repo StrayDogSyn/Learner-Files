@@ -35,3 +35,45 @@ ul>li, li {
     color: #28a745;
     font-weight: bold;
 }
+
+/* Fix for overflow in the Prior Career Synopsis section */
+.content-resume .image-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.content-resume .image-gallery img {
+    max-width: 150px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure all images maintain proper proportions and don't overflow */
+.content-resume img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Additional responsive adjustments for the Prior Career Synopsis section */
+@media (max-width: 768px) {
+    .content-resume .image-gallery img {
+        max-width: 120px;
+    }
+}
+
+@media (max-width: 576px) {
+    .content-resume .image-gallery {
+        justify-content: center;
+    }
+    
+    .content-resume .image-gallery img {
+        max-width: 100px;
+    }
+}
