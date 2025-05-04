@@ -1,4 +1,6 @@
 /*Code adapted from following the Frontend Masters tutorial provided @ https://canvas.tlm.cloud*/
+@import url('../../../css/modern.css');
+
 :root {
   --lite-slate: #778899;
   --dark-slate: #2f4f4f;
@@ -18,80 +20,184 @@
   --font-size: 40px;
   --font-style: monospace;
 }
-*,
-body {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    background:
-      url(../../../assets/images/bg-bottom.svg) bottom right no-repeat fixed,
-      url(../../../assets/images/bg-top.svg) left top no-repeat fixed;
-  }
-  .wrapper {
-  align-content: center;
-    margin: 50px auto;
-    width: 400px;
-    border-width: 4px;
-    border-style: solid;
-    border-top-color: var(--button-border-top);
-    border-right-color: var(--button-border-right);
-    border-bottom-color: var(--button-border-bottom);
-    border-left-color: var(--button-border-left);
-    background: var(--black);
-    color: var(--white);
 
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background:
+    url(../../../assets/images/bg-bottom.svg) bottom right no-repeat fixed,
+    url(../../../assets/images/bg-top.svg) left top no-repeat fixed;
+  font-family: var(--font-sans);
 }
+
+.container-modern {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.section-modern {
+  border-radius: 10px;
+  padding: 20px;
+  position: relative;
+}
+
+.box-shadow {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.background {
+  background-color: var(--dark-slate);
+}
+
+.wrapper {
+  max-width: 400px;
+  width: 100%;
+  margin: 0 auto;
+  border-width: 4px;
+  border-style: solid;
+  border-radius: 15px;
+  border-top-color: var(--button-border-top);
+  border-right-color: var(--button-border-right);
+  border-bottom-color: var(--button-border-bottom);
+  border-left-color: var(--button-border-left);
+  background: var(--black);
+  color: var(--white);
+  overflow: hidden;
+}
+
 .screen {
   text-align: right;
   font-family: "Courier New", "Courier", monospace;
-  font-size: 40px;
-  padding: 20px 5px;
-
+  font-size: var(--font-size);
+  padding: 30px 15px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: var(--white);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-bottom: 2px solid var(--button-border-bottom);
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
+
 /*parent*/
 .calc-button-row {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    margin-bottom: 0.5%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  gap: 2px;
+  margin-bottom: 2px;
 }
+
 /*child*/
 .calc-button {
-    color: var(--lite-slate);
-    font-size: 40px;
-    height: 100px;
-    flex-basis: 24.5%;
-    margin: 0 auto;
-    line-height: 2.15;
-    background: var(--dark-slate);
-    text-align: center;
-    font-weight: bold;
-    border-width: 4px;
-    border-style: solid;
-    border-top-color: #dfdfdf;
-    border-right-color: #666;
-    border-bottom-color: #333;
-    border-left-color: #858585;
+  color: var(--white);
+  font-size: calc(var(--font-size) - 5px);
+  height: 80px;
+  flex-basis: 24.5%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--dark-slate);
+  font-weight: bold;
+  border-width: 2px;
+  border-style: solid;
+  border-top-color: var(--button-border-top);
+  border-right-color: var(--button-border-right);
+  border-bottom-color: var(--button-border-bottom);
+  border-left-color: var(--button-border-left);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
 }
+
 .calc-button:hover {
-    background-color: var(--button-hover);
+  background-color: var(--button-hover);
+  color: var(--dark-slate);
+  transform: translateY(-2px);
 }
+
 .calc-button:active {
-    background-color: var(--button-active);
+  background-color: var(--button-active);
+  transform: translateY(1px);
 }
+
 .double {
-    flex-basis: 49.7%;
+  flex-basis: 49.7%;
 }
+
 .triple {
-    flex-basis: 74.8%;
+  flex-basis: 74.8%;
 }
+
 .function {
-    color: var(--dark-slate);
-    background-color: var(--function-buttons);
+  color: var(--white);
+  background-color: var(--function-buttons);
 }
+
 .function:hover {
-    background-color: var(--function-buttons-hover);
+  background-color: var(--function-buttons-hover);
+  color: var(--dark-slate);
 }
+
 .function:active {
-    background-color: var(--function-buttons-active);
+  background-color: var(--function-buttons-active);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  .wrapper {
+    width: 95%;
+  }
+  
+  .calc-button {
+    font-size: 24px;
+    height: 65px;
+  }
+  
+  .screen {
+    font-size: 30px;
+    padding: 20px 10px;
+  }
+}
+
+/* Canvas and header styling */
+.header-bg-img, .nav-bg-img {
+  filter: blur(2px);
+  object-fit: cover;
+}
+
+.canvas {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+/* Footer styling */
+footer {
+  margin-top: 50px;
+}
+
+footer a {
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+footer a:hover {
+  opacity: 0.8;
 }

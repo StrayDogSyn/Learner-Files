@@ -8,11 +8,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="A practice quiz for the CompTIA Certifications">
   <meta name="author" content="E.H.P.">
-  <!--<link href="https://cdn.tlm.cloud/bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet"-->
-  <!--  integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">-->
+  <link href="https://cdn.tlm.cloud/bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
   <link rel="shortcut icon" href="./assets/images/stray-gear.png" type="image/x-icon">
-  <link rel="stylesheet" type="text/css" href="./assets/cdn/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="css/styles.css">
+  <link rel="stylesheet" type="text/css" href="./css/styles.css">
   <title>CompTIA Exams</title>
 </head>
 
@@ -35,10 +34,10 @@
             <a class="nav-link" href="../../menu.html"><i class="fa fa-compass"></i> Main Menu</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../../html/projects.html"><i class="fa fa-code"></i> Projects</a>
+            <a class="nav-link" href="../../projects.html"><i class="fa fa-code"></i> Projects</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../../html/contacts.html"><i class="fa fa-envelope"></i> Contact</a>
+            <a class="nav-link" href="../../contacts.html"><i class="fa fa-envelope"></i> Contact</a>
           </li>
         </ul>
       </div>
@@ -124,7 +123,7 @@
           <div class="modal-body">
             <label for="user-name" class="text-white text-shadow">Enter your name to begin <i
                 class="fa fa-caret-right fa-lg"></i></label>
-            <input type="text" class="text-white" id="user-name" min="1" max="75" required="true" autofocus="true">
+            <input type="text" class="form-control" id="user-name" min="1" max="75" required="true" autofocus="true">
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Close</button>
@@ -145,31 +144,41 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body mx-auto">
-            <label for="question-text" class="text-white text-shadow"></label>
-            <textarea type="text" class="text-dark box-shadow myBorder mb-3 px-auto bg-light" id="question-text"
-              minlength="1" maxlength="500" rows="10" cols="50" required="true" placeholder="Enter your Question"
+            <label for="question-text" class="text-white text-shadow">Enter your Question</label>
+            <textarea class="form-control text-dark box-shadow myBorder mb-3 px-auto bg-light" id="question-text"
+              minlength="1" maxlength="500" rows="5" required="true" placeholder="Enter your Question"
               autofocus="true"></textarea>
-            <input type="text" class="text-dark bg-light mb-2 mx-auto" id="first-response" min="1" max="75"
-              required="true">
-            <label for="first-response" class="text-white text-shadow"> First Response to Question</label>
-            <input type="text" class="text-dark bg-light mb-2 mx-auto" id="second-response" min="1" max="75"
-              required="true">
-            <label for="second-response" class="text-white text-shadow"> Second Response to Question</label>
-            <input type="text" class="text-dark bg-light mb-2 mx-auto" id="third-response" min="1" max="75"
-              required="true">
-            <label for="third-response" class="text-white text-shadow"> Third Response to Question</label>
-            <input type="text" class="text-dark bg-light mb-2 mx-auto" id="fourth-response" min="1" max="75"
-              required="true">
-            <label for="fourth-response" class="text-white text-shadow"> Fourth Response to Question</label>
-            <label for="choices" class="text-white text-shadow"> <i class="fa fa-sort-numeric-down-alt"></i>
-              Confirm Correct Response <i class="fa fa-caret-right"></i></label>
-            <select id="choices" name="choice" class="text-white mx-auto px-2">
-              <option value="first" class="text-dark">First Response</option>
-              <option value="second" class="text-dark">Second Response</option>
-              <option value="third" class="text-dark">Third Response</option>
-              <option value="fourth" class="text-dark">Fourth Response</option>
-            </select>
-
+            
+            <div class="form-group mb-2">
+              <input type="text" class="form-control text-dark bg-light" id="first-response" min="1" max="75" required="true" placeholder="First Response">
+              <label for="first-response" class="text-white text-shadow mt-1"> First Response to Question</label>
+            </div>
+            
+            <div class="form-group mb-2">
+              <input type="text" class="form-control text-dark bg-light" id="second-response" min="1" max="75" required="true" placeholder="Second Response">
+              <label for="second-response" class="text-white text-shadow mt-1"> Second Response to Question</label>
+            </div>
+            
+            <div class="form-group mb-2">
+              <input type="text" class="form-control text-dark bg-light" id="third-response" min="1" max="75" required="true" placeholder="Third Response">
+              <label for="third-response" class="text-white text-shadow mt-1"> Third Response to Question</label>
+            </div>
+            
+            <div class="form-group mb-2">
+              <input type="text" class="form-control text-dark bg-light" id="fourth-response" min="1" max="75" required="true" placeholder="Fourth Response">
+              <label for="fourth-response" class="text-white text-shadow mt-1"> Fourth Response to Question</label>
+            </div>
+            
+            <div class="form-group mt-3">
+              <label for="choices" class="text-white text-shadow d-block mb-2"> <i class="fa fa-sort-numeric-down-alt"></i>
+                Confirm Correct Response <i class="fa fa-caret-right"></i></label>
+              <select id="choices" name="choice" class="form-select text-dark mx-auto">
+                <option value="first" class="text-dark">First Response</option>
+                <option value="second" class="text-dark">Second Response</option>
+                <option value="third" class="text-dark">Third Response</option>
+                <option value="fourth" class="text-dark">Fourth Response</option>
+              </select>
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Close</button>
@@ -194,7 +203,7 @@
     </h2>
     <div class="card Tred box-shadow">
       <div class="card-header">
-        <h2 class="myBorder score Tgold fw-bold box-shadow">Total Score: <span id="score" class="fw-bold"> </span> </h2>
+        <h2 class="myBorder score Tgold fw-bold box-shadow">Total Score: <span id="score" class="fw-bold">0</span> </h2>
       </div>
       <!--card-header-->
       <section class="container-fluid Tred mb-5 box-shadow">
@@ -204,9 +213,9 @@
             <p class="lead fw-bold">Includes coverage of all objectives for CompTIA&trade; Eight Edition A&plus; exams
               220-801 &amp; 220-802&lowast; <br>as well as the CompTIA&trade; Sixth Edition Security&plus; exam SYO-601.
               <br>
-              <em class="fs-6">&lowast; In full modules version only, demo version contains partial quizes for
+              <em class="fs-6">&lowast; In full modules version only, demo version contains partial quizzes for
                 Security&plus; &amp; A&plus; Exams</em> <br class="w-100 lh-lg"> Ideal as both a study tool &amp; skills
-              assessment for the comprehensive CompTIA&trade; accredited certifications. A succesfull completion goal of
+              assessment for the comprehensive CompTIA&trade; accredited certifications. A successful completion goal of
               70% or better on this practice quiz is recommended before attempting the actual CompTIA&trade;
               Certification exams.<br class="w-100 lh-lg"> See <a href="./README.md">README.md</a> for works cited and
               copyright&copy; references to the CompTIA&trade; Exam guides used to provide the practice questions on
@@ -263,11 +272,11 @@
           <button form="answers" type="button" title="Need a little help?" class="btn btn-outline-dark text-white rounded-3 box-shadow text-shadow px-5 mx-auto my-2" id="cheater" data-bs-toggle="modal" data-bs-target="#user-hint">Need a hint
           <i class="fa fa-question-circle"></i>
           </button>
-          <button form="quiz" type="submit" title="Ready? Let's test your mettle..."
+          <button form="quiz" type="button" title="Ready? Let's test your mettle..."
             class="btn btn-outline-dark text-white rounded-3 box-shadow text-shadow px-5 mx-auto my-2" id="start"
             data-bs-toggle="modal" data-bs-target="#user-input">Begin Exam <i
               class="fa fa-arrow-alt-circle-right fa-lg"></i></button>
-          <button id="next" type="reset" form="answers" class="btn btn-warning rounded-2 border-dark box-shadow">
+          <button id="next" type="button" form="answers" class="btn btn-warning rounded-2 border-dark box-shadow">
             <i class="fa fa-sync-alt me-2"></i>
             <span class="me-1">Next Question <i class="fa fa-question-circle"></i></span>
           </button>
@@ -284,7 +293,7 @@
         <div class="card-footer container">
           <h2 class="myBorder score Tgold fw-bold box-shadow">
             <i class="fa fa-hourglass fa-1x"></i>
-            <span title="Time Elapsed" id="timer"></span>
+            <span title="Time Elapsed" id="timer">0:00</span>
           </h2>
         </div>
         <!--container-fluid-->
@@ -293,27 +302,23 @@
     </div>
     <!--card-->
     <h4 class="white-text-shadow"><img class="logo img-sm img-fluid img-thumbnail box-shadow"
-        src="./assets/images/stray-gear.png" alt="StrayDog Syndications Logo"> &copy; StrayDog Syndications LLC 2024.
+        src="./assets/images/stray-gear.png" alt="StrayDog Syndications Logo"> &copy; StrayDog Syndications LLC 2025.
       All Rights Reserved.<img class="logo img-sm img-fluid img-thumbnail box-shadow bg-dark"
         src="./assets/images/tlm-logo.png" alt="The Last Mile Logo">
       <br>Proud Participant of The Last Mile&trade; Program</h4>
   </div>
   <!--container-fluid-->
-  <!-- Offline CDN ** Delete before final submission! ** -->
-  <script src="./assets/cdn/jquery.min.js"></script>
-  <script src="./assets/cdn/jquery-ui.min.js"></script>
-  <script src="./assets/cdn/fontawesome.js"></script>
-  <script src="./assets/cdn/bootstrap.min.js"></script>
-  <!-- insert CDN links for finished project -->
-  <!--<script src="https://cdn.tlm.cloud/fontawesome/5.15.2/js/all.js"-->
-  <!--  integrity="sha384-Jd/Up/tJFZ6kyecb3GfFg99ZoDK4yW/Ztv18Stal8RcntwpbERxWVyaWSpEzaaPf"-->
-  <!--  crossorigin="anonymous"></script>-->
-  <!--<script src="https://cdn.tlm.cloud/jquery/3.5.1/jquery-3.5.1.min.js"-->
-  <!--  integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2"-->
-  <!--  crossorigin="anonymous"></script>-->
-  <!--<script src="https://cdn.tlm.cloud/bootstrap/5.2.3/js/bootstrap.bundle.min.js"-->
-  <!--  integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"-->
-  <!--  crossorigin="anonymous"></script>-->
+  
+  <!-- CDN Resources -->
+  <script src="https://cdn.tlm.cloud/jquery/3.5.1/jquery-3.5.1.min.js"
+    integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.tlm.cloud/fontawesome/5.15.2/js/all.js"
+    integrity="sha384-Jd/Up/tJFZ6kyecb3GfFg99ZoDK4yW/Ztv18Stal8RcntwpbERxWVyaWSpEzaaPf"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.tlm.cloud/bootstrap/5.2.3/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+    crossorigin="anonymous"></script>
   <script src="./js/scripts.js"></script>
 </body>
 
