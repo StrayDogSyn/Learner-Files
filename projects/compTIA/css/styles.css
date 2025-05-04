@@ -74,20 +74,41 @@ body {
   padding: 10px;
 }
 
-/* Quiz styling */
+/* Quiz styling - Enhanced for professional look */
 .quiz-container {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: var(--space-lg);
+  background-color: var(--comp-white);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 #question {
   background-color: var(--comp-white);
   color: var(--comp-black);
   font-weight: bold;
-  padding: 15px;
+  padding: 20px;
   margin-bottom: 20px;
   border-radius: 8px;
+  font-size: 1.4rem;
+  line-height: 1.6;
+  border-left: 5px solid var(--comp-gold);
+}
+
+/* Exam interface layout */
+.exam-interface {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.question-number {
+  font-weight: bold;
+  color: var(--comp-gold);
+  margin-bottom: 10px;
   font-size: 1.2rem;
 }
 
@@ -95,13 +116,30 @@ body {
 #correct {
   display: none;
   margin: 10px 0;
-  padding: 10px;
+  padding: 15px;
+  border-radius: 8px;
+  font-weight: bold;
+  animation: slideIn 0.5s ease;
 }
 
 #wrong {
   display: none;
   margin: 10px 0;
-  padding: 10px;
+  padding: 15px;
+  border-radius: 8px;
+  font-weight: bold;
+  animation: slideIn 0.5s ease;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 /* Hidden navigation panel */
@@ -144,6 +182,11 @@ body {
 #timer {
   font-family: monospace;
   font-size: 1.2rem;
+  padding: 8px 16px;
+  background-color: var(--comp-black);
+  color: var(--comp-white);
+  border-radius: 4px;
+  display: inline-block;
 }
 
 /* Logo styling */
@@ -158,9 +201,12 @@ body {
   font-family: 'Times New Roman', Times, serif;
 }
 
-/* Answer styling */
+/* Answer styling - Enhanced for professional quiz look */
 #answers {
   margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 #answers input[type="radio"] {
@@ -168,29 +214,77 @@ body {
 }
 
 #answers label {
-  display: inline-block;
-  width: 80%;
+  display: flex;
+  align-items: center;
+  width: 100%;
   text-align: left;
-  padding: 10px;
-  margin: 5px 0;
+  padding: 15px 20px;
+  margin: 0;
   border-radius: 8px;
   transition: all 0.2s ease;
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  font-size: 1.1rem;
+  position: relative;
+  cursor: pointer;
+}
+
+#answers label:before {
+  content: "";
+  width: 8px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background-color: var(--comp-gold);
+  opacity: 0;
+  border-radius: 8px 0 0 8px;
+  transition: opacity 0.2s ease;
 }
 
 #answers label:hover {
   background-color: var(--comp-yellow);
   transform: translateX(5px);
+  border-color: var(--comp-gold);
+}
+
+#answers label:hover:before {
+  opacity: 1;
+}
+
+#answers input[type="radio"]:checked + label {
+  background-color: rgba(184, 134, 11, 0.1);
+  border-color: var(--comp-gold);
+  font-weight: bold;
+}
+
+#answers input[type="radio"]:checked + label:before {
+  opacity: 1;
 }
 
 /* Button styling */
 button {
   transition: all 0.3s ease;
+  border-radius: 8px !important;
+  font-weight: 600;
+  padding: 10px 20px;
 }
 
 button:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-exam {
+  background-color: var(--comp-gold);
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: 12px 24px;
+}
+
+.btn-exam:hover {
+  background-color: #a67908;
 }
 
 /* Score display */
@@ -199,6 +293,14 @@ button:hover {
   padding: 10px 20px;
   border-radius: 8px;
   margin: 10px 0;
+  font-weight: bold;
+}
+
+#score {
+  font-size: 1.8rem;
+  color: var(--comp-white);
+  font-weight: bold;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
 }
 
 /* Modal styling improvements */
@@ -211,6 +313,72 @@ button:hover {
   border: none;
 }
 
+/* Header design */
+.exam-header {
+  background-color: var(--comp-red);
+  color: white;
+  padding: 20px;
+  border-radius: 10px 10px 0 0;
+  text-align: center;
+  border-bottom: 5px solid var(--comp-gold);
+}
+
+/* Exam footer with controls */
+.exam-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 0 0 10px 10px;
+  border-top: 1px solid #eee;
+  flex-wrap: wrap;
+}
+
+/* Card styling for question container */
+.question-card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+
+/* Info panel */
+.exam-info-panel {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--comp-gold);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.exam-info-panel > div {
+  text-align: center;
+  padding: 5px 10px;
+}
+
+/* Progress bar */
+.progress {
+  height: 8px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  background-color: #e9ecef;
+  border-radius: 4px;
+}
+
+.progress-bar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #fff;
+  text-align: center;
+  background-color: var(--comp-gold);
+  transition: width 0.6s ease;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
   .top-label {
@@ -219,13 +387,24 @@ button:hover {
   }
   
   #answers label {
-    width: 90%;
+    width: 100%;
+    padding: 12px 15px;
   }
   
   .card-footer button {
     margin: 5px auto;
     display: block;
-    width: 80%;
+    width: 100%;
+  }
+  
+  .exam-info-panel {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .exam-footer {
+    flex-direction: column;
+    gap: 10px;
   }
 }
 
@@ -267,4 +446,40 @@ input[type="radio"] {
 
 label[for^="choice"] {
   cursor: pointer;
+}
+
+/* Hide the actual radio buttons for styling purposes */
+#answers input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Custom radio button design */
+#answers label::after {
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 15px;
+  border: 2px solid #ddd;
+  border-radius: 50%;
+  vertical-align: middle;
+  background-color: white;
+  flex-shrink: 0;
+}
+
+#answers input[type="radio"]:checked + label::after {
+  background-color: var(--comp-gold);
+  border-color: var(--comp-gold);
+  box-shadow: inset 0 0 0 4px white;
+}
+
+/* Feedback message styling */
+#feedback {
+  padding: 15px;
+  margin: 15px 0;
+  border-left: 5px solid var(--comp-gold);
+  min-height: 60px;
 }
