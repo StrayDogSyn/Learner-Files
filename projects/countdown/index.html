@@ -135,9 +135,22 @@
     <script>
       // Initialize the countdown timer
       document.addEventListener('DOMContentLoaded', () => {
-        const targetDate = new Date();
-        targetDate.setDate(targetDate.getDate() + 100); // Set to 100 days from now
-        new CountdownTimer(targetDate);
+        try {
+          // Set target date to May 4, 2026 (about 1 year from now)
+          const targetDate = new Date('May 4, 2026 00:00:00');
+          new CountdownTimer(targetDate);
+          
+          // Display a message when countdown completes
+          document.addEventListener('countdownComplete', () => {
+            document.querySelector('h1').textContent = "We are free at last!";
+          });
+        } catch (error) {
+          console.error('Error initializing countdown:', error);
+          // Fallback to a date 100 days from now if there's an error
+          const fallbackDate = new Date();
+          fallbackDate.setDate(fallbackDate.getDate() + 100);
+          new CountdownTimer(fallbackDate);
+        }
       });
     </script>
   </body>

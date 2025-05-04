@@ -9,17 +9,47 @@
   --blackish-blue: hsl(234, 17%, 12%);
 }
 
+/* Star background pattern as embedded SVG data URL */
+@property --star-opacity {
+  syntax: '<number>';
+  initial-value: 0.5;
+  inherits: false;
+}
+
 body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   background: linear-gradient(to bottom, var(--blackish-blue), var(--very-dark-blue));
-  background-image: url('../images/bg-stars.png'), linear-gradient(to bottom, var(--blackish-blue), var(--very-dark-blue));
-  background-repeat: repeat, no-repeat;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 800 800'%3E%3Cg fill='none' stroke='%23FFFFFF' stroke-opacity='0.1'%3E%3Ccircle cx='100' cy='100' r='1'/%3E%3Ccircle cx='200' cy='150' r='2'/%3E%3Ccircle cx='300' cy='50' r='1'/%3E%3Ccircle cx='380' cy='220' r='1.5'/%3E%3Ccircle cx='450' cy='120' r='1'/%3E%3Ccircle cx='550' cy='180' r='2'/%3E%3Ccircle cx='630' cy='80' r='1'/%3E%3Ccircle cx='700' cy='300' r='1.5'/%3E%3Ccircle cx='100' cy='300' r='1.8'/%3E%3Ccircle cx='220' cy='350' r='1'/%3E%3Ccircle cx='320' cy='400' r='2'/%3E%3Ccircle cx='450' cy='320' r='1'/%3E%3Ccircle cx='520' cy='380' r='1.5'/%3E%3Ccircle cx='620' cy='450' r='1'/%3E%3Ccircle cx='700' cy='500' r='2'/%3E%3Ccircle cx='150' cy='580' r='1'/%3E%3Ccircle cx='250' cy='620' r='1.5'/%3E%3Ccircle cx='380' cy='500' r='1'/%3E%3Ccircle cx='450' cy='600' r='2'/%3E%3Ccircle cx='580' cy='540' r='1'/%3E%3Ccircle cx='650' cy='670' r='1.5'/%3E%3C/g%3E%3Cg fill='%23FFFFFF'%3E%3Ccircle cx='120' cy='120' r='0.6'/%3E%3Ccircle cx='220' cy='140' r='0.4'/%3E%3Ccircle cx='340' cy='60' r='0.6'/%3E%3Ccircle cx='420' cy='230' r='0.4'/%3E%3Ccircle cx='480' cy='140' r='0.6'/%3E%3Ccircle cx='580' cy='190' r='0.4'/%3E%3Ccircle cx='650' cy='90' r='0.6'/%3E%3Ccircle cx='720' cy='310' r='0.4'/%3E%3Ccircle cx='120' cy='280' r='0.6'/%3E%3Ccircle cx='240' cy='370' r='0.4'/%3E%3Ccircle cx='330' cy='390' r='0.6'/%3E%3Ccircle cx='470' cy='330' r='0.4'/%3E%3Ccircle cx='550' cy='400' r='0.6'/%3E%3Ccircle cx='630' cy='460' r='0.4'/%3E%3Ccircle cx='720' cy='520' r='0.6'/%3E%3Ccircle cx='130' cy='560' r='0.4'/%3E%3Ccircle cx='270' cy='640' r='0.6'/%3E%3Ccircle cx='370' cy='520' r='0.4'/%3E%3Ccircle cx='470' cy='610' r='0.6'/%3E%3Ccircle cx='590' cy='550' r='0.4'/%3E%3Ccircle cx='670' cy='680' r='0.6'/%3E%3C/g%3E%3C/svg%3E"), 
+                linear-gradient(to bottom, var(--blackish-blue), var(--very-dark-blue));
   color: var(--white);
   font-size: 14px;
   font-weight: 700;
   font-family: var(--font-sans);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Add a subtle animation for the stars */
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 800 800'%3E%3Cg fill='%23FFFFFF'%3E%3Ccircle cx='150' cy='130' r='0.7'/%3E%3Ccircle cx='250' cy='150' r='0.5'/%3E%3Ccircle cx='320' cy='70' r='0.7'/%3E%3Ccircle cx='400' cy='240' r='0.5'/%3E%3Ccircle cx='460' cy='130' r='0.7'/%3E%3Ccircle cx='560' cy='180' r='0.5'/%3E%3Ccircle cx='670' cy='100' r='0.7'/%3E%3Ccircle cx='700' cy='290' r='0.5'/%3E%3Ccircle cx='140' cy='300' r='0.7'/%3E%3Ccircle cx='230' cy='360' r='0.5'/%3E%3Ccircle cx='350' cy='380' r='0.7'/%3E%3Ccircle cx='450' cy='340' r='0.5'/%3E%3Ccircle cx='530' cy='390' r='0.7'/%3E%3Ccircle cx='650' cy='470' r='0.5'/%3E%3Ccircle cx='700' cy='510' r='0.7'/%3E%3Ccircle cx='160' cy='570' r='0.5'/%3E%3Ccircle cx='250' cy='630' r='0.7'/%3E%3Ccircle cx='390' cy='530' r='0.5'/%3E%3Ccircle cx='450' cy='620' r='0.7'/%3E%3Ccircle cx='570' cy='530' r='0.5'/%3E%3Ccircle cx='690' cy='690' r='0.7'/%3E%3C/g%3E%3C/svg%3E");
+  opacity: var(--star-opacity);
+  animation: twinkling 8s infinite ease-in-out;
+  z-index: 0;
+  pointer-events: none;
+}
+
+@keyframes twinkling {
+  0% { --star-opacity: 0.3; }
+  50% { --star-opacity: 0.8; }
+  100% { --star-opacity: 0.3; }
 }
 
 .pad {
@@ -30,6 +60,8 @@ body {
   justify-content: center;
   padding: var(--space-lg);
   text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
 h1 {
