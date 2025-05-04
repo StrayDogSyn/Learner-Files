@@ -40,16 +40,23 @@ class CountdownTimer {
       throw new Error('Invalid target date provided');
     }
     if (targetTime < Date.now()) {
-      throw new Error('Target date must be in the future');
+      console.warn('Target date is in the past, using a date 100 days from now');
+      this.targetDate = new Date();
+      this.targetDate.setDate(this.targetDate.getDate() + 100);
     }
   }
 
   init() {
-    // Start countdown when DOM is ready
-    document.addEventListener('DOMContentLoaded', () => {
+    // Start countdown immediately if DOM is already loaded
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        this.startCountdown();
+        this.startAnimation();
+      });
+    } else {
       this.startCountdown();
       this.startAnimation();
-    });
+    }
 
     // Handle visibility change to prevent animation desyncs
     document.addEventListener('visibilitychange', this.handleVisibilityChange);
@@ -96,8 +103,8 @@ class CountdownTimer {
     this.updateCounters('minutes', minutes);
     this.updateCounters('seconds', seconds);
 
-    // Update screen reader announcement
-    if (this.announcementElement) {
+    // Update screen reader announcement every minute to avoid too frequent announcements
+    if (this.announcementElement && seconds === 0) {
       this.announceTimeLeft({ days, hours, minutes, seconds });
     }
   }
@@ -161,19 +168,20 @@ class CountdownTimer {
   updateAnimations() {
     const timeLeft = this.calculateTimeLeft();
     
-    // Remove active state from all elements
-    this.animationElements.forEach(el => {
-      el.classList.remove('active');
-    });
-
-    // Add active state based on time changes
+    // Apply flip animation
     if (timeLeft.seconds % 60 === 0) this.elements.minute.classList.add('active');
     if (timeLeft.minutes % 60 === 0 && timeLeft.seconds === 0) this.elements.hour.classList.add('active');
     if (timeLeft.hours % 24 === 0 && timeLeft.minutes === 0 && timeLeft.seconds === 0) this.elements.day.classList.add('active');
     
     // Always animate seconds
-    this.elements.second.classList
-    .add('active');
+    this.elements.second.classList.add('active');
+    
+    // Reset animations after 600ms to prepare for next second
+    setTimeout(() => {
+      this.animationElements.forEach(el => {
+        el.classList.remove('active');
+      });
+    }, 600);
   }
 
   triggerFlipAnimation(element) {
@@ -183,6 +191,11 @@ class CountdownTimer {
       // Force reflow
       void block.offsetWidth;
       block.classList.add('flip');
+      
+      // Remove flip class after animation completes
+      setTimeout(() => {
+        block.classList.remove('flip');
+      }, 600);
     }
   }
 

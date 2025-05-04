@@ -1,0 +1,19 @@
+html {
+    box-sizing: border-box;
+}
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+.ball {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 200px;
+    left: 200px;
+    background-color: firebrick;
+    border-radius: 100px;
+    transition: all 0.9s ease-in-out;
+}
