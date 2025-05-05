@@ -5,8 +5,9 @@
 
 $(document).ready(function () {
   // Application State
-  let currentDiceType = 4;
-  let currentDiceCount = 1;
+  let selectedDiceType = 4;
+  let selectedDiceCount = 1;
+  let dicePool = []; // Will store objects like {type: 6, count: 3}
   
   /**
    * Initialize the application
@@ -14,9 +15,11 @@ $(document).ready(function () {
   function initApp() {
     setupDiceTypeSelection();
     setupDiceCountControls();
+    setupAddToPoolButton();
     setupRollButton();
     setupClearButton();
-    updateCurrentSelectionDisplay();
+    setupDicePoolInteractions();
+    setupQuickCombinations();
   }
 
   /**
@@ -29,10 +32,7 @@ $(document).ready(function () {
       $(this).addClass('active');
       
       // Update state
-      currentDiceType = $(this).data('dice-type');
-      
-      // Update display
-      updateCurrentSelectionDisplay();
+      selectedDiceType = parseInt($(this).data('dice-type'));
     });
   }
 
@@ -44,21 +44,97 @@ $(document).ready(function () {
     const diceCountDisplay = $('#diceCountValue');
     
     diceCountSlider.on('input', function() {
-      currentDiceCount = parseInt($(this).val());
-      diceCountDisplay.text(currentDiceCount);
-      updateCurrentSelectionDisplay();
+      selectedDiceCount = parseInt($(this).val());
+      diceCountDisplay.text(selectedDiceCount);
     });
   }
 
   /**
-   * Update the current selection display text and icon
+   * Set up the add to pool button
    */
-  function updateCurrentSelectionDisplay() {
-    $('#currentSelectionText').text(`Rolling ${currentDiceCount}d${currentDiceType}`);
+  function setupAddToPoolButton() {
+    $('#addToPoolBtn').click(function() {
+      addDiceToPool(selectedDiceType, selectedDiceCount);
+    });
+  }
+
+  /**
+   * Add dice to the dice pool
+   * @param {number} diceType - The type of dice to add
+   * @param {number} diceCount - How many dice to add
+   * @param {boolean} clearFirst - Whether to clear the pool first (for quick combinations)
+   */
+  function addDiceToPool(diceType, diceCount, clearFirst = false) {
+    if (clearFirst) {
+      dicePool = [];
+    }
     
-    // Update the preview icon
-    const iconClass = getDiceIconClass(currentDiceType.toString());
-    $('#previewDiceIcon').attr('class', `fas ${iconClass} fa-4x fa-spin`);
+    // Check if this dice type is already in the pool
+    const existingDiceIndex = dicePool.findIndex(dice => dice.type === diceType);
+    
+    if (existingDiceIndex !== -1) {
+      // Update the count of existing dice
+      dicePool[existingDiceIndex].count += diceCount;
+    } else {
+      // Add new dice type to pool
+      dicePool.push({
+        type: diceType,
+        count: diceCount
+      });
+    }
+    
+    // Update the UI
+    updateDicePoolDisplay();
+  }
+  
+  /**
+   * Update the dice pool display
+   */
+  function updateDicePoolDisplay() {
+    const $dicePool = $('#selectedDicePool');
+    
+    // Clear the current display
+    $dicePool.empty();
+    
+    if (dicePool.length === 0) {
+      // Show empty message
+      $dicePool.append('<p class="text-center text-muted empty-pool-message">Add dice to your pool using the buttons below</p>');
+      return;
+    }
+    
+    // Add each dice group to the pool display
+    dicePool.forEach((dice, index) => {
+      const iconClass = getDiceIconClass(dice.type.toString());
+      
+      const $diceItem = $(`
+        <div class="dice-pool-item" data-index="${index}">
+          <i class="dice-pool-icon fas ${iconClass}"></i>
+          <span class="dice-pool-count">${dice.count}</span>
+          <span>d${dice.type}</span>
+          <button class="remove-dice" title="Remove these dice">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      `);
+      
+      $dicePool.append($diceItem);
+    });
+  }
+  
+  /**
+   * Setup dice pool interactions (removing dice)
+   */
+  function setupDicePoolInteractions() {
+    // Use event delegation for dynamically added elements
+    $('#selectedDicePool').on('click', '.remove-dice', function() {
+      const index = $(this).closest('.dice-pool-item').data('index');
+      
+      // Remove the dice group from the pool
+      dicePool.splice(index, 1);
+      
+      // Update the UI
+      updateDicePoolDisplay();
+    });
   }
 
   /**
@@ -66,7 +142,13 @@ $(document).ready(function () {
    */
   function setupRollButton() {
     $('#rollDiceBtn').click(function() {
-      rollDice(currentDiceType, currentDiceCount);
+      if (dicePool.length === 0) {
+        // If pool is empty, roll the currently selected dice
+        rollDice([{type: selectedDiceType, count: selectedDiceCount}]);
+      } else {
+        // Roll all dice in the pool
+        rollDice(dicePool);
+      }
     });
   }
 
@@ -87,65 +169,108 @@ $(document).ready(function () {
       updateRollStatistics([]);
     });
   }
-  
+
   /**
-   * Roll dice and display results
-   * @param {number} diceType - The type of dice to roll (e.g., 6 for d6)
-   * @param {number} diceCount - How many dice to roll
+   * Setup quick combinations
    */
-  function rollDice(diceType, diceCount) {
-    // Get the roll function from DiceUtils
-    const rollFunction = window.DiceUtils[`roll${diceType}`];
-    
-    if (typeof rollFunction !== 'function') {
-      console.error(`No roll function found for d${diceType}`);
-      return;
-    }
-    
-    // Generate the roll results
-    const results = [];
-    for (let i = 0; i < diceCount; i++) {
-      const roll = rollFunction();
-      results.push(roll);
-    }
-    
-    // Display the results
-    displayRollResults(diceType, results);
-    
-    // Update statistics
-    updateRollStatistics(results);
+  function setupQuickCombinations() {
+    $('.combination-btn').click(function() {
+      const combination = $(this).data('combination');
+      
+      // Clear the current dice pool
+      dicePool = [];
+      
+      // Add the appropriate dice based on the combination
+      switch(combination) {
+        case 'attack':
+          addDiceToPool(20, 1);
+          break;
+          
+        case 'damage-s':
+          addDiceToPool(6, 1);
+          break;
+          
+        case 'damage-m':
+          addDiceToPool(8, 2);
+          break;
+          
+        case 'damage-l':
+          addDiceToPool(10, 3);
+          break;
+          
+        case 'ability':
+          addDiceToPool(6, 4);
+          break;
+      }
+      
+      // Roll the dice immediately
+      rollDice(dicePool);
+    });
   }
   
   /**
-   * Display roll results in the UI
-   * @param {number} diceType - The type of dice rolled
-   * @param {Array<number>} results - The results of the roll
+   * Roll multiple dice types and display results
+   * @param {Array} diceGroups - Array of objects with type and count
    */
-  function displayRollResults(diceType, results) {
+  function rollDice(diceGroups) {
     // Remove empty message if present
     $('.empty-results-message').remove();
     
-    // Create a new roll result element
-    const iconClass = getDiceIconClass(diceType.toString());
-    const displaySuffix = diceType === 100 ? '%' : '';
+    // Group all results to gather statistics
+    const allResults = [];
     
-    const diceValuesHTML = results.map(result => 
-      `<div class="dice-value dice-pop">${result}${displaySuffix}</div>`
-    ).join('');
+    // Generate results for each dice group
+    const diceGroupResults = diceGroups.map(group => {
+      const { type, count } = group;
+      const results = [];
+      
+      // Generate the roll results for this dice type
+      const rollFunction = window.DiceUtils[`roll${type}`];
+      if (typeof rollFunction === 'function') {
+        for (let i = 0; i < count; i++) {
+          const roll = rollFunction();
+          results.push(roll);
+          allResults.push(roll);
+        }
+      }
+      
+      return {
+        type,
+        count,
+        results,
+        total: results.reduce((sum, val) => sum + val, 0)
+      };
+    });
     
+    // Display the results
+    displayMultiRollResults(diceGroupResults);
+    
+    // Update statistics
+    updateRollStatistics(allResults);
+  }
+  
+  /**
+   * Display multiple dice roll results in the UI
+   * @param {Array} diceGroupResults - Results for each dice group
+   */
+  function displayMultiRollResults(diceGroupResults) {
+    // Calculate grand total across all dice
+    const grandTotal = diceGroupResults.reduce((sum, group) => sum + group.total, 0);
+    
+    // Create a summary of the roll
+    const rollSummary = diceGroupResults.map(group => 
+      `${group.count}d${group.type}`
+    ).join(' + ');
+    
+    // Create the container for this roll
     const $rollResult = $(`
-      <div class="roll-result">
-        <div class="roll-dice-icon">
-          <i class="fas ${iconClass}"></i>
+      <div class="multi-roll-result">
+        <div class="multi-roll-header">
+          <strong>${rollSummary}</strong>
+          <span>Total: ${grandTotal}</span>
         </div>
-        <div class="roll-details">
-          <div class="roll-header">
-            <strong>${results.length}d${diceType} Roll</strong>
-            <span>Total: ${results.reduce((sum, val) => sum + val, 0)}</span>
-          </div>
-          <div class="roll-dice-values">
-            ${diceValuesHTML}
-          </div>
+        <div class="multi-roll-body">
+          ${renderDiceGroups(diceGroupResults)}
         </div>
       </div>
     `);
@@ -155,14 +280,43 @@ $(document).ready(function () {
     
     // Limit the number of displayed results
     const maxResults = 10;
-    if ($('#rollResults .roll-result').length > maxResults) {
-      $('#rollResults .roll-result').last().remove();
+    if ($('#rollResults .multi-roll-result').length > maxResults) {
+      $('#rollResults .multi-roll-result').last().remove();
     }
   }
   
   /**
-   * Update roll statistics based on current roll
-   * @param {Array<number>} results - The results of the current roll
+   * Render HTML for all dice groups
+   * @param {Array} diceGroupResults - Results for each dice group
+   * @returns {string} HTML for the dice groups
+   */
+  function renderDiceGroups(diceGroupResults) {
+    return diceGroupResults.map(group => {
+      const iconClass = getDiceIconClass(group.type.toString());
+      const displaySuffix = group.type === 100 ? '%' : '';
+      
+      const diceValuesHTML = group.results.map(result => 
+        `<div class="dice-value dice-pop">${result}${displaySuffix}</div>`
+      ).join('');
+      
+      return `
+        <div class="dice-group">
+          <div class="dice-group-header">
+            <i class="dice-group-icon fas ${iconClass}"></i>
+            <strong>${group.count}d${group.type}</strong>
+            <span class="ms-auto">Group Total: ${group.total}</span>
+          </div>
+          <div class="roll-dice-values">
+            ${diceValuesHTML}
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+  
+  /**
+   * Update roll statistics based on all roll results
+   * @param {Array<number>} results - All dice results combined
    */
   function updateRollStatistics(results) {
     if (results.length === 0) {
