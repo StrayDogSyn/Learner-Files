@@ -507,3 +507,122 @@ body.game-body {
 .dice-pop {
   animation: dice-pop 0.4s ease-out forwards;
 }
+
+/* Dark Mode Styles */
+body.dark-mode {
+  background-color: #1a1a1a;
+  color: #f0f0f0;
+}
+
+.dark-card {
+  background-color: #2d2d2d !important;
+  color: #f0f0f0 !important;
+  border-color: #444 !important;
+}
+
+.dark-element {
+  background-color: #383838 !important;
+  color: #f0f0f0 !important;
+  border-color: #555 !important;
+}
+
+.dark-text {
+  color: #bbb !important;
+}
+
+/* Toast notifications */
+#toastContainer {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1050;
+}
+
+.toast {
+  min-width: 250px;
+}
+
+/* Modal styles for saved pools and history */
+.saved-pools-list .list-group-item,
+.roll-history-list .list-group-item {
+  transition: background-color 0.2s ease;
+}
+
+.saved-pools-list .list-group-item:hover,
+.roll-history-list .list-group-item:hover {
+  background-color: #f8f9fa;
+}
+
+body.dark-mode .saved-pools-list .list-group-item,
+body.dark-mode .roll-history-list .list-group-item {
+  background-color: #383838;
+  color: #f0f0f0;
+  border-color: #555;
+}
+
+body.dark-mode .saved-pools-list .list-group-item:hover,
+body.dark-mode .roll-history-list .list-group-item:hover {
+  background-color: #444;
+}
+
+body.dark-mode .modal-content {
+  background-color: #2d2d2d;
+  color: #f0f0f0;
+  border-color: #444;
+}
+
+body.dark-mode .modal-header,
+body.dark-mode .modal-footer {
+  border-color: #555;
+}
+
+body.dark-mode .text-muted {
+  color: #aaa !important;
+}
+
+/* Sound toggle animation */
+.fa-volume-up, .fa-volume-mute {
+  transition: transform 0.3s ease;
+}
+
+#toggleDiceSound:hover .fa-volume-up,
+#toggleDiceSound:hover .fa-volume-mute {
+  transform: scale(1.2);
+}
+
+/* Dark mode toggle animation */
+.fa-moon, .fa-sun {
+  transition: transform 0.3s ease;
+}
+
+#toggleDarkMode:hover .fa-moon,
+#toggleDarkMode:hover .fa-sun {
+  animation: spin 1s ease;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Additional Game Options dropdown styling */
+.dropdown-menu.background {
+  background-color: rgba(51, 51, 51, 0.95);
+}
+
+.dropdown-menu.background .dropdown-item {
+  color: #fff;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-menu.background .dropdown-item:hover {
+  background-color: rgba(75, 75, 75, 0.8);
+}
+
+.dropdown-menu.background .dropdown-divider {
+  border-color: rgba(255, 255, 255, 0.1);
+}
