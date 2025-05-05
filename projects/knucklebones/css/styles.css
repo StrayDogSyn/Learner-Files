@@ -231,13 +231,6 @@ body.game-body {
   }
 }
 
-/* Color variations */
-.green { color: var(--text-primary); background: #1db954; }
-.red { color: var(--text-primary); background: #ff4757; }
-.blue { color: var(--text-primary); background: #00a8ff; }
-.yellow { color: var(--background-color); background: #ffd700; }
-.purple { color: var(--text-primary); background: #9c88ff; }
-
 /* Navigation Styles */
 .navbar {
   backdrop-filter: blur(10px);
@@ -251,4 +244,266 @@ body.game-body {
 
 .nav-link:hover {
   color: var(--accent-color);
+}
+
+/* Modern Dice Controls */
+.modern-dice-controls {
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.dice-type-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.dice-type-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+  background: var(--surface-color);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  flex: 1;
+  min-width: 60px;
+}
+
+.dice-type-btn i {
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.dice-type-btn.active {
+  background: var(--primary-color);
+  color: var(--text-primary);
+  border-color: var(--accent-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.dice-type-btn:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.dice-count-display {
+  background: var(--surface-color);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-md);
+  min-width: 2.5rem;
+  text-align: center;
+  font-weight: bold;
+  color: var(--accent-color);
+}
+
+.current-selection {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: var(--radius-md);
+}
+
+.dice-preview {
+  margin-top: 1rem;
+  color: var(--accent-color);
+}
+
+/* Selected Dice Pool */
+.selected-dice-pool {
+  min-height: 80px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: var(--radius-md);
+  padding: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.dice-pool-item {
+  display: flex;
+  align-items: center;
+  background: var(--surface-color);
+  border-radius: var(--radius-md);
+  padding: 0.5rem 0.75rem;
+  animation: dice-pop 0.3s ease-out forwards;
+}
+
+.dice-pool-icon {
+  color: var(--accent-color);
+  font-size: 1.25rem;
+  margin-right: 0.5rem;
+}
+
+.dice-pool-count {
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+.remove-dice {
+  background: rgba(255, 0, 0, 0.2);
+  border: none;
+  color: #ff6b6b;
+  border-radius: 50%;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.remove-dice:hover {
+  background: rgba(255, 0, 0, 0.4);
+  transform: scale(1.1);
+}
+
+/* Quick Combinations */
+.combinations-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.combination-btn {
+  background: var(--surface-color);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  padding: 0.5rem 0.75rem;
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.combination-btn:hover {
+  background: var(--primary-color);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+}
+
+/* Multi-dice roll results */
+.multi-roll-result {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: var(--radius-md);
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.multi-roll-header {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.75rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.multi-roll-body {
+  padding: 1rem;
+}
+
+.dice-group {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dice-group:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.dice-group-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.dice-group-icon {
+  color: var(--accent-color);
+  font-size: 1.25rem;
+  margin-right: 0.5rem;
+}
+
+/* Roll Results Container */
+.roll-results-container {
+  min-height: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+  border-radius: var(--radius-md);
+  background: rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+}
+
+.empty-results-message {
+  color: var(--text-secondary);
+}
+
+.roll-result {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: var(--radius-md);
+  margin-bottom: 1rem;
+}
+
+.roll-dice-icon {
+  font-size: 2rem;
+  color: var(--accent-color);
+}
+
+.roll-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.roll-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.roll-dice-values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.dice-value {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: var(--surface-color);
+  border-radius: var(--radius-md);
+  color: var(--accent-color);
+  font-weight: bold;
+}
+
+.roll-stats {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: var(--radius-md);
+}
+
+/* Animations */
+@keyframes dice-pop {
+  0% { transform: scale(0.8); opacity: 0.5; }
+  70% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.dice-pop {
+  animation: dice-pop 0.4s ease-out forwards;
 }

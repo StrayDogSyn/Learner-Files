@@ -9,14 +9,8 @@
   border-radius: 5px;
 }
 
-/* Rainbow color classes */
-.red { color: #ff5555; }
-.dkorange { color: #ff8800; }
-.dkpurple { color: #aa55ff; }
-.green { color: #55ff55; }
-.dkblue { color: #5555ff; }
-.indigo { color: #8855ff; }
-.silver { color: #dddddd; }
-.navy { color: #0000aa; }
-.dkgreen { color: #00aa00; }
-.orange { color: #ffaa00; }
+/* Remove rainbow color classes and just use consistent styling */
+.roll-value {
+  font-weight: bold;
+  color: #ffd700; /* Using accent color for all dice results */
+}

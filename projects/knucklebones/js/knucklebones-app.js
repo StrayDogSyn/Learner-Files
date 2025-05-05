@@ -4,119 +4,203 @@
  */
 
 $(document).ready(function () {
-  // Rainbow colors for dice results
-  const rainbowColors = ["red", "dkorange", "dkpurple", "green", "dkblue", 
-                       "indigo", "silver", "navy", "dkgreen", "orange"];
-  let currentColor = 0;
-
+  // Application State
+  let currentDiceType = 4;
+  let currentDiceCount = 1;
+  
   /**
    * Initialize the application
    */
   function initApp() {
-    setupDiceTabs();
-    setupDiceButtons();
-    setupControlButtons();
+    setupDiceTypeSelection();
+    setupDiceCountControls();
+    setupRollButton();
+    setupClearButton();
+    updateCurrentSelectionDisplay();
   }
 
   /**
-   * Set up the dice tab selection
+   * Set up the dice type selection buttons
    */
-  function setupDiceTabs() {
-    $('.dice-grid').hide();
-    $('#d6Grid').show();
-    $('.dice-select').removeClass('active');
-    $('.dice-select[data-dice="d6"]').addClass('active');
-
-    $('.dice-select').click(function() {
-      const diceType = $(this).data('dice');
-      $('.dice-grid').hide();
-      $(`#${diceType}Grid`).show();
-      $('.dice-select').removeClass('active');
+  function setupDiceTypeSelection() {
+    $('.dice-type-btn').click(function() {
+      // Update active state
+      $('.dice-type-btn').removeClass('active');
       $(this).addClass('active');
+      
+      // Update state
+      currentDiceType = $(this).data('dice-type');
+      
+      // Update display
+      updateCurrentSelectionDisplay();
     });
   }
 
   /**
-   * Set up the dice roll buttons
+   * Set up the dice count slider and display
    */
-  function setupDiceButtons() {
-    $('button[id^="btn"]').on('click', function() {
-      const id = $(this).attr('id');
-      const outputId = id.replace('btn', 'num');
-      const dieType = id.match(/btn(\d+)/)[1];
-      
-      // FIX: Use DiceUtils object to access roll methods
-      const rollFunction = window.DiceUtils['roll' + dieType];
-      
-      if (typeof rollFunction === 'function') {
-        // Update output with roll result
-        const result = rollFunction();
-        const displayResult = dieType == 100 ? result + '%' : result;
-        
-        $('#' + outputId)
-          .text(displayResult)
-          .removeClass(rainbowColors.join(' '))
-          .addClass(rainbowColors[currentColor]);
-        
-        // Update color for next roll
-        currentColor = (currentColor + 1) % rainbowColors.length;
-        
-        // Add roll to results
-        addToRollHistory(dieType, displayResult);
-      }
+  function setupDiceCountControls() {
+    const diceCountSlider = $('#diceCount');
+    const diceCountDisplay = $('#diceCountValue');
+    
+    diceCountSlider.on('input', function() {
+      currentDiceCount = parseInt($(this).val());
+      diceCountDisplay.text(currentDiceCount);
+      updateCurrentSelectionDisplay();
     });
   }
 
   /**
-   * Set up the control buttons
+   * Update the current selection display text and icon
    */
-  function setupControlButtons() {
-    // Roll All button
-    $('#rollAll').click(function() {
-      $('.dice-grid:visible .dice-btn').each(function() {
-        $(this).trigger('click');
-      });
-    });
+  function updateCurrentSelectionDisplay() {
+    $('#currentSelectionText').text(`Rolling ${currentDiceCount}d${currentDiceType}`);
+    
+    // Update the preview icon
+    const iconClass = getDiceIconClass(currentDiceType.toString());
+    $('#previewDiceIcon').attr('class', `fas ${iconClass} fa-4x fa-spin`);
+  }
 
-    // Clear All button
-    $('#clearAll').click(function() {
-      $('output').text('0').removeClass(rainbowColors.join(' '));
-      $('#rollResults').empty();
+  /**
+   * Set up the roll button
+   */
+  function setupRollButton() {
+    $('#rollDiceBtn').click(function() {
+      rollDice(currentDiceType, currentDiceCount);
+    });
+  }
+
+  /**
+   * Set up the clear button
+   */
+  function setupClearButton() {
+    $('#clearResults').click(function() {
+      // Clear the results
+      $('#rollResults').empty().append(`
+        <div class="empty-results-message text-center py-5">
+          <i class="fas fa-dice fa-3x mb-3"></i>
+          <p>Your dice results will appear here</p>
+        </div>
+      `);
+      
+      // Reset statistics
+      updateRollStatistics([]);
     });
   }
   
   /**
-   * Add a roll to the history display
-   * @param {string} dieType - The type of die rolled
-   * @param {string} result - The result of the roll
+   * Roll dice and display results
+   * @param {number} diceType - The type of dice to roll (e.g., 6 for d6)
+   * @param {number} diceCount - How many dice to roll
    */
-  function addToRollHistory(dieType, result) {
-    const iconClass = dieType == 20 ? 'fa-dice-d20' : 
-                     dieType == 6 ? 'fa-dice-d6' : 
-                     dieType == 4 ? 'fa-dice-d4' : 
-                     dieType == 10 ? 'fa-dice-d10' :
-                     dieType == 12 ? 'fa-dice-d12' :
-                     dieType == 100 ? 'fa-percentage' : 'fa-dice';
-                     
-    const time = new Date().toLocaleTimeString();
+  function rollDice(diceType, diceCount) {
+    // Get the roll function from DiceUtils
+    const rollFunction = window.DiceUtils[`roll${diceType}`];
     
-    const $result = $('<div>')
-      .addClass('result-item')
-      .html(`
-        <span class="die-type">
-          <i class="fas ${iconClass}"></i> d${dieType}
-        </span>
-        <span class="roll-time">${time}</span>
-        <span class="roll-value ${rainbowColors[currentColor]}">
-          ${result}
-        </span>
-      `);
+    if (typeof rollFunction !== 'function') {
+      console.error(`No roll function found for d${diceType}`);
+      return;
+    }
     
-    $('#rollResults').prepend($result);
+    // Generate the roll results
+    const results = [];
+    for (let i = 0; i < diceCount; i++) {
+      const roll = rollFunction();
+      results.push(roll);
+    }
     
-    // Keep only last 5 results
-    if ($('#rollResults .result-item').length > 5) {
-      $('#rollResults .result-item').last().remove();
+    // Display the results
+    displayRollResults(diceType, results);
+    
+    // Update statistics
+    updateRollStatistics(results);
+  }
+  
+  /**
+   * Display roll results in the UI
+   * @param {number} diceType - The type of dice rolled
+   * @param {Array<number>} results - The results of the roll
+   */
+  function displayRollResults(diceType, results) {
+    // Remove empty message if present
+    $('.empty-results-message').remove();
+    
+    // Create a new roll result element
+    const iconClass = getDiceIconClass(diceType.toString());
+    const displaySuffix = diceType === 100 ? '%' : '';
+    
+    const diceValuesHTML = results.map(result => 
+      `<div class="dice-value dice-pop">${result}${displaySuffix}</div>`
+    ).join('');
+    
+    const $rollResult = $(`
+      <div class="roll-result">
+        <div class="roll-dice-icon">
+          <i class="fas ${iconClass}"></i>
+        </div>
+        <div class="roll-details">
+          <div class="roll-header">
+            <strong>${results.length}d${diceType} Roll</strong>
+            <span>Total: ${results.reduce((sum, val) => sum + val, 0)}</span>
+          </div>
+          <div class="roll-dice-values">
+            ${diceValuesHTML}
+          </div>
+        </div>
+      </div>
+    `);
+    
+    // Add to results container
+    $('#rollResults').prepend($rollResult);
+    
+    // Limit the number of displayed results
+    const maxResults = 10;
+    if ($('#rollResults .roll-result').length > maxResults) {
+      $('#rollResults .roll-result').last().remove();
+    }
+  }
+  
+  /**
+   * Update roll statistics based on current roll
+   * @param {Array<number>} results - The results of the current roll
+   */
+  function updateRollStatistics(results) {
+    if (results.length === 0) {
+      // Reset stats
+      $('#rollTotal').text('0');
+      $('#rollAverage').text('0');
+      $('#rollHighest').text('0');
+      $('#rollLowest').text('0');
+      return;
+    }
+    
+    const total = results.reduce((sum, val) => sum + val, 0);
+    const average = (total / results.length).toFixed(1);
+    const highest = Math.max(...results);
+    const lowest = Math.min(...results);
+    
+    $('#rollTotal').text(total);
+    $('#rollAverage').text(average);
+    $('#rollHighest').text(highest);
+    $('#rollLowest').text(lowest);
+  }
+
+  /**
+   * Get the appropriate FontAwesome icon class for a die type
+   * @param {string} dieType - The type of die
+   * @returns {string} The appropriate FontAwesome icon class
+   */
+  function getDiceIconClass(dieType) {
+    switch(dieType) {
+      case '3':  return 'fa-dice-three';
+      case '4':  return 'fa-dice-d4';
+      case '6':  return 'fa-dice-d6';
+      case '8':  return 'fa-dice-d8';
+      case '10': return 'fa-dice-d10';
+      case '12': return 'fa-dice-d12';
+      case '20': return 'fa-dice-d20';
+      case '100': return 'fa-percentage';
+      default:   return 'fa-dice';
     }
   }
 
