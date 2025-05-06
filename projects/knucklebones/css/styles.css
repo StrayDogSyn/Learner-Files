@@ -612,6 +612,7 @@ body.dark-mode .text-muted {
 /* Additional Game Options dropdown styling */
 .dropdown-menu.background {
   background-color: rgba(51, 51, 51, 0.95);
+  z-index: 1030; /* Higher z-index to ensure visibility */
 }
 
 .dropdown-menu.background .dropdown-item {
@@ -625,4 +626,18 @@ body.dark-mode .text-muted {
 
 .dropdown-menu.background .dropdown-divider {
   border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Ensure dropdowns stay on top of other elements */
+.dropdown-menu {
+  z-index: 1030;
+}
+
+/* Fix for modal backdrops to prevent z-index issues */
+.modal-backdrop {
+  z-index: 1025;
+}
+
+.modal {
+  z-index: 1029;
 }
