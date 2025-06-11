@@ -125,3 +125,39 @@ checkbox:hover,
   align-content: center;
   align-items: center;
 }
+
+/* Hidden toggle checkbox for navigation */
+#toggle {
+  display: none !important;
+}
+
+/* Utility classes for accessibility */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.progress-bar-initial {
+  width: 0% !important;
+  transition: width 0.3s ease;
+}
+
+/* Additional improvements for form accessibility */
+input[type="radio"]:focus + label {
+  outline: 2px solid var(--compGold);
+  outline-offset: 2px;
+}
+
+/* Improve button focus states */
+button:focus,
+.btn:focus {
+  outline: 2px solid var(--compWhite);
+  outline-offset: 2px;
+}

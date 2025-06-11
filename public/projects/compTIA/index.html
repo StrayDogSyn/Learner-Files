@@ -18,7 +18,7 @@
 
 <body class="container-fluid Tgold mx-auto">
   <label class="top-label" for="toggle">❔</label>
-  <input type="checkbox" id="toggle" style="display: none;">
+  <input type="checkbox" id="toggle">
   <aside id="hidden-nav">
     <ul class="list-group fw-bold">
       <li class="list-group-item">
@@ -48,14 +48,13 @@
       </li>
       <li class="list-group-item">
         <span><kbd class="mx-2 fs-3"> 3 </kbd> Select answer #3</span>
-      </li>
-      <li class="list-group-item">
+      </li>      <li class="list-group-item">
         <span><kbd class="mx-2 fs-3"> 4 </kbd> Select answer #4</span>
       </li>
-      <div class="text-center fs-3">
-      <a href="../../index.html"><i class="fa fa-home"></i> Return to Home Page</a>
-      </div>
     </ul>
+    <div class="text-center fs-3">
+      <a href="../../index.html"><i class="fa fa-home"></i> Return to Home Page</a>
+    </div>
   </aside>
   <!--hidden-nav-->
   <aside id="user-hint-modal">
@@ -184,11 +183,10 @@
               Certification exams.<br class="w-100 lh-lg"> See <a href="./README.md">README.md</a> for works cited and
               copyright&copy; references to the CompTIA&trade; Exam guides used to provide the practice questions on
               this test.</p>
-          </div>
-          <!-- introduction -->
+          </div>          <!-- introduction -->
           <form name="quiz" id="answers" class="card Twhite">
             <div class="mb-3 fs-4">
-              <input name="answers-group" type="radio" value="0" id="choice1" class="text-center fw-bold initialism">
+              <input name="answers-group" type="radio" value="0" id="choice1" class="text-center fw-bold initialism" aria-label="Answer choice 1">
               <label for="choice1" id="answer1">
                 <i class="fa fa-question-circle text-success"></i>
               </label>
@@ -196,7 +194,7 @@
             </div>
             <!--mb-3-->
             <div class="mb-3 fs-4">
-              <input name="answers-group" type="radio" value="1" id="choice2" class="text-center fw-bold initialism">
+              <input name="answers-group" type="radio" value="1" id="choice2" class="text-center fw-bold initialism" aria-label="Answer choice 2">
               <label for="choice2" id="answer2">
                 <i class="fa fa-question-circle text-success"></i>
               </label>
@@ -204,7 +202,7 @@
             </div>
             <!--mb-3-->
             <div class="mb-3 fs-4">
-              <input name="answers-group" type="radio" value="2" id="choice3" class="text-center fw-bold initialism">
+              <input name="answers-group" type="radio" value="2" id="choice3" class="text-center fw-bold initialism" aria-label="Answer choice 3">
               <label for="choice3" id="answer3">
                 <i class="fa fa-question-circle text-success"></i>
               </label>
@@ -212,7 +210,7 @@
             </div>
             <!--mb-3-->
             <div class="mb-3 fs-4">
-              <input name="answers-group" type="radio" value="3" id="choice4" class="text-center fw-bold initialism">
+              <input name="answers-group" type="radio" value="3" id="choice4" class="text-center fw-bold initialism" aria-label="Answer choice 4">
               <label for="choice4" id="answer4">
                 <i class="fa fa-question-circle text-success"></i>
               </label>

@@ -1,4 +1,11 @@
-@import url('../../../css/modern.css');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background:
+      url(../assets/images/bg-pattern-bottom-desktop.svg) bottom right no-repeat fixed,
+      url(../assets/images/bg-pattern-top-desktop.svg) left top no-repeat fixed;
+  }
 
 :root {
   /* Color Palette */
@@ -7,758 +14,150 @@
   --compWhite: #fdf5e6;
   --compYellow: #eee8aa;
   --compBlack: rgb(43, 11, 14);
-  
-  /* Set consistent naming for colors */
-  --comp-gold: var(--compGold);
-  --comp-red: var(--compRed);
-  --comp-white: var(--compWhite);
-  --comp-yellow: var(--compYellow);
-  --comp-black: var(--compBlack);
-  
-  /* Define fallbacks for potentially missing variables */
-  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  /* Typography */
+  --times: Times, "Times New Roman", Georgia, serif;
+  --san-serif: Geneva, Tahoma, Helvetica, Arial, sans-serif;
+  --serif: "Hoefler Text", Baskerville, Lucida, "Palatino Linotype", "URW Palladio", serif;
 }
 
-* {
-    box-sizing: border-box;
-}
-
-body {
-  background-color: var(--comp-gold);
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
-  font-family: var(--font-sans);
-}
-
-/* Text and box shadow classes */
 .text-shadow {
-  text-shadow: 2px 4px 2px var(--comp-black);
+  text-shadow: 2px 4px 2px var(--compBlack);
 }
 .gold-text-shadow {
-  text-shadow: 2px 4px 2px var(--comp-gold);
+  text-shadow: 2px 4px 2px var(--compGold);
 }
 .red-text-shadow {
-  text-shadow: 2px 4px 2px var(--comp-red);
+  text-shadow: 2px 4px 2px var(--compRed);
 }
 .white-text-shadow {
-  text-shadow: 2px 4px 2px var(--comp-white);
+  text-shadow: 2px 4px 2px var(--compWhite);
 }
 .box-glow {
-  box-shadow: 4px 4px 16px var(--comp-yellow);
+  box-shadow: 4px 4px 16px var(--compYellow);
 }
 .box-shadow {
-  box-shadow: 4px 4px 16px var(--comp-black);
+  box-shadow: 4px 4px 16px var(--compBlack);
 }
-
-/* Utility classes to replace inline styles */
-.visually-hidden {
-  display: none;
-}
-
-.progress-bar-initial {
-  width: 0%;
-}
-
-/* Theme Background Classes */
 .Tgold {
-  background-color: var(--comp-gold);
+  background-color: var(--compGold);
 }
 .Tred {
-  background-color: var(--comp-red);
-}
-.Twhite {
-  background-color: var(--comp-white);
+  background-color: var(--compRed);
 }
 .Tyellow {
-  background-color: var(--comp-yellow);
-}
-.Tblack {
-  background-color: var(--comp-black);
-}
-
-/* Border styles */
-.myBorder {
-  border: 2px solid var(--comp-black);
-  border-radius: 8px;
-  padding: 10px;
-}
-
-/* Font classes */
-.Times {
-  font-family: 'Times New Roman', Times, serif;
-}
-
-/* Logo styling */
-.logo {
-  width: 30px;
-  height: auto;
-  vertical-align: middle;
-}
-
-/* Hidden navigation panel */
-.top-label {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  font-size: 1.8rem;
-  color: white;
-  background-color: var(--comp-gold);
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 1000;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-}
-
-#hidden-nav {
-  position: fixed;
-  top: 0;
-  right: -300px;
-  width: 300px;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.9);
-  transition: right 0.3s ease;
-  z-index: 999;
-  padding: 60px 15px 15px;
-  overflow-y: auto;
-}
-
-#toggle:checked + #hidden-nav {
-  right: 0;
-}
-
-/* Question and Answer styling - Simplified for natural layout */
-#question {
-  background-color: var(--comp-white);
-  color: var(--comp-black);
-  font-weight: bold;
-  font-size: 1.2rem;
-  line-height: 1.4;
-}
-
-#answers label {
-  display: block;
-  padding: 8px 12px;
-  margin: 3px 0;
-  border-radius: 5px;
-  transition: all 0.2s ease;
-  border: 1px solid #ddd;
-  background-color: #fff;
-  cursor: pointer;
-}
-
-#answers label:hover {
-  background-color: var(--comp-yellow);
-  border-color: var(--comp-gold);
-}
-
-#answers input[type="radio"]:checked + label {
-  background-color: rgba(184, 134, 11, 0.1);
-  border-color: var(--comp-gold);
-  font-weight: bold;
-}
-
-/* Essential styling for quiz elements */
-.question-number {
-  font-weight: bold;
-  color: var(--comp-gold);
-  font-size: 1.1rem;
-}
-
-.progress-bar {
-  background-color: var(--comp-gold);
-  transition: width 0.6s ease;
-}
-
-/* Timer styling */
-#timer {
-  font-family: monospace;
-  font-size: 1.1rem;
-  padding: 5px 10px;
-  background-color: var(--comp-black);
-  color: var(--comp-white);
-  border-radius: 4px;
-  display: inline-block;
-}
-
-/* Score display */
-#score {
-  font-size: 1.6rem;
-  color: var(--comp-white);
-  font-weight: bold;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-}
-
-/* Feedback sections */
-#correct, #wrong {
-  display: none;
-  margin: 8px 0;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-weight: bold;
-  animation: slideIn 0.5s ease;
-}
-
-#feedback {
-  padding: 12px;
-  margin: 12px 0;
-  border-left: 5px solid var(--comp-gold);
-  min-height: 50px;
-}
-
-/* Button styling */
-button {
-  transition: all 0.3s ease;
-  border-radius: 8px !important;
-  font-weight: 600;
-  padding: 8px 15px;
-}
-
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Modal styling */
-.modal-content {
-  border: none;
-  border-radius: 15px;
-}
-
-.modal-header, .modal-footer {
-  border: none;
-}
-
-/* Animations */
-@keyframes slideIn {
-  from {
-    transform: translateY(-20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.fade-in {
-  animation: fadeIn 0.5s ease-in;
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-  .top-label {
-    top: 10px;
-    right: 10px;
-  }
-  
-  #answers label {
-    padding: 10px 12px;
-    font-size: 0.95rem;
-  }
-  
-  .exam-info-panel {
-    flex-direction: column;
-    gap: 8px;
-    text-align: center;
-  }
-  
-  #question {
-    font-size: 1rem;
-    padding: 10px;
-  }
-}
-
-/* Icon fix for FontAwesome */
-.fa, .fas, .far, .fal, .fab {
-  display: inline-block;
-  margin-right: 5px;
-}
-
-/* Ensure navbar has higher z-index than the help menu */
-.navbar {
-  z-index: 1001;
-}
-
-/* Utility classes to replace inline styles */
-.visually-hidden {
-  display: none;
-}
-
-.progress-bar-initial {
-  width: 0%;
-}
-
-/* Theme Background Classes */
-.Tgold {
-  background-color: var(--comp-gold);
-}
-.Tred {
-  background-color: var(--comp-red);
+  background-color: var(--compYellow);
 }
 .Twhite {
-  background-color: var(--comp-white);
-}
-.Tyellow {
-  background-color: var(--comp-yellow);
+  background-color: var(--compWhite);
 }
 .Tblack {
-  background-color: var(--comp-black);
+  background-color: var(--compBlack);
 }
-
-/* Border styles */
-.myBorder {
-  border: 2px solid var(--comp-black);
-  border-radius: 8px;
-  padding: 10px;
-}
-
-/* Quiz styling - Restored to original simpler approach */
-/* Remove complex styling - let Bootstrap handle layout naturally */
-
-#question {
-  background-color: var(--comp-white);
-  color: var(--comp-black);
-  font-weight: bold;
-  padding: 15px;
-  margin-bottom: 15px;
-  border-radius: 8px;
-  font-size: 1.2rem;
-  line-height: 1.4;
-  border-left: 5px solid var(--comp-gold);
-}
-
-/* Exam interface layout */
-.exam-interface {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.question-number {
-  font-weight: bold;
-  color: var(--comp-gold);
-  margin-bottom: 12px;
-  font-size: 1.2rem;
-  padding: 8px 0;
-  border-bottom: 2px solid var(--comp-gold);
-  display: inline-block;
-}
-
-/* Styles for correct/wrong indicators */
-#correct {
-  display: none;
-  margin: 8px 0;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-weight: bold;
-  animation: slideIn 0.5s ease;
-  flex: 1;
-  text-align: center;
-}
-
-#wrong {
-  display: none;
-  margin: 8px 0;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-weight: bold;
-  animation: slideIn 0.5s ease;
-  flex: 1;
-  text-align: center;
-}
-
-@keyframes slideIn {
-  from {
-    transform: translateY(-20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-/* Hidden navigation panel */
-.top-label {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  font-size: 1.8rem;
-  color: white;
-  background-color: var(--comp-gold);
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 1000;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-}
-
-#hidden-nav {
-  position: fixed;
-  top: 0;
-  right: -300px;
-  width: 300px;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.9);
-  transition: right 0.3s ease;
-  z-index: 999;
-  padding: 60px 15px 15px;
-  overflow-y: auto;
-}
-
-#toggle:checked + #hidden-nav {
-  right: 0;
-}
-
-/* Timer styling */
-#timer {
-  font-family: monospace;
-  font-size: 1.1rem;
-  padding: 5px 10px;
-  background-color: var(--comp-black);
-  color: var(--comp-white);
-  border-radius: 4px;
-  display: inline-block;
-}
-
-/* Logo styling */
-.logo {
-  width: 30px;
-  height: auto;
-  vertical-align: middle;
-}
-
-/* Font classes */
 .Times {
-  font-family: 'Times New Roman', Times, serif;
+  font-family: var(--times);
 }
-
-/* Answer styling - Restored to simpler approach */
-#answers {
-  margin-bottom: 15px;
+.Sans {
+  font-family: var(--san-serif);
 }
-
-#answers input[type="radio"] {
-  margin-right: 10px;
+.Serif {
+  font-family: var(--serif);
 }
-
-#answers label {
-  display: block;
-  padding: 12px 15px;
-  margin: 5px 0;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-  border: 1px solid #ddd;
-  background-color: #fff;
-  font-size: 1rem;
-  cursor: pointer;
+.myBorder {
+  border: 5px solid var(--compWhite) ;
 }
-
-#answers label:before {
-  content: "";
-  width: 6px;
+.logo {
+  border-radius: 50%;
+  max-height: 15%;
+  max-width: 15%;
+}
+/* Hidden Menu */
+.top-label[for="toggle"] {
+  font-size: 2rem;
+  color: var(--compWhite);
   position: absolute;
-  left: 0;
+  top: 5px;
+  right: 10px;
+  z-index: 1200;
+  cursor: pointer;
+}
+/* hidden checkbox */
+input[type="button"] {
+  position: absolute;
+  top: -100px;
+}
+#hidden-nav {
+  background-color: rgba(255,255,255, 0.8);
+  color: var(--compBlack);
+  background-image:
+    linear-gradient(45deg, rgba(0,0,0, 33%),
+                    rgba(204,204,204, 66%));
+  width: 375px;
+  max-height: fit-content;
+  padding: 0 18px;
+  overflow: auto;
+  position: fixed;
   top: 0;
-  bottom: 0;
-  background-color: var(--comp-gold);
-  opacity: 0;
-  border-radius: 8px 0 0 8px;
-  transition: opacity 0.2s ease;
+  right: -370px;
+  z-index: 1000;
+  overflow: auto;
+  transition: 0.6s all;
 }
-
-#answers label:hover {
-  background-color: var(--comp-yellow);
-  transform: translateX(5px);
-  border-color: var(--comp-gold);
+input[type=checkbox]:checked + #hidden-nav {
+  right: 0.5px;
 }
-
-#answers label:hover:before {
-  opacity: 1;
-}
-
-#answers input[type="radio"]:checked + label {
-  background-color: rgba(184, 134, 11, 0.1);
-  border-color: var(--comp-gold);
-  font-weight: bold;
-}
-
-#answers input[type="radio"]:checked + label:before {
-  opacity: 1;
-}
-
-/* Button styling */
-button {
-  transition: all 0.3s ease;
-  border-radius: 8px !important;
-  font-weight: 600;
-  padding: 8px 15px;
-}
-
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.btn-exam {
-  background-color: var(--comp-gold);
-  color: white;
-  font-weight: bold;
-  border: none;
-  padding: 10px 20px;
-}
-
-.btn-exam:hover {
-  background-color: #a67908;
-}
-
-/* Score display */
-.score {
-  display: inline-block;
-  padding: 8px 15px;
-  border-radius: 8px;
-  margin: 8px 0;
-  font-weight: bold;
-}
-
-#score {
-  font-size: 1.6rem;
-  color: var(--comp-white);
-  font-weight: bold;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-}
-
-/* Modal styling improvements */
-.modal-content {
-  border: none;
-  border-radius: 15px;
-}
-
-.modal-header, .modal-footer {
-  border: none;
-}
-
-/* Header design */
-.exam-header {
-  background-color: var(--comp-red);
-  color: white;
-  padding: 12px;
-  border-radius: 10px 10px 0 0;
-  text-align: center;
-  border-bottom: 5px solid var(--comp-gold);
-}
-
-/* Exam footer - Simplified */
-.exam-footer {
-  background-color: #f8f9fa;
-  border-radius: 0 0 10px 10px;
-  border-top: 1px solid #eee;
-  padding: 1rem;
-}
-
-/* Card styling - Simplified */
-.question-card {
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-  margin-bottom: 15px;
-}
-
-.card-body {
-  padding: 1.5rem;
-}
-
-/* Info panel */
-.exam-info-panel {
-  display: flex;
-  justify-content: space-between;
-  background-color: var(--comp-gold);
-  color: white;
-  padding: 8px 15px;
-  border-radius: 8px;
-  margin-bottom: 15px;
-}
-
-.exam-info-panel > div {
-  text-align: center;
-  padding: 5px;
-}
-
-/* Progress bar */
-.progress {
-  height: 8px;
-  margin-bottom: 20px;
-  overflow: hidden;
-  background-color: #e9ecef;
-  border-radius: 4px;
-  border: 1px solid #dee2e6;
-}
-
-.progress-bar {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  color: #fff;
-  text-align: center;
-  background-color: var(--comp-gold);
-  transition: width 0.6s ease;
-}
-
-/* Additional layout improvements */
-#intro {
-  margin-bottom: 1.5rem;
-}
-
-#intro .lead {
-  font-size: 1.1rem;
-  line-height: 1.6;
-  color: var(--comp-black);
-}
-
-/* Feedback section styling */
-#feedback {
-  padding: 12px;
-  margin: 12px 0;
-  border-left: 5px solid var(--comp-gold);
-  min-height: 50px;
-  flex-shrink: 0; /* Prevent shrinking */
-}
-
-/* Correct/Wrong feedback positioning */
-.d-flex.justify-content-between.align-items-center {
-  gap: 1rem;
-  margin-top: 1rem;
-  flex-shrink: 0; /* Prevent shrinking */
-}
-
-/* Main quiz container */
-.quiz-main {
-  max-width: 800px;
-}
-
-/* Responsive design - Simplified */
-@media (max-width: 768px) {
-  .top-label {
-    top: 10px;
-    right: 10px;
-  }
-  
-  #answers label {
-    padding: 10px 12px;
-    font-size: 0.95rem;
-  }
-  
-  .exam-info-panel {
-    flex-direction: column;
-    gap: 8px;
-    text-align: center;
-  }
-  
-  #question {
-    font-size: 1rem;
-    padding: 10px;
-  }
-}
-
-/* Animation for fade in */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.fade-in {
-  animation: fadeIn 0.5s ease-in;
-}
-
-/* Animation for button press */
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-.pulse {
-  animation: pulse 0.3s ease-in-out;
-}
-
-/* Fix for radio buttons and labels */
-input[type="radio"] {
+checkbox:hover,
+#answer1:hover,
+#answer2:hover,
+#answer3:hover,
+#answer4:hover {
   cursor: pointer;
+  color: ghostwhite;
+  background-color: grey;
+  text-decoration: underline;
 }
-
-label[for^="choice"] {
-  cursor: pointer;
+#user-name {
+  max-width: fit-content;
 }
-
-/* Hide the actual radio buttons for styling purposes */
-#answers input[type="radio"] {
-  margin-right: 8px;
-}
-
-/* Simple hover and selection effects */
-#answers label:hover {
-  background-color: var(--comp-yellow);
-  border-color: var(--comp-gold);
-}
-
-#answers input[type="radio"]:checked + label {
-  background-color: rgba(184, 134, 11, 0.1);
-  border-color: var(--comp-gold);
-  font-weight: bold;
-}
-
-/* Icon fix for FontAwesome */
-.fa, .fas, .far, .fal, .fab {
-  display: inline-block;
-  margin-right: 5px;
-}
-
-/* Ensure navbar has higher z-index than the help menu */
-.navbar {
-  z-index: 1001;
-}
-
-/* Fix for missing FontAwesome icons */
-[class*="fa-"] {
-  font-family: 'Font Awesome 5 Free';
-  font-weight: 900;
-}
-
-/* Add specific styling for buttons to ensure proper alignment */
-.col-md-4.d-grid button, .col-md-6.d-grid button {
-  width: 100%;
+#Timer {
+  font-size: 0.875rem;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
+  align-content: center;
   align-items: center;
+}
+
+/* Utility classes for accessibility */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.progress-bar-initial {
+  width: 0% !important;
+  transition: width 0.3s ease;
+}
+
+/* Additional improvements for form accessibility */
+input[type="radio"]:focus + label {
+  outline: 2px solid var(--compGold);
+  outline-offset: 2px;
+}
+
+/* Improve button focus states */
+button:focus,
+.btn:focus {
+  outline: 2px solid var(--compWhite);
+  outline-offset: 2px;
+}
+
+/* Hidden toggle checkbox for navigation */
+#toggle {
+  display: none !important;
 }

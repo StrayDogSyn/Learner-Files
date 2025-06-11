@@ -18,7 +18,7 @@
 
 <body class="container-fluid Tgold mx-auto">
   <label class="top-label" for="toggle">❔</label>
-  <input type="checkbox" id="toggle" style="display: none;">
+  <input type="checkbox" id="toggle">
   <aside id="hidden-nav">
     <ul class="list-group fw-bold">
       <li class="list-group-item">
@@ -48,15 +48,110 @@
       </li>
       <li class="list-group-item">
         <span><kbd class="mx-2 fs-3"> 3 </kbd> Select answer #3</span>
-      </li>
-      <li class="list-group-item">
+      </li>      <li class="list-group-item">
         <span><kbd class="mx-2 fs-3"> 4 </kbd> Select answer #4</span>
       </li>
-      <div class="text-center fs-3">
-        <a href="../../index.html"><i class="fa fa-home"></i> Return to Home Page</a>
-      </li>
     </ul>
-  </aside>  <!--hidden-nav-->
+    <div class="text-center fs-3">
+      <a href="../../index.html"><i class="fa fa-home"></i> Return to Home Page</a>
+    </div>
+  </aside>
+  <!--hidden-nav-->
+  <aside id="user-hint-modal">
+    <!--Input Modal -->
+    <div class="modal fade" id="user-hint" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+      aria-labelledby="userHintModal" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content Tred text-center text-dark rounded-5">
+          <div class="modal-header">
+            <h5 class="modal-title text-white text-center" id="userHintLabel"><i class="fa fa-sad-tear fa-lg text-white"></i> Here is the answer to your question...</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <span id="hintText" class="text-center fs-2 text-white"></span>
+          </div>
+          <div class="modal-footer">
+            <h5 class="modal-title text-white">
+              <i class="fa fa-exclamation-triangle"></i>
+              Total score minus 1!!!
+            </h5>
+            <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Close</button>
+            <button id="confirmHint" type="submit" class="btn btn-success" data-bs-dismiss="modal">Confirm</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <aside id="user-input-modal">
+    <!--Input Modal -->
+    <div class="modal fade" id="user-input" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+      aria-labelledby="userInputModal" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content Tred text-center text-dark rounded-5">
+          <div class="modal-header">
+            <h5 class="modal-title text-white" id="userInputLabel"><i class="fa fa-tools fa-lg text-white"></i> Welcome
+              Future PC Technician!</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <label for="user-name" class="text-white text-shadow">Enter your name to begin <i
+                class="fa fa-caret-right fa-lg"></i></label>
+            <input type="text" class="text-white" id="user-name" min="1" max="75" required="true" autofocus="true">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Close</button>
+            <button id="confirm" type="submit" class="btn btn-success" data-bs-dismiss="modal">Confirm</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <aside id="user-question-modal">
+    <div class="modal fade" id="user-question" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+      aria-labelledby="userQuestionModal" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content Tred text-center text-dark rounded-5">
+          <div class="modal-header">
+            <h5 class="modal-title text-white" id="userInputLabel"><i class="fa fa-tools fa-lg text-white"></i> Submit
+              Your Question</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body mx-auto">
+            <label for="question-text" class="text-white text-shadow"></label>
+            <textarea type="text" class="text-dark box-shadow myBorder mb-3 px-auto bg-light" id="question-text"
+              minlength="1" maxlength="500" rows="10" cols="50" required="true" placeholder="Enter your Question"
+              autofocus="true"></textarea>
+            <input type="text" class="text-dark bg-light mb-2 mx-auto" id="first-response" min="1" max="75"
+              required="true">
+            <label for="first-response" class="text-white text-shadow"> First Response to Question</label>
+            <input type="text" class="text-dark bg-light mb-2 mx-auto" id="second-response" min="1" max="75"
+              required="true">
+            <label for="second-response" class="text-white text-shadow"> Second Response to Question</label>
+            <input type="text" class="text-dark bg-light mb-2 mx-auto" id="third-response" min="1" max="75"
+              required="true">
+            <label for="third-response" class="text-white text-shadow"> Third Response to Question</label>
+            <input type="text" class="text-dark bg-light mb-2 mx-auto" id="fourth-response" min="1" max="75"
+              required="true">
+            <label for="fourth-response" class="text-white text-shadow"> Fourth Response to Question</label>
+            <label for="choices" class="text-white text-shadow"> <i class="fa fa-sort-numeric-down-alt"></i>
+              Confirm Correct Response <i class="fa fa-caret-right"></i></label>
+            <select id="choices" name="choice" class="text-white mx-auto px-2">
+              <option value="first" class="text-dark">First Response</option>
+              <option value="second" class="text-dark">Second Response</option>
+              <option value="third" class="text-dark">Third Response</option>
+              <option value="fourth" class="text-dark">Fourth Response</option>
+            </select>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Close</button>
+            <button id="confirmQuestions" type="submit" class="btn btn-success" data-bs-dismiss="modal">Confirm</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <!--user-input-->
   <div class="container-fluid myBorder Tred mb-3 box-shadow">
     <header class="container-fluid text-center">
       <h1 class="text-white display-4 my-4 fw-bold Times text-shadow">
@@ -67,7 +162,8 @@
 
   <div class="container-fluid Tgold text-center mb-5 box-shadow">
     <h1 class="text-white Times initialism fs-1 fw-bold myBorder box-shadow text-shadow">Exam Guide</h1>
-    <h2 class="bg-dark text-white Times fs-3 initialism box-shadow">Revised for exams 220-801, 220-802 &amp; SYO-601</h2>
+    <h2 class="bg-dark text-white Times fs-3 initialism box-shadow">Revised for exams 220-801, 220-802 &amp; SYO-601
+    </h2>
     <div class="card Tred box-shadow">
       <div class="card-header">
         <h2 class="myBorder score Tgold fw-bold box-shadow">Total Score: <span id="score" class="fw-bold"> </span> </h2>
@@ -89,9 +185,8 @@
               this test.</p>
           </div>
           <!-- introduction -->
-          <form name="quiz" id="answers" class="card Twhite">
-            <div class="mb-3 fs-4">
-              <input name="answers-group" type="radio" value="0" id="choice1" class="text-center fw-bold initialism">
+          <form name="quiz" id="answers" class="card Twhite">            <div class="mb-3 fs-4">
+              <input name="answers-group" type="radio" value="0" id="choice1" class="text-center fw-bold initialism" aria-label="Answer choice 1">
               <label for="choice1" id="answer1">
                 <i class="fa fa-question-circle text-success"></i>
               </label>
@@ -99,7 +194,7 @@
             </div>
             <!--mb-3-->
             <div class="mb-3 fs-4">
-              <input name="answers-group" type="radio" value="1" id="choice2" class="text-center fw-bold initialism">
+              <input name="answers-group" type="radio" value="1" id="choice2" class="text-center fw-bold initialism" aria-label="Answer choice 2">
               <label for="choice2" id="answer2">
                 <i class="fa fa-question-circle text-success"></i>
               </label>
@@ -107,7 +202,7 @@
             </div>
             <!--mb-3-->
             <div class="mb-3 fs-4">
-              <input name="answers-group" type="radio" value="2" id="choice3" class="text-center fw-bold initialism">
+              <input name="answers-group" type="radio" value="2" id="choice3" class="text-center fw-bold initialism" aria-label="Answer choice 3">
               <label for="choice3" id="answer3">
                 <i class="fa fa-question-circle text-success"></i>
               </label>
@@ -115,7 +210,7 @@
             </div>
             <!--mb-3-->
             <div class="mb-3 fs-4">
-              <input name="answers-group" type="radio" value="3" id="choice4" class="text-center fw-bold initialism">
+              <input name="answers-group" type="radio" value="3" id="choice4" class="text-center fw-bold initialism" aria-label="Answer choice 4">
               <label for="choice4" id="answer4">
                 <i class="fa fa-question-circle text-success"></i>
               </label>
@@ -125,7 +220,8 @@
           </form>
           <section class="card text-center fs-3 fw-bold bg-dark text-white box-shadow" id="feedback"></section>
           <div class="container-fluid card-body Twhite">
-            <section id="correct" class="card text-center fs-4 fw-bold bg-success text-white box-shadow">Correct!</section>
+            <section id="correct" class="card text-center fs-4 fw-bold bg-success text-white box-shadow">Correct!
+            </section>
             <section class="card text-center fs-4 fw-bold bg-danger box-shadow" id="wrong">Incorrect!!</section>
           </div>
           <!--container-fluid-->
@@ -174,117 +270,21 @@
       <br>Proud Participant of The Last Mile&trade; Program</h4>
   </div>
   <!--container-fluid-->
-  
-  <!-- Modals Section - No changes needed to modals as they appear on demand -->
-  <aside id="user-hint-modal">
-    <div class="modal fade" id="user-hint" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-      aria-labelledby="userHintModal" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content Tred text-center text-dark rounded-5">
-          <div class="modal-header">
-            <h5 class="modal-title text-white text-center" id="userHintLabel"><i class="fas fa-sad-tear fa-lg text-white"></i> Here is the answer to your question...</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <span id="hintText" class="text-center fs-2 text-white"></span>
-          </div>
-          <div class="modal-footer">
-            <h5 class="modal-title text-white">
-              <i class="fas fa-exclamation-triangle"></i>
-              Total score minus 1!!!
-            </h5>
-            <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Close</button>
-            <button id="confirmHint" type="submit" class="btn btn-success" data-bs-dismiss="modal">Confirm</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </aside>
-
-  <aside id="user-input-modal">
-    <div class="modal fade" id="user-input" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-      aria-labelledby="userInputModal" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content Tred text-center text-dark rounded-5">
-          <div class="modal-header">
-            <h5 class="modal-title text-white" id="userInputLabel"><i class="fas fa-tools fa-lg text-white"></i> Welcome
-              Future PC Technician!</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <label for="user-name" class="text-white text-shadow">Enter your name to begin <i
-                class="fas fa-caret-right fa-lg"></i></label>
-            <input type="text" class="form-control" id="user-name" min="1" max="75" required="true" autofocus="true">
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Close</button>
-            <button id="confirm" type="submit" class="btn btn-success" data-bs-dismiss="modal">Confirm</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </aside>
-
-  <aside id="user-question-modal">
-    <div class="modal fade" id="user-question" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-      aria-labelledby="userQuestionModal" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content Tred text-center text-dark rounded-5">
-          <div class="modal-header">
-            <h5 class="modal-title text-white" id="userInputLabel"><i class="fas fa-tools fa-lg text-white"></i> Submit
-              Your Question</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body mx-auto">
-            <label for="question-text" class="text-white text-shadow">Enter your Question</label>
-            <textarea class="form-control text-dark box-shadow myBorder mb-3 px-auto bg-light" id="question-text"
-              minlength="1" maxlength="500" rows="5" required="true" placeholder="Enter your Question"
-              autofocus="true"></textarea>
-            
-            <div class="form-group mb-2">
-              <input type="text" class="form-control text-dark bg-light" id="first-response" min="1" max="75" required="true" placeholder="First Response">
-              <label for="first-response" class="text-white text-shadow mt-1"> First Response to Question</label>
-            </div>
-            
-            <div class="form-group mb-2">
-              <input type="text" class="form-control text-dark bg-light" id="second-response" min="1" max="75" required="true" placeholder="Second Response">
-              <label for="second-response" class="text-white text-shadow mt-1"> Second Response to Question</label>
-            </div>
-            
-            <div class="form-group mb-2">
-              <input type="text" class="form-control text-dark bg-light" id="third-response" min="1" max="75" required="true" placeholder="Third Response">
-              <label for="third-response" class="text-white text-shadow mt-1"> Third Response to Question</label>
-            </div>
-            
-            <div class="form-group mb-2">
-              <input type="text" class="form-control text-dark bg-light" id="fourth-response" min="1" max="75" required="true" placeholder="Fourth Response">
-              <label for="fourth-response" class="text-white text-shadow mt-1"> Fourth Response to Question</label>
-            </div>
-            
-            <div class="form-group mt-3">
-              <label for="choices" class="text-white text-shadow d-block mb-2"> <i class="fas fa-sort-numeric-down-alt"></i>
-                Confirm Correct Response <i class="fas fa-caret-right"></i></label>
-              <select id="choices" name="choice" class="form-select text-dark mx-auto">
-                <option value="first" class="text-dark">First Response</option>
-                <option value="second" class="text-dark">Second Response</option>
-                <option value="third" class="text-dark">Third Response</option>
-                <option value="fourth" class="text-dark">Fourth Response</option>
-              </select>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Close</button>
-            <button id="confirmQuestions" type="submit" class="btn btn-success" data-bs-dismiss="modal">Confirm</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </aside>  
-  <!-- Offline CDN -->
+  <!-- Offline CDN ** Delete before final submission! ** -->
   <script src="./assets/cdn/jquery.min.js"></script>
   <script src="./assets/cdn/jquery-ui.min.js"></script>
   <script src="./assets/cdn/fontawesome.js"></script>
   <script src="./assets/cdn/bootstrap.min.js"></script>
+  <!-- insert CDN links for finished project -->
+  <!--<script src="https://cdn.tlm.cloud/fontawesome/5.15.2/js/all.js"-->
+  <!--  integrity="sha384-Jd/Up/tJFZ6kyecb3GfFg99ZoDK4yW/Ztv18Stal8RcntwpbERxWVyaWSpEzaaPf"-->
+  <!--  crossorigin="anonymous"></script>-->
+  <!--<script src="https://cdn.tlm.cloud/jquery/3.5.1/jquery-3.5.1.min.js"-->
+  <!--  integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2"-->
+  <!--  crossorigin="anonymous"></script>-->
+  <!--<script src="https://cdn.tlm.cloud/bootstrap/5.2.3/js/bootstrap.bundle.min.js"-->
+  <!--  integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"-->
+  <!--  crossorigin="anonymous"></script>-->
   <script src="./js/scripts.js"></script>
 </body>
 
