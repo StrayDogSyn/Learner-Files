@@ -132,32 +132,23 @@ body {
   right: 0;
 }
 
-/* Question and Answer styling */
+/* Question and Answer styling - Simplified for natural layout */
 #question {
   background-color: var(--comp-white);
   color: var(--comp-black);
   font-weight: bold;
-  padding: 15px;
-  margin-bottom: 15px;
-  border-radius: 8px;
   font-size: 1.2rem;
   line-height: 1.4;
-  border-left: 5px solid var(--comp-gold);
-}
-
-#answers {
-  margin-bottom: 15px;
 }
 
 #answers label {
   display: block;
-  padding: 12px 15px;
-  margin: 5px 0;
-  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 3px 0;
+  border-radius: 5px;
   transition: all 0.2s ease;
   border: 1px solid #ddd;
   background-color: #fff;
-  font-size: 1rem;
   cursor: pointer;
 }
 
@@ -172,77 +163,16 @@ body {
   font-weight: bold;
 }
 
-/* Header design */
-.exam-header {
-  background-color: var(--comp-red);
-  color: white;
-  padding: 12px;
-  border-radius: 10px 10px 0 0;
-  text-align: center;
-  border-bottom: 5px solid var(--comp-gold);
-}
-
-/* Info panel */
-.exam-info-panel {
-  display: flex;
-  justify-content: space-between;
-  background-color: var(--comp-gold);
-  color: white;
-  padding: 8px 15px;
-  border-radius: 8px;
-  margin-bottom: 15px;
-}
-
-.exam-info-panel > div {
-  text-align: center;
-  padding: 5px;
-}
-
-/* Question card */
-.question-card {
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-  margin-bottom: 15px;
-}
-
-.card-body {
-  padding: 1.5rem;
-}
-
-/* Progress bar */
-.progress {
-  height: 6px;
-  margin-bottom: 15px;
-  overflow: hidden;
-  background-color: #e9ecef;
-  border-radius: 4px;
-}
-
-.progress-bar {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  color: #fff;
-  text-align: center;
-  background-color: var(--comp-gold);
-  transition: width 0.6s ease;
-}
-
-/* Footer controls */
-.exam-footer {
-  background-color: #f8f9fa;
-  border-radius: 0 0 10px 10px;
-  border-top: 1px solid #eee;
-  padding: 1rem;
-}
-
-/* Question number styling */
+/* Essential styling for quiz elements */
 .question-number {
   font-weight: bold;
   color: var(--comp-gold);
-  margin-bottom: 8px;
   font-size: 1.1rem;
+}
+
+.progress-bar {
+  background-color: var(--comp-gold);
+  transition: width 0.6s ease;
 }
 
 /* Timer styling */
@@ -722,6 +652,11 @@ button:hover {
   flex-shrink: 0; /* Prevent shrinking */
 }
 
+/* Main quiz container */
+.quiz-main {
+  max-width: 800px;
+}
+
 /* Responsive design - Simplified */
 @media (max-width: 768px) {
   .top-label {
@@ -788,10 +723,10 @@ label[for^="choice"] {
 
 /* Hide the actual radio buttons for styling purposes */
 #answers input[type="radio"] {
-  margin-right: 10px;
+  margin-right: 8px;
 }
 
-/* Remove custom radio button design - use standard approach */
+/* Simple hover and selection effects */
 #answers label:hover {
   background-color: var(--comp-yellow);
   border-color: var(--comp-gold);

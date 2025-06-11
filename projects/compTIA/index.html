@@ -8,190 +8,172 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="A practice quiz for the CompTIA Certifications">
   <meta name="author" content="E.H.P.">
-  <link href="https://cdn.tlm.cloud/bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-  <link href="https://cdn.tlm.cloud/fontawesome/5.15.2/css/all.css" rel="stylesheet"
-    integrity="sha384-rDdBB55H3qr7o6XuxnTUvJnOmxgGzX6bRE+gYvTTmVNrn+pp9CXVNGLzODwEJva" crossorigin="anonymous">
+  <!--<link href="https://cdn.tlm.cloud/bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet"-->
+  <!--  integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">-->
   <link rel="shortcut icon" href="./assets/images/stray-gear.png" type="image/x-icon">
-  <link rel="stylesheet" type="text/css" href="./css/styles.css">
+  <link rel="stylesheet" type="text/css" href="./assets/cdn/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
   <title>CompTIA Exams</title>
 </head>
 
 <body class="container-fluid Tgold mx-auto">
-  <!-- Navigation Bar - Simplified for better viewport use -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-2">
-    <div class="container-fluid">
-      <a class="navbar-brand d-flex align-items-center" href="../../index.html">
-        <img src="../../assets/logos/stray-gear.png" width="30" height="30" class="d-inline-block align-top rounded-circle" alt="StrayDog Logo">
-        <span class="ms-2 mb-0 fs-5">CompTIA Quiz</span>
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="../../index.html"><i class="fas fa-home"></i> Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="../../projects.html"><i class="fas fa-code"></i> Projects</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-  <!-- Keyboard Shortcuts Panel -->
   <label class="top-label" for="toggle">❔</label>
-  <input type="checkbox" id="toggle" class="visually-hidden">
+  <input type="checkbox" id="toggle" style="display: none;">
   <aside id="hidden-nav">
     <ul class="list-group fw-bold">
       <li class="list-group-item">
-        <span class="initialism"><i class="fas fa-keyboard"></i> Keyboard Shortcuts</span>
+        <span class="initialism"> <i class="fa fa-keyboard fa-3x mx-1"></i> Keyboard Shortcuts</span>
       </li>
       <li class="list-group-item">
-        <span class="text-primary"><kbd>?</kbd> Toggle Shortcuts</span>
+        <span class="text-primary"><kbd class="mx-2 fs-4"> <i class="fa fa-question"></i> </kbd> Toggle Shortcut
+          Menu</span>
       </li>
       <li class="list-group-item">
-        <span class="text-success"><kbd>[</kbd> Start Quiz</span>
+        <span class="text-success"><kbd class="mx-2 fs-3"> [ </kbd> Start the Quiz</span>
       </li>
       <li class="list-group-item">
-        <span class="text-warning"><kbd>]</kbd> Change Name</span>
+        <span class="text-warning"><kbd class="mx-2 fs-3"> ] </kbd> Change User Name</span>
       </li>
       <li class="list-group-item">
-        <span class="text-danger"><kbd>Esc</kbd> Reset Quiz</span>
+        <span class="text-danger"><kbd class="mx-2 fs-3"> Esc </kbd> Reset Quiz</span>
       </li>
       <li class="list-group-item">
-        <span class="text-info"><kbd>Q</kbd> Submit Question</span>
+        <span class="text-info"><kbd class="mx-2 fs-3"> Q </kbd> Submit a Question</span>
       </li>
       <li class="list-group-item">
-        <span><kbd>1-4</kbd> Select answer</span>
+        <span><kbd class="mx-2 fs-3"> 1 </kbd> Select answer #1</span>
+      </li>
+      <li class="list-group-item">
+        <span><kbd class="mx-2 fs-3"> 2 </kbd> Select answer #2</span>
+      </li>
+      <li class="list-group-item">
+        <span><kbd class="mx-2 fs-3"> 3 </kbd> Select answer #3</span>
+      </li>
+      <li class="list-group-item">
+        <span><kbd class="mx-2 fs-3"> 4 </kbd> Select answer #4</span>
+      </li>
+      <div class="text-center fs-3">
+        <a href="../../index.html"><i class="fa fa-home"></i> Return to Home Page</a>
       </li>
     </ul>
-  </aside>
+  </aside>  <!--hidden-nav-->
+  <div class="container-fluid myBorder Tred mb-3 box-shadow">
+    <header class="container-fluid text-center">
+      <h1 class="text-white display-4 my-4 fw-bold Times text-shadow">
+        CompTIA&trade; Certification Exams</h1>
+    </header>
+  </div>
+  <!--container-fluid-->
 
-  <!-- Main Content - Streamlined for single viewport -->
-  <main class="container-fluid px-2 quiz-container">
-    <!-- Header Section - Simplified -->
-    <div class="exam-header py-2">
-      <h2 class="text-white fw-bold Times text-shadow mb-0">CompTIA&trade; Certification Exams</h2>
-      <p class="fs-6 text-white Times mb-0">Exam Guide: 220-801, 220-802 &amp; SYO-601</p>
+  <div class="container-fluid Tgold text-center mb-5 box-shadow">
+    <h1 class="text-white Times initialism fs-1 fw-bold myBorder box-shadow text-shadow">Exam Guide</h1>
+    <h2 class="bg-dark text-white Times fs-3 initialism box-shadow">Revised for exams 220-801, 220-802 &amp; SYO-601</h2>
+    <div class="card Tred box-shadow">
+      <div class="card-header">
+        <h2 class="myBorder score Tgold fw-bold box-shadow">Total Score: <span id="score" class="fw-bold"> </span> </h2>
+      </div>
+      <!--card-header-->
+      <section class="container-fluid Tred mb-5 box-shadow">
+        <div class="Twhite fs-4 fw-bold mb-5">
+          <section id="question" class="box-shadow">What is this test anyway&quest;</section>
+          <div id="intro" class="container-fluid card-body">
+            <p class="lead fw-bold">Includes coverage of all objectives for CompTIA&trade; Eight Edition A&plus; exams
+              220-801 &amp; 220-802&lowast; <br>as well as the CompTIA&trade; Sixth Edition Security&plus; exam SYO-601.
+              <br>
+              <em class="fs-6">&lowast; In full modules version only, demo version contains partial quizes for
+                Security&plus; &amp; A&plus; Exams</em> <br class="w-100 lh-lg"> Ideal as both a study tool &amp; skills
+              assessment for the comprehensive CompTIA&trade; accredited certifications. A succesfull completion goal of
+              70% or better on this practice quiz is recommended before attempting the actual CompTIA&trade;
+              Certification exams.<br class="w-100 lh-lg"> See <a href="./README.md">README.md</a> for works cited and
+              copyright&copy; references to the CompTIA&trade; Exam guides used to provide the practice questions on
+              this test.</p>
+          </div>
+          <!-- introduction -->
+          <form name="quiz" id="answers" class="card Twhite">
+            <div class="mb-3 fs-4">
+              <input name="answers-group" type="radio" value="0" id="choice1" class="text-center fw-bold initialism">
+              <label for="choice1" id="answer1">
+                <i class="fa fa-question-circle text-success"></i>
+              </label>
+              <!--first answer-->
+            </div>
+            <!--mb-3-->
+            <div class="mb-3 fs-4">
+              <input name="answers-group" type="radio" value="1" id="choice2" class="text-center fw-bold initialism">
+              <label for="choice2" id="answer2">
+                <i class="fa fa-question-circle text-success"></i>
+              </label>
+              <!--2nd answer-->
+            </div>
+            <!--mb-3-->
+            <div class="mb-3 fs-4">
+              <input name="answers-group" type="radio" value="2" id="choice3" class="text-center fw-bold initialism">
+              <label for="choice3" id="answer3">
+                <i class="fa fa-question-circle text-success"></i>
+              </label>
+              <!--3rd answer-->
+            </div>
+            <!--mb-3-->
+            <div class="mb-3 fs-4">
+              <input name="answers-group" type="radio" value="3" id="choice4" class="text-center fw-bold initialism">
+              <label for="choice4" id="answer4">
+                <i class="fa fa-question-circle text-success"></i>
+              </label>
+              <!--4th answer-->
+            </div>
+            <!--mb-3-->
+          </form>
+          <section class="card text-center fs-3 fw-bold bg-dark text-white box-shadow" id="feedback"></section>
+          <div class="container-fluid card-body Twhite">
+            <section id="correct" class="card text-center fs-4 fw-bold bg-success text-white box-shadow">Correct!</section>
+            <section class="card text-center fs-4 fw-bold bg-danger box-shadow" id="wrong">Incorrect!!</section>
+          </div>
+          <!--container-fluid-->
+        </div>
+        <div class="card-footer myBorder mx-auto mb-3 box-shadow justify-content-between">
+          <button form="answers" type="button" title="Submit your own questions!"
+            class="btn btn-outline-dark text-white rounded-3 box-shadow text-shadow px-5 mx-auto my-2" id="submit"
+            data-bs-toggle="modal" data-bs-target="#user-question"><i class="fa fa-arrow-alt-circle-left fa-lg"></i>
+            Submit a Question</button>
+          <button form="answers" type="button" title="Need a little help?" class="btn btn-outline-dark text-white rounded-3 box-shadow text-shadow px-5 mx-auto my-2" id="cheater" data-bs-toggle="modal" data-bs-target="#user-hint">Need a hint
+          <i class="fa fa-question-circle"></i>
+          </button>
+          <button form="quiz" type="submit" title="Ready? Let's test your mettle..."
+            class="btn btn-outline-dark text-white rounded-3 box-shadow text-shadow px-5 mx-auto my-2" id="start"
+            data-bs-toggle="modal" data-bs-target="#user-input">Begin Exam <i
+              class="fa fa-arrow-alt-circle-right fa-lg"></i></button>
+          <button id="next" type="reset" form="answers" class="btn btn-warning rounded-2 border-dark box-shadow">
+            <i class="fa fa-sync-alt me-2"></i>
+            <span class="me-1">Next Question <i class="fa fa-question-circle"></i></span>
+          </button>
+          <button id="reset" type="reset" form="answers" class="btn btn-warning rounded-2 border-dark box-shadow">
+            <i class="fa fa-undo-alt me-2"></i>
+            <span class="me-1">Reset Quiz <i class="fa fa-question-circle"></i></span>
+          </button>
+        </div>
+        <div class="myBorder Tgold fw-bold box-shadow">
+          <h2 id="welcome">
+            <i class="fa fa-user-graduate fs-lg"></i>
+          </h2>
+        </div>
+        <div class="card-footer container">
+          <h2 class="myBorder score Tgold fw-bold box-shadow">
+            <i class="fa fa-hourglass fa-1x"></i>
+            <span title="Time Elapsed" id="timer"></span>
+          </h2>
+        </div>
+        <!--container-fluid-->
+      </section>
+      <!--container-fluid-->
     </div>
-
-    <!-- Info Panel -->
-    <div class="exam-info-panel">
-      <div>
-        <h5 class="mb-0"><i class="fas fa-user-graduate"></i> <span id="welcome">Candidate</span></h5>
-      </div>
-      <div>
-        <h5 class="mb-0">Score: <span id="score" class="fw-bold">0</span></h5>
-      </div>
-      <div>
-        <h5 class="mb-0"><i class="fas fa-hourglass"></i> <span id="timer">0:00</span></h5>
-      </div>    </div>
-    
-    <!-- Progress Bar -->
-    <div class="progress">
-      <div class="progress-bar progress-bar-initial" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Quiz Progress" title="Quiz Progress"></div>
-    </div>    <!-- Question Card - Optimized for viewport -->
-    <div class="question-card">
-      <div class="card-body">
-        <!-- Introduction -->
-        <div id="intro" class="container-fluid fade-in">
-          <p class="lead">Includes coverage of CompTIA&trade; A&plus; exams 220-801 &amp; 220-802 and Security&plus; exam SYO-601.
-            <br><small>&lowast; Demo version contains partial quizzes</small>
-            <br>Ideal for study and skills assessment. A score of 70% or better is recommended before attempting the actual exams.
-            <br>See <a href="./README.md">README.md</a> for references.
-          </p>
-        </div>
-        
-        <!-- Question Display -->
-        <div class="question-number" id="question-counter">Question 1 of 20</div>
-        <section id="question" class="box-shadow fade-in py-2">What is this test anyway&quest;</section>
-        
-        <!-- Answer Options -->
-        <form name="quiz" id="answers" class="fade-in">
-          <div class="mb-2">
-            <input name="answers-group" type="radio" value="0" id="choice1">
-            <label for="choice1" id="answer1">
-              <i class="fas fa-circle text-success"></i> Answer Option 1
-            </label>
-          </div>
-          <div class="mb-2">
-            <input name="answers-group" type="radio" value="1" id="choice2">
-            <label for="choice2" id="answer2">
-              <i class="fas fa-circle text-success"></i> Answer Option 2
-            </label>
-          </div>
-          <div class="mb-2">
-            <input name="answers-group" type="radio" value="2" id="choice3">
-            <label for="choice3" id="answer3">
-              <i class="fas fa-circle text-success"></i> Answer Option 3
-            </label>
-          </div>
-          <div class="mb-2">
-            <input name="answers-group" type="radio" value="3" id="choice4">
-            <label for="choice4" id="answer4">
-              <i class="fas fa-circle text-success"></i> Answer Option 4
-            </label>
-          </div>
-        </form>
-        
-        <!-- Feedback Section -->
-        <section class="fade-in" id="feedback"></section>
-        <div class="d-flex justify-content-between align-items-center">
-          <section id="correct" class="alert alert-success py-1 px-2 mb-0">
-            <i class="fas fa-check-circle"></i> Correct!
-          </section>
-          <section id="wrong" class="alert alert-danger py-1 px-2 mb-0">
-            <i class="fas fa-times-circle"></i> Incorrect!!
-          </section>
-        </div>
-      </div>
-      
-      <!-- Controls Section - Simplified and organized for better spacing -->
-      <div class="exam-footer">
-        <div class="row w-100 gx-2">
-          <div class="col-md-4 d-grid mb-1">
-            <button type="button" class="btn btn-outline-dark btn-sm" id="submit" data-bs-toggle="modal" data-bs-target="#user-question">
-              <i class="fas fa-question-circle"></i> Submit Question
-            </button>
-          </div>
-          <div class="col-md-4 d-grid mb-1">
-            <button type="button" class="btn btn-outline-dark btn-sm" id="cheater" data-bs-toggle="modal" data-bs-target="#user-hint">
-              Need Hint <i class="fas fa-lightbulb"></i>
-            </button>
-          </div>
-          <div class="col-md-4 d-grid mb-1">
-            <button type="button" class="btn btn-outline-dark btn-sm" id="start" data-bs-toggle="modal" data-bs-target="#user-input">
-              Begin Exam <i class="fas fa-play-circle"></i>
-            </button>
-          </div>
-        </div>
-        
-        <div class="row w-100 gx-2 mt-1">
-          <div class="col-md-6 d-grid">
-            <button id="next" type="button" class="btn btn-warning btn-sm border-dark box-shadow">
-              <i class="fas fa-forward me-1"></i> Next Question
-            </button>
-          </div>
-          <div class="col-md-6 d-grid">
-            <button id="reset" type="reset" class="btn btn-danger btn-sm border-dark box-shadow">
-              <i class="fas fa-undo-alt me-1"></i> Reset Quiz
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Copyright Section - Simplified -->
-    <footer class="text-center mt-2 mb-1">
-      <div class="d-flex justify-content-center align-items-center">
-        <img class="logo img-fluid img-thumbnail" width="30" src="./assets/images/stray-gear.png" alt="StrayDog Logo">
-        <small class="mx-2">&copy; StrayDog Syndications 2025</small>
-        <img class="logo img-fluid img-thumbnail bg-dark" width="30" src="./assets/images/tlm-logo.png" alt="TLM Logo">
-      </div>
-    </footer>
-  </main>
+    <!--card-->
+    <h4 class="white-text-shadow"><img class="logo img-sm img-fluid img-thumbnail box-shadow"
+        src="./assets/images/stray-gear.png" alt="StrayDog Syndications Logo"> &copy; StrayDog Syndications LLC 2024.
+      All Rights Reserved.<img class="logo img-sm img-fluid img-thumbnail box-shadow bg-dark"
+        src="./assets/images/tlm-logo.png" alt="The Last Mile Logo">
+      <br>Proud Participant of The Last Mile&trade; Program</h4>
+  </div>
+  <!--container-fluid-->
   
   <!-- Modals Section - No changes needed to modals as they appear on demand -->
   <aside id="user-hint-modal">
@@ -297,15 +279,12 @@
         </div>
       </div>
     </div>
-  </aside>
-  
-  <!-- CDN Resources -->
-  <script src="https://cdn.tlm.cloud/jquery/3.5.1/jquery-3.5.1.min.js"
-    integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.tlm.cloud/bootstrap/5.2.3/js/bootstrap.bundle.min.js"
-    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-    crossorigin="anonymous"></script>
+  </aside>  
+  <!-- Offline CDN -->
+  <script src="./assets/cdn/jquery.min.js"></script>
+  <script src="./assets/cdn/jquery-ui.min.js"></script>
+  <script src="./assets/cdn/fontawesome.js"></script>
+  <script src="./assets/cdn/bootstrap.min.js"></script>
   <script src="./js/scripts.js"></script>
 </body>
 
