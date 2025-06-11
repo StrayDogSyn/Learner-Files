@@ -25,9 +25,10 @@ class QuizNinja {
     this.highScore = this.loadHighScore();
     this.init();
   }
-
   init() {
-    this.hideElement(this.elements.form);
+    this.elements.form.style.display = 'none';
+    this.elements.feedback.style.display = 'none';
+    this.elements.correct.style.display = 'none';
     this.updateScore();
     this.attachEventListeners();
     this.updateElement(this.elements.hiScore, `High Score: ${this.highScore}`);
@@ -51,7 +52,6 @@ class QuizNinja {
       }
     });
   }
-
   startGame() {
     this.state = {
       ...this.state,
@@ -64,8 +64,8 @@ class QuizNinja {
 
     this.updateScore();
     this.startTimer();
-    this.hideElement(this.elements.start);
-    this.showElement(this.elements.form);
+    this.elements.start.style.display = 'none';
+    this.elements.form.style.display = 'block';
     this.chooseQuestion();
   }
 
@@ -122,59 +122,82 @@ class QuizNinja {
 
     return this.shuffleArray([...options]);
   }
-
   renderOptions(options) {
-    const form = this.elements.form;
-    const answersDiv = form.querySelector('.answers');
-    answersDiv.innerHTML = '';
+    const answersDiv = this.elements.form.querySelector('.answers');
+    if (!answersDiv) {
+      // Create answers div if it doesn't exist
+      const div = document.createElement('div');
+      div.className = 'answers';
+      this.elements.form.appendChild(div);
+    }
+    
+    const answersContainer = this.elements.form.querySelector('.answers');
+    answersContainer.innerHTML = '';
 
     options.forEach((option, index) => {
       const label = document.createElement('label');
-      label.className = 'answer-option';
+      label.className = 'option-button';
+      label.style.display = 'block';
+      label.style.marginBottom = 'var(--space-sm)';
       
       const input = document.createElement('input');
       input.type = 'radio';
       input.name = 'answer';
       input.value = option;
       input.id = `answer${index}`;
+      input.style.marginRight = 'var(--space-sm)';
       
       const span = document.createElement('span');
       span.textContent = option;
       
       label.appendChild(input);
       label.appendChild(span);
-      answersDiv.appendChild(label);
+      answersContainer.appendChild(label);
+
+      // Add click handler to label
+      label.addEventListener('click', () => {
+        input.checked = true;
+        this.checkAnswer(option);
+      });
     });
   }
-
   checkAnswer(answer) {
     const isCorrect = answer === this.state.currentQuestion.answer;
     
     if (isCorrect) {
       this.state.score++;
       this.updateScore();
-      this.showFeedback('Correct!', 'correct');
+      this.elements.feedback.textContent = '✅ Correct!';
+      this.elements.feedback.style.display = 'block';
+      this.elements.feedback.style.backgroundColor = 'rgba(16, 185, 129, 0.2)';
+      this.elements.feedback.style.color = '#059669';
     } else {
-      this.showFeedback('Wrong!', 'wrong');
+      this.elements.feedback.textContent = '❌ Wrong!';
+      this.elements.feedback.style.display = 'block';
+      this.elements.feedback.style.backgroundColor = 'rgba(239, 68, 68, 0.2)';
+      this.elements.feedback.style.color = '#dc2626';
+      this.elements.correct.textContent = `The correct answer was: ${this.state.currentQuestion.answer}`;
+      this.elements.correct.style.display = 'block';
     }
-
+    // Show next question after delay
     setTimeout(() => {
-      this.clearFeedback();
+      this.elements.feedback.style.display = 'none';
+      this.elements.correct.style.display = 'none';
       this.chooseQuestion();
-    }, 1000);
+    }, 2000);
   }
-
   gameOver() {
     clearInterval(this.state.interval);
     this.state.isGameActive = false;
-    this.hideElement(this.elements.form);
-    this.showElement(this.elements.start);
+    this.elements.form.style.display = 'none';
+    this.elements.start.style.display = 'block';
     
     const finalScore = this.state.score;
     this.updateElement(
       this.elements.feedback,
       `Game Over! You scored ${finalScore} out of ${quiz.questions.length}`
     );
+    this.elements.feedback.style.display = 'block';
 
     this.updateHighScore();
   }

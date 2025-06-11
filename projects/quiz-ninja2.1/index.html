@@ -42,37 +42,42 @@
       </div>
     </div>
   </nav>
-
-  <div class="container-fluid text-center bg-danger">
+  <div class="game-container">
     <label class="top-label" for="toggle">❔</label>
     <input type="checkbox" id="toggle">
     <aside id="hidden-nav">
-      <a href="#"><i class="fa fa-map fa-lg"></i></a>
-      <br>
-      <a href="#"><i class="fa fa-tools fa-lg"></i></a>
+      <a href="#"><i class="fa fa-map fa-lg"></i> Game Map</a>
+      <a href="#"><i class="fa fa-tools fa-lg"></i> Settings</a>
     </aside>
-    <header>
-      <figure class="figure-img">
-        <i class="fa fa-times-circle fa-4x"></i>
-        <figcaption id="intro" class="initialism text-center fs-3">Welcome to Xavier's School For Gifted Children</figcaption>
+    
+    <header>      <figure class="figure-img">
+        <i class="fa fa-times-circle fa-4x game-icon"></i>
+        <figcaption id="intro" class="initialism text-center">Welcome to Xavier's School For Gifted Children</figcaption>
       </figure>
-      <p id="hiScore" class="fs-1"></p>
-      <p id="score" class="fs-1">0</p>
-      <i title="Beat the Clock!" class="fa fa-clock fa-lg"></i>
-      <p id="timer" class="fs-1"></p>
+      
+      <div class="stats-container">
+        <div class="stat-item">
+          <span id="hiScore"></span>
+        </div>
+        <div class="stat-item">
+          <span>Score: </span>
+          <span id="score">0</span>
+        </div>
+        <div class="stat-item">
+          <i title="Beat the Clock!" class="fa fa-clock fa-lg"></i>
+          <span id="timer"></span>
+        </div>
+      </div>
     </header>
-    <div class="container-fluid">
-    <section id="question" class="card text-center bg-dark text-white"></section>
 
-    <section class="card text-center fs-3 fw-bold bg-dark text-white" id="feedback"></section>
-    <form class="fs-3 fw-bold initialism" id="answer">
+    <section id="question" class="text-center"></section>
+    <section id="feedback" class="text-center"></section>
+    <form id="answer">
+      <div class="answers"></div>
     </form>
-    <section class="card text-center fs-4 fw-bold bg-dark text-white" id="correct"></section>
-
-
-    <button title="Click to Play!" class="btn btn-outline-success btn-lg rounded-5" id="start"><i class="fa fa-expand-arrows-alt fa-lg"></i></button>
-    </div>
-  </div><!-- container-fluid -->
+    <section id="correct" class="text-center"></section>
+    <button title="Click to Play!" id="start"><i class="fa fa-expand-arrows-alt"></i> Start Game</button>
+  </div>
   <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js" integrity="sha384-4D3G3GikQs6hLlLZGdz5wLFzuqE9v4yVGAcOH86y23JqBDPzj9viv0EqyfIa6YUL" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" integrity="sha384-EIHISlAOj4zgYieurP0SdoiBYfGJKkgWedPHH4jCzpCXLmzVsw1ouK59MuUtP4a1" crossorigin="anonymous"></script>
