@@ -15,14 +15,11 @@
   <title>Rock Paper Scissors - StrayDog Syndications</title>
 </head>
 
-<body>
-  <hgroup class="container-modern text-center fw-bold bg-transparent box-shadow py-3" style="position: relative; overflow: hidden;">
-    <img src="../../assets/images/two.webp" alt="Background Pattern" class="header-bg-img" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.2; z-index: -1;">
-    <canvas id="canvasOne" width="680" height="110" class="my-2 canvas rounded-5"></canvas>
-  </hgroup>
-
-  <nav class="navbar navbar-expand-lg navbar-dark background box-shadow mb-4" style="position: relative; overflow: hidden;">
-    <img src="../../assets/images/four.webp" alt="Navigation Background" class="nav-bg-img" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.15; z-index: -1;">
+<body>  <hgroup class="container-modern text-center fw-bold bg-transparent box-shadow py-2 header-container">
+    <img src="../../assets/images/two.webp" alt="Background Pattern" class="bg-image bg-image-header">
+    <canvas id="canvasOne" width="480" height="80" class="my-1 canvas rounded-5"></canvas>
+  </hgroup>  <nav class="navbar navbar-expand-lg navbar-dark background box-shadow mb-2 nav-container">
+    <img src="../../assets/images/four.webp" alt="Navigation Background" class="bg-image bg-image-nav">
     <div class="container-modern">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,123 +68,116 @@
       </div>
     </div>
   </nav>
-
-  <main class="container-modern py-4">
-    <header class="text-center mb-5 fade-in" style="position: relative; overflow: hidden; padding: 3rem 1rem; border-radius: 0.5rem;">
-      <img src="../../assets/images/three.webp" alt="Background Pattern" class="header-bg-img" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.2; z-index: -1;">
-      <h1 class="display-4 text-white fw-bold mb-3">
+  <main class="container-modern py-2">    <header class="text-center mb-3 fade-in game-header">
+      <img src="../../assets/images/three.webp" alt="Background Pattern" class="bg-image bg-image-header">
+      <h1 class="display-5 text-white fw-bold mb-2">
         <i class="fa fa-hand-scissors me-2"></i>
         Rock, Paper, Scissors
       </h1>
-      <p class="lead text-white">A classic game reimagined with modern web technologies</p>
-    </header>
-
-    <!-- hidden instructions manual-->
-    <div class="container-fluid sticky-top mb-4">
+      <p class="lead text-white mb-0">A classic game reimagined</p>
+    </header>    <!-- hidden instructions manual-->
+    <div class="container-fluid sticky-top mb-2">
       <label class="top-label" for="toggle">❔</label>
       <input type="checkbox" id="toggle">
       <aside id="top-hidden-nav" class="box-shadow">
-        <ol class="text-center fs-1 fw-bold initialism">
-          <li><p class="lead">Shortcuts <i class="fa fa-keyboard fa-3x"></i></p></li>
-          <li>New Game: 'Enter'</li>
-          <li>Replay: 'n'</li>
-          <li>Rock: 'r'</li>
-          <li>Paper: 'p'</li>
-          <li>Scissors: 's'</li>
-          <li><a href="../../projects.html"><i class="fa fa-home"></i> Projects Page</a></li>
+        <ol class="list-unstyled text-center fs-6 fw-bold">
+          <li class="mb-2"><p class="lead text-white fs-6">Shortcuts <i class="fa fa-keyboard fa-lg ms-2"></i></p></li>
+          <li class="mb-1 text-white small">New Game: 'Enter'</li>
+          <li class="mb-1 text-white small">Replay: 'n'</li>
+          <li class="mb-1 text-white small">Rock: 'r'</li>
+          <li class="mb-1 text-white small">Paper: 'p'</li>
+          <li class="mb-1 text-white small">Scissors: 's'</li>
+          <li class="mt-3"><a href="../../projects.html" class="text-white small"><i class="fa fa-home me-1"></i> Projects</a></li>
         </ol>
       </aside>
-    </div>
-
-    <section class="section-modern">
+    </div>    <section class="section-modern">
       <div class="card box-shadow fade-in">
-        <div class="card-body p-4">
-          <div class="row">
+        <div class="card-body p-3">
+          <div class="row g-3">
             <div class="col-lg-8">
-              <div class="title text-center mb-4">
-                <i class="fa fa-hand-sparkles fa-3x"></i>
-                <span id="readyPlayerOne" class="display-5">Ready Player One?</span>
-                <i class="fa fa-hand-spock fa-3x"></i>
+              <div class="title text-center mb-3">
+                <i class="fa fa-hand-sparkles fa-2x"></i>
+                <span id="readyPlayerOne" class="display-6 mx-2">Ready Player One?</span>
+                <i class="fa fa-hand-spock fa-2x"></i>
               </div>
               
-              <div id="canvas" class="mb-4">
-                <canvas id="gameCanvas" width="680" height="auto" class="container-fluid rounded-5"></canvas>
-                <div class="text-center mt-3">
+              <div id="canvas" class="mb-3">
+                <canvas id="gameCanvas" width="480" height="auto" class="container-fluid rounded-5"></canvas>
+                <div class="text-center mt-2">
                   <button title="Test Your Might!" id="start" class="btn btn-outline-success btn-lg rounded-5 initialism" type="button">
                     <i class="fa fa-play-circle fa-1x me-2"></i>Click to Begin
                   </button>
                 </div>
-              </div>
-              
-              <section class="text-center mb-4">
-                <figure>
-                  <img id="starWin" class="img-thumbnail img-fluid fa-spin" src="./assets/icon-star.svg" alt="A Gold Star">
-                  <i id="sadLose" class="fa fa-sad-cry fa-10x fa-spin lose"></i>
-                </figure>
+              </div>                <section class="text-center mb-3">
+                <div class="position-relative">
+                  <img id="starWin" class="result-icon result-win" src="./assets/icon-star.svg" alt="A Gold Star">
+                  <i id="sadLose" class="fa fa-sad-cry fa-6x result-icon result-lose text-danger"></i>
+                </div>
               </section>
               
               <div>
                 <figure id="playerOne" class="figure">
-                  <div class="d-flex justify-content-center col-md-12 btn-group mb-3">
-                    <button title="Choose Rock!" type="button" class="btn btn-outline-success bg-transparent" name="rock" id="clickRock"> 
-                      <i class="fa fa-6x fa-hand-rock"></i>
+                  <div class="d-flex justify-content-center game-choice-buttons mb-3">
+                    <button title="Choose Rock!" type="button" class="btn btn-outline-success btn-lg d-flex flex-column align-items-center p-2" name="rock" id="clickRock"> 
+                      <i class="fa fa-3x fa-hand-rock mb-1"></i>
+                      <span class="fw-bold small">Rock</span>
                     </button>
-                    <button title="Choose Paper!" type="button" class="btn btn-outline-success bg-transparent" name="paper" id="clickPaper"> 
-                      <i class="fa fa-6x fa-hand-paper"></i>
+                    <button title="Choose Paper!" type="button" class="btn btn-outline-success btn-lg d-flex flex-column align-items-center p-2" name="paper" id="clickPaper"> 
+                      <i class="fa fa-3x fa-hand-paper mb-1"></i>
+                      <span class="fw-bold small">Paper</span>
                     </button>
-                    <button title="Choose Scissors!" type="button" class="btn btn-outline-success bg-transparent" name="scissors" id="clickScissor"> 
-                      <i class="fa fa-6x fa-hand-scissors"></i>
+                    <button title="Choose Scissors!" type="button" class="btn btn-outline-success btn-lg d-flex flex-column align-items-center p-2" name="scissors" id="clickScissor"> 
+                      <i class="fa fa-3x fa-hand-scissors mb-1"></i>
+                      <span class="fw-bold small">Scissors</span>
                     </button>
                   </div>
                   <figcaption>
-                    <h2 id="user-selection" class="text-center">Choose to Begin</h2>
+                    <h2 id="user-selection" class="text-center mb-2 h5">Choose to Begin</h2>
                   </figcaption>
-                  <div id="resultsPick" class="container-fluid row justify-content-center">
-                    <img id="player-rock" class="rock-image" src="./assets/rock.png" alt="rock">
-                    <img id="player-paper" class="paper-image" src="./assets/paper.png" alt="paper">
-                    <img id="player-scissors" class="scissors-image" src="./assets/scissors.png" alt="scissors">
-                  </div>
-                </figure>
+                  <div id="resultsPick" class="d-flex justify-content-center gap-2 mb-3">
+                    <img id="player-rock" class="rock-image img-fluid" src="./assets/rock.png" alt="rock">
+                    <img id="player-paper" class="paper-image img-fluid" src="./assets/paper.png" alt="paper">
+                    <img id="player-scissors" class="scissors-image img-fluid" src="./assets/scissors.png" alt="scissors">
+                  </div>                </figure>
               </div>
               
-              <div class="container-fluid text-center">
-                <section class="fs-3 fw-bold" id="feedback"></section>
+              <div class="container-fluid text-center mb-3">
+                <section class="fs-4 fw-bold" id="feedback"></section>
               </div>
               
               <div>
                 <figure id="playerTwo" class="figure">
-                  <div class="text-center">
-                    <i title="There will be nothing to stop us this time..." id="E-Wreck" class="fab fa-mandalorian fa-7x"></i>
+                  <div class="text-center mb-2">
+                    <i title="There will be nothing to stop us this time..." id="E-Wreck" class="fab fa-mandalorian fa-4x text-danger"></i>
                   </div>
                   <figcaption id="computerPlayer">
-                    <h2 id="computer-selection" class="text-center">E-Wreck chooses...</h2>
+                    <h2 id="computer-selection" class="text-center mb-2 h5">E-Wreck chooses...</h2>
                   </figcaption>
-                  <div id="computerResults" class="container-fluid row justify-content-center">
-                    <img id="computer-rock" class="rock-image" src="./assets/rock.png" alt="rock">
-                    <img id="computer-paper" class="paper-image" src="./assets/paper.png" alt="paper">
-                    <img id="computer-scissors" class="scissors-image" src="./assets/scissors.png" alt="scissors">
+                  <div id="computerResults" class="d-flex justify-content-center gap-2 mb-3">
+                    <img id="computer-rock" class="rock-image img-fluid" src="./assets/rock.png" alt="rock">
+                    <img id="computer-paper" class="paper-image img-fluid" src="./assets/paper.png" alt="paper">
+                    <img id="computer-scissors" class="scissors-image img-fluid" src="./assets/scissors.png" alt="scissors">
                   </div>
                 </figure>
               </div>
             </div>
-            
-            <div class="col-lg-4">
-              <aside id="scoreboard" class="card scorecard box-shadow background p-3">
-                <div class="btn-group container-fluid my-auto mb-4">
-                  <button type="submit" id="play-again" class="btn btn-outline-success rounded-5 btn-lg mx-auto">
+              <div class="col-lg-4">
+              <aside id="scoreboard" class="card scorecard box-shadow background p-2">
+                <div class="btn-group container-fluid my-auto mb-3">
+                  <button type="submit" id="play-again" class="btn btn-outline-success rounded-5 btn-md mx-auto">
                     <i class="fa fa-grin-tongue-wink fa-lg me-2"></i>Replay?
                   </button>
                 </div>
-                <div class="card-body text-center">
+                <div class="card-body text-center p-2">
                   <small class="initialism fw-bold text-white">Won</small>
-                  <p class="fs-3 fw-bold" id="won">0</p>
+                  <p class="fs-4 fw-bold mb-2" id="won">0</p>
                   <small class="initialism fw-bold text-white">Tied</small>
-                  <p class="fs-3 fw-bold" id="tied">0</p>
+                  <p class="fs-4 fw-bold mb-2" id="tied">0</p>
                   <small class="initialism fw-bold text-white">Lost</small>
-                  <p class="fs-3 fw-bold" id="lost">0</p>
+                  <p class="fs-4 fw-bold mb-2" id="lost">0</p>
                 </div>
-                <div class="text-center mt-4">
-                  <button id="game-over" class="btn btn-outline-danger rounded-5 initialism" type="button">
+                <div class="text-center mt-2">
+                  <button id="game-over" class="btn btn-outline-danger rounded-5 initialism btn-sm" type="button">
                     <i class="fa fa-angry me-2"></i>Surrender?
                   </button>
                 </div>
@@ -196,22 +186,15 @@
           </div>
         </div>
       </div>
-    </section>
-    
-    <section class="section-modern mt-5">
+    </section>    
+    <section class="section-modern mt-3">
       <div class="card box-shadow fade-in">
-        <div class="card-body">
-          <h2 class="mb-4">About This Project</h2>
-          <p>This Rock, Paper, Scissors game was built with:</p>
-          <ul>
-            <li>Interactive JavaScript gameplay with keyboard shortcuts</li>
-            <li>Canvas for visual effects</li>
-            <li>Responsive design that works on all screen sizes</li>
-            <li>Fun animations and visual feedback</li>
-          </ul>
-          <div class="text-center mt-4">
-            <a href="../../projects.html" class="btn btn-outline-success">
-              <i class="fa fa-code me-2"></i>View All Projects
+        <div class="card-body p-3">
+          <h3 class="mb-3 h5">About This Project</h3>
+          <p class="small mb-3">Built with interactive JavaScript, Canvas effects, and responsive design.</p>
+          <div class="text-center">
+            <a href="../../projects.html" class="btn btn-outline-success btn-sm">
+              <i class="fa fa-code me-1"></i>View All Projects
             </a>
           </div>
         </div>
@@ -219,23 +202,20 @@
     </section>
   </main>
 
-  <footer class="container-fluid background text-white py-5 mt-5">
+  <footer class="container-fluid background text-white py-3 mt-3">
     <div class="container-modern">
-      <div class="row">
-        <div class="col-md-6 mb-4 mb-md-0">
-          <h2 class="h4 mb-4">Navigation</h2>
-          <ul class="list-unstyled">
-            <li class="mb-2"><a href="../../index.html" class="text-white"><i class="fa fa-home me-2"></i>Home</a></li>
-            <li class="mb-2"><a href="../../resume/index.html" class="text-white"><i class="fa fa-pen-alt me-2"></i>Resume</a></li>
-            <li class="mb-2"><a href="../../projects.html" class="text-white"><i class="fa fa-code me-2"></i>Projects</a></li>
-            <li class="mb-2"><a href="../../bio.html" class="text-white"><i class="fa fa-info-circle me-2"></i>About</a></li>
-            <li class="mb-2"><a href="../../contacts.html" class="text-white"><i class="fa fa-mail-bulk me-2"></i>Contact</a></li>
-          </ul>
-        </div>
-        <div class="col-md-6 text-md-end">
-          <img class="img-fluid rounded-circle mb-3" style="max-width: 80px;" src="../../assets/logos/stray-gear.png" alt="StrayDog Logo">
-          <p class="mb-1">&copy; 2025 StrayDog Syndications LLC.</p>
-          <p class="small">Powered by <a href="#" class="text-white">The Last Mile&trade;</a></p>
+      <div class="row align-items-center">
+        <div class="col-md-6 mb-2 mb-md-0">
+          <div class="d-flex flex-wrap gap-3">
+            <a href="../../index.html" class="text-white small"><i class="fa fa-home me-1"></i>Home</a>
+            <a href="../../resume/index.html" class="text-white small"><i class="fa fa-pen-alt me-1"></i>Resume</a>
+            <a href="../../projects.html" class="text-white small"><i class="fa fa-code me-1"></i>Projects</a>
+            <a href="../../contacts.html" class="text-white small"><i class="fa fa-mail-bulk me-1"></i>Contact</a>
+          </div>
+        </div>        <div class="col-md-6 text-md-end">
+          <img class="logo-footer mb-2" src="../../assets/logos/stray-gear.png" alt="StrayDog Logo">
+          <p class="mb-0 small">&copy; 2025 StrayDog Syndications LLC.</p>
+          <p class="small mb-0">Powered by <a href="#" class="text-white">The Last Mile&trade;</a></p>
         </div>
       </div>
     </div>

@@ -4,7 +4,7 @@
 /* CSS Reboot */
 *,
 body {
-    font: 1.175rem Verdana, Arial, Helvetica, sans-serif;
+    font: 1rem Verdana, Arial, Helvetica, sans-serif; /* Reduced from 1.175rem */
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -29,8 +29,8 @@ ol>li, li {
 .rock-image,
 .paper-image,
 .scissors-image {
-    max-width: 25%;
-    margin: 5px;
+    max-width: 60px; /* Fixed size instead of percentage */
+    height: auto;
 }
 
 #clickRock:hover,
@@ -75,6 +75,7 @@ ol>li, li {
   max-width: fit-content;
   box-shadow: 8px 12px 4px hsla(120, 100%, 0%, .7);
   background: var(--primary-bg);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   padding: var(--space-md);
   border-radius: var(--radius-md);
@@ -85,39 +86,28 @@ ol>li, li {
 /* game intro page */
 #canvas {
   position: relative;
-  top: 10rem;
-  left: .25rem;
+  margin: 1rem auto; /* Reduced from 2rem */
 }
-#tlm {
-  position: absolute;
-  left: 40rem;
-  bottom: 5rem;
-  box-shadow: 8px 12px 4px hsla(120, 100%, 0%, .7);
-  border-radius: 50%;
-  width: 125px;
-  height: 125px;
-}
-#E-Wreck:hover {
-  color: hsl(360, 100%, 50%);
-}
-#sadLose,
-#starWin {
-  position: absolute;
-  left: 5rem;
-  top: 3rem;
-  z-index: 121;
-  height: 45rem;
-  width: 45rem;
-}
-/*code adapted from https://mdn.tlm.cloud/en-US/docs/Learn/CSS/CSS_layout/Practical_positioning_examples/*/
+
+/* Remove problematic absolute positioning - now handled by result-icon class */
+
+/* Update old positioning rules */
 .top-label[for="toggle"] {
-  font-size: 2rem;
   position: fixed;
-  top: var(--space-md);
-  right: var(--space-md);
+  top: 1rem;
+  right: 1rem;
   z-index: 1000;
   cursor: pointer;
-  color: var(--text-primary);
+  font-size: 2rem;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 0.5rem;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 input[type="checkbox"] {
@@ -127,14 +117,17 @@ input[type="checkbox"] {
 #top-hidden-nav {
   position: fixed;
   top: 0;
-  right: -300px;
-  width: 300px;
+  right: -320px; /* Adjusted from -300px */
+  width: 320px;
   height: 100vh;
-  background: var(--primary-bg);
+  background: rgba(0, 0, 0, 0.9);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
-  transition: 0.3s ease;
-  padding: var(--space-lg);
+  transition: right 0.3s ease;
+  padding: 2rem;
   z-index: 999;
+  overflow-y: auto;
+  color: white;
 }
 
 input[type=checkbox]:checked + #top-hidden-nav {
@@ -201,4 +194,589 @@ input[type=checkbox]:checked + #top-hidden-nav {
   .scorecard {
     font-size: 0.9rem;
   }
+}
+
+/* Game result images - hidden by default */
+#player-rock,
+#player-paper,
+#player-scissors,
+#computer-rock,
+#computer-paper,
+#computer-scissors {
+  display: none;
+  max-width: 120px;
+  height: auto;
+}
+
+/* Show active choice images */
+.result-image-show {
+  display: block !important;
+}
+
+/* Fix button spacing and layout */
+.game-choice-buttons {
+  gap: 1rem;
+}
+
+.game-choice-buttons .btn {
+  min-width: 80px; /* Reduced from 120px */
+  padding: 0.75rem 1rem; /* Reduced padding */
+  transition: all 0.3s ease;
+}
+
+.game-choice-buttons .btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Fix the hidden toggle positioning */
+#toggle {
+  display: none;
+}
+
+.top-label[for="toggle"] {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  cursor: pointer;
+  font-size: 2rem;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 0.5rem;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#top-hidden-nav {
+  position: fixed;
+  top: 0;
+  right: -320px;
+  width: 320px;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  transition: right 0.3s ease;
+  padding: 2rem;
+  z-index: 999;
+  overflow-y: auto;
+  color: white;
+}
+
+#toggle:checked + #top-hidden-nav {
+  right: 0;
+}
+
+/* Footer logo styling */
+.logo-footer {
+  max-width: 80px;
+  height: auto;
+  border-radius: 50%;
+}
+
+/* Fix Safari backdrop-filter support */
+#top-hidden-nav {
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+/* Improve responsive layout for buttons */
+@media (max-width: 768px) {
+  .game-choice-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .game-choice-buttons .btn {
+    width: 200px;
+    margin-bottom: 1rem;
+  }
+  
+  .fa-4x {
+    font-size: 3em !important;
+  }
+}
+
+/* Result icons styling */
+.result-icon {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+.result-win {
+  width: 120px;
+  height: 120px;
+  animation: spin 1s ease-in-out, fadeIn 0.5s ease;
+}
+
+.result-lose {
+  animation: spin 1s ease-in-out, fadeIn 0.5s ease;
+}
+
+.result-icon.show {
+  display: block !important;
+}
+
+/* Improve E-Wreck styling */
+#E-Wreck {
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+#E-Wreck:hover {
+  color: #dc3545 !important;
+  text-shadow: 0 0 10px rgba(220, 53, 69, 0.5);
+}
+
+/* Game feedback styling */
+#feedback {
+  min-height: 40px; /* Reduced from 60px */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem; /* Reduced padding */
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+
+/* Animation improvements */
+@keyframes spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Button hover improvements */
+.game-choice-buttons .btn:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.game-choice-buttons .btn:active {
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* Replace inline styles with CSS classes */
+.header-container {
+  position: relative;
+  overflow: hidden;
+  padding: 1rem 0 !important; /* Reduced padding */
+}
+
+.nav-container {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 1rem !important; /* Reduced from mb-4 */
+}
+
+.game-header {
+  position: relative;
+  overflow: hidden;
+  padding: 1.5rem 1rem !important; /* Reduced from 3rem */
+  margin-bottom: 2rem !important; /* Reduced from mb-5 */
+}
+
+.bg-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.bg-image-header {
+  opacity: 0.2;
+}
+
+.bg-image-nav {
+  opacity: 0.15;
+}
+
+/* Compact layout adjustments for single window view */
+body {
+  font-size: 1rem; /* Reduced from 1.175rem */
+}
+
+/* Reduce header and nav spacing */
+.header-container {
+  padding: 1rem 0 !important; /* Reduced padding */
+}
+
+.nav-container {
+  margin-bottom: 1rem !important; /* Reduced from mb-4 */
+}
+
+.game-header {
+  padding: 1.5rem 1rem !important; /* Reduced from 3rem */
+  margin-bottom: 2rem !important; /* Reduced from mb-5 */
+}
+
+/* Compact canvas size */
+#canvasOne {
+  width: 100%;
+  max-width: 480px; /* Reduced from 680px */
+  height: auto;
+}
+
+#gameCanvas {
+  width: 100%;
+  max-width: 480px; /* Reduced from 680px */
+  height: auto;
+}
+
+/* Reduce main container padding */
+.container-modern.py-4 {
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+}
+
+/* Compact game layout */
+.card-body.p-4 {
+  padding: 1.5rem !important; /* Reduced from 2rem */
+}
+
+/* Make sections more compact */
+.section-modern {
+  margin-bottom: 1rem; /* Reduced spacing between sections */
+}
+
+.section-modern:last-child {
+  margin-bottom: 0;
+}
+
+/* Reduce title size and spacing */
+.title {
+  margin-bottom: 1rem !important; /* Reduced from mb-4 */
+}
+
+.title .display-5 {
+  font-size: 2rem; /* Smaller title */
+}
+
+.title .fa-3x {
+  font-size: 2rem !important; /* Smaller icons */
+}
+
+/* Compact game buttons */
+.game-choice-buttons .btn {
+  min-width: 80px; /* Reduced from 120px */
+  padding: 0.75rem 1rem; /* Reduced padding */
+}
+
+.game-choice-buttons .fa-4x {
+  font-size: 2.5rem !important; /* Reduced from 4rem */
+}
+
+/* Smaller result images */
+.rock-image,
+.paper-image,
+.scissors-image {
+  max-width: 60px; /* Fixed size instead of percentage */
+  height: auto;
+}
+
+/* Compact scorecard */
+.scorecard {
+  padding: 1rem; /* Reduced padding */
+  margin-top: 0.5rem; /* Reduced margin */
+}
+
+.scorecard .fs-3 {
+  font-size: 1.5rem !important; /* Smaller score numbers */
+}
+
+/* Reduce canvas container margin */
+#canvas {
+  margin: 1rem auto; /* Reduced from 2rem */
+}
+
+/* Compact feedback section */
+#feedback {
+  min-height: 40px; /* Reduced from 60px */
+  padding: 0.5rem; /* Reduced padding */
+}
+
+/* Reduce footer padding */
+footer {
+  padding: 2rem 0 !important; /* Reduced from py-5 */
+  margin-top: 2rem !important; /* Reduced from mt-5 */
+}
+
+/* Enhanced responsive design */
+
+/* Mobile-first approach */
+@media (max-width: 576px) {
+  body {
+    font-size: 0.9rem;
+  }
+  
+  .game-header {
+    padding: 1rem 0.5rem !important;
+  }
+  
+  .game-header h1 {
+    font-size: 1.8rem !important;
+  }
+  
+  .game-choice-buttons {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .game-choice-buttons .btn {
+    width: 150px;
+    min-width: unset;
+    margin: 0 auto;
+  }
+  
+  .game-choice-buttons .fa-4x {
+    font-size: 2rem !important;
+  }
+  
+  .card-body {
+    padding: 1rem !important;
+  }
+  
+  .title .display-5 {
+    font-size: 1.5rem;
+  }
+  
+  .title .fa-3x {
+    font-size: 1.5rem !important;
+  }
+  
+  /* Stack game layout vertically on mobile */
+  .row > .col-lg-8,
+  .row > .col-lg-4 {
+    margin-bottom: 1rem;
+  }
+  
+  /* Compact scorecard on mobile */
+  .scorecard {
+    margin-top: 1rem;
+  }
+  
+  /* Smaller canvas on mobile */
+  #canvasOne,
+  #gameCanvas {
+    max-width: 300px;
+  }
+}
+
+/* Tablet styles */
+@media (min-width: 577px) and (max-width: 768px) {
+  .game-choice-buttons {
+    gap: 0.75rem;
+  }
+  
+  .game-choice-buttons .btn {
+    min-width: 100px;
+  }
+  
+  .game-choice-buttons .fa-4x {
+    font-size: 2.75rem !important;
+  }
+  
+  #canvasOne,
+  #gameCanvas {
+    max-width: 400px;
+  }
+}
+
+/* Desktop compact view */
+@media (min-width: 769px) {
+  /* Ensure game fits in viewport */
+  .container-modern {
+    max-width: 1100px; /* Reduced from default Bootstrap max-width */
+  }
+  
+  /* Side-by-side layout optimization */
+  .row > .col-lg-4 {
+    padding-left: 1rem;
+  }
+  
+  .scorecard {
+    position: sticky;
+    top: 1rem; /* Stick to top when scrolling */
+  }
+}
+
+/* Ultra-compact mode for smaller screens */
+@media (max-height: 700px) {
+  .header-container {
+    padding: 0.5rem 0 !important;
+  }
+  
+  .game-header {
+    padding: 1rem !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  .nav-container {
+    margin-bottom: 0.5rem !important;
+  }
+  
+  .container-modern.py-4 {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+  
+  .section-modern:last-child {
+    display: none; /* Hide about section on very short screens */
+  }
+  
+  footer {
+    padding: 1rem 0 !important;
+    margin-top: 1rem !important;
+  }
+  
+  #canvas {
+    margin: 0.5rem auto;
+  }
+  
+  .card-body {
+    padding: 1rem !important;
+  }
+}
+
+/* Landscape mobile optimization */
+@media (max-width: 768px) and (orientation: landscape) {
+  .game-choice-buttons {
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+  }
+  
+  .game-choice-buttons .btn {
+    width: auto;
+    min-width: 80px;
+  }
+  
+  .header-container,
+  .game-header {
+    padding: 0.5rem !important;
+  }
+}
+
+/* Viewport height optimization for single window view */
+.main-container {
+  min-height: calc(100vh - 200px); /* Account for header and footer */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ensure game content doesn't overflow */
+body {
+  overflow-x: hidden;
+}
+
+/* Optimize hidden navigation for compact view */
+#top-hidden-nav {
+  width: 250px; /* Reduced from 320px */
+  right: -250px;
+  padding: 1rem; /* Reduced from 2rem */
+}
+
+.top-label[for="toggle"] {
+  width: 45px; /* Reduced from 60px */
+  height: 45px;
+  font-size: 1.5rem; /* Reduced size */
+}
+
+/* Make result icons smaller for compact view */
+.result-win {
+  width: 80px; /* Reduced from 120px */
+  height: 80px;
+}
+
+.result-lose {
+  font-size: 4rem !important; /* Ensure consistent sizing */
+}
+
+/* Compact logo sizing */
+.logo-footer {
+  max-width: 50px; /* Reduced from 80px */
+}
+
+/* Ensure buttons are appropriately sized across devices */
+.btn-lg {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+}
+
+.btn-md {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.9rem;
+}
+
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.8rem;
+}
+
+/* Improve gap spacing for flexbox layouts */
+.gap-2 {
+  gap: 0.5rem !important;
+}
+
+.gap-3 {
+  gap: 0.75rem !important;
+}
+
+/* Additional mobile optimizations */
+@media (max-width: 576px) {
+  .logo-footer {
+    max-width: 40px;
+  }
+  
+  .top-label[for="toggle"] {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+  
+  #top-hidden-nav {
+    width: 200px;
+    right: -200px;
+  }
+  
+  /* Stack footer content on mobile */
+  footer .row > .col-md-6:first-child {
+    order: 2;
+  }
+  
+  footer .row > .col-md-6:last-child {
+    order: 1;
+    text-align: center !important;
+    margin-bottom: 1rem;
+  }
+}
+
+/* Smooth transitions for responsive changes */
+.game-choice-buttons,
+.result-icon,
+.scorecard {
+  transition: all 0.3s ease;
+}
+
+/* Ensure proper spacing in grid layout */
+.row.g-3 > * {
+  padding: 0.75rem; /* Consistent gutters */
 }
