@@ -9,28 +9,16 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
   <link rel="stylesheet" href="./src/css/styles.css">
-  <link rel="stylesheet" href="./src/css/modern.css">
-  <title>Retro Hunter</title>
-  <style>
-    .social-icons a {
-      margin: 0 8px;
-      transition: transform 0.3s ease;
-      display: inline-block;
-    }
-    .social-icons a:hover {
-      transform: scale(1.2);
-    }
-  </style>
+  <link rel="stylesheet" href="./src/css/modern.css">  <title>Retro Hunter</title>
 </head>
 
-<body>
-  <hgroup class="container-modern text-center fw-bold bg-transparent box-shadow py-3" style="position: relative; overflow: hidden;">
-    <img src="./assets/images/two.webp" alt="Background Pattern" class="header-bg-img" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.2; z-index: -1;">
-    <canvas id="canvasOne" width="875" height="110" class="my-2 canvas rounded-5"></canvas>
+<body>  <hgroup class="container-modern text-center fw-bold bg-transparent box-shadow py-2 menu-header-container">
+    <img src="./assets/images/two.webp" alt="Background Pattern" class="menu-bg-image menu-bg-header">
+    <canvas id="canvasOne" width="680" height="80" class="my-1 canvas rounded-5"></canvas>
   </hgroup>
 
-  <nav class="navbar navbar-expand-lg navbar-dark background box-shadow mb-4" style="position: relative; overflow: hidden;">
-    <img src="./assets/images/four.webp" alt="Navigation Background" class="nav-bg-img" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.15; z-index: -1;">
+  <nav class="navbar navbar-expand-lg navbar-dark background box-shadow mb-3 menu-nav-container">
+    <img src="./assets/images/four.webp" alt="Navigation Background" class="menu-bg-image menu-bg-nav">
     <div class="container-modern">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -88,42 +76,37 @@
       </div>
     </div>
   </nav>
-
-  <main class="container-modern py-4">
-    <div class="row align-items-center mb-5 fade-in">
-      <div class="col-lg-8 order-lg-1 order-2">
-        <header class="mb-4">
-          <h1 class="display-3 hunter shadow">
+  <main class="container-modern py-3">
+    <div class="row align-items-center mb-4 fade-in">
+      <div class="col-lg-8 order-lg-1 order-2">        <header class="mb-3">
+          <h1 class="display-4 hunter shadow">
             <i class="fa fa-user-astronaut fa-1x hunter me-2"></i> Eric H. Petross
-            <div class="mt-3 display-6">
+            <div class="mt-2 display-6">
               <i class="fa fa-quote-left fa-xs hunter me-1"></i> 
               Hunter 
               <i class="fa fa-quote-right fa-xs hunter ms-1"></i>
             </div>
           </h1>
-          <p class="lead text-light mt-4">Full-stack developer with a passion for creating responsive and user-friendly web applications.</p>
-        </header>
-        <div class="btn-container mt-4">
-          <a href="./bio.html" class="btn btn-outline-success btn-lg">
+          <p class="lead text-light mt-3">Full-stack developer with a passion for creating responsive and user-friendly web applications.</p>
+        </header>        <div class="btn-container mt-3">
+          <a href="./bio.html" class="btn btn-outline-success btn-md">
             <i class="fa fa-info-circle me-2"></i>About Me
           </a>
-          <a href="./projects.html" class="btn btn-outline-success btn-lg">
+          <a href="./projects.html" class="btn btn-outline-success btn-md">
             <i class="fa fa-code me-2"></i>View Projects
           </a>
         </div>
       </div>
-      <div class="col-lg-4 order-lg-2 order-1 mb-4 mb-lg-0 text-center">
-        <figure class="img-fluid mb-4">
-          <img class="img-fluid rounded-circle box-shadow" style="max-width: 250px;" 
+      <div class="col-lg-4 order-lg-2 order-1 mb-4 mb-lg-0 text-center">        <figure class="img-fluid mb-4">
+          <img class="img-fluid rounded-circle box-shadow menu-profile-image" 
                src="./assets/logos/stray-gear.png" alt="StrayDog Syndications Logo">
         </figure>
       </div>
     </div>
 
-    <section class="section-modern">
-      <div class="card box-shadow fade-in">
-        <div class="card-body">
-          <h2 class="mb-4">Featured Projects</h2>
+    <section class="section-modern featured-projects">      <div class="card box-shadow fade-in">
+        <div class="card-body p-3">
+          <h2 class="mb-3 h4">Featured Projects</h2>
           <div class="grid-modern">
             <div class="card box-shadow">
               <div class="card-body text-center">
@@ -160,13 +143,11 @@
           </div>
         </div>
       </div>
-    </section>
-
-    <footer class="container-fluid background text-white py-5 mt-5">
+    </section>    <footer class="container-fluid background text-white py-3 mt-3">
       <div class="container-modern">
         <div class="row">
-          <div class="col-md-6 mb-4 mb-md-0">
-            <h2 class="h4 mb-4">Navigation</h2>
+          <div class="col-md-6 mb-2 mb-md-0">
+            <h2 class="h5 mb-3">Navigation</h2>
             <ul class="list-unstyled">
               <li class="mb-2"><a href="./index.html" class="text-white"><i class="fa fa-home me-2"></i>Home</a></li>
               <li class="mb-2"><a href="./resume/index.html" class="text-white"><i class="fa fa-pen-alt me-2"></i>Resume</a></li>
@@ -174,20 +155,19 @@
               <li class="mb-2"><a href="./bio.html" class="text-white"><i class="fa fa-info-circle me-2"></i>About</a></li>
               <li class="mb-2"><a href="./contacts.html" class="text-white"><i class="fa fa-mail-bulk me-2"></i>Contact</a></li>
             </ul>
-          </div>
-          <div class="col-md-6 text-md-end">
-            <img class="img-fluid rounded-circle mb-3" style="max-width: 80px;" src="./assets/logos/stray-gear.png" alt="StrayDog Logo">
+          </div>          <div class="col-md-6 text-md-end">
+            <img class="img-fluid rounded-circle mb-3 menu-footer-logo" src="./assets/logos/stray-gear.png" alt="StrayDog Logo">
             <p class="mb-1">&copy; 2025 StrayDog Syndications LLC.</p>
             <p class="small">Powered by <a href="https://thelastmile.org" class="text-white">The Last Mile&trade;</a></p>
             <div class="mt-3 social-icons">
-              <a href="https://www.linkedin.com/in/eric-petross" class="text-decoration-none" target="_blank" rel="noopener noreferrer">
-                <i class="fab fa-linkedin fa-2x" style="color: #0077b5;"></i>
+              <a href="https://www.linkedin.com/in/eric-petross" class="text-decoration-none" target="_blank" rel="noopener noreferrer" title="LinkedIn Profile">
+                <i class="fab fa-linkedin fa-2x linkedin-color"></i>
               </a>
-              <a href="https://www.facebook.com/profile.php?id=61566503975625" class="text-decoration-none" target="_blank" rel="noopener noreferrer">
-                <i class="fab fa-facebook fa-2x" style="color: #1877f2;"></i>
+              <a href="https://www.facebook.com/profile.php?id=61566503975625" class="text-decoration-none" target="_blank" rel="noopener noreferrer" title="Facebook Profile">
+                <i class="fab fa-facebook fa-2x facebook-color"></i>
               </a>
-              <a href="https://github.com/StrayDogSyn" class="text-decoration-none" target="_blank" rel="noopener noreferrer">
-                <i class="fab fa-github fa-2x" style="color: #f5f5f5;"></i>
+              <a href="https://github.com/StrayDogSyn" class="text-decoration-none" target="_blank" rel="noopener noreferrer" title="GitHub Profile">
+                <i class="fab fa-github fa-2x github-color"></i>
               </a>
             </div>
           </div>

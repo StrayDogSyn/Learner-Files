@@ -12,26 +12,14 @@
   <link rel="stylesheet" type="text/css" href="./src/css/styles.css">
   <link rel="stylesheet" type="text/css" href="./src/css/modern.css">
   <title>About Me - StrayDog Syndications</title>
-  <style>
-    .social-icons a {
-      margin: 0 8px;
-      transition: transform 0.3s ease;
-      display: inline-block;
-    }
-    .social-icons a:hover {
-      transform: scale(1.2);
-    }
-  </style>
 </head>
 
-<body>
-  <hgroup class="container-modern text-center fw-bold bg-transparent box-shadow py-3" style="position: relative; overflow: hidden;">
-    <img src="./assets/images/two.webp" alt="Background Pattern" class="header-bg-img" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.2; z-index: -1;">
+<body>  <hgroup class="container-modern text-center fw-bold bg-transparent box-shadow py-3 bio-header">
+    <img src="./assets/images/two.webp" alt="Background Pattern" class="bg-image bg-image--header">
     <canvas id="canvasOne" width="875" height="110" class="my-2 canvas rounded-5"></canvas>
   </hgroup>
-
-  <nav class="navbar navbar-expand-lg navbar-dark background box-shadow mb-4" style="position: relative; overflow: hidden;">
-    <img src="./assets/images/four.webp" alt="Navigation Background" class="nav-bg-img" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.15; z-index: -1;">
+  <nav class="navbar navbar-expand-lg navbar-dark background box-shadow mb-4 bio-nav">
+    <img src="./assets/images/four.webp" alt="Navigation Background" class="bg-image bg-image--nav">
     <div class="container-modern">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -81,9 +69,8 @@
     </div>
   </nav>
 
-  <main class="container-modern py-4">
-    <header class="text-center mb-5 fade-in" style="position: relative; overflow: hidden; padding: 3rem 1rem; border-radius: 0.5rem;">
-      <img src="./assets/images/three.webp" alt="Background Pattern" class="header-bg-img" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.2; z-index: -1;">
+  <main class="container-modern py-4">    <header class="text-center mb-5 fade-in bio-main-header">
+      <img src="./assets/images/three.webp" alt="Background Pattern" class="bg-image bg-image--header">
       <h1 class="display-4 text-white fw-bold mb-3">
         <i class="fa fa-user-astronaut me-2"></i>
         About The Author
@@ -141,7 +128,7 @@
         <div class="card-body">
           <div class="row align-items-center">
             <div class="col-md-4 mb-3 mb-md-0 text-center">
-              <img src="./assets/images/rubix.jpeg" alt="A rubix cube" class="img-fluid rounded-circle box-shadow mb-3" style="max-width: 250px;">
+              <img src="./assets/images/rubix.jpeg" alt="A rubix cube" class="img-fluid rounded-circle box-shadow mb-3 bio-profile-image">
               <figcaption class="text-center mb-3">Programming has become my personal ever-evolving puzzle game...</figcaption>
               <div class="text-center">
                 <a href="./projects/knucklebones/index.html" class="btn btn-outline-success">
@@ -187,18 +174,17 @@
           </ul>
         </div>
         <div class="col-md-6 text-md-end">
-          <img class="img-fluid rounded-circle mb-3" style="max-width: 80px;" src="./assets/logos/stray-gear.png" alt="StrayDog Logo">
+          <img class="img-fluid rounded-circle mb-3 bio-footer-logo" src="./assets/logos/stray-gear.png" alt="StrayDog Logo">
           <p class="mb-1">&copy; 2025 StrayDog Syndications LLC.</p>
           <p class="small">Powered by <a href="https://thelastmile.org" class="text-white">The Last Mile&trade;</a></p>
-          <div class="mt-3 social-icons">
-            <a href="https://www.linkedin.com/in/eric-petross" class="text-decoration-none" target="_blank" rel="noopener noreferrer">
-              <i class="fab fa-linkedin fa-2x" style="color: #0077b5;"></i>
+          <div class="mt-3 social-icons">            <a href="https://www.linkedin.com/in/eric-petross" class="text-decoration-none" target="_blank" rel="noopener noreferrer" title="LinkedIn Profile">
+              <i class="fab fa-linkedin fa-2x bio-social-linkedin"></i>
             </a>
-            <a href="https://www.facebook.com/profile.php?id=61566503975625" class="text-decoration-none" target="_blank" rel="noopener noreferrer">
-              <i class="fab fa-facebook fa-2x" style="color: #1877f2;"></i>
+            <a href="https://www.facebook.com/profile.php?id=61566503975625" class="text-decoration-none" target="_blank" rel="noopener noreferrer" title="Facebook Profile">
+              <i class="fab fa-facebook fa-2x bio-social-facebook"></i>
             </a>
-            <a href="https://github.com/StrayDogSyn" class="text-decoration-none" target="_blank" rel="noopener noreferrer">
-              <i class="fab fa-github fa-2x" style="color: #f5f5f5;"></i>
+            <a href="https://github.com/StrayDogSyn" class="text-decoration-none" target="_blank" rel="noopener noreferrer" title="GitHub Profile">
+              <i class="fab fa-github fa-2x bio-social-github"></i>
             </a>
           </div>
         </div>

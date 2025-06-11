@@ -12,26 +12,14 @@
   <link rel="stylesheet" type="text/css" href="../src/css/modern.css">
   <link rel="stylesheet" type="text/css" href="css/base.css">
   <title>E. Hunter Petross | Resume - StrayDog Syndications</title>
-  <style>
-    .social-icons a {
-      margin: 0 8px;
-      transition: transform 0.3s ease;
-      display: inline-block;
-    }
-    .social-icons a:hover {
-      transform: scale(1.2);
-    }
-  </style>
 </head>
 
-<body>
-  <hgroup class="container-modern text-center fw-bold bg-transparent box-shadow py-3" style="position: relative; overflow: hidden;">
-    <img src="../assets/images/two.webp" alt="Background Pattern" class="header-bg-img" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.2; z-index: -1;">
+<body>  <hgroup class="container-modern text-center fw-bold bg-transparent box-shadow py-3 resume-header">
+    <img src="../assets/images/two.webp" alt="Background Pattern" class="bg-image bg-image--header">
     <canvas id="canvasOne" width="875" height="110" class="my-2 canvas rounded-5"></canvas>
   </hgroup>
-
-  <nav class="navbar navbar-expand-lg navbar-dark background box-shadow mb-4" style="position: relative; overflow: hidden;">
-    <img src="../assets/images/four.webp" alt="Navigation Background" class="nav-bg-img" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.15; z-index: -1;">
+  <nav class="navbar navbar-expand-lg navbar-dark background box-shadow mb-4 resume-nav">
+    <img src="../assets/images/four.webp" alt="Navigation Background" class="bg-image bg-image--nav">
     <div class="container-modern">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -81,9 +69,8 @@
     </div>
   </nav>
 
-  <div class="container-modern py-4">
-    <header class="text-center mb-5 fade-in" style="position: relative; overflow: hidden; padding: 3rem 1rem; border-radius: 0.5rem;">
-      <img src="../assets/images/three.webp" alt="Background Pattern" class="header-bg-img" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.2; z-index: -1;">
+  <div class="container-modern py-4">    <header class="text-center mb-5 fade-in resume-main-header">
+      <img src="../assets/images/three.webp" alt="Background Pattern" class="bg-image bg-image--header">
       <h1 class="display-4 text-white fw-bold mb-3">
         <i class="fa fa-file-alt me-2"></i>
         Professional Resume
@@ -125,8 +112,7 @@
             <span>P.O. Box 8274</span><br />
             <span>Cranston, RI 02920</span><br />
             <span><i>Feb 2020 to Sep 2024</i></span>
-            <!-- Summary of Job experience -->
-            <h3>Job summary &amp; experience</h3>
+            <!-- Summary of Job experience -->            <h3>Job summary &amp; experience</h3>
             <div class="list-skills">
               <ul>
                 <li>Programmed and manage multiple database systems for Education / Committing / Industries Clerks
@@ -135,12 +121,16 @@
                   workers.</li>
                 <li>PC Repair and maintenence of information systems, including smartboards, laptops, and printers on
                   various networks throughout the <strong><br>John J. Moran Medium Security Building.</strong></li>
-                <div class="lead">References, [with permission]
-                  <li>Counselor Lisa Soderlund, LCDP, CCJP, CAAS, Programs Coordinator, Notary Public</li>
-                  <a href="Lisa.Soderlund@doc.ri.gov"><small class="text-muted">[e-mail@doc.ri.gov]</small></a>
-                  <li>Education Correctional Officer Ali Merhi</li>
-                </div>
               </ul>
+              
+              <div class="lead">References, [with permission]
+                <ul>
+                  <li>Counselor Lisa Soderlund, LCDP, CCJP, CAAS, Programs Coordinator, Notary Public
+                    <a href="Lisa.Soderlund@doc.ri.gov"><small class="text-muted">[e-mail@doc.ri.gov]</small></a>
+                  </li>
+                  <li>Education Correctional Officer Ali Merhi</li>
+                </ul>
+              </div>
             </div>
             <hr>
           </section>
@@ -150,15 +140,15 @@
           <div class="list-skills">
             <ul>
               <li>Created: <i class="fa fa-database fa-lg"></i> <b>Education Department Switchboard </b><em>(see <span
-                    style="font-variant:none; font-size:1.15rem;">.mdb &amp; .mddb</span> files)</em></li>
+                    class="resume-text-special">.mdb &amp; .mddb</span> files)</em></li>
               <li>Technical Assistant for <b>R.I.D.O.C.'s</b> M.I.S. department, assisted in configuring and
                 implementing the new RI-JJM classroom for the T.L.M. program.</li>
               <li>Network administrator for clerical systems used by education prison staff on secure LAN networks<br>
-                <em>(<span style="font-variant:none; font-size:1.15rem;">i.e.</span> clerks and librarians)</em></li>
+                <em>(<span class="resume-text-special">i.e.</span> clerks and librarians)</em></li>
               <li>Able to remain consistently employed &amp; disciplinary-free during incarceration<br> @ John J. Moran
                 Medium Security Building.</li>
               <li>Lead campaign writer for<i class="fab fa-d-and-d fa-lg"></i> <b>Pathfinder&copy;</b> summer league <em>(<span
-                    style="font-variant:none; font-size:1.15rem;">i.e.</span> prison tabletop gaming community)</em>
+                    class="resume-text-special">i.e.</span> prison tabletop gaming community)</em>
               </li>
             </ul>
           </div>
@@ -245,35 +235,32 @@
             <div class="text-center">
               <h3 class="tlm-title">
                 <img id="tlm-logo" src="../assets/logos/tlm-logo.png" alt="TLM Logo">The Last Mile Program Participant
-              </h3>
-              <h3>Technical Skills &amp; Training</h3>
+              </h3>              <h3>Technical Skills &amp; Training</h3>
               <hr>
               <div class="center-lists text-center">
+                <h3><i class="fa fa-laptop-code fa-lg"></i> Web Development Fundamentals</h3>
                 <ul>
-                  <br>
-                  <h3><i class="fa fa-laptop-code fa-lg"></i> Web Development Fundamentals</h3>
-                  <br />
                   <li><abbr title="HyperText Markup Language"><i class="fab fa-html5 fa-1x"></i> HTML5</abbr></li>
                   <li><abbr title="Cascading Style Sheets"><i class="fab fa-css3-alt fa-1x"></i> CSS3</abbr></li>
                   <li><abbr title="ECMAScript"><i class="fab fa-js-square fa-1x"></i> JavaScript</abbr></li>
                   <li><i class="fab fa-js fa-1x"></i> jQuery</li>
-                  <li><i class="fab fa-bootstrap fa-1x"></i> Bootstrap5</li>
-                  <div id="pending">
-                    <hr><br />
-                    <h3><i class="fab fa-stack-overflow fa-lg"></i> M.E.R.N. &amp; M.E.A.N. <br> Stack Development
-                    </h3>
-                    <h5><em>(Muted text implies familiarity, pending working proficiency by 2025)</em></h5>
-                  </div>
-                  <li class="text-muted"><i class="fa fa-database fa-1x"></i> MongoDB</li>
-                  <li class="text-muted"><i class="fa fa-subscript fa-1x"></i> Express</li>
-                  <li class="text-muted"><i class="fab fa-react fa-fw"></i> React Bootstrap</li>
-                  <li class="text-muted"><i class="fab fa-js fa-1x"></i> Angular.js</li>
-                  <li class="text-muted"><i class="fab fa-js-square fa-1x"></i> Node.js</li>
+                  <li><i class="fab fa-bootstrap fa-1x"></i> Bootstrap5</li>                </ul>
+                
+                <div id="pending">
                   <hr>
-                </ul>
+                  <h3><i class="fab fa-stack-overflow fa-lg"></i> M.E.R.N. &amp; M.E.A.N. <br> Stack Development</h3>
+                  <h5><em>(Muted text implies familiarity, pending working proficiency by 2025)</em></h5>
+                  <ul>
+                    <li class="text-muted"><i class="fa fa-database fa-1x"></i> MongoDB</li>
+                    <li class="text-muted"><i class="fa fa-subscript fa-1x"></i> Express</li>
+                    <li class="text-muted"><i class="fab fa-react fa-fw"></i> React Bootstrap</li>
+                    <li class="text-muted"><i class="fab fa-js fa-1x"></i> Angular.js</li>
+                    <li class="text-muted"><i class="fab fa-js-square fa-1x"></i> Node.js</li>
+                  </ul>
+                  <hr>
+                </div>
               </div>
-              
-              <!-- Programming Languages -->
+                <!-- Programming Languages -->
               <div class="list-skills center-lists text-center">
                 <h3><i class="fab fa-gitlab fa-lg"></i> Programming Languages <br>&amp; Technical Proficiencies</h3>
                 <div class="accordion" id="accordionTechSkills">
@@ -287,15 +274,16 @@
                     <li><i class="fa fa-desktop fa-lg"></i> CompTIA Security+ Certification<br>
                       <em class="subscript">&lang;Testing Pending Fall 2024&rang;</em></li>
                     <li><i class="fab fa-microsoft fa-1x"></i> Microsoft Office Specialist (MOS) Certifications:<br>
-                      <em class="subscript">&lang;Testing Pending Fall 2024&rang;</em></li>
-                    <ul id="MOS" class="dropdown">
-                      <li><small><i class="fab fa-windows fa-lg"></i> Access&trade;</small></li>
-                      <li><small><i class="fab fa-windows fa-lg"></i> Excel&trade;</small></li>
-                      <li><small><i class="fab fa-windows fa-lg"></i> Powerpoint&trade;</small></li>
-                      <li><small><i class="fab fa-windows fa-lg"></i> Publisher&trade;</small></li>
-                      <li><small><i class="fab fa-windows fa-lg"></i> Outlook&trade;</small></li>
-                      <li><small><i class="fab fa-windows fa-lg"></i> Word&trade;</small></li>
-                    </ul>
+                      <em class="subscript">&lang;Testing Pending Fall 2024&rang;</em>
+                      <ul id="MOS" class="dropdown">
+                        <li><small><i class="fab fa-windows fa-lg"></i> Access&trade;</small></li>
+                        <li><small><i class="fab fa-windows fa-lg"></i> Excel&trade;</small></li>
+                        <li><small><i class="fab fa-windows fa-lg"></i> Powerpoint&trade;</small></li>
+                        <li><small><i class="fab fa-windows fa-lg"></i> Publisher&trade;</small></li>
+                        <li><small><i class="fab fa-windows fa-lg"></i> Outlook&trade;</small></li>
+                        <li><small><i class="fab fa-windows fa-lg"></i> Word&trade;</small></li>
+                      </ul>
+                    </li>
                   </ul>
                   <hr>
                 </div>
@@ -380,18 +368,17 @@
           </ul>
         </div>
         <div class="col-md-6 text-md-end">
-          <img class="img-fluid rounded-circle mb-3" style="max-width: 80px;" src="../assets/logos/stray-gear.png" alt="StrayDog Logo">
+          <img class="img-fluid rounded-circle mb-3 resume-footer-logo" src="../assets/logos/stray-gear.png" alt="StrayDog Logo">
           <p class="mb-1">&copy; 2025 StrayDog Syndications LLC.</p>
           <p class="small">Powered by <a href="https://thelastmile.org" class="text-white">The Last Mile&trade;</a></p>
-          <div class="mt-3 social-icons">
-            <a href="https://www.linkedin.com/in/eric-petross" class="text-decoration-none" target="_blank" rel="noopener noreferrer">
-              <i class="fab fa-linkedin fa-2x" style="color: #0077b5;"></i>
+          <div class="mt-3 social-icons">            <a href="https://www.linkedin.com/in/eric-petross" class="text-decoration-none" target="_blank" rel="noopener noreferrer" title="LinkedIn Profile">
+              <i class="fab fa-linkedin fa-2x resume-social-linkedin"></i>
             </a>
-            <a href="https://www.facebook.com/profile.php?id=61566503975625" class="text-decoration-none" target="_blank" rel="noopener noreferrer">
-              <i class="fab fa-facebook fa-2x" style="color: #1877f2;"></i>
+            <a href="https://www.facebook.com/profile.php?id=61566503975625" class="text-decoration-none" target="_blank" rel="noopener noreferrer" title="Facebook Profile">
+              <i class="fab fa-facebook fa-2x resume-social-facebook"></i>
             </a>
-            <a href="https://github.com/StrayDogSyn" class="text-decoration-none" target="_blank" rel="noopener noreferrer">
-              <i class="fab fa-github fa-2x" style="color: #f5f5f5;"></i>
+            <a href="https://github.com/StrayDogSyn" class="text-decoration-none" target="_blank" rel="noopener noreferrer" title="GitHub Profile">
+              <i class="fab fa-github fa-2x resume-social-github"></i>
             </a>
           </div>
         </div>
