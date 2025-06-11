@@ -5,14 +5,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="shortcut icon" href="../../assets/logos/stray-gear.png" type="image/x-icon">
-  <link href="https://cdn.tlm.cloud/bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet"
+  <link rel="shortcut icon" href="../../assets/logos/stray-gear.png" type="image/x-icon">  <link href="https://cdn.tlm.cloud/bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  <link rel="stylesheet" href="../../src/css/modern.css">
   <link rel="stylesheet" href="./css/styles.css">
   <title>Navbar Demo</title>
 </head>
 
-<body>
+<body class="navbar-project">
   <!-- Site Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
     <div class="container">
@@ -44,136 +44,147 @@
 
   <!-- Demo Navigation -->
   <div class="flex-container">
-    <div class="navbar">
-      <div class="button-group">
-        <button type="button"><i class="fa fa-list"></i> Link</button>
-        <button id="dropdownMenu" type="button" class="dropdown-button"><i class="fa fa-bars"></i> Short</button>
-        <button type="button"><i class="fa fa-feather"></i> Active <i class="fa fa-chevron-down"></i></button>
-      </div>
-      <!--button-group-->
+    <div class="navbar">      <div class="button-group">
+        <button type="button" title="Link button" aria-label="Link navigation button"><i class="fa fa-list"></i> Link</button>
+        <button id="dropdownMenu" type="button" class="dropdown-button" title="Short menu dropdown" aria-label="Short menu dropdown toggle"><i class="fa fa-bars"></i> Short</button>
+        <button type="button" title="Active menu with submenu" aria-label="Active menu with dropdown options"><i class="fa fa-feather"></i> Active <i class="fa fa-chevron-down"></i></button>
+      </div><!--button-group-->
       <nav class="navbar-main">
         <div id="main-navbar">
-          <ul class="outer-nav">
-            <hgroup class="main">
+          <div class="navbar-header-section">
+            <div class="main">
               <h1 class="navbar-header">Header, Menu items</h1>
               <hr>
-            </hgroup>
+            </div>
+          </div>
+          <ul class="outer-nav">
             <!--navbar-header-->
             <li>
-              <button class="menu-button" type="button">
+              <button class="menu-button" type="button" title="Toggle main menu" aria-label="Toggle main menu">
                 <i class="fa fa-bars fa-lg"></i>
               </button>
-              <a href="#" class="firstMenu"></a>With submenu</a>
-              <p class="firstMenu">Show on hover and don't fix on click</p>
+              <a href="#" class="firstMenu" title="First menu with submenu">With submenu</a>
+              <span class="firstMenu description">Show on hover and don't fix on click</span>
             </li>
-            <!--menu-button-->
-            <div id="second-navbar" class="inner-nav">
-              <hgroup class="submenu">
-                <h1 class="submenu-header">Submenu header</h1>
-                <hr>
-              </hgroup>
+          </ul>
+          <!--menu-button-->            <div id="second-navbar" class="inner-nav">
+              <div class="submenu-header-section">
+                <div class="submenu">
+                  <h1 class="submenu-header">Submenu header</h1>
+                  <hr>
+                </div>
+              </div>
               <ul id="second-navbar-list" class="list-item">
-                <li><span></span>
-                  <button class="second-button" type="button">
+                <li>
+                  <button class="second-button" type="button" title="Toggle second menu" aria-label="Toggle second menu">
                     <i class="fa fa-bars fa-lg"></i>
                   </button>
                   <span class="secondMenu">With submenu</span>
-                  <p class="secondMenu">show on hover and fix on click</p>
+                  <span class="secondMenu description">show on hover and fix on click</span>
                 </li>
-                <div id="third-navbar" class="innermost-nav">
-                  <hgroup class="">
+              </ul>
+              <div id="third-navbar" class="innermost-nav">
+                <div class="innermost-header-section">
+                  <div>
                     <h1 class="secondmenu-header">Second submenu header</h1>
                     <hr>
-                  </hgroup>
-                  <ul id="third-navbar-list">
-                    <li>
-                      <button class="third-button" type="button">
-                        <i class="fa fa-bars fa-lg"></i>
-                      </button>
-                      <span class="thirdMenu">Final submenu</span>
-                      <p class="thirdMenu">show on hover and fix on click</p>
-                    </li>
-                    <li>
-                      <span>Default item</span>
-                      <p>Default description</p>
-                    </li>
-                    <li>
-                      <span>Active item</span>
-                      <p>Active description</p>
-                    </li>
-                    <li>
-                      <span>Disabled item</span>
-                      <p>Disabled description</p>
-                    </li>
-                    <li>
-                      <span>Open item</span>
-                      <p>Open description</p>
-                    </li>
-                    <hr>
-                    <a href="#">Regular link</a>
-                    <p>Regular link description</p>
-                    <hr>
-                    <div>
-                      <span>Separated link</span>
-                    </div>
-                  </ul>
+                  </div>
                 </div>
-                <!--third-navbar-->
+                <ul id="third-navbar-list">
+                  <li>
+                    <button class="third-button" type="button" title="Toggle third menu" aria-label="Toggle third menu">
+                      <i class="fa fa-bars fa-lg"></i>
+                    </button>
+                    <span class="thirdMenu">Final submenu</span>
+                    <span class="thirdMenu description">show on hover and fix on click</span>
+                  </li>
+                  <li>
+                    <span>Default item</span>
+                    <span class="description">Default description</span>
+                  </li>
+                  <li>
+                    <span>Active item</span>
+                    <span class="description">Active description</span>
+                  </li>
+                  <li>
+                    <span>Disabled item</span>
+                    <span class="description">Disabled description</span>
+                  </li>
+                  <li>
+                    <span>Open item</span>
+                    <span class="description">Open description</span>
+                  </li>
+                  <li class="separator">
+                    <hr>
+                    <a href="#" title="Regular link">Regular link</a>
+                    <span class="description">Regular link description</span>
+                  </li>
+                  <li>
+                    <span>Separated link</span>
+                  </li>
+                </ul>
+              </div>
+              <!--third-navbar-->              </div>
+              <ul class="second-navbar-additional">
                 <li>
                   <span>Default item</span>
-                  <p>Default description</p>
+                  <span class="description">Default description</span>
                 </li>
                 <li>
                   <span>Active item</span>
-                  <p>Active description</p>
+                  <span class="description">Active description</span>
                 </li>
                 <li>
                   <span>Disabled item</span>
-                  <p>Disabled description</p>
+                  <span class="description">Disabled description</span>
                 </li>
                 <li>
                   <span>Open item</span>
-                  <p>Open description</p>
+                  <span class="description">Open description</span>
                 </li>
-                <hr>
-                <a>Regular link</a>
-                <p>Regular link description</p>
-                <hr>
-                <div>
+                <li class="separator">
+                  <hr>
+                  <a href="#" title="Regular link">Regular link</a>
+                  <span class="description">Regular link description</span>
+                </li>
+                <li>
                   <span>Separated link</span>
-                </div>
+                </li>
               </ul>
             </div>
-            <!-- inner-nav -->
+            <!-- inner-nav -->          </div>
+          <ul class="main-navbar-additional">
             <li>
               <span>Default item</span>
-              <p>Default description</p>
+              <span class="description">Default description</span>
             </li>
             <li>
               <span>Active item</span>
-              <p>Active description</p>
+              <span class="description">Active description</span>
             </li>
             <li>
               <span>Disabled item</span>
-              <p>Disabled description</p>
+              <span class="description">Disabled description</span>
             </li>
             <li>
               <span>Open item</span>
-              <p>Open description</p>
+              <span class="description">Open description</span>
             </li>
+          </ul>
+          <div class="additional-content">
             <div class="empty">
 
             </div>
             <hr>
             <div class="add-item-input">
-              <a href="#">Regular link</a>
-              <p>Regular link description</p>
+              <a href="#" title="Regular link">Regular link</a>
+              <span class="description">Regular link description</span>
               <input class="input-box" type="text" placeholder="Add list item here">
-              <button id="input-submit" class="margin" type="submit">
+              <button id="input-submit" class="margin" type="submit" title="Add item" aria-label="Add new item to list">
                 <i class="fa fa-caret-square-right fa-lg"></i>
               </button>
             </div>
-          </ul>
+          </div>
           <!--outer-nav-->
         </div>
         <!--main-navbar-->

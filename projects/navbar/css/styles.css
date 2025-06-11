@@ -42,9 +42,27 @@ li:hover {
 }
 
 .button-group {
-  align-content: center;
+  display: flex;
+  align-items: center;
   justify-content: space-evenly;
   height: 40px;
+  gap: 8px;
+  padding: 8px;
+}
+
+.button-group button {
+  background-color: rgba(214, 223, 214, 0.1);
+  border: 1px solid rgba(214, 223, 214, 0.3);
+  color: #d6dfd6e8;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.button-group button:hover {
+  background-color: #7b817e;
+  color: #2b2c2b;
+  transform: translateY(-1px);
 }
 
 .inner-nav {
@@ -76,13 +94,101 @@ li:hover {
   left: 5px;
 }
 
+/* Description styling */
+.description {
+  font-size: 0.85em;
+  color: rgba(214, 223, 214, 0.7);
+  font-style: italic;
+  margin-top: 4px;
+  display: block;
+}
+
+/* Separator styling for list items */
+.separator {
+  border-top: 1px solid rgba(214, 223, 214, 0.3);
+  padding-top: 8px;
+  margin-top: 8px;
+}
+
+/* Improve list item styling */
+ul li {
+  position: relative;
+  padding: 8px 12px;
+  margin: 4px 0;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+ul li:hover {
+  background-color: rgba(123, 129, 126, 0.2);
+}
+
+/* Menu button styling */
+.menu-button,
+.second-button,
+.third-button {
+  background: transparent;
+  border: none;
+  color: inherit;
+  margin-right: 8px;
+  padding: 4px;
+  border-radius: 3px;
+  transition: background-color 0.3s ease;
+}
+
+.menu-button:hover,
+.second-button:hover,
+.third-button:hover {
+  background-color: rgba(214, 223, 214, 0.2);
+}
+
+/* Input group styling */
+.add-item-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background-color: rgba(214, 223, 214, 0.05);
+  border-radius: 4px;
+  margin-top: 8px;
+}
+
+.input-box {
+  flex: 1;
+  padding: 6px 10px;
+  background-color: rgba(214, 223, 214, 0.1);
+  border: 1px solid rgba(214, 223, 214, 0.3);
+  border-radius: 3px;
+  color: #d6dfd6e8;
+}
+
+.input-box::placeholder {
+  color: rgba(214, 223, 214, 0.5);
+}
+
+#input-submit {
+  background-color: rgba(214, 223, 214, 0.2);
+  border: 1px solid rgba(214, 223, 214, 0.4);
+  color: #d6dfd6e8;
+  padding: 6px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#input-submit:hover {
+  background-color: #7b817e;
+  color: #2b2c2b;
+  transform: scale(1.05);
+}
+
 @import url('../../../css/modern.css');
 
 .navbar {
   position: sticky;
   top: 0;
-  width: 100%;
-  background: var(--primary-bg);
+  width: 100%;  background: var(--primary-bg);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   z-index: 1000;
   border-bottom: 1px solid var(--border-color);
@@ -143,8 +249,8 @@ li:hover {
     position: absolute;
     top: 100%;
     left: 0;
-    right: 0;
-    background: var(--primary-bg);
+    right: 0;    background: var(--primary-bg);
+    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     padding: var(--space-md);
     flex-direction: column;
@@ -159,6 +265,25 @@ li:hover {
   .nav-link {
     width: 100%;
     text-align: center;
+  }
+
+  nav {
+    width: 100%;
+  }
+  
+  .flex-container {
+    flex-direction: column;
+  }
+  
+  .button-group {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 12px;
+  }
+  
+  .button-group button {
+    min-width: 100px;
+    margin: 4px;
   }
 }
 
