@@ -17,7 +17,7 @@
   <title>CompTIA Exams</title>
 </head>
 
-<body>
+<body class="container-fluid Tgold mx-auto">
   <!-- Navigation Bar - Simplified for better viewport use -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-2">
     <div class="container-fluid">
@@ -40,10 +40,9 @@
       </div>
     </div>
   </nav>
-
   <!-- Keyboard Shortcuts Panel -->
   <label class="top-label" for="toggle">❔</label>
-  <input type="checkbox" id="toggle" style="display: none;">
+  <input type="checkbox" id="toggle" class="visually-hidden">
   <aside id="hidden-nav">
     <ul class="list-group fw-bold">
       <li class="list-group-item">
@@ -88,17 +87,14 @@
       </div>
       <div>
         <h5 class="mb-0"><i class="fas fa-hourglass"></i> <span id="timer">0:00</span></h5>
-      </div>
-    </div>
+      </div>    </div>
     
     <!-- Progress Bar -->
     <div class="progress">
-      <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-    </div>
-
-    <!-- Question Card - Optimized for viewport -->
+      <div class="progress-bar progress-bar-initial" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Quiz Progress" title="Quiz Progress"></div>
+    </div>    <!-- Question Card - Optimized for viewport -->
     <div class="question-card">
-      <div class="card-body p-3">
+      <div class="card-body">
         <!-- Introduction -->
         <div id="intro" class="container-fluid fade-in">
           <p class="lead">Includes coverage of CompTIA&trade; A&plus; exams 220-801 &amp; 220-802 and Security&plus; exam SYO-601.
