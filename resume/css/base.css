@@ -77,3 +77,132 @@ ul>li, li {
         max-width: 100px;
     }
 }
+
+/* Professional Skills Badges */
+.badge {
+  font-size: 0.85em;
+  margin: 0.2rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.25rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.bg-primary { background-color: #007bff !important; }
+.bg-success { background-color: #28a745 !important; }
+.bg-info { background-color: #17a2b8 !important; }
+.bg-warning { background-color: #ffc107 !important; color: #212529; }
+.bg-secondary { background-color: #6c757d !important; }
+.bg-dark { background-color: #343a40 !important; }
+
+/* Enhanced list styling for technical skills */
+#techSkills li {
+  margin-bottom: 0.8rem;
+  padding: 0.5rem;
+  border-left: 3px solid #007bff;
+  background-color: rgba(0, 123, 255, 0.05);
+  border-radius: 0 0.25rem 0.25rem 0;
+}
+
+/* AI Content Writer section highlighting */
+#OutlierAI {
+  background: linear-gradient(135deg, rgba(0, 123, 255, 0.1), rgba(40, 167, 69, 0.1));
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  border-left: 4px solid #007bff;
+  margin-bottom: 1.5rem;
+}
+
+#OutlierAI h3 {
+  color: #007bff;
+  font-weight: bold;
+}
+
+/* Tech Stack section improvements */
+.list-skills ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+/* Responsive badge layout */
+@media (max-width: 768px) {
+  .list-inline-item {
+    display: block;
+    margin: 0.2rem 0;
+  }
+  
+  .badge {
+    display: block;
+    width: 100%;
+    margin: 0.2rem 0;
+  }
+}
+
+/* Enhanced section headers */
+.content-resume h3 i {
+  margin-right: 0.5rem;
+  color: #007bff;
+}
+
+/* Modern card styling for experience sections */
+.card {
+  border: none;
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.card-body {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 249, 250, 0.9));
+}
+
+/* Social media icons styling for resume footer */
+.social-icons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.social-icons a {
+  transition: transform 0.3s ease, color 0.3s ease;
+  display: inline-block;
+}
+
+.social-icons a:hover {
+  transform: translateY(-3px);
+}
+
+.resume-social-linkedin {
+  color: #0077b5;
+}
+
+.resume-social-linkedin:hover {
+  color: #005582;
+}
+
+.resume-social-facebook {
+  color: #1877f2;
+}
+
+.resume-social-facebook:hover {
+  color: #166fe5;
+}
+
+.resume-social-github {
+  color: #333;
+}
+
+.resume-social-github:hover {
+  color: #000;
+}
+
+.resume-social-website {
+  color: #28a745;
+}
+
+.resume-social-website:hover {
+  color: #1e7e34;
+}

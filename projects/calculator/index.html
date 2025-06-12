@@ -87,42 +87,40 @@
             <section class="screen">
               0
             </section>
-            <!-- 5 rows w/ 4 columns-->
-            <section class="calc-buttons">
+            <!-- 5 rows w/ 4 columns-->            <section class="calc-buttons">
               <div class="calc-button-row">
-                <button class="calc-button double">C</button>
-                <button class="calc-button">&larr;</button>
-                <button class="calc-button function">&divide;</button>
+                <button class="calc-button double" data-key="Esc" tabindex="1" aria-label="Clear calculator" title="Clear (Escape)">C</button>
+                <button class="calc-button" data-key="←" tabindex="2" aria-label="Backspace" title="Backspace (Delete)">&larr;</button>
+                <button class="calc-button function" data-key="/" tabindex="3" aria-label="Divide" title="Divide (/ or Numpad /)">&divide;</button>
               </div>
               <div class="calc-button-row">
-                <button class="calc-button">7</button>
-                <button class="calc-button">8</button>
-                <button class="calc-button">9</button>
-                <button class="calc-button function">&times;</button>
+                <button class="calc-button" data-key="7" tabindex="4" aria-label="Seven" title="Seven (7 or Numpad 7)">7</button>
+                <button class="calc-button" data-key="8" tabindex="5" aria-label="Eight" title="Eight (8 or Numpad 8)">8</button>
+                <button class="calc-button" data-key="9" tabindex="6" aria-label="Nine" title="Nine (9 or Numpad 9)">9</button>
+                <button class="calc-button function" data-key="*" tabindex="7" aria-label="Multiply" title="Multiply (* or Numpad *)">&times;</button>
               </div>
               <div class="calc-button-row">
-                <button class="calc-button">4</button>
-                <button class="calc-button">5</button>
-                <button class="calc-button">6</button>
-                <button class="calc-button function">-</button>
+                <button class="calc-button" data-key="4" tabindex="8" aria-label="Four" title="Four (4 or Numpad 4)">4</button>
+                <button class="calc-button" data-key="5" tabindex="9" aria-label="Five" title="Five (5 or Numpad 5)">5</button>
+                <button class="calc-button" data-key="6" tabindex="10" aria-label="Six" title="Six (6 or Numpad 6)">6</button>
+                <button class="calc-button function" data-key="-" tabindex="11" aria-label="Subtract" title="Subtract (- or Numpad -)">-</button>
               </div>
               <div class="calc-button-row">
-                <button class="calc-button">1</button>
-                <button class="calc-button">2</button>
-                <button class="calc-button">3</button>
-                <button class="calc-button function">&plus;</button>
+                <button class="calc-button" data-key="1" tabindex="12" aria-label="One" title="One (1 or Numpad 1)">1</button>
+                <button class="calc-button" data-key="2" tabindex="13" aria-label="Two" title="Two (2 or Numpad 2)">2</button>
+                <button class="calc-button" data-key="3" tabindex="14" aria-label="Three" title="Three (3 or Numpad 3)">3</button>
+                <button class="calc-button function" data-key="+" tabindex="15" aria-label="Add" title="Add (+ or Numpad +)">&plus;</button>
               </div>
               <div class="calc-button-row">
-                <button class="calc-button triple">0</button>
-                <button class="calc-button function">&equals;</button>
+                <button class="calc-button triple" data-key="0" tabindex="16" aria-label="Zero" title="Zero (0 or Numpad 0)">0</button>
+                <button class="calc-button function" data-key="=" tabindex="17" aria-label="Equals" title="Calculate (= or Enter)">&equals;</button>
               </div>
             </section>
           </div>
         </div>
       </div>
     </section>
-    
-    <section class="section-modern mt-5">
+      <section class="section-modern mt-5">
       <div class="card box-shadow fade-in">
         <div class="card-body">
           <h2 class="mb-4">About This Project</h2>
@@ -132,7 +130,37 @@
             <li>CSS styling with flexbox for layout</li>
             <li>JavaScript for functionality</li>
             <li>Responsive design that works on all screen sizes</li>
+            <li><strong>Full keyboard support including numpad functionality</strong></li>
           </ul>
+          
+          <h3 class="mt-4 mb-3">Keyboard Controls</h3>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <h5>Numbers & Operations</h5>
+              <ul class="list-unstyled">
+                <li><kbd>0-9</kbd> or <kbd>Numpad 0-9</kbd> - Number input</li>
+                <li><kbd>+</kbd> or <kbd>Numpad +</kbd> - Addition</li>
+                <li><kbd>-</kbd> or <kbd>Numpad -</kbd> - Subtraction</li>
+                <li><kbd>*</kbd> or <kbd>Numpad *</kbd> - Multiplication</li>
+                <li><kbd>/</kbd> or <kbd>Numpad /</kbd> - Division</li>
+              </ul>
+            </div>
+            <div class="col-md-6 mb-3">
+              <h5>Special Functions</h5>
+              <ul class="list-unstyled">
+                <li><kbd>=</kbd> or <kbd>Enter</kbd> or <kbd>Numpad Enter</kbd> - Calculate</li>
+                <li><kbd>Escape</kbd> or <kbd>C</kbd> - Clear</li>
+                <li><kbd>Backspace</kbd> or <kbd>Delete</kbd> - Remove last digit</li>
+                <li><kbd>.</kbd> or <kbd>Numpad .</kbd> - Decimal point</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="alert alert-info mt-3">
+            <i class="fa fa-lightbulb me-2"></i>
+            <strong>Pro Tip:</strong> Try dividing by zero for a special surprise effect! 💥
+          </div>
+          
           <div class="text-center mt-4">
             <a href="../../projects.html" class="btn btn-outline-success">
               <i class="fa fa-code me-2"></i>View All Projects
