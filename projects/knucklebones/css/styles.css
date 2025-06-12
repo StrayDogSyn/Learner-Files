@@ -37,6 +37,7 @@ body.game-body {
 
 .background {
   background-color: var(--surface-color);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -234,6 +235,7 @@ body.game-body {
 
 /* Navigation Styles */
 .navbar {
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
