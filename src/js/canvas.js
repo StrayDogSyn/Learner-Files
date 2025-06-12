@@ -50,10 +50,23 @@ function canvasApp() {
         alpha = 0;
         fadeIn = true;
       }
-    }
-      //text
-    // Scale font size based on canvas width
-    var fontSize = Math.min(canvasWidth / 15, 48); // Scale font, max 48px
+    }    //text
+    // Calculate font size to ensure text fits within canvas
+    var text = "Welcome to my Unretrofied Page";
+    
+    // Measure text and scale font size appropriately
+    context.font = "48px 'Liberation Mono', 'Courier New', monospace";
+    var textMetrics = context.measureText(text);
+    var textWidth = textMetrics.width;
+    
+    // Calculate optimal font size (leave 20px padding on each side)
+    var maxTextWidth = canvasWidth - 40;
+    var scaleFactor = maxTextWidth / textWidth;
+    var fontSize = Math.min(48 * scaleFactor, 48); // Max 48px
+    
+    // Ensure minimum font size for readability
+    fontSize = Math.max(fontSize, 16);
+    
     context.font = fontSize + "px 'Liberation Mono', 'Courier New', monospace";
     context.textBaseline = "middle";
     context.textAlign = "center";
@@ -63,12 +76,14 @@ function canvasApp() {
     // Center the text based on actual canvas dimensions
     var textX = canvasWidth / 2;
     var textY = canvasHeight / 2;
-    context.fillText(text, textX, textY);
-  }
+    context.fillText(text, textX, textY);  }
+  
+  // Initialize variables
   var text = "Welcome to my Unretrofied Page";
   var alpha = 0;
   var fadeIn = true;
-  //image
+  
+  //game loop
   function gameLoop() {
     window.setTimeout(gameLoop, 25);
     drawScreen();
