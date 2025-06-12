@@ -1527,3 +1527,70 @@ html {
 /* ================================================================= */
 /* End Resume page specific styles */
 /* ================================================================= */
+
+/* Search Results Styles */
+.search-results-container {
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.search-results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 0.5rem;
+}
+
+.search-result-item {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.search-result-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.search-result-item .card-body {
+  color: white;
+}
+
+.search-result-item a {
+  color: #4ade80 !important;
+  text-decoration: none;
+}
+
+.search-result-item a:hover {
+  color: #22c55e !important;
+}
+
+.search-results-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* Search input focus enhancement */
+#searchInput:focus {
+  box-shadow: 0 0 0 0.2rem rgba(72, 222, 128, 0.25);
+  border-color: #48de80;
+}
+
+/* Responsive search results */
+@media (max-width: 768px) {
+  .search-results-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .search-results-header .btn {
+    align-self: flex-end;
+  }
+}
