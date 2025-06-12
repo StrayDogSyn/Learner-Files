@@ -12,13 +12,14 @@
   <link rel="stylesheet" type="text/css" href="./src/css/modern.css">  <title>Projects Portfolio - StrayDog Syndications</title>
 </head>
 
-<body>  <hgroup class="container-modern text-center fw-bold bg-transparent box-shadow py-2 projects-header-container">
-    <img src="./assets/images/three.webp" alt="Background Pattern" class="projects-bg-image projects-bg-header">
-    <canvas id="canvasOne" width="680" height="80" class="my-1 canvas rounded-5"></canvas>
+<body class="projects-body">
+  <hgroup class="container-modern text-center fw-bold bg-transparent box-shadow py-3 projects-header">
+    <img src="./assets/images/two.webp" alt="Background Pattern" class="bg-image bg-image--header">
+    <canvas id="canvasOne" width="875" height="110" class="my-2 canvas rounded-5"></canvas>
   </hgroup>
 
-  <nav class="navbar navbar-expand-lg navbar-dark background box-shadow mb-3 projects-nav-container">
-    <img src="./assets/images/four.webp" alt="Navigation Background" class="projects-bg-image projects-bg-nav">
+  <nav class="navbar navbar-expand-lg navbar-dark background box-shadow mb-4 projects-nav">
+    <img src="./assets/images/four.webp" alt="Navigation Background" class="bg-image bg-image--nav">
     <div class="container-modern">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,17 +67,16 @@
       </div>
     </div>
   </nav>
-
-  <main class="container-modern py-3">    <header class="text-center mb-4 fade-in projects-main-header">
-      <img src="./assets/images/one.webp" alt="Background Pattern" class="projects-bg-image projects-bg-header">
-      <h1 class="display-5 text-white fw-bold mb-2">
+  <main class="container-modern py-4">
+    <header class="text-center mb-5 fade-in projects-main-header">
+      <img src="./assets/images/three.webp" alt="Background Pattern" class="bg-image bg-image--header">
+      <h1 class="display-4 text-white fw-bold mb-3">
         <i class="fa fa-project-diagram me-2"></i>
         Project Portfolio
       </h1>
-      <p class="lead text-white mb-0">Check out my current projects and applications</p>
-    </header>
-    
-    <section class="section-modern mb-4">
+      <p class="lead text-white">Check out my current projects and applications</p>
+    </header>    
+    <section class="section-modern mb-5">
       <div id="myCarouselPage" class="carousel slide carousel-fade" data-bs-ride="carousel">
         <div class="carousel-indicators background rounded-5 box-shadow fade-in carousel-indicators-custom">
           <button type="button" data-bs-target="#myCarouselPage" data-bs-slide-to="0" class="active btn-modern" aria-current="true"
@@ -145,12 +145,13 @@
         <button class="carousel-control-next" type="button" data-bs-target="#myCarouselPage" data-bs-slide="next">
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Next</span>
-        </button>
-      </div>
+        </button>      </div>
     </section>
-      <section class="section-modern featured-projects">      <div class="card box-shadow fade-in">
-        <div class="card-body p-3">
-          <h2 class="mb-3 h4">Featured Projects</h2>
+    
+    <section class="section-modern">
+      <div class="card box-shadow fade-in">
+        <div class="card-body p-4">
+          <h2 class="mb-4 h3">Featured Projects</h2>
           <div class="grid-modern">
             <div class="card box-shadow">
               <div class="card-body text-center">
@@ -187,20 +188,22 @@
           </div>
         </div>
       </div>
-    </section>
-  </main>
+    </section>  </main>
 
-  <footer class="container-fluid background text-white py-3 mt-3">
+  <footer class="container-fluid background text-white py-4 mt-5">
     <div class="container-modern">
-      <div class="row">        <div class="col-md-6 mb-2 mb-md-0">
+      <div class="row">
+        <div class="col-md-6 mb-3 mb-md-0">
           <h2 class="h5 mb-3">Navigation</h2>
-          <ul class="list-unstyled">            <li class="mb-1"><a href="./index.html" class="text-white"><i class="fa fa-home me-2"></i>Home</a></li>
-            <li class="mb-1"><a href="./resume/index.html" class="text-white"><i class="fa fa-pen-alt me-2"></i>Resume</a></li>
-            <li class="mb-1"><a href="./projects.html" class="text-white"><i class="fa fa-code me-2"></i>Projects</a></li>
-            <li class="mb-1"><a href="./bio.html" class="text-white"><i class="fa fa-info-circle me-2"></i>About</a></li>
-            <li class="mb-1"><a href="./contacts.html" class="text-white"><i class="fa fa-mail-bulk me-2"></i>Contact</a></li>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="./index.html" class="text-white"><i class="fa fa-home me-2"></i>Home</a></li>
+            <li class="mb-2"><a href="./resume/index.html" class="text-white"><i class="fa fa-pen-alt me-2"></i>Resume</a></li>
+            <li class="mb-2"><a href="./projects.html" class="text-white"><i class="fa fa-code me-2"></i>Projects</a></li>
+            <li class="mb-2"><a href="./bio.html" class="text-white"><i class="fa fa-info-circle me-2"></i>About</a></li>
+            <li class="mb-2"><a href="./contacts.html" class="text-white"><i class="fa fa-mail-bulk me-2"></i>Contact</a></li>
           </ul>
-        </div>        <div class="col-md-6 text-md-end">
+        </div>
+        <div class="col-md-6 text-md-end">
           <a href="https://www.straydog-syndications-llc.com" target="_blank" rel="noopener noreferrer" title="Visit StrayDog Syndications LLC">
             <img class="img-fluid rounded-circle mb-3 projects-footer-logo" src="./assets/logos/stray-gear.png" alt="StrayDog Logo">
           </a>
