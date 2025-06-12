@@ -4,6 +4,8 @@
   "description": "The Last Mile Program,\r RI-JJM-6\r 👋 Cohort #1\r Cranston, Rhode Island.",
   "main": "tailwind.config.js",
   "scripts": {
+    "build:css": "tailwindcss -i ./src/css/modern.css -o ./css/modern.css --watch=false",
+    "dev:css": "tailwindcss -i ./src/css/modern.css -o ./css/modern.css --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/StrayDogSyn/Learner-Files/issues"
   },
-  "homepage": "https://github.com/StrayDogSyn/Learner-Files#readme",
+  "homepage": "https://straydogsyn.github.io/Learner-Files",
   "devDependencies": {
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.3",

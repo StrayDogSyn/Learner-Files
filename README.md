@@ -1,5 +1,8 @@
 # Professional Web Development Portfolio ![Portfolio Logo](assets/logos/stray-gear.png)
 
+## 🌐 Live Portfolio
+**View the portfolio online:** [https://straydogsyn.github.io/Learner-Files](https://straydogsyn.github.io/Learner-Files)
+
 A comprehensive showcase of web development projects, skills, and technical expertise. This portfolio demonstrates proficiency in modern web technologies and creative problem-solving approaches.
 
 ## About This Portfolio
