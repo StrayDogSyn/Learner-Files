@@ -122,25 +122,29 @@ html {
   border-radius: 0.5rem;
 }
 
-.projects-bg-image {
+.projects-header-bg-img {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  opacity: 0.2;
   z-index: -1;
 }
 
-.projects-bg-header {
-  opacity: 0.2;
-}
-
-.projects-bg-nav {
+.projects-nav-bg-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   opacity: 0.15;
+  z-index: -1;
 }
 
-.carousel-indicators-custom {
+.projects-carousel-indicators {
   position: relative;
   margin-top: 10px;
   padding: 5px;
@@ -1284,3 +1288,242 @@ html {
     margin: 4px;
   }
 }
+
+/* ================================================================= */
+/* Projects page specific styles - Remove inline styles violations */
+/* ================================================================= */
+
+/* Container styles for background positioning */
+.projects-header-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.projects-nav-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.projects-main-header {
+  position: relative;
+  overflow: hidden;
+  padding: 3rem 1rem;
+  border-radius: 0.5rem;
+}
+
+/* Background image styles */
+.projects-header-bg-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.2;
+  z-index: -1;
+}
+
+.projects-nav-bg-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.15;
+  z-index: -1;
+}
+
+/* Carousel indicators styling */
+.projects-carousel-indicators {
+  position: relative;
+  margin-top: 10px;
+  padding: 5px;
+}
+
+/* Footer logo sizing */
+.projects-footer-logo {
+  max-width: 80px;
+}
+
+/* ================================================================= */
+/* End Projects page specific styles */
+/* ================================================================= */
+
+/* ================================================================= */
+/* Contacts page specific styles - Remove inline styles violations */
+/* ================================================================= */
+
+/* Container styles for background positioning */
+.contacts-header-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.contacts-nav-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.contacts-main-header {
+  position: relative;
+  overflow: hidden;
+  padding: 3rem 1rem;
+  border-radius: 0.5rem;
+}
+
+/* Background image styles */
+.contacts-header-bg-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.2;
+  z-index: -1;
+}
+
+.contacts-nav-bg-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.15;
+  z-index: -1;
+}
+
+/* Footer logo sizing */
+.contacts-footer-logo {
+  max-width: 80px;
+}
+
+/* ================================================================= */
+/* End Contacts page specific styles */
+/* ================================================================= */
+
+/* ================================================================= */
+/* Splash page specific styles - Remove inline styles violations */
+/* ================================================================= */
+
+/* Container styles for background positioning */
+.splash-header-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.splash-nav-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.splash-main-header {
+  position: relative;
+  overflow: hidden;
+  padding: 3rem 1rem;
+  border-radius: 0.5rem;
+}
+
+/* Background image styles */
+.splash-header-bg-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.2;
+  z-index: -1;
+}
+
+.splash-nav-bg-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.15;
+  z-index: -1;
+}
+
+/* Logo sizing */
+.splash-profile-logo {
+  max-width: 200px;
+}
+
+.splash-footer-logo {
+  max-width: 80px;
+}
+
+/* ================================================================= */
+/* End Splash page specific styles */
+/* ================================================================= */
+
+/* ================================================================= */
+/* Project specific logo styles - Remove inline styles violations */
+/* ================================================================= */
+
+/* Calculator project logo */
+.calculator-header-logo {
+  width: 20%;
+  border-radius: 15px;
+}
+
+/* Knucklebones project logos */
+.knucklebones-header-logo {
+  width: 25%;
+  border-radius: 15px;
+}
+
+.knucklebones-beta-logo {
+  width: 65%;
+  border-radius: 15px;
+}
+
+.knucklebones-proto-logo {
+  max-width: 40px;
+}
+
+/* ================================================================= */
+/* End Project specific styles */
+/* ================================================================= */
+
+/* Knucklebones prototype specific styles */
+.knucklebones-proto-header-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.knucklebones-proto-header-bg-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.2;
+  z-index: -1;
+}
+
+/* ================================================================= */
+/* Resume page specific styles - Remove inline styles violations */
+/* ================================================================= */
+
+/* Resume page logo */
+.resume-footer-logo {
+  width: 20%;
+  border-radius: 15px;
+}
+
+/* Resume content text styles */
+.resume-no-variant {
+  font-variant: none;
+  font-size: 1.15rem;
+}
+
+/* ================================================================= */
+/* End Resume page specific styles */
+/* ================================================================= */
