@@ -25,11 +25,17 @@ function canvasApp() {
   }
   var theCanvas = document.getElementById("canvasOne");
   var context = theCanvas.getContext("2d");
+  
+  // Get actual canvas dimensions
+  var canvasWidth = theCanvas.width;
+  var canvasHeight = theCanvas.height;
+  
   function drawScreen() {
     //background
     context.globalAlpha = 1;
     context.fillStyle = "#000000";
-    context.fillRect(0, 0, 1250, 110);
+    context.fillRect(0, 0, canvasWidth, canvasHeight);
+    
     //image
     context.globalAlpha = .25;
     if (fadeIn) {
@@ -45,12 +51,19 @@ function canvasApp() {
         fadeIn = true;
       }
     }
-    //text
-    context.font = "48px 'Liberation Mono', 'Courier New', monospace";
-    context.textBaseline = "top";
+      //text
+    // Scale font size based on canvas width
+    var fontSize = Math.min(canvasWidth / 15, 48); // Scale font, max 48px
+    context.font = fontSize + "px 'Liberation Mono', 'Courier New', monospace";
+    context.textBaseline = "middle";
+    context.textAlign = "center";
     context.globalAlpha = alpha;
     context.fillStyle = "#3A3F";
-    context.fillText(text, 10, 35);
+    
+    // Center the text based on actual canvas dimensions
+    var textX = canvasWidth / 2;
+    var textY = canvasHeight / 2;
+    context.fillText(text, textX, textY);
   }
   var text = "Welcome to my Unretrofied Page";
   var alpha = 0;
