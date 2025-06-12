@@ -1,6 +1,7 @@
 /*Project Knucklebones [Tabletop RPG Dice Emulator]
 2024 StrayDog Syndications LLC. All Rights Reserved*/
 @import url('../../../css/modern.css');
+@import url('d20-effects.css');
 
 :root {
   --primary-color: #2a2a72;

@@ -1,5 +1,6 @@
 // Project Knucklebones [Tabletop RPG Dice Emulator] //
 // 2024 StrayDog Syndications LLC. All Rights Reserved //
+import { showD20FumbleEffect, showD20CritEffect } from './d20-effects.js';
 (function () {
     "use strict";
     // rainbow 'on-click'
@@ -73,7 +74,8 @@
 
     $('#btn20').click(handleRollButtonClick20);
     function handleRollButtonClick20() {
-        $('#num20').html(roll20());
+        const result = roll20();
+        $('#num20').html(result);
         $('#num20').removeClass(rainbow[currentColor]);
         if (currentColor === rainbow.length) {
             currentColor = 0;
@@ -81,6 +83,13 @@
             currentColor++;
         }
         $('#num20').addClass(rainbow[currentColor]);
+        // Special d20 effects
+        const num20Elem = document.getElementById('num20');
+        if (result === 1) {
+            showD20FumbleEffect(num20Elem);
+        } else if (result === 20) {
+            showD20CritEffect(num20Elem);
+        }
     }//1d20
 
     $('#btn100').click(handleRollButtonClick100);
