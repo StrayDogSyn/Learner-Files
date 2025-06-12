@@ -52,7 +52,6 @@ function canvasApp() {
       }
     }    //text
     // Calculate font size to ensure text fits within canvas
-    var text = "Welcome to my Unretrofied Page";
     
     // Measure text and scale font size appropriately
     context.font = "48px 'Liberation Mono', 'Courier New', monospace";
