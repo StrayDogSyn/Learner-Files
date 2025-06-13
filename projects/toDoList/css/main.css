@@ -954,3 +954,37 @@
     background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
   }
 }
+
+/* Utility Classes for Initial Hidden Elements */
+.task-options-hidden {
+    display: none;
+}
+
+.btn-clear-search-hidden {
+    display: none;
+}
+
+.empty-state-hidden {
+    display: none;
+}
+
+.bulk-actions-hidden {
+    display: none;
+}
+
+.clear-completed-hidden {
+    display: none;
+}
+
+/* Visually Hidden Label for Screen Readers */
+.visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}

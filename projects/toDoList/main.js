@@ -67,12 +67,10 @@ $(document).ready(function() {
                 this.searchQuery = $('#searchInput').val().toLowerCase().trim();
                 $('#clearSearch').toggle(this.searchQuery.length > 0);
                 this.render();
-            }, 300));
-
-            $('#clearSearch').on('click', () => {
+            }, 300));            $('#clearSearch').on('click', () => {
                 $('#searchInput').val('');
                 this.searchQuery = '';
-                $('#clearSearch').hide();
+                $('#clearSearch').addClass('btn-clear-search-hidden');
                 this.render();
             });
 
@@ -348,20 +346,19 @@ $(document).ready(function() {
 
         // Render task list
         render() {
-            const filteredTasks = this.getFilteredTasks();
-            const $taskList = $('#taskList');
+            const filteredTasks = this.getFilteredTasks();            const $taskList = $('#taskList');
             
             if (filteredTasks.length === 0) {
                 $taskList.empty();
                 if (this.searchQuery || this.currentFilter !== 'all') {
-                    $('#noResults').show();
-                    $('#emptyState').hide();
+                    $('#noResults').removeClass('empty-state-hidden');
+                    $('#emptyState').addClass('empty-state-hidden');
                 } else {
-                    $('#emptyState').show();
-                    $('#noResults').hide();
+                    $('#emptyState').removeClass('empty-state-hidden');
+                    $('#noResults').addClass('empty-state-hidden');
                 }
             } else {
-                $('#emptyState, #noResults').hide();
+                $('#emptyState, #noResults').addClass('empty-state-hidden');
                 
                 const tasksHTML = filteredTasks.map(task => this.createTaskHTML(task)).join('');
                 $taskList.html(tasksHTML);

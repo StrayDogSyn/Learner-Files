@@ -127,17 +127,18 @@
                             </div>
                             
                             <!-- Additional Options (Initially Hidden) -->
-                            <div class="task-options" id="taskOptions" style="display: none;">
-                                <div class="row g-2">
+                            <div class="task-options task-options-hidden" id="taskOptions">                                <div class="row g-2">
                                     <div class="col-md-4">
-                                        <select id="taskPriority" class="form-select form-select-sm">
+                                        <label for="taskPriority" class="visually-hidden">Task priority</label>
+                                        <select id="taskPriority" class="form-select form-select-sm" title="Select task priority" aria-label="Task priority">
                                             <option value="low">🟢 Low Priority</option>
                                             <option value="medium" selected>🟡 Medium Priority</option>
                                             <option value="high">🔴 High Priority</option>
                                         </select>
                                     </div>
                                     <div class="col-md-4">
-                                        <select id="taskCategory" class="form-select form-select-sm">
+                                        <label for="taskCategory" class="visually-hidden">Task category</label>
+                                        <select id="taskCategory" class="form-select form-select-sm" title="Select task category" aria-label="Task category">
                                             <option value="">📂 No Category</option>
                                             <option value="work">💼 Work</option>
                                             <option value="personal">👤 Personal</option>
@@ -173,7 +174,8 @@
                                 <i class="fas fa-search search-icon"></i>
                                 <input type="text" id="searchInput" class="search-input" 
                                        placeholder="Search tasks...">
-                                <button type="button" id="clearSearch" class="btn-clear-search" style="display: none;">
+                                <button type="button" id="clearSearch" class="btn-clear-search btn-clear-search-hidden" 
+                                        title="Clear search" aria-label="Clear search">
                                     <i class="fas fa-times"></i>
                                 </button>
                             </div>
@@ -190,9 +192,9 @@
                                     <button type="button" class="filter-btn" data-filter="completed">
                                         Done <span class="filter-count" id="countDone">0</span>
                                     </button>
-                                </div>
-                                <div class="sort-group">
-                                    <select id="sortBy" class="form-select form-select-sm">
+                                </div>                                <div class="sort-group">
+                                    <label for="sortBy" class="visually-hidden">Sort tasks by</label>
+                                    <select id="sortBy" class="form-select form-select-sm" title="Sort tasks by" aria-label="Sort tasks by">
                                         <option value="created">Sort by Created</option>
                                         <option value="priority">Sort by Priority</option>
                                         <option value="dueDate">Sort by Due Date</option>
@@ -211,7 +213,7 @@
                     </div>
                     
                     <!-- Empty State -->
-                    <div id="emptyState" class="empty-state" style="display: none;">
+                    <div id="emptyState" class="empty-state empty-state-hidden">
                         <div class="empty-icon">
                             <i class="fas fa-clipboard-check"></i>
                         </div>
@@ -220,7 +222,7 @@
                     </div>
 
                     <!-- No Results State -->
-                    <div id="noResults" class="empty-state" style="display: none;">
+                    <div id="noResults" class="empty-state empty-state-hidden">
                         <div class="empty-icon">
                             <i class="fas fa-search"></i>
                         </div>
@@ -230,7 +232,7 @@
                 </div>
 
                 <!-- Bulk Actions -->
-                <div class="bulk-actions-section mt-4" id="bulkActions" style="display: none;">
+                <div class="bulk-actions-section mt-4 bulk-actions-hidden" id="bulkActions">
                     <div class="bulk-actions-card">
                         <div class="d-flex justify-content-between align-items-center">
                             <span class="bulk-selection-text">
@@ -260,9 +262,7 @@
                                 Drag tasks to reorder • Double-click to edit
                             </small>
                         </div>
-                        <div class="quick-action-buttons">
-                            <button type="button" id="clearCompleted" class="btn btn-outline-danger btn-sm" 
-                                    style="display: none;">
+                        <div class="quick-action-buttons">                            <button type="button" id="clearCompleted" class="btn btn-outline-danger btn-sm clear-completed-hidden">
                                 <i class="fas fa-broom"></i> Clear Completed
                             </button>
                             <button type="button" id="exportTasks" class="btn btn-outline-primary btn-sm">
