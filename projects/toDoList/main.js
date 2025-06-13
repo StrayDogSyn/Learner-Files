@@ -51,21 +51,23 @@ $(document).ready(function() {
             // Toggle advanced options
             $('#toggleOptions').on('click', () => {
                 const $options = $('#taskOptions');
-                const $btn = $('#toggleOptions');
-                
-                if ($options.is(':visible')) {
-                    $options.slideUp(300);
+                const $btn = $('#toggleOptions');                
+                if (!$options.hasClass('task-options-hidden')) {
+                    $options.addClass('task-options-hidden');
                     $btn.removeClass('active');
                 } else {
-                    $options.slideDown(300);
+                    $options.removeClass('task-options-hidden');
                     $btn.addClass('active');
                 }
             });
 
             // Search functionality
-            $('#searchInput').on('input', debounce(() => {
-                this.searchQuery = $('#searchInput').val().toLowerCase().trim();
-                $('#clearSearch').toggle(this.searchQuery.length > 0);
+            $('#searchInput').on('input', debounce(() => {                this.searchQuery = $('#searchInput').val().toLowerCase().trim();
+                if (this.searchQuery.length > 0) {
+                    $('#clearSearch').removeClass('btn-clear-search-hidden');
+                } else {
+                    $('#clearSearch').addClass('btn-clear-search-hidden');
+                }
                 this.render();
             }, 300));            $('#clearSearch').on('click', () => {
                 $('#searchInput').val('');
@@ -206,11 +208,9 @@ $(document).ready(function() {
             this.tasks.push(task);
             this.saveToStorage();
             this.render();
-            this.updateStats();
-
-            // Reset form
+            this.updateStats();            // Reset form
             $('#taskForm')[0].reset();
-            $('#taskOptions').slideUp(300);
+            $('#taskOptions').addClass('task-options-hidden');
             $('#toggleOptions').removeClass('active');
             $('#charCount').text('0').css('color', '#6c757d');
 
@@ -505,12 +505,14 @@ $(document).ready(function() {
                     this.showNotification(`${completedTasks.length} completed tasks deleted!`, 'error');
                 }
             );
-        },
-
-        // Update bulk actions visibility
+        },        // Update bulk actions visibility
         updateBulkActions() {
             const hasSelection = this.selectedTasks.size > 0;
-            $('#bulkActions').toggle(hasSelection);
+            if (hasSelection) {
+                $('#bulkActions').removeClass('bulk-actions-hidden');
+            } else {
+                $('#bulkActions').addClass('bulk-actions-hidden');
+            }
             $('#selectedCount').text(this.selectedTasks.size);
         },
 
@@ -524,10 +526,12 @@ $(document).ready(function() {
             $('#totalTasks').text(total);
             $('#pendingTasks').text(pending);
             $('#completedTasks').text(completed);
-            $('#progressPercent').text(`${progress}%`);
-
-            // Show/hide clear completed button
-            $('#clearCompleted').toggle(completed > 0);
+            $('#progressPercent').text(`${progress}%`);            // Show/hide clear completed button
+            if (completed > 0) {
+                $('#clearCompleted').removeClass('clear-completed-hidden');
+            } else {
+                $('#clearCompleted').addClass('clear-completed-hidden');
+            }
         },
 
         // Update filter counts
@@ -753,103 +757,5 @@ $(document).ready(function() {
         TodoApp.tasks = sampleTasks;
         TodoApp.saveToStorage();
         TodoApp.render();
-        TodoApp.updateStats();
-    }
-});
-      
-      if (!todoText) {
-        this.showError('Please enter a task');
-        return;
-      }
-
-      if (this.todos.some(todo => todo.text === todoText)) {
-        this.showError('This task already exists');
-        return;
-      }
-
-      this.todos.push({
-        text: todoText,
-        completed: false,
-        createdAt: new Date().toISOString()
-      });
-
-      this.saveTodos();
-      this.renderTodos();
-      this.elements.input.val('');
-      this.hideError();
-    }
-
-    deleteTodo(evt) {
-      const index = $(evt.target).closest('li').index();
-      this.todos.splice(index, 1);
-      this.saveTodos();
-      this.renderTodos();
-    }
-
-    toggleTodoComplete(index) {
-      this.todos[index].completed = !this.todos[index].completed;
-      this.saveTodos();
-      this.renderTodos();
-    }
-
-    clearCompleted() {
-      this.todos = this.todos.filter(todo => !todo.completed);
-      this.saveTodos();
-      this.renderTodos();
-    }
-
-    updateTodoOrder() {
-      const newOrder = [];
-      this.elements.list.find('li').each((index, element) => {
-        const todoText = $(element).find('.todo-text').text();
-        const todo = this.todos.find(t => t.text === todoText);
-        if (todo) newOrder.push(todo);
-      });
-      
-      this.todos = newOrder;
-      this.saveTodos();
-    }
-
-    renderTodos() {
-      const list = this.elements.list;
-      list.empty();
-      
-      this.todos.forEach(todo => {
-        $(`<li class="todo-item ${todo.completed ? 'completed' : ''}">
-            <input type="checkbox" class="todo-checkbox" ${todo.completed ? 'checked' : ''}>
-            <span class="todo-text">${this.escapeHtml(todo.text)}</span>
-            <button class="delete btn btn-danger btn-sm">
-              <i class="fa fa-trash"></i>
-            </button>
-          </li>`).appendTo(list);
-      });
-
-      // Update counter
-      $('.todo-count').text(`${this.todos.length} tasks`);
-    }
-
-    saveTodos() {
-      localStorage.setItem('todos', JSON.stringify(this.todos));
-    }
-
-    showError(message) {
-      this.elements.errorMsg.text(message).slideDown();
-    }
-
-    hideError() {
-      this.elements.errorMsg.slideUp();
-    }
-
-    escapeHtml(unsafe) {
-      return unsafe
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-  }
-
-  // Initialize the Todo List
-  new TodoList();
+        TodoApp.updateStats();    }
 });
