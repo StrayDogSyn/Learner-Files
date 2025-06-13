@@ -220,7 +220,7 @@ h1 {
   padding: 0.5rem;
 }
 
-/* PROJECTS DROPDOWN - Clean original implementation */
+/* PROJECTS DROPDOWN - Clean and working implementation */
 .navbar-nav .nav-item.dropdown .dropdown-menu.projects-dropdown {
   position: absolute !important;
   z-index: 99999 !important;
@@ -408,16 +408,6 @@ h1 {
 
 .list-modern li:last-child {
   border-bottom: none;
-}
-
-/* ===== ANIMATIONS ===== */
-.fade-in {
-  animation: fadeIn 1s ease-in;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ===== SOCIAL ICONS ===== */
