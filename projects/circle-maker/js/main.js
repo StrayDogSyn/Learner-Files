@@ -1,6 +1,8 @@
 class CircleMaker {
   constructor() {
     this.body = document.querySelector('body');
+    this.canvasArea = document.getElementById('canvas-area');
+    this.circleCount = document.getElementById('circleCount');
     this.dimensions = {
       height: window.innerHeight,
       width: window.innerWidth
@@ -21,19 +23,30 @@ class CircleMaker {
   init() {
     this.attachEventListeners();
     this.setupAnimationFrame();
+    this.updateCircleCount();
   }
 
   attachEventListeners() {
+    // Keyboard controls
     window.addEventListener('keydown', (e) => this.handleKeyPress(e));
     window.addEventListener('resize', () => this.updateDimensions());
     
-    // Touch support
-    window.addEventListener('touchstart', () => this.createCircle());
+    // Mouse/touch controls
+    this.canvasArea.addEventListener('click', (e) => this.createCircleAtPosition(e));
+    this.canvasArea.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      this.createCircleAtPosition(e.touches[0]);
+    });
+    
+    // Button controls
+    document.getElementById('createBtn').addEventListener('click', () => this.createCircle());
+    document.getElementById('animateBtn').addEventListener('click', () => this.toggleAnimation());
+    document.getElementById('clearBtn').addEventListener('click', () => this.clearCircles());
     
     // Animation controls
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'p') this.toggleAnimation();
-      if (e.key === 'c') this.clearCircles();
+      if (e.key.toLowerCase() === 'p') this.toggleAnimation();
+      if (e.key.toLowerCase() === 'c') this.clearCircles();
     });
   }
 
@@ -48,12 +61,24 @@ class CircleMaker {
       width: window.innerWidth
     };
   }
-
   handleKeyPress(event) {
     const validKeys = ['Space', ' ', 'Enter'];
     if (validKeys.includes(event.key)) {
       event.preventDefault();
       this.createCircle();
+    }
+  }
+
+  createCircleAtPosition(event) {
+    const rect = this.canvasArea.getBoundingClientRect();
+    const x = (event.clientX || event.pageX) - rect.left;
+    const y = (event.clientY || event.pageY) - rect.top;
+    this.createCircle(x, y);
+  }
+
+  updateCircleCount() {
+    if (this.circleCount) {
+      this.circleCount.textContent = this.state.circles.length;
     }
   }
 
@@ -63,23 +88,23 @@ class CircleMaker {
     const l = Math.floor(Math.random() * 30) + 35; // 35-65% lightness
     return `hsl(${h}, ${s}%, ${l}%)`;
   }
-
-  getRandomPosition() {
+  getRandomPosition(x = null, y = null) {
     const size = Math.random() * (this.state.maxSize - this.state.minSize) + this.state.minSize;
     return {
-      top: Math.random() * (this.dimensions.height - size),
-      left: Math.random() * (this.dimensions.width - size),
+      top: y !== null ? Math.max(0, Math.min(y - size/2, this.dimensions.height - size)) : Math.random() * (this.dimensions.height - size),
+      left: x !== null ? Math.max(0, Math.min(x - size/2, this.dimensions.width - size)) : Math.random() * (this.dimensions.width - size),
       size
     };
   }
 
-  createCircle() {
+  createCircle(x = null, y = null) {
     if (this.state.circles.length >= this.state.maxCircles) {
-      this.state.circles.shift();
+      const oldCircle = this.state.circles.shift();
+      oldCircle.element.remove();
     }
 
     const circle = document.createElement('div');
-    const { top, left, size } = this.getRandomPosition();
+    const { top, left, size } = this.getRandomPosition(x, y);
     const color = this.getRandomColor();
 
     circle.className = 'circle';
@@ -94,9 +119,16 @@ class CircleMaker {
       opacity: 0;
       transform: scale(0);
       transition: all 0.5s ease-out;
+      cursor: pointer;
     `;
 
-    this.body.appendChild(circle);
+    // Add click to remove functionality
+    circle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.removeCircle(circle);
+    });
+
+    this.canvasArea.appendChild(circle);
     
     // Force reflow
     circle.offsetHeight;
@@ -116,6 +148,8 @@ class CircleMaker {
         y: (Math.random() - 0.5) * 2
       }
     });
+
+    this.updateCircleCount();
   }
 
   animate() {
@@ -141,16 +175,43 @@ class CircleMaker {
     
     requestAnimationFrame(this.animate);
   }
+  removeCircle(circleElement) {
+    const index = this.state.circles.findIndex(c => c.element === circleElement);
+    if (index !== -1) {
+      circleElement.style.opacity = '0';
+      circleElement.style.transform = 'scale(0)';
+      setTimeout(() => {
+        circleElement.remove();
+        this.state.circles.splice(index, 1);
+        this.updateCircleCount();
+      }, 500);
+    }
+  }
 
   toggleAnimation() {
     this.state.isAnimating = !this.state.isAnimating;
+    const animateBtn = document.getElementById('animateBtn');
+    const icon = animateBtn.querySelector('i');
+    
+    if (this.state.isAnimating) {
+      icon.className = 'fa fa-pause me-1';
+      animateBtn.classList.add('btn-success');
+      animateBtn.classList.remove('btn-warning');
+    } else {
+      icon.className = 'fa fa-play me-1';
+      animateBtn.classList.add('btn-warning');
+      animateBtn.classList.remove('btn-success');
+    }
   }
 
   clearCircles() {
     this.state.circles.forEach(circle => {
-      circle.element.remove();
+      circle.element.style.opacity = '0';
+      circle.element.style.transform = 'scale(0)';
+      setTimeout(() => circle.element.remove(), 500);
     });
     this.state.circles = [];
+    this.updateCircleCount();
   }
 }
 

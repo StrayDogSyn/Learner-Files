@@ -32,17 +32,71 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="../../projects.html"><i class="fa fa-code"></i> Projects</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="../../html/contacts.html"><i class="fa fa-envelope"></i> Contact</a>
+            </li>            <li class="nav-item">
+              <a class="nav-link" href="../../contacts.html"><i class="fa fa-envelope"></i> Contact</a>
             </li>
           </ul>
         </div>
       </div>
-    </nav>
-
-    <div class="container">
-        <canvas id="canvas"></canvas>
+    </nav>    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <header class="text-center mb-4">
+                    <h1 class="display-4 text-white mb-3">
+                        <i class="fa fa-circle me-2"></i>
+                        Circle Maker
+                    </h1>
+                    <p class="lead text-white-50 mb-3">Create colorful circles with mouse clicks or keyboard input!</p>
+                </header>
+                
+                <div class="controls-panel bg-dark p-3 rounded mb-3">
+                    <div class="row text-center">
+                        <div class="col-md-3 mb-2">
+                            <button id="createBtn" class="btn btn-primary btn-sm w-100">
+                                <i class="fa fa-plus me-1"></i> Create Circle
+                            </button>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <button id="animateBtn" class="btn btn-warning btn-sm w-100">
+                                <i class="fa fa-play me-1"></i> Toggle Animation
+                            </button>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <button id="clearBtn" class="btn btn-danger btn-sm w-100">
+                                <i class="fa fa-trash me-1"></i> Clear All
+                            </button>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <span class="badge bg-info text-dark w-100 p-2">
+                                Circles: <span id="circleCount">0</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="instructions bg-secondary p-3 rounded mb-3">
+                    <h5 class="text-white mb-2"><i class="fa fa-info-circle me-2"></i>Instructions:</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled text-white-50">
+                                <li><i class="fa fa-mouse-pointer me-2"></i>Click anywhere to create circles</li>
+                                <li><i class="fa fa-keyboard me-2"></i>Press <kbd>Space</kbd> or <kbd>Enter</kbd> to create</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled text-white-50">
+                                <li><i class="fa fa-play me-2"></i>Press <kbd>P</kbd> to toggle animation</li>
+                                <li><i class="fa fa-trash me-2"></i>Press <kbd>C</kbd> to clear all circles</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="canvas-area" class="canvas-area position-relative">
+            <!-- Circles will be created here -->
+        </div>
     </div>
 
     <script src="https://cdn.tlm.cloud/jquery/3.5.1/jquery-3.5.1.min.js"
