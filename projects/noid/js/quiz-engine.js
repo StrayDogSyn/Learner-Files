@@ -1,0 +1,619 @@
+// Marvel Universe Quiz Engine - Advanced Quiz Logic
+class QuizEngine {
+    constructor() {
+        this.state = {
+            currentQuestion: 0,
+            score: 0,
+            correctAnswers: 0,
+            wrongAnswers: 0,
+            difficulty: 'medium',
+            questions: [],
+            answers: [],
+            timeRemaining: 30,
+            totalTime: 0,
+            powerups: {
+                fiftyFifty: 3,
+                extraTime: 2,
+                hint: 2
+            },
+            gameStartTime: null,
+            questionStartTime: null,
+            questionTimes: []
+        };
+        
+        this.difficultySettings = {
+            easy: { questions: 5, timePerQuestion: 45, pointsPerCorrect: 10 },
+            medium: { questions: 10, timePerQuestion: 30, pointsPerCorrect: 15 },
+            hard: { questions: 15, timePerQuestion: 20, pointsPerCorrect: 20 }
+        };
+        
+        this.timer = null;
+        this.sounds = {
+            correct: document.getElementById('correct-sound'),
+            wrong: document.getElementById('wrong-sound'),
+            background: document.getElementById('background-music')
+        };
+        
+        this.marvelService = new MarvelService();
+        this.effects = new VisualEffects();
+        
+        this.init();
+    }
+    
+    init() {
+        this.bindEvents();
+        this.showWelcomeScreen();
+    }
+    
+    bindEvents() {
+        // Difficulty selection
+        document.querySelectorAll('.difficulty-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => this.selectDifficulty(e.target.dataset.difficulty));
+        });
+        
+        // Start quiz
+        document.getElementById('start-quiz').addEventListener('click', () => this.startQuiz());
+        
+        // Power-ups
+        document.getElementById('fifty-fifty').addEventListener('click', () => this.usePowerup('fiftyFifty'));
+        document.getElementById('extra-time').addEventListener('click', () => this.usePowerup('extraTime'));
+        document.getElementById('hint').addEventListener('click', () => this.usePowerup('hint'));
+        
+        // Results actions
+        document.getElementById('play-again').addEventListener('click', () => this.resetQuiz());
+        document.getElementById('share-score').addEventListener('click', () => this.shareScore());
+        document.getElementById('view-answers').addEventListener('click', () => this.showAnswerReview());
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => this.handleKeyboard(e));
+    }
+    
+    selectDifficulty(difficulty) {
+        this.state.difficulty = difficulty;
+        
+        // Update UI
+        document.querySelectorAll('.difficulty-btn').forEach(btn => {
+            btn.classList.remove('selected');
+        });
+        document.querySelector(`[data-difficulty="${difficulty}"]`).classList.add('selected');
+        
+        // Update stats display
+        const settings = this.difficultySettings[difficulty];
+        document.getElementById('total-questions').textContent = settings.questions;
+        
+        this.effects.playSelectSound();
+    }
+    
+    async startQuiz() {
+        try {
+            this.showLoadingScreen();
+            
+            // Load questions based on difficulty
+            await this.loadQuestions();
+            
+            // Initialize game state
+            this.state.gameStartTime = Date.now();
+            this.state.currentQuestion = 0;
+            this.state.score = 0;
+            this.state.correctAnswers = 0;
+            this.state.wrongAnswers = 0;
+            this.state.questionTimes = [];
+            
+            // Start background music
+            this.playBackgroundMusic();
+            
+            // Show first question
+            setTimeout(() => {
+                this.showQuizScreen();
+                this.displayQuestion();
+            }, 2000);
+            
+        } catch (error) {
+            console.error('Failed to start quiz:', error);
+            this.showError('Failed to load quiz content. Please try again.');
+        }
+    }
+    
+    async loadQuestions() {
+        const settings = this.difficultySettings[this.state.difficulty];
+        
+        // Update loading status
+        document.getElementById('loading-status').textContent = 'Fetching Marvel characters...';
+        
+        // Fetch characters from Marvel API
+        await this.marvelService.fetchCharacters();
+        
+        document.getElementById('loading-status').textContent = 'Generating quiz questions...';
+        
+        // Generate questions
+        this.state.questions = this.marvelService.generateQuestions(settings.questions);
+        
+        if (this.state.questions.length === 0) {
+            throw new Error('No questions could be generated');
+        }
+        
+        document.getElementById('loading-status').textContent = 'Preparing your quiz...';
+    }
+    
+    displayQuestion() {
+        const question = this.state.questions[this.state.currentQuestion];
+        const settings = this.difficultySettings[this.state.difficulty];
+        
+        if (!question) {
+            this.endQuiz();
+            return;
+        }
+        
+        // Update HUD
+        document.getElementById('current-question').textContent = this.state.currentQuestion + 1;
+        document.getElementById('current-score').textContent = this.state.score;
+        
+        // Update progress bar
+        const progress = ((this.state.currentQuestion) / this.state.questions.length) * 100;
+        document.getElementById('quiz-progress').style.width = `${progress}%`;
+        
+        // Display character image
+        const characterImage = document.getElementById('character-image');
+        characterImage.src = question.image;
+        characterImage.alt = question.name;
+        
+        // Display question
+        document.getElementById('question-title').textContent = 'Who is this Marvel character?';
+        document.getElementById('question-subtitle').textContent = 'Choose the correct answer below';
+        
+        // Generate answer buttons
+        this.generateAnswerButtons(question.options, question.name);
+        
+        // Start timer
+        this.state.timeRemaining = settings.timePerQuestion;
+        this.state.questionStartTime = Date.now();
+        this.startTimer();
+        
+        // Add entrance animation
+        this.effects.animateQuestionIn();
+    }
+    
+    generateAnswerButtons(options, correctAnswer) {
+        const container = document.getElementById('answers-container');
+        container.innerHTML = '';
+        
+        options.forEach((option, index) => {
+            const button = document.createElement('button');
+            button.className = 'answer-btn animate-in';
+            button.textContent = option;
+            button.dataset.answer = option;
+            button.dataset.index = index;
+            button.style.animationDelay = `${index * 0.1}s`;
+            
+            button.addEventListener('click', () => this.selectAnswer(option, button));
+            
+            container.appendChild(button);
+        });
+    }
+    
+    selectAnswer(selectedAnswer, buttonElement) {
+        if (buttonElement.classList.contains('disabled')) return;
+        
+        const question = this.state.questions[this.state.currentQuestion];
+        const isCorrect = selectedAnswer === question.name;
+        const questionTime = Date.now() - this.state.questionStartTime;
+        
+        // Stop timer
+        this.stopTimer();
+        
+        // Disable all buttons
+        document.querySelectorAll('.answer-btn').forEach(btn => {
+            btn.classList.add('disabled');
+        });
+        
+        // Show correct answer
+        if (isCorrect) {
+            buttonElement.classList.add('correct');
+            this.handleCorrectAnswer(questionTime);
+            this.effects.showCorrectEffect();
+            this.playSound('correct');
+        } else {
+            buttonElement.classList.add('wrong');
+            this.showCorrectAnswer(question.name);
+            this.handleWrongAnswer();
+            this.effects.showWrongEffect();
+            this.playSound('wrong');
+        }
+        
+        // Record answer
+        this.state.answers.push({
+            question: question.name,
+            userAnswer: selectedAnswer,
+            correctAnswer: question.name,
+            isCorrect: isCorrect,
+            timeSpent: questionTime,
+            image: question.image
+        });
+        
+        this.state.questionTimes.push(questionTime);
+        
+        // Move to next question after delay
+        setTimeout(() => {
+            this.nextQuestion();
+        }, 2000);
+    }
+    
+    handleCorrectAnswer(timeSpent) {
+        const settings = this.difficultySettings[this.state.difficulty];
+        const basePoints = settings.pointsPerCorrect;
+        
+        // Time bonus (faster answers get more points)
+        const timeBonus = Math.max(0, Math.floor((settings.timePerQuestion - timeSpent / 1000) / 2));
+        const totalPoints = basePoints + timeBonus;
+        
+        this.state.score += totalPoints;
+        this.state.correctAnswers++;
+        
+        // Animate score increase
+        this.effects.animateScoreIncrease(totalPoints);
+    }
+    
+    handleWrongAnswer() {
+        this.state.wrongAnswers++;
+        
+        // Shake effect for wrong answer
+        this.effects.shakeScreen();
+    }
+    
+    showCorrectAnswer(correctAnswer) {
+        document.querySelectorAll('.answer-btn').forEach(btn => {
+            if (btn.dataset.answer === correctAnswer) {
+                btn.classList.add('correct');
+            }
+        });
+    }
+    
+    nextQuestion() {
+        this.state.currentQuestion++;
+        
+        if (this.state.currentQuestion >= this.state.questions.length) {
+            this.endQuiz();
+        } else {
+            this.displayQuestion();
+        }
+    }
+    
+    startTimer() {
+        this.updateTimerDisplay();
+        
+        this.timer = setInterval(() => {
+            this.state.timeRemaining--;
+            this.updateTimerDisplay();
+            
+            if (this.state.timeRemaining <= 0) {
+                this.timeUp();
+            }
+        }, 1000);
+    }
+    
+    stopTimer() {
+        if (this.timer) {
+            clearInterval(this.timer);
+            this.timer = null;
+        }
+    }
+    
+    updateTimerDisplay() {
+        const timerText = document.getElementById('timer-text');
+        const timerFill = document.getElementById('timer-fill');
+        const settings = this.difficultySettings[this.state.difficulty];
+        
+        timerText.textContent = this.state.timeRemaining;
+        
+        // Update circular progress
+        const percentage = (this.state.timeRemaining / settings.timePerQuestion) * 100;
+        const degrees = (percentage / 100) * 360;
+        
+        if (percentage > 50) {
+            timerFill.style.background = `conic-gradient(var(--hero-green) ${degrees}deg, transparent ${degrees}deg)`;
+        } else if (percentage > 25) {
+            timerFill.style.background = `conic-gradient(var(--primary-gold) ${degrees}deg, transparent ${degrees}deg)`;
+        } else {
+            timerFill.style.background = `conic-gradient(var(--primary-red) ${degrees}deg, transparent ${degrees}deg)`;
+        }
+        
+        // Warning effects
+        if (this.state.timeRemaining <= 5) {
+            timerText.style.animation = 'textPulse 0.5s ease-in-out infinite';
+        } else {
+            timerText.style.animation = 'none';
+        }
+    }
+    
+    timeUp() {
+        this.stopTimer();
+        
+        // Auto-select random answer or mark as wrong
+        const question = this.state.questions[this.state.currentQuestion];
+        this.state.answers.push({
+            question: question.name,
+            userAnswer: null,
+            correctAnswer: question.name,
+            isCorrect: false,
+            timeSpent: this.difficultySettings[this.state.difficulty].timePerQuestion * 1000,
+            image: question.image
+        });
+        
+        this.state.wrongAnswers++;
+        this.state.questionTimes.push(this.difficultySettings[this.state.difficulty].timePerQuestion * 1000);
+        
+        // Show correct answer
+        this.showCorrectAnswer(question.name);
+        
+        // Effects
+        this.effects.showTimeUpEffect();
+        this.playSound('wrong');
+        
+        setTimeout(() => {
+            this.nextQuestion();
+        }, 2000);
+    }
+    
+    usePowerup(type) {
+        if (this.state.powerups[type] <= 0) return;
+        
+        this.state.powerups[type]--;
+        this.updatePowerupDisplay(type);
+        
+        switch (type) {
+            case 'fiftyFifty':
+                this.fiftyFiftyPowerup();
+                break;
+            case 'extraTime':
+                this.extraTimePowerup();
+                break;
+            case 'hint':
+                this.hintPowerup();
+                break;
+        }
+        
+        this.effects.playPowerupSound();
+    }
+    
+    fiftyFiftyPowerup() {
+        const answerButtons = document.querySelectorAll('.answer-btn:not(.disabled)');
+        const question = this.state.questions[this.state.currentQuestion];
+        const wrongButtons = Array.from(answerButtons).filter(btn => 
+            btn.dataset.answer !== question.name
+        );
+        
+        // Remove 2 wrong answers
+        for (let i = 0; i < 2 && i < wrongButtons.length; i++) {
+            wrongButtons[i].style.opacity = '0.3';
+            wrongButtons[i].classList.add('disabled');
+        }
+        
+        this.effects.showPowerupEffect('50/50 Used!');
+    }
+    
+    extraTimePowerup() {
+        this.state.timeRemaining += 15;
+        this.updateTimerDisplay();
+        this.effects.showPowerupEffect('+15 Seconds!');
+    }
+    
+    hintPowerup() {
+        const question = this.state.questions[this.state.currentQuestion];
+        const hint = question.description || 'No additional information available';
+        
+        this.effects.showHint(hint);
+        this.effects.showPowerupEffect('Hint Revealed!');
+    }
+    
+    updatePowerupDisplay(type) {
+        const button = document.getElementById(type.replace(/([A-Z])/g, '-$1').toLowerCase());
+        const countElement = button.querySelector('.powerup-count');
+        countElement.textContent = this.state.powerups[type];
+        
+        if (this.state.powerups[type] <= 0) {
+            button.disabled = true;
+        }
+    }
+    
+    endQuiz() {
+        this.stopTimer();
+        this.stopBackgroundMusic();
+        
+        // Calculate final stats
+        this.calculateFinalStats();
+        
+        // Show results
+        this.showResultsScreen();
+    }
+    
+    calculateFinalStats() {
+        const totalQuestions = this.state.questions.length;
+        const accuracy = Math.round((this.state.correctAnswers / totalQuestions) * 100);
+        const totalTime = Date.now() - this.state.gameStartTime;
+        const avgTime = Math.round(this.state.questionTimes.reduce((a, b) => a + b, 0) / this.state.questionTimes.length / 1000);
+        const maxScore = totalQuestions * this.difficultySettings[this.state.difficulty].pointsPerCorrect;
+        
+        // Determine rank
+        let rank, rankIcon;
+        if (accuracy >= 90) {
+            rank = 'Marvel Legend';
+            rankIcon = '👑';
+        } else if (accuracy >= 75) {
+            rank = 'Superhero';
+            rankIcon = '🦸‍♂️';
+        } else if (accuracy >= 60) {
+            rank = 'Hero';
+            rankIcon = '🏆';
+        } else if (accuracy >= 40) {
+            rank = 'Rookie';
+            rankIcon = '🥉';
+        } else {
+            rank = 'Trainee';
+            rankIcon = '📚';
+        }
+        
+        // Update results display
+        document.getElementById('final-score').textContent = this.state.score;
+        document.getElementById('max-score').textContent = maxScore;
+        document.getElementById('correct-answers').textContent = this.state.correctAnswers;
+        document.getElementById('wrong-answers').textContent = this.state.wrongAnswers;
+        document.getElementById('avg-time').textContent = `${avgTime}s`;
+        document.getElementById('accuracy').textContent = `${accuracy}%`;
+        document.getElementById('rank-title').textContent = rank;
+        document.querySelector('.badge-icon').textContent = rankIcon;
+        
+        // Store results for sharing
+        this.finalResults = {
+            score: this.state.score,
+            maxScore: maxScore,
+            accuracy: accuracy,
+            rank: rank,
+            difficulty: this.state.difficulty,
+            totalTime: Math.round(totalTime / 1000)
+        };
+    }
+    
+    handleKeyboard(e) {
+        // Only handle keyboard in quiz screen
+        if (!document.getElementById('quiz-screen').classList.contains('active')) return;
+        
+        const key = e.key;
+        
+        // Answer selection (1-4 keys)
+        if (['1', '2', '3', '4'].includes(key)) {
+            const answerIndex = parseInt(key) - 1;
+            const answerButtons = document.querySelectorAll('.answer-btn:not(.disabled)');
+            if (answerButtons[answerIndex]) {
+                answerButtons[answerIndex].click();
+            }
+        }
+        
+        // Powerup shortcuts
+        if (e.ctrlKey) {
+            switch (key) {
+                case '1':
+                    document.getElementById('fifty-fifty').click();
+                    break;
+                case '2':
+                    document.getElementById('extra-time').click();
+                    break;
+                case '3':
+                    document.getElementById('hint').click();
+                    break;
+            }
+        }
+    }
+    
+    shareScore() {
+        const shareText = `🦸‍♂️ I just scored ${this.finalResults.score}/${this.finalResults.maxScore} on the Marvel Universe Quiz! 
+📊 Accuracy: ${this.finalResults.accuracy}%
+🏆 Rank: ${this.finalResults.rank}
+⚡ Difficulty: ${this.finalResults.difficulty.toUpperCase()}
+
+Can you beat my score? Play now!`;
+        
+        if (navigator.share) {
+            navigator.share({
+                title: 'Marvel Universe Quiz Results',
+                text: shareText,
+                url: window.location.href
+            });
+        } else {
+            // Fallback: copy to clipboard
+            navigator.clipboard.writeText(shareText).then(() => {
+                this.effects.showMessage('Score copied to clipboard!');
+            });
+        }
+    }
+    
+    showAnswerReview() {
+        // Create answer review modal or screen
+        this.effects.showAnswerReview(this.state.answers);
+    }
+    
+    resetQuiz() {
+        // Reset all state
+        this.state = {
+            currentQuestion: 0,
+            score: 0,
+            correctAnswers: 0,
+            wrongAnswers: 0,
+            difficulty: 'medium',
+            questions: [],
+            answers: [],
+            timeRemaining: 30,
+            totalTime: 0,
+            powerups: {
+                fiftyFifty: 3,
+                extraTime: 2,
+                hint: 2
+            },
+            gameStartTime: null,
+            questionStartTime: null,
+            questionTimes: []
+        };
+        
+        // Reset powerup displays
+        Object.keys(this.state.powerups).forEach(type => {
+            this.updatePowerupDisplay(type);
+            const button = document.getElementById(type.replace(/([A-Z])/g, '-$1').toLowerCase());
+            button.disabled = false;
+        });
+        
+        // Show welcome screen
+        this.showWelcomeScreen();
+    }
+    
+    showWelcomeScreen() {
+        this.hideAllScreens();
+        document.getElementById('welcome-screen').classList.add('active');
+        this.effects.resetAnimations();
+    }
+    
+    showLoadingScreen() {
+        this.hideAllScreens();
+        document.getElementById('loading-screen').classList.add('active');
+        this.effects.startLoadingAnimation();
+    }
+    
+    showQuizScreen() {
+        this.hideAllScreens();
+        document.getElementById('quiz-screen').classList.add('active');
+    }
+    
+    showResultsScreen() {
+        this.hideAllScreens();
+        document.getElementById('results-screen').classList.add('active');
+        this.effects.showResultsAnimation();
+    }
+    
+    hideAllScreens() {
+        document.querySelectorAll('.screen').forEach(screen => {
+            screen.classList.remove('active');
+        });
+    }
+    
+    showError(message) {
+        this.effects.showErrorMessage(message);
+    }
+    
+    playSound(type) {
+        if (this.sounds[type]) {
+            this.sounds[type].currentTime = 0;
+            this.sounds[type].play().catch(e => console.log('Sound play failed:', e));
+        }
+    }
+    
+    playBackgroundMusic() {
+        if (this.sounds.background) {
+            this.sounds.background.volume = 0.3;
+            this.sounds.background.play().catch(e => console.log('Background music play failed:', e));
+        }
+    }
+    
+    stopBackgroundMusic() {
+        if (this.sounds.background) {
+            this.sounds.background.pause();
+        }
+    }
+}

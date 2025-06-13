@@ -6,113 +6,269 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="shortcut icon" href="../../assets/logos/stray-gear.png" type="image/x-icon">
     <link href="https://cdn.tlm.cloud/bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <link rel="stylesheet" href="../../css/modern.css">
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">    <link rel="stylesheet" href="../../css/modern.css">
     <link rel="stylesheet" href="./css/styles.css">
-    <link rel="stylesheet" href="./css/marvel-quiz.css">
+    <link rel="stylesheet" href="./css/marvel-quiz-new.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Return of the Noid</title>
+    <title>Marvel Universe Quiz - Test Your Hero Knowledge</title>
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-      <div class="container">
-        <a class="navbar-brand d-flex align-items-center" href="../../index.html">
-          <img src="../../assets/logos/stray-gear.png" width="40" height="40" class="d-inline-block align-top rounded-circle" alt="StrayDog Logo">
-          <h3 class="ms-3 mb-0 text-white"><i class="fab fa-angrycreative"></i> Return of the Noid</h3>
+<body class="marvel-body">
+    <!-- Animated Background -->
+    <div class="hero-background">
+        <div class="cosmic-particles"></div>
+        <div class="energy-waves"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-transparent backdrop-blur-md fixed-top">
+      <div class="container">        <a class="navbar-brand d-flex align-items-center" href="../../index.html">
+          <img src="../../assets/logos/stray-gear.png" width="40" height="40" class="d-inline-block align-top rounded-circle glow-effect" alt="StrayDog Logo">
+          <h3 class="ms-3 mb-0 text-white hero-font"><i class="fab fa-angrycreative"></i> Marvel Universe Quiz</h3>
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation menu">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a class="nav-link" href="../../index.html"><i class="fa fa-home"></i> Home</a>
+              <a class="nav-link glass-btn" href="../../index.html"><i class="fa fa-home"></i> Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="../../menu.html"><i class="fa fa-compass"></i> Main Menu</a>
+              <a class="nav-link glass-btn" href="../../menu.html"><i class="fa fa-compass"></i> Main Menu</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="../../projects.html"><i class="fa fa-code"></i> Projects</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="../../html/contacts.html"><i class="fa fa-envelope"></i> Contact</a>
+              <a class="nav-link glass-btn" href="../../projects.html"><i class="fa fa-code"></i> Projects</a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
-<div class="container-modern fade-in">
-<section id="counter" class="text-center text-dark bg-warning rounded-lg shadow-lg my-4 p-4 transition-all duration-300 hover:shadow-xl">
-  <i class="fab fa-angrycreative fa-8x py-2 text-primary"></i>
-  <span id="manyFaces" class="fa fa-grimace fa-6x py-1 text-secondary"></span>
-</section>
-<button id="start" type="button" class="btn-modern btn btn-success btn-lg rounded-lg px-6 py-3 font-bold">
-  <i class="fab fa-google-play mr-2"></i>
-  Start
-</button>
-<div id="looper" class="container-modern mx-auto px-4 py-6">
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-center">
-  <div class="w-full fa-border rounded-lg p-4">
-    <div id="intro" class="card-modern p-6">
-      <div class="card-body bg-light">
-        <label for="first" class="card-title fw-bold fs-3 initialism mb-2">Enter your name to continue.</label>
-          <input id="first" type="text" placeholder="Enter name?" class="text-center mb-3" autofocus="true" autocomplete="off">
-        <button id="cancelOne" class="btn btn-secondary"><i class="fa fa-window-close fa-lg"></i> Cancel </button>
-        <button id="submitOne" type="button" class="btn btn-primary">Submit <i class="fa fa-check-circle fa-lg"></i></button>
-      </div>
+
+    <!-- Main Game Container -->
+    <div class="game-wrapper">
+        <!-- Welcome Screen -->
+        <section id="welcome-screen" class="screen active">
+            <div class="hero-content">
+                <div class="title-container">
+                    <h1 class="hero-title glitch-effect" data-text="MARVEL UNIVERSE">MARVEL UNIVERSE</h1>
+                    <h2 class="sub-title pulse-glow">Ultimate Hero Quiz</h2>
+                </div>
+                
+                <div class="stats-display">
+                    <div class="stat-item">
+                        <span class="stat-number" id="total-characters">∞</span>
+                        <span class="stat-label">Heroes & Villains</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="total-comics">80+</span>
+                        <span class="stat-label">Years of Stories</span>
+                    </div>
+                </div>
+
+                <div class="difficulty-selector">
+                    <h3 class="selector-title">Choose Your Challenge</h3>
+                    <div class="difficulty-buttons">
+                        <button class="difficulty-btn" data-difficulty="easy">
+                            <span class="difficulty-icon">🟢</span>
+                            <span class="difficulty-name">Rookie</span>
+                            <span class="difficulty-desc">5 Questions</span>
+                        </button>
+                        <button class="difficulty-btn selected" data-difficulty="medium">
+                            <span class="difficulty-icon">🟡</span>
+                            <span class="difficulty-name">Hero</span>
+                            <span class="difficulty-desc">10 Questions</span>
+                        </button>
+                        <button class="difficulty-btn" data-difficulty="hard">
+                            <span class="difficulty-icon">🔴</span>
+                            <span class="difficulty-name">Legend</span>
+                            <span class="difficulty-desc">15 Questions</span>
+                        </button>
+                    </div>
+                </div>
+
+                <button id="start-quiz" class="cta-button">
+                    <span class="btn-text">Begin Your Journey</span>
+                    <span class="btn-effects"></span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Loading Screen -->
+        <section id="loading-screen" class="screen">
+            <div class="loading-content">
+                <div class="marvel-loader">
+                    <div class="arc-reactor">
+                        <div class="core"></div>
+                        <div class="ring ring-1"></div>
+                        <div class="ring ring-2"></div>
+                        <div class="ring ring-3"></div>
+                    </div>
+                </div>
+                <h2 class="loading-text">Assembling Heroes...</h2>
+                <div class="loading-progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <p class="loading-status" id="loading-status">Connecting to Marvel Universe</p>
+            </div>
+        </section>
+
+        <!-- Quiz Screen -->
+        <section id="quiz-screen" class="screen">
+            <!-- HUD -->
+            <div class="quiz-hud">
+                <div class="hud-left">
+                    <div class="question-counter">
+                        Question <span id="current-question">1</span> of <span id="total-questions">10</span>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-track">
+                            <div class="progress-fill" id="quiz-progress"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hud-center">
+                    <div class="score-display">
+                        <span class="score-label">Score</span>
+                        <span class="score-value" id="current-score">0</span>
+                    </div>
+                </div>
+                <div class="hud-right">
+                    <div class="timer-container">
+                        <div class="timer-circle">
+                            <div class="timer-fill" id="timer-fill"></div>
+                            <span class="timer-text" id="timer-text">30</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question Content -->
+            <div class="question-container">
+                <div class="character-showcase">
+                    <div class="character-image-container">
+                        <img id="character-image" class="character-image" alt="Marvel Character">
+                        <div class="image-overlay"></div>
+                    </div>
+                    <div class="question-text">
+                        <h2 id="question-title">Who is this Marvel character?</h2>
+                        <p id="question-subtitle">Choose the correct answer below</p>
+                    </div>
+                </div>
+
+                <div class="answers-grid" id="answers-container">
+                    <!-- Answer buttons will be dynamically generated -->
+                </div>
+            </div>
+
+            <!-- Power-ups -->
+            <div class="powerups-container">
+                <button class="powerup-btn" id="fifty-fifty" title="50/50 - Remove 2 wrong answers">
+                    <i class="fas fa-cut"></i>
+                    <span class="powerup-count">3</span>
+                </button>
+                <button class="powerup-btn" id="extra-time" title="Extra Time - Add 15 seconds">
+                    <i class="fas fa-clock"></i>
+                    <span class="powerup-count">2</span>
+                </button>
+                <button class="powerup-btn" id="hint" title="Hint - Show character description">
+                    <i class="fas fa-lightbulb"></i>
+                    <span class="powerup-count">2</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Results Screen -->
+        <section id="results-screen" class="screen">
+            <div class="results-content">
+                <div class="results-header">
+                    <div class="rank-badge" id="rank-badge">
+                        <div class="badge-icon">🏆</div>
+                        <div class="badge-text">
+                            <span class="rank-title" id="rank-title">Hero</span>
+                            <span class="rank-subtitle">Well Done!</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="score-breakdown">
+                    <div class="final-score">
+                        <span class="score-number" id="final-score">0</span>
+                        <span class="score-max">/ <span id="max-score">100</span></span>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">✅</div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="correct-answers">0</span>
+                                <span class="stat-name">Correct</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">❌</div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="wrong-answers">0</span>
+                                <span class="stat-name">Wrong</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">⚡</div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="avg-time">0s</span>
+                                <span class="stat-name">Avg Time</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">🎯</div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="accuracy">0%</span>
+                                <span class="stat-name">Accuracy</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="play-again" class="action-btn primary">
+                        <i class="fas fa-redo"></i>
+                        Play Again
+                    </button>
+                    <button id="share-score" class="action-btn secondary">
+                        <i class="fas fa-share"></i>
+                        Share Score
+                    </button>
+                    <button id="view-answers" class="action-btn secondary">
+                        <i class="fas fa-eye"></i>
+                        Review Answers
+                    </button>
+                </div>
+            </div>
+        </section>
     </div>
-  </div>
-  <div class="w-full fa-border rounded-lg p-4">
-    <div id="maestro" class="card">
-      <div class="card-body bg-light">
-        <label for="second" class="card-title fw-bold fs-2 initialism mb-2">?Oops! Try Again...</label>
-          <input id="second" type="text" autofocus="true" placeholder="Enter your name?" class="text-center mb-3" autocomplete="off">
-        <button id="cancelTwo" class="btn btn-secondary"> Cancel <i class="fa fa-window-close fa-lg"></i></button>
-        <button id="submitTwo" class="btn btn-primary"><i class="fa fa-check-circle fa-lg"></i> Submit</button>
-      </div>
-    </div>
-  </div>
-  <div class="w-full fa-border rounded-lg p-4">
-    <div id="outro" class="card">
-      <div class="card-body bg-light">
-        <label for="third" class="card-title fw-bold fs-2 initialism mb-2">?!?Hmmm... Try again.</label>
-          <input id="third" type="text" autofocus="true" placeholder="Type your name..." class="text-center mb-3" autocomplete="off">
-        <button id="cancelThree" class="btn btn-secondary"><i class="fa fa-window-close fa-lg"></i> Cancel</button>
-        <button id="submitThree" class="btn btn-primary">Submit <i class="fa fa-check-circle fa-lg"></i></button>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-<section id="result" class="bg-primary text-center text-white initialism  fw-bold fs-1 my-5 rounded-4">
-  <i class="fa fa-grin-squint-tears fa-5x py-2"></i>
-  <span id="total" class="text-white text-center initialism"></span>
-</section>
-<button id="reset" type="button" class="btn btn-warning text-dark btn-lg rounded-4 fixed-bottom my-5 mx-auto"><i class="fa fa-recycle"></i> Refresh</button>
-</div>
-<!--container fluid-->
-    <!-- Offline CDN Resources -->
+
+    <!-- Sound Effects -->
+    <audio id="correct-sound" preload="auto">
+        <source src="./assets/sounds/correct.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="wrong-sound" preload="auto">
+        <source src="./assets/sounds/wrong.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="background-music" preload="auto" loop>
+        <source src="./assets/sounds/background.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Scripts -->
     <script src="./assets/cdn/jquery.min.js"></script>
-    <script src="./assets/cdn/jquery-ui.min.js"></script>
-    <script src="./assets/cdn/fontawesome.js"></script>
     <script src="./assets/cdn/bootstrap.bundle.min.js"></script>
-    <!--<script src="https://cdn.tlm.cloud/jquery/3.5.1/jquery-3.5.1.min.js"-->
-    <!--    integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2"-->
-    <!--    crossorigin="anonymous"></script>-->
-    <!--<script src="https://cdn.tlm.cloud/jqueryui/1.12.1/jquery-ui.min.js"-->
-    <!--    integrity="sha384-PtTRqvDhycIBU6x1wwIqnbDo8adeWIWP3AHmnrvccafo35E7oIvW7HPXn2YimvWu"-->
-    <!--    crossorigin="anonymous"></script>-->
-    <!--<script src="https://cdn.tlm.cloud/fontawesome/5.15.2/js/all.js"-->
-    <!--    integrity="sha384-Jd/Up/tJFZ6kyecb3GfFg99ZoDK4yW/Ztv18Stal8RcntwpbERxWVyaWSpEzaaPf"-->
-    <!--    crossorigin="anonymous"></script>-->
-    <!--<script src="https://cdn.tlm.cloud/bootstrap/5.2.3/js/bootstrap.bundle.min.js"
-        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-        crossorigin="anonymous"></script>-->
-  <!-- Marvel API Dependencies -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-  
-  <!-- Application Scripts -->
-  <script src="./js/marvelApi.js"></script>
-  <script src="./js/main.js"></script>
+    <script src="./assets/cdn/fontawesome.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="./js/config.js"></script>
+    <script src="./js/marvelApi.js"></script>
+    <script src="./js/quiz-engine.js"></script>
+    <script src="./js/effects.js"></script>
+    <script src="./js/main.js"></script>
 </body>
 </html>
