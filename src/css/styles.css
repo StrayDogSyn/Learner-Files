@@ -25,6 +25,7 @@ html {
   }
 /* Modern Navigation Styles */
 .navbar {
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -173,6 +174,7 @@ h1 {
 /* Modern Card Styles */
 .card {
   background: rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border-radius: 1rem;
   padding: 1.5rem;
@@ -187,6 +189,7 @@ h1 {
 /* Dropdown Menu Styles */
 .dropdown-menu {
   background: rgba(0, 0, 0, 0.8);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 0.5rem;
@@ -202,6 +205,40 @@ h1 {
 .dropdown-item:hover {
   background: rgba(255, 255, 255, 0.1);
   transform: translateX(5px);
+}
+
+/* Projects dropdown specific styling */
+.projects-dropdown {
+  background: rgba(0, 0, 0, 0.9) !important;
+  border: 2px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+}
+
+.projects-dropdown .dropdown-item {
+  color: #ffffff !important;
+  font-weight: 500;
+  border-radius: 0.4rem;
+  margin: 0.1rem 0.2rem;
+  padding: 0.7rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.projects-dropdown .dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  transform: translateX(8px);
+}
+
+.projects-dropdown .dropdown-item:focus {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+  outline: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.projects-dropdown .dropdown-divider {
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  margin: 0.5rem 0.2rem !important;
 }
 
 /* Typography System */
