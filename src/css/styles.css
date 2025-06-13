@@ -207,18 +207,43 @@ h1 {
   transform: translateX(5px);
 }
 
+/* Force dropdown visibility - override all conflicts */
+.navbar .nav-item.dropdown {
+  position: relative !important;
+}
+
+.navbar .dropdown-menu {
+  position: absolute !important;
+  top: 100% !important;
+  left: 0 !important;
+  z-index: 99999 !important;
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transform: translateY(-10px) !important;
+  transition: all 0.3s ease !important;
+}
+
+.navbar .dropdown-menu.show {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateY(0) !important;
+}
+
 /* Projects dropdown specific styling */
 .projects-dropdown {
   background: rgba(0, 0, 0, 0.95) !important;
   border: 2px solid rgba(255, 255, 255, 0.3) !important;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5) !important;
-  z-index: 9999 !important;
+  z-index: 99999 !important;
   position: absolute !important;
   top: 100% !important;
   left: 0 !important;
   min-width: 280px !important;
   max-height: 400px !important;
   overflow-y: auto !important;
+  margin-top: 0.5rem !important;
 }
 
 .projects-dropdown .dropdown-item {
@@ -274,6 +299,48 @@ h1 {
 .projects-dropdown .text-white-50 {
   color: #e0e0e0 !important;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* Bootstrap dropdown override - ensure visibility */
+.dropdown-toggle::after {
+  display: inline-block !important;
+  margin-left: 0.5em !important;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateY(0) !important;
+}
+
+/* Force all dropdown menus to be visible when shown */
+.dropdown-menu {
+  --bs-dropdown-zindex: 99999 !important;
+}
+
+.navbar-nav .dropdown-menu {
+  position: absolute !important;
+  float: none !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+}
+
+/* Ensure dropdown container has proper stacking context */
+.navbar-nav .nav-item.dropdown {
+  position: relative !important;
+  z-index: 1000 !important;
+}
+
+/* Override any theme conflicts */
+.dropdown-menu.background {
+  display: none !important;
+}
+
+.dropdown-menu.background.show {
+  display: block !important;
 }
 
 /* Typography System */
