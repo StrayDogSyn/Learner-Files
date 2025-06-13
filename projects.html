@@ -251,50 +251,13 @@
     integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
   <script src="./src/js/scripts.js"></script>
   <script src="./src/js/canvas.js"></script>
-  
-  <!-- Force dropdown visibility script -->
+    <!-- Simple dropdown functionality script -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Force dropdown visibility with JavaScript
       const dropdown = document.getElementById('projectsDropdown');
       const dropdownMenu = dropdown.nextElementSibling;
       
-      // Apply critical styles via JavaScript
-      if (dropdownMenu) {
-        dropdownMenu.style.cssText = `
-          position: absolute !important;
-          top: 100% !important;
-          left: 0 !important;
-          z-index: 999999 !important;
-          background: rgba(0, 0, 0, 0.98) !important;
-          border: 2px solid rgba(255, 255, 255, 0.4) !important;
-          border-radius: 12px !important;
-          min-width: 320px !important;
-          max-height: 500px !important;
-          overflow-y: auto !important;
-          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8) !important;
-          padding: 1rem !important;
-          margin-top: 5px !important;
-        `;
-        
-        // Force dropdown items styling
-        const items = dropdownMenu.querySelectorAll('.dropdown-item');
-        items.forEach(item => {
-          item.style.cssText = `
-            color: #ffffff !important;
-            background: rgba(255, 255, 255, 0.08) !important;
-            padding: 12px 16px !important;
-            margin: 4px 0 !important;
-            border-radius: 8px !important;
-            text-decoration: none !important;
-            display: block !important;
-            font-weight: 600 !important;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
-          `;
-        });
-      }
-      
-      // Ensure Bootstrap dropdown works
+      // Ensure Bootstrap dropdown toggle works
       dropdown.addEventListener('click', function(e) {
         e.preventDefault();
         if (dropdownMenu) {
@@ -304,7 +267,7 @@
       
       // Close dropdown when clicking outside
       document.addEventListener('click', function(e) {
-        if (!dropdown.contains(e.target) && dropdownMenu) {
+        if (!dropdown.closest('.nav-item.dropdown').contains(e.target) && dropdownMenu) {
           dropdownMenu.classList.remove('show');
         }
       });

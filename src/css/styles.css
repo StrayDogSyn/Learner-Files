@@ -476,3 +476,67 @@ h1 {
   --yellow-100: hsla(60, 100%, 50%, 1);
  --background: hsla(140, 85%, 2.75%, .7);
   }
+/* ULTRA HIGH PRIORITY: Projects dropdown - override everything */
+.navbar-nav .dropdown-menu.projects-dropdown,
+.navbar .dropdown-menu.projects-dropdown,
+ul.dropdown-menu.projects-dropdown {
+  position: absolute !important;
+  top: 100% !important;
+  left: 0 !important;
+  z-index: 2147483647 !important; /* Maximum z-index value */
+  display: none !important;
+  background: rgba(0, 0, 0, 0.95) !important;
+  border: 2px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 12px !important;
+  min-width: 300px !important;
+  max-width: 400px !important;
+  padding: 1rem !important;
+  margin-top: 8px !important;
+  box-shadow: 
+    0 25px 80px rgba(0, 0, 0, 0.9),
+    0 10px 40px rgba(0, 0, 0, 0.7) !important;
+  -webkit-backdrop-filter: blur(15px) !important;
+  backdrop-filter: blur(15px) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+/* Force show when Bootstrap adds .show class */
+.navbar-nav .dropdown-menu.projects-dropdown.show,
+.navbar .dropdown-menu.projects-dropdown.show,
+ul.dropdown-menu.projects-dropdown.show {
+  display: block !important;
+}
+
+/* Force show on hover as backup */
+.navbar-nav .nav-item.dropdown:hover .dropdown-menu.projects-dropdown,
+.navbar .nav-item.dropdown:hover .dropdown-menu.projects-dropdown {
+  display: block !important;
+}
+
+/* Projects dropdown items - ultra high priority */
+.navbar-nav .dropdown-menu.projects-dropdown .dropdown-item,
+.navbar .dropdown-menu.projects-dropdown .dropdown-item,
+ul.dropdown-menu.projects-dropdown .dropdown-item {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  padding: 12px 16px !important;
+  margin: 4px 0 !important;
+  border-radius: 8px !important;
+  text-decoration: none !important;
+  display: block !important;
+  font-weight: 600 !important;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  transition: all 0.2s ease !important;
+}
+
+.navbar-nav .dropdown-menu.projects-dropdown .dropdown-item:hover,
+.navbar .dropdown-menu.projects-dropdown .dropdown-item:hover,
+ul.dropdown-menu.projects-dropdown .dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  transform: translateX(4px) !important;
+  border-left: 4px solid #ffffff !important;
+}
