@@ -193,8 +193,8 @@ html {
   border-radius: 15px;
   padding: 1.5rem;
   transition: all 0.3s ease;
-  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .project-card:hover {

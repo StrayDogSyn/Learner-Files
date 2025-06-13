@@ -56,10 +56,23 @@
             <a class="nav-link active" href="./projects.html">
               <i class="fa fa-project-diagram fa-lg me-2"></i>Projects
             </a>
-          </li>          <li class="nav-item">
-            <a class="nav-link" href="#" id="projectsMenuToggle" role="button" aria-expanded="false">
+          </li>          <li class="nav-item dropdown position-relative">
+            <a class="nav-link dropdown-toggle" href="#" id="projectsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
               <i class="fa fa-code fa-lg me-2"></i>All Projects
             </a>
+            <ul class="dropdown-menu projects-dropdown" aria-labelledby="projectsDropdown">
+              <li><a class="dropdown-item text-white" href="./projects/knucklebones/index.html"><i class="fas fa-dice-d20 me-2 text-success"></i><strong>Knucklebones Game</strong></a></li>
+              <li><a class="dropdown-item text-white" href="./projects/rps/index.html"><i class="fas fa-hand-scissors me-2 text-warning"></i><strong>Rock, Paper, Scissors</strong></a></li>
+              <li><a class="dropdown-item text-white" href="./projects/calculator/index.html"><i class="fas fa-calculator me-2 text-info"></i><strong>Calculator</strong></a></li>
+              <li><a class="dropdown-item text-white" href="./projects/quiz-ninja2.1/index.html"><i class="fas fa-question-circle me-2 text-primary"></i><strong>Marvel Quiz</strong></a></li>
+              <li><a class="dropdown-item text-white" href="./projects/compTIA/index.html"><i class="fas fa-laptop me-2 text-light"></i><strong>CompTIA Practice Exam</strong></a></li>
+              <li><hr class="dropdown-divider border-light"></li>
+              <li><a class="dropdown-item text-white" href="./projects/countdown/index.html"><i class="fas fa-clock me-2 text-danger"></i>Countdown Timer</a></li>
+              <li><a class="dropdown-item text-white" href="./projects/circle-maker/index.html"><i class="fas fa-circle me-2 text-warning"></i>Circle Maker</a></li>
+              <li><a class="dropdown-item text-white" href="./projects/navbar/index.html"><i class="fas fa-bars me-2 text-info"></i>Navigation Demo</a></li>
+              <li><a class="dropdown-item text-white" href="./projects/noid/index.html"><i class="fas fa-gamepad me-2 text-success"></i>Noid Game</a></li>
+              <li><a class="dropdown-item text-white" href="./projects/toDoList/index.html"><i class="fas fa-list-check me-2 text-primary"></i>To-Do List</a></li>
+            </ul>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="./contacts.html">
@@ -69,116 +82,6 @@
         </ul>
       </div>
     </div>  </nav>
-
-  <!-- Sliding Projects Menu -->
-  <div id="projectsSlideMenu" class="projects-slide-menu">
-    <div class="projects-slide-menu-header">
-      <h3 class="text-white mb-0">
-        <i class="fa fa-code me-2"></i>All Projects
-      </h3>
-      <button id="closeProjectsMenu" class="btn-close-menu" aria-label="Close Projects Menu">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-    <div class="projects-slide-menu-content">
-      <div class="project-category">
-        <h4 class="category-title">
-          <i class="fas fa-star me-2 text-warning"></i>Featured Projects
-        </h4>
-        <a href="./projects/knucklebones/index.html" class="project-link">
-          <i class="fas fa-dice-d20 me-2 text-success"></i>
-          <div class="project-info">
-            <strong>Knucklebones Game</strong>
-            <small>Interactive dice game with special effects</small>
-          </div>
-        </a>
-        <a href="./projects/rps/index.html" class="project-link">
-          <i class="fas fa-hand-scissors me-2 text-warning"></i>
-          <div class="project-info">
-            <strong>Rock, Paper, Scissors</strong>
-            <small>Classic game with modern UI</small>
-          </div>
-        </a>
-        <a href="./projects/calculator/index.html" class="project-link">
-          <i class="fas fa-calculator me-2 text-info"></i>
-          <div class="project-info">
-            <strong>Calculator</strong>
-            <small>Functional calculator application</small>
-          </div>
-        </a>
-      </div>
-      
-      <div class="project-category">
-        <h4 class="category-title">
-          <i class="fas fa-brain me-2 text-primary"></i>Quiz & Learning
-        </h4>
-        <a href="./projects/quiz-ninja2.1/index.html" class="project-link">
-          <i class="fas fa-question-circle me-2 text-primary"></i>
-          <div class="project-info">
-            <strong>Marvel Quiz</strong>
-            <small>Test your Marvel knowledge</small>
-          </div>
-        </a>
-        <a href="./projects/compTIA/index.html" class="project-link">
-          <i class="fas fa-laptop me-2 text-light"></i>
-          <div class="project-info">
-            <strong>CompTIA Practice Exam</strong>
-            <small>IT certification practice</small>
-          </div>
-        </a>
-      </div>
-      
-      <div class="project-category">
-        <h4 class="category-title">
-          <i class="fas fa-tools me-2 text-secondary"></i>Utilities & Tools
-        </h4>
-        <a href="./projects/countdown/index.html" class="project-link">
-          <i class="fas fa-clock me-2 text-danger"></i>
-          <div class="project-info">
-            <strong>Countdown Timer</strong>
-            <small>Customizable countdown tool</small>
-          </div>
-        </a>
-        <a href="./projects/circle-maker/index.html" class="project-link">
-          <i class="fas fa-circle me-2 text-warning"></i>
-          <div class="project-info">
-            <strong>Circle Maker</strong>
-            <small>Interactive shape generator</small>
-          </div>
-        </a>
-        <a href="./projects/toDoList/index.html" class="project-link">
-          <i class="fas fa-list-check me-2 text-primary"></i>
-          <div class="project-info">
-            <strong>To-Do List</strong>
-            <small>Task management application</small>
-          </div>
-        </a>
-      </div>
-      
-      <div class="project-category">
-        <h4 class="category-title">
-          <i class="fas fa-gamepad me-2 text-success"></i>Games & Demos
-        </h4>
-        <a href="./projects/noid/index.html" class="project-link">
-          <i class="fas fa-gamepad me-2 text-success"></i>
-          <div class="project-info">
-            <strong>Noid Game</strong>
-            <small>Retro arcade-style game</small>
-          </div>
-        </a>
-        <a href="./projects/navbar/index.html" class="project-link">
-          <i class="fas fa-bars me-2 text-info"></i>
-          <div class="project-info">
-            <strong>Navigation Demo</strong>
-            <small>Responsive navigation showcase</small>
-          </div>
-        </a>
-      </div>
-    </div>
-  </div>
-  
-  <!-- Overlay for sliding menu -->
-  <div id="projectsMenuOverlay" class="projects-menu-overlay"></div>
 
   <main class="container-modern py-4">
     <header class="text-center mb-5 fade-in projects-main-header">
@@ -347,36 +250,24 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
   <script src="./src/js/scripts.js"></script>
-  <script src="./src/js/canvas.js"></script>  <!-- Sliding Projects Menu Script -->
+  <script src="./src/js/canvas.js"></script>  <!-- Simple dropdown functionality script -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const menuToggle = document.getElementById('projectsMenuToggle');
-      const slideMenu = document.getElementById('projectsSlideMenu');
-      const closeButton = document.getElementById('closeProjectsMenu');
-      const overlay = document.getElementById('projectsMenuOverlay');
+      const dropdown = document.getElementById('projectsDropdown');
+      const dropdownMenu = dropdown.nextElementSibling;
       
-      // Open sliding menu
-      menuToggle.addEventListener('click', function(e) {
+      // Ensure Bootstrap dropdown toggle works
+      dropdown.addEventListener('click', function(e) {
         e.preventDefault();
-        slideMenu.classList.add('active');
-        overlay.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        if (dropdownMenu) {
+          dropdownMenu.classList.toggle('show');
+        }
       });
       
-      // Close sliding menu
-      function closeMenu() {
-        slideMenu.classList.remove('active');
-        overlay.classList.remove('active');
-        document.body.style.overflow = ''; // Restore scrolling
-      }
-      
-      closeButton.addEventListener('click', closeMenu);
-      overlay.addEventListener('click', closeMenu);
-      
-      // Close on escape key
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && slideMenu.classList.contains('active')) {
-          closeMenu();
+      // Close dropdown when clicking outside
+      document.addEventListener('click', function(e) {
+        if (!dropdown.closest('.nav-item.dropdown').contains(e.target) && dropdownMenu) {
+          dropdownMenu.classList.remove('show');
         }
       });
     });
