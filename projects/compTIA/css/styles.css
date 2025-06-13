@@ -161,3 +161,8 @@ button:focus,
 #toggle {
   display: none !important;
 }
+
+/* Back to Projects Navigation */
+.back-to-projects-nav {
+  z-index: 1000;
+}
