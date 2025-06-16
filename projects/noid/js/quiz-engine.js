@@ -85,13 +85,20 @@ class QuizEngine {
         
         this.effects.playSelectSound();
     }
-    
-    async startQuiz() {
+      async startQuiz() {
         try {
             this.showLoadingScreen();
+            document.getElementById('loading-status').textContent = 'Loading Marvel characters...';
             
             // Load questions based on difficulty
             await this.loadQuestions();
+            
+            document.getElementById('loading-status').textContent = 'Preloading character images...';
+            
+            // Preload images for all questions
+            this.state.questions = await this.preloadImages(this.state.questions);
+            
+            document.getElementById('loading-status').textContent = 'Preparing your Marvel adventure...';
             
             // Initialize game state
             this.state.gameStartTime = Date.now();
@@ -108,7 +115,7 @@ class QuizEngine {
             setTimeout(() => {
                 this.showQuizScreen();
                 this.displayQuestion();
-            }, 2000);
+            }, 1500);
             
         } catch (error) {
             console.error('Failed to start quiz:', error);
@@ -138,6 +145,32 @@ class QuizEngine {
         console.log(`Quiz loaded with ${this.state.questions.length} questions for ${this.state.difficulty} difficulty`);
     }
     
+    async preloadImages(questions) {
+        console.log('Preloading character images...');
+        const imagePromises = questions.map((question, index) => {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => {
+                    console.log(`Image ${index + 1}/${questions.length} loaded: ${question.name}`);
+                    resolve({ success: true, question });
+                };
+                img.onerror = () => {
+                    console.warn(`Image ${index + 1}/${questions.length} failed: ${question.name}`);
+                    // Update question with placeholder image
+                    question.image = this.createCharacterPlaceholder(question.name);
+                    resolve({ success: false, question });
+                };
+                img.src = question.image;
+            });
+        });
+        
+        const results = await Promise.all(imagePromises);
+        const successCount = results.filter(r => r.success).length;
+        console.log(`Image preloading complete: ${successCount}/${questions.length} successful`);
+        
+        return results.map(r => r.question);
+    }
+    
     displayQuestion() {
         const question = this.state.questions[this.state.currentQuestion];
         const settings = this.difficultySettings[this.state.difficulty];
@@ -153,23 +186,48 @@ class QuizEngine {
         
         // Update progress bar
         const progress = ((this.state.currentQuestion) / this.state.questions.length) * 100;
-        document.getElementById('quiz-progress').style.width = `${progress}%`;
-          // Display character image
+        document.getElementById('quiz-progress').style.width = `${progress}%`;        // Display character image with enhanced error handling
         const characterImage = document.getElementById('character-image');
+        
+        // Reset any previous error states
+        characterImage.classList.remove('image-error');
+        
+        // Add loading state
+        characterImage.classList.add('image-loading');
+        
         characterImage.src = question.image;
         characterImage.alt = question.name;
         
-        // Add error handling for image loading
+        // Add comprehensive error handling for image loading
         characterImage.onerror = function() {
             console.warn('Failed to load image:', question.image);
-            this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjMUExQTJFIi8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0iY2VudHJhbCIgZmlsbD0iI0ZGRiIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0Ij5NYXJ2ZWwgQ2hhcmFjdGVyPC90ZXh0Pgo8L3N2Zz4=';
-            this.alt = question.name + ' (Image not available)';
-        };
+            console.log('Attempting to load fallback image for:', question.name);
+            
+            // Try alternative image sources
+            const fallbackSources = [
+                question.image.replace('http://', 'https://'),
+                question.image.replace('https://', 'http://'),
+                // Create a character-specific placeholder
+                this.createCharacterPlaceholder(question.name)
+            ];
+            
+            this.tryFallbackImage(fallbackSources, 0);
+        }.bind(this);
         
-        // Ensure image loads properly
+        // Success handler
         characterImage.onload = function() {
             console.log('Image loaded successfully:', question.image);
+            characterImage.classList.remove('image-loading', 'image-error');
+            characterImage.classList.add('image-loaded');
         };
+        
+        // Set a timeout for slow loading images
+        setTimeout(() => {
+            if (characterImage.classList.contains('image-loading')) {
+                console.warn('Image loading timeout, using fallback');
+                characterImage.src = this.createCharacterPlaceholder(question.name);
+            }
+        }, 5000);
         
         // Display question
         document.getElementById('question-title').textContent = 'Who is this Marvel character?';
@@ -777,5 +835,57 @@ Can you beat my score? Play now!`;
             const angle = (1 - percentage) * 360;
             timerFill.style.background = `conic-gradient(${timerText.style.color} ${angle}deg, transparent ${angle}deg)`;
         }
+    }
+    
+    createCharacterPlaceholder(characterName) {
+        // Create a dynamic SVG placeholder with character name
+        const svg = `<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#e62429;stop-opacity:0.9" />
+                    <stop offset="50%" style="stop-color:#7b2cbf;stop-opacity:0.9" />
+                    <stop offset="100%" style="stop-color:#0056a3;stop-opacity:0.9" />
+                </linearGradient>
+                <pattern id="dots" patternUnits="userSpaceOnUse" width="20" height="20">
+                    <circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.3)"/>
+                </pattern>
+            </defs>
+            <rect width="200" height="200" fill="url(#grad1)"/>
+            <rect width="200" height="200" fill="url(#dots)"/>
+            <circle cx="100" cy="70" r="25" fill="rgba(255,255,255,0.2)" stroke="#FFD700" stroke-width="2"/>
+            <text x="100" y="105" text-anchor="middle" fill="#FFF" font-family="Arial, sans-serif" font-size="14" font-weight="bold">MARVEL</text>
+            <text x="100" y="125" text-anchor="middle" fill="#FFD700" font-family="Arial, sans-serif" font-size="12" font-weight="bold">${characterName}</text>
+            <text x="100" y="145" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-family="Arial, sans-serif" font-size="10">CHARACTER</text>
+            <rect x="50" y="160" width="100" height="2" fill="#FFD700" opacity="0.6"/>
+        </svg>`;
+        
+        return `data:image/svg+xml;base64,${btoa(svg)}`;
+    }
+    
+    tryFallbackImage(sources, index) {
+        if (index >= sources.length) {
+            console.error('All image sources failed, using final placeholder');
+            const characterImage = document.getElementById('character-image');
+            characterImage.src = this.createCharacterPlaceholder('Unknown Character');
+            characterImage.classList.add('image-error');
+            return;
+        }
+        
+        const characterImage = document.getElementById('character-image');
+        const testImg = new Image();
+        
+        testImg.onload = () => {
+            console.log('Fallback image loaded:', sources[index]);
+            characterImage.src = sources[index];
+            characterImage.classList.remove('image-loading', 'image-error');
+            characterImage.classList.add('image-loaded');
+        };
+        
+        testImg.onerror = () => {
+            console.warn('Fallback image failed:', sources[index]);
+            this.tryFallbackImage(sources, index + 1);
+        };
+        
+        testImg.src = sources[index];
     }
 }

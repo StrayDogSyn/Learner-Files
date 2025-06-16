@@ -767,6 +767,55 @@ body, html {
     pointer-events: none;
 }
 
+/* Enhanced image loading states */
+.character-image.image-loading {
+    background: linear-gradient(45deg, 
+        rgba(230, 36, 41, 0.3), 
+        rgba(123, 44, 191, 0.3),
+        rgba(0, 86, 163, 0.3));
+    background-size: 200% 200%;
+    animation: loadingGradient 2s ease-in-out infinite;
+    border: 2px solid rgba(255, 215, 0, 0.5);
+}
+
+.character-image.image-loaded {
+    border: 2px solid rgba(0, 255, 127, 0.3);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 255, 127, 0.2);
+}
+
+.character-image.image-error {
+    border: 2px solid rgba(255, 69, 58, 0.5);
+    background: linear-gradient(45deg, 
+        rgba(255, 69, 58, 0.2), 
+        rgba(255, 149, 0, 0.2));
+}
+
+@keyframes loadingGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Loading indicator overlay */
+.character-image.image-loading::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30px;
+    height: 30px;
+    margin: -15px 0 0 -15px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top: 3px solid #FFD700;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 /* Ensure character showcase maintains layout */
 .character-showcase {
     min-height: 220px; /* Ensure minimum height for layout stability */

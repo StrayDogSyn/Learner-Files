@@ -250,15 +250,48 @@ class MarvelService {
         // Shuffle characters to randomize question order
         const shuffledCharacters = this.shuffleArray([...this.characters]);
         
-        this.questions = shuffledCharacters.slice(0, maxQuestions).map(character => ({
-            name: character.name,
-            image: `${character.thumbnail.path}.${character.thumbnail.extension}`,
-            description: character.description || 'No description available',
-            options: this.generateOptions(character.name)
-        }));
+        this.questions = shuffledCharacters.slice(0, maxQuestions).map(character => {
+            // Construct image URL with error handling
+            let imageUrl = '';
+            if (character.thumbnail && character.thumbnail.path && character.thumbnail.extension) {
+                imageUrl = `${character.thumbnail.path}.${character.thumbnail.extension}`;
+                // Replace http with https for better compatibility
+                imageUrl = imageUrl.replace('http://', 'https://');
+            } else {
+                // Fallback to a placeholder if no image available
+                imageUrl = this.createPlaceholderImage(character.name);
+            }
+            
+            console.log(`Generated question for ${character.name} with image: ${imageUrl}`);
+            
+            return {
+                name: character.name,
+                image: imageUrl,
+                description: character.description || 'No description available',
+                options: this.generateOptions(character.name)
+            };
+        });
         
         console.log(`Generated ${this.questions.length} questions for the quiz`);
         return this.questions;
+    }
+    
+    createPlaceholderImage(characterName) {
+        // Create a base64 encoded SVG placeholder
+        const svg = `<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="200" height="200" fill="url(#grad1)"/>
+            <defs>
+                <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#e62429;stop-opacity:0.8" />
+                    <stop offset="100%" style="stop-color:#0056a3;stop-opacity:0.8" />
+                </linearGradient>
+            </defs>
+            <text x="100" y="90" text-anchor="middle" fill="#FFF" font-family="Arial, sans-serif" font-size="16" font-weight="bold">MARVEL</text>
+            <text x="100" y="110" text-anchor="middle" fill="#FFF" font-family="Arial, sans-serif" font-size="12">CHARACTER</text>
+            <text x="100" y="130" text-anchor="middle" fill="#FFD700" font-family="Arial, sans-serif" font-size="10">${characterName}</text>
+        </svg>`;
+        
+        return `data:image/svg+xml;base64,${btoa(svg)}`;
     }
 
     generateOptions(correctName) {
