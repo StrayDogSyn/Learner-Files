@@ -154,11 +154,22 @@ class QuizEngine {
         // Update progress bar
         const progress = ((this.state.currentQuestion) / this.state.questions.length) * 100;
         document.getElementById('quiz-progress').style.width = `${progress}%`;
-        
-        // Display character image
+          // Display character image
         const characterImage = document.getElementById('character-image');
         characterImage.src = question.image;
         characterImage.alt = question.name;
+        
+        // Add error handling for image loading
+        characterImage.onerror = function() {
+            console.warn('Failed to load image:', question.image);
+            this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjMUExQTJFIi8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0iY2VudHJhbCIgZmlsbD0iI0ZGRiIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0Ij5NYXJ2ZWwgQ2hhcmFjdGVyPC90ZXh0Pgo8L3N2Zz4=';
+            this.alt = question.name + ' (Image not available)';
+        };
+        
+        // Ensure image loads properly
+        characterImage.onload = function() {
+            console.log('Image loaded successfully:', question.image);
+        };
         
         // Display question
         document.getElementById('question-title').textContent = 'Who is this Marvel character?';

@@ -743,11 +743,15 @@ body, html {
 
 /* Image loading state */
 .character-image:not([src]),
-.character-image[src=""] {
+.character-image[src=""],
+.character-image[src*="data:image/svg+xml"] {
     background: linear-gradient(45deg, 
         rgba(230, 36, 41, 0.3), 
         rgba(0, 86, 163, 0.3));
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .character-image:not([src])::before,
@@ -760,6 +764,12 @@ body, html {
     color: #fff;
     font-size: 1rem;
     font-weight: 600;
+    pointer-events: none;
+}
+
+/* Ensure character showcase maintains layout */
+.character-showcase {
+    min-height: 220px; /* Ensure minimum height for layout stability */
 }
 
 .image-overlay {
