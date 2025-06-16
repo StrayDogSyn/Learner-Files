@@ -144,23 +144,21 @@ class QuizEngine {
         
         console.log(`Quiz loaded with ${this.state.questions.length} questions for ${this.state.difficulty} difficulty`);
     }
-    
-    async preloadImages(questions) {
+      async preloadImages(questions) {
         console.log('Preloading character images...');
         const imagePromises = questions.map((question, index) => {
             return new Promise((resolve) => {
-                const img = new Image();
-                img.onload = () => {
-                    console.log(`Image ${index + 1}/${questions.length} loaded: ${question.name}`);
-                    resolve({ success: true, question });
-                };
-                img.onerror = () => {
-                    console.warn(`Image ${index + 1}/${questions.length} failed: ${question.name}`);
-                    // Update question with placeholder image
-                    question.image = this.createCharacterPlaceholder(question.name);
-                    resolve({ success: false, question });
-                };
-                img.src = question.image;
+                this.loadImageWithFallbacks(question.image, question.fallbackSources || [], question.name)
+                    .then((validImageUrl) => {
+                        console.log(`Image ${index + 1}/${questions.length} loaded: ${question.name}`);
+                        question.image = validImageUrl;
+                        resolve({ success: true, question });
+                    })
+                    .catch(() => {
+                        console.warn(`Image ${index + 1}/${questions.length} failed: ${question.name}`);
+                        question.image = this.createCharacterPlaceholder(question.name);
+                        resolve({ success: false, question });
+                    });
             });
         });
         
@@ -169,6 +167,57 @@ class QuizEngine {
         console.log(`Image preloading complete: ${successCount}/${questions.length} successful`);
         
         return results.map(r => r.question);
+    }
+
+    async loadImageWithFallbacks(primaryUrl, fallbackUrls = [], characterName = 'Unknown') {
+        const allUrls = [primaryUrl, ...fallbackUrls];
+        
+        for (let i = 0; i < allUrls.length; i++) {
+            try {
+                const url = allUrls[i];
+                if (!url) continue;
+                
+                console.log(`Trying image ${i + 1}/${allUrls.length} for ${characterName}: ${url}`);
+                
+                const validUrl = await this.testImageUrl(url);
+                console.log(`✓ Image loaded successfully for ${characterName}: ${url}`);
+                return validUrl;
+            } catch (error) {
+                console.warn(`✗ Image failed for ${characterName}: ${allUrls[i]}`);
+                continue;
+            }
+        }
+        
+        throw new Error(`All image sources failed for ${characterName}`);
+    }
+
+    testImageUrl(url) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            
+            const timeout = setTimeout(() => {
+                img.onload = null;
+                img.onerror = null;
+                reject(new Error('Image load timeout'));
+            }, 10000); // 10 second timeout
+            
+            img.onload = () => {
+                clearTimeout(timeout);
+                // Additional check for valid image dimensions
+                if (img.naturalWidth > 0 && img.naturalHeight > 0) {
+                    resolve(url);
+                } else {
+                    reject(new Error('Invalid image dimensions'));
+                }
+            };
+            
+            img.onerror = () => {
+                clearTimeout(timeout);
+                reject(new Error('Image load error'));
+            };
+            
+            img.src = url;
+        });
     }
     
     displayQuestion() {
@@ -190,12 +239,32 @@ class QuizEngine {
         const characterImage = document.getElementById('character-image');
         
         // Reset any previous error states
-        characterImage.classList.remove('image-error');
+        characterImage.classList.remove('image-error', 'image-loaded');
         
         // Add loading state
         characterImage.classList.add('image-loading');
         
-        characterImage.src = question.image;
+        // Set image with fallback handling
+        const img = new Image();
+        img.onload = () => {
+            // Check if image actually loaded with valid dimensions
+            if (img.naturalWidth > 0 && img.naturalHeight > 0) {
+                characterImage.src = question.image;
+                characterImage.classList.remove('image-loading');
+                characterImage.classList.add('image-loaded');
+                console.log(`Successfully displaying image for ${question.name}`);
+            } else {
+                // Image didn't load properly, try fallbacks
+                this.handleImageError(question);
+            }
+        };
+        
+        img.onerror = () => {
+            // Primary image failed, try fallbacks
+            this.handleImageError(question);
+        };
+        
+        img.src = question.image;
         characterImage.alt = question.name;
         
         // Add comprehensive error handling for image loading
@@ -887,5 +956,13 @@ Can you beat my score? Play now!`;
         };
         
         testImg.src = sources[index];
+    }
+
+    handleImageError(question) {
+        console.warn(`All image sources failed for ${question.name}, using placeholder`);
+        const characterImage = document.getElementById('character-image');
+        characterImage.src = this.createCharacterPlaceholder(question.name);
+        characterImage.classList.remove('image-loading');
+        characterImage.classList.add('image-error');
     }
 }
