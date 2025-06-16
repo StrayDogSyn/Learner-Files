@@ -4,6 +4,8 @@
 
 **View the portfolio online:** [https://straydogsyn.github.io/Learner-Files](https://straydogsyn.github.io/Learner-Files)
 
+<!-- Updated: 2025-06-16 - Enhanced Marvel Universe Quiz with interactive features -->
+
 A comprehensive showcase of web development projects, skills, and technical expertise. This portfolio demonstrates proficiency in modern web technologies and creative problem-solving approaches.
 
 ## About This Portfolio
