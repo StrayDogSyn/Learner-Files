@@ -39,13 +39,17 @@ $(() => {
           marvelApi: new MarvelService(),
           effects: visualEffects
         });
-      }
-
-      // Set up event listeners
+      }      // Set up event listeners
       setupEventListeners();
+      
+      // Initialize stats display
+      initializeStatsDisplay();
       
       // Initialize cosmic background effects
       initializeBackgroundEffects();
+      
+      // Initialize stats display
+      initializeStatsDisplay();
       
       console.log('🦸‍♂️ Marvel Quiz - Advanced Edition Initialized!');
       
@@ -248,6 +252,167 @@ $(() => {
         animation-delay: ${i * 2}s;
       `;
       container.appendChild(wave);
+    }
+  }
+  // Initialize stats display with enhanced interactive gameplay features
+  function initializeStatsDisplay() {
+    const heroesVillainsBtn = document.getElementById('heroes-villains-btn');
+    const yearsStoriesBtn = document.getElementById('years-stories-btn');
+    
+    if (heroesVillainsBtn && yearsStoriesBtn) {
+      // Add click handlers for special abilities
+      heroesVillainsBtn.addEventListener('click', activateCharacterFocus);
+      yearsStoriesBtn.addEventListener('click', activateTimeMaster);
+      
+      // Update with real Marvel API data if available
+      updateStatsFromAPI();
+      
+      // Initialize cooldown tracking
+      window.gameFeatures = {
+        characterFocus: { active: false, cooldown: false, duration: 30000, cooldownTime: 60000 },
+        timeMaster: { active: false, cooldown: false, duration: 20000, cooldownTime: 45000 }
+      };
+    }
+  }
+
+  // Character Focus Feature: +5 bonus points for correct answers
+  function activateCharacterFocus() {
+    const feature = window.gameFeatures.characterFocus;
+    
+    if (feature.cooldown) {
+      showBonusNotification('Character Focus is on cooldown!', 'warning');
+      return;
+    }
+    
+    if (feature.active) {
+      showBonusNotification('Character Focus is already active!', 'info');
+      return;
+    }
+    
+    // Activate feature
+    feature.active = true;
+    document.body.classList.add('character-focus-active');
+    document.getElementById('heroes-villains-btn').classList.add('activated');
+    
+    showBonusNotification('Character Focus Activated! +5 Bonus Points per Correct Answer!', 'success');
+    
+    // Update quiz engine if available
+    if (quizEngine) {
+      quizEngine.activateCharacterFocus();
+    }
+    
+    // Deactivate after duration
+    setTimeout(() => {
+      feature.active = false;
+      document.body.classList.remove('character-focus-active');
+      document.getElementById('heroes-villains-btn').classList.remove('activated');
+      document.getElementById('heroes-villains-btn').classList.add('cooldown');
+      
+      // Start cooldown
+      feature.cooldown = true;
+      setTimeout(() => {
+        feature.cooldown = false;
+        document.getElementById('heroes-villains-btn').classList.remove('cooldown');
+        showBonusNotification('Character Focus Ready!', 'info');
+      }, feature.cooldownTime);
+      
+    }, feature.duration);
+  }
+
+  // Time Master Feature: Adds extra time and slows down timer
+  function activateTimeMaster() {
+    const feature = window.gameFeatures.timeMaster;
+    
+    if (feature.cooldown) {
+      showBonusNotification('Time Master is on cooldown!', 'warning');
+      return;
+    }
+    
+    if (feature.active) {
+      showBonusNotification('Time Master is already active!', 'info');
+      return;
+    }
+    
+    // Activate feature
+    feature.active = true;
+    document.body.classList.add('time-master-active');
+    document.getElementById('years-stories-btn').classList.add('activated');
+    
+    showBonusNotification('Time Master Activated! +10 Seconds & Slower Timer!', 'success');
+    
+    // Update quiz engine if available
+    if (quizEngine) {
+      quizEngine.activateTimeMaster();
+    }
+    
+    // Deactivate after duration
+    setTimeout(() => {
+      feature.active = false;
+      document.body.classList.remove('time-master-active');
+      document.getElementById('years-stories-btn').classList.remove('activated');
+      document.getElementById('years-stories-btn').classList.add('cooldown');
+      
+      // Start cooldown
+      feature.cooldown = true;
+      setTimeout(() => {
+        feature.cooldown = false;
+        document.getElementById('years-stories-btn').classList.remove('cooldown');
+        showBonusNotification('Time Master Ready!', 'info');
+      }, feature.cooldownTime);
+      
+    }, feature.duration);
+  }
+
+  // Show bonus notification with different types
+  function showBonusNotification(message, type = 'success') {
+    const notification = document.createElement('div');
+    notification.className = `bonus-notification ${type}`;
+    notification.textContent = message;
+    
+    // Add type-specific styling
+    switch (type) {
+      case 'success':
+        notification.style.color = 'var(--hero-green)';
+        notification.style.borderLeft = '4px solid var(--hero-green)';
+        break;
+      case 'warning':
+        notification.style.color = 'var(--primary-gold)';
+        notification.style.borderLeft = '4px solid var(--primary-gold)';
+        break;
+      case 'info':
+        notification.style.color = 'var(--primary-blue)';
+        notification.style.borderLeft = '4px solid var(--primary-blue)';
+        break;
+    }
+    
+    document.body.appendChild(notification);
+    
+    // Remove after animation
+    setTimeout(() => {
+      if (notification.parentNode) {
+        notification.remove();
+      }
+    }, 2500);
+  }
+
+  // Update stats with real Marvel API data (if available)
+  async function updateStatsFromAPI() {
+    try {
+      if (quizEngine && quizEngine.marvelService) {
+        // Try to get real character count from Marvel API
+        const characterData = await quizEngine.marvelService.getCharacters(1, 1);
+        if (characterData && characterData.total) {
+          document.getElementById('total-characters').textContent = `${characterData.total.toLocaleString()}+`;
+        }
+        
+        // Update comics info
+        const currentYear = new Date().getFullYear();
+        const marvelAge = currentYear - 1939;
+        document.getElementById('total-comics').textContent = `${marvelAge}+`;
+      }
+    } catch (error) {
+      console.log('Could not fetch real Marvel stats, using default values');
+      // Keep default values if API is not available
     }
   }
 

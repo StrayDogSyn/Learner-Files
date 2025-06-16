@@ -79,6 +79,27 @@ The following outlines the directory structure of the portfolio project, providi
 
 ## Featured Projects
 
+### 🎭 Marvel Universe Quiz - Ultimate Hero Challenge
+
+#### Primary Featured Project
+
+An immersive, visually stunning quiz game that tests your knowledge of the Marvel Universe. Built with modern web technologies and integrated with the Marvel API for authentic character data.
+
+**Key Features:**
+
+- Real-time Marvel API integration for authentic character information
+- Stunning visual effects with glassmorphism design
+- Responsive layout optimized for all devices
+- Multiple difficulty levels (Rookie, Hero, Legend)
+- Power-ups and interactive gameplay elements
+- Comprehensive scoring system with detailed analytics
+
+**Technologies:** HTML5, CSS3, JavaScript (ES6+), Marvel API, Advanced CSS animations
+
+**[🎮 Play the Quiz](projects/noid/index.html)**
+
+### Other Notable Projects
+
 - **Interactive Calculator**: A fully functional calculator with responsive design
 - **Knucklebones Game**: Interactive web-based implementation of the dice game
 - **CompTIA Quiz**: Technical assessment preparation tool

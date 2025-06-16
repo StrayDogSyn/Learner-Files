@@ -56,35 +56,34 @@
                     <h1 class="hero-title glitch-effect" data-text="MARVEL UNIVERSE">MARVEL UNIVERSE</h1>
                     <h2 class="sub-title pulse-glow">Ultimate Hero Quiz</h2>
                 </div>
-                
-                <div class="stats-display">
-                    <div class="stat-item">
+                  <div class="stats-display">
+                    <button class="stat-item interactive-stat" id="heroes-villains-btn" data-feature="character-focus">
                         <span class="stat-number" id="total-characters">∞</span>
                         <span class="stat-label">Heroes & Villains</span>
-                    </div>
-                    <div class="stat-item">
+                        <span class="stat-bonus">+5 Bonus Points</span>
+                    </button>
+                    <button class="stat-item interactive-stat" id="years-stories-btn" data-feature="time-master">
                         <span class="stat-number" id="total-comics">80+</span>
                         <span class="stat-label">Years of Stories</span>
-                    </div>
+                        <span class="stat-bonus">+10 Seconds</span>
+                    </button>
                 </div>
 
                 <div class="difficulty-selector">
-                    <h3 class="selector-title">Choose Your Challenge</h3>
-                    <div class="difficulty-buttons">
-                        <button class="difficulty-btn" data-difficulty="easy">
+                    <h3 class="selector-title">Choose Your Challenge</h3>                    <div class="difficulty-buttons">                        <button class="difficulty-btn" data-difficulty="easy">
                             <span class="difficulty-icon">🟢</span>
                             <span class="difficulty-name">Rookie</span>
-                            <span class="difficulty-desc">5 Questions</span>
+                            <span class="difficulty-desc">25 Questions</span>
                         </button>
                         <button class="difficulty-btn selected" data-difficulty="medium">
                             <span class="difficulty-icon">🟡</span>
                             <span class="difficulty-name">Hero</span>
-                            <span class="difficulty-desc">10 Questions</span>
+                            <span class="difficulty-desc">50 Questions</span>
                         </button>
                         <button class="difficulty-btn" data-difficulty="hard">
                             <span class="difficulty-icon">🔴</span>
                             <span class="difficulty-name">Legend</span>
-                            <span class="difficulty-desc">15 Questions</span>
+                            <span class="difficulty-desc">75 Questions</span>
                         </button>
                     </div>
                 </div>
@@ -121,7 +120,7 @@
             <div class="quiz-hud">
                 <div class="hud-left">
                     <div class="question-counter">
-                        Question <span id="current-question">1</span> of <span id="total-questions">10</span>
+                        Question <span id="current-question">1</span> of <span id="total-questions">50</span>
                     </div>
                     <div class="progress-container">
                         <div class="progress-track">

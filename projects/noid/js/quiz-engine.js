@@ -18,13 +18,15 @@ class QuizEngine {
             },
             gameStartTime: null,
             questionStartTime: null,
-            questionTimes: []
-        };
-        
-        this.difficultySettings = {
-            easy: { questions: 5, timePerQuestion: 45, pointsPerCorrect: 10 },
-            medium: { questions: 10, timePerQuestion: 30, pointsPerCorrect: 15 },
-            hard: { questions: 15, timePerQuestion: 20, pointsPerCorrect: 20 }
+            questionTimes: [],
+            characterFocusActive: false,
+            characterFocusBonus: 0,
+            timeMasterActive: false,
+            timerMultiplier: 1
+        };          this.difficultySettings = {
+            easy: { questions: 25, timePerQuestion: 45, pointsPerCorrect: 10 },
+            medium: { questions: 50, timePerQuestion: 30, pointsPerCorrect: 15 },
+            hard: { questions: 75, timePerQuestion: 20, pointsPerCorrect: 20 }
         };
         
         this.timer = null;
@@ -113,17 +115,16 @@ class QuizEngine {
             this.showError('Failed to load quiz content. Please try again.');
         }
     }
-    
-    async loadQuestions() {
+      async loadQuestions() {
         const settings = this.difficultySettings[this.state.difficulty];
         
         // Update loading status
-        document.getElementById('loading-status').textContent = 'Fetching Marvel characters...';
+        document.getElementById('loading-status').textContent = `Fetching Marvel characters for ${settings.questions} questions...`;
         
         // Fetch characters from Marvel API
         await this.marvelService.fetchCharacters();
         
-        document.getElementById('loading-status').textContent = 'Generating quiz questions...';
+        document.getElementById('loading-status').textContent = `Generating ${settings.questions} epic quiz questions...`;
         
         // Generate questions
         this.state.questions = this.marvelService.generateQuestions(settings.questions);
@@ -132,7 +133,9 @@ class QuizEngine {
             throw new Error('No questions could be generated');
         }
         
-        document.getElementById('loading-status').textContent = 'Preparing your quiz...';
+        document.getElementById('loading-status').textContent = `Preparing your ${this.state.questions.length}-question Marvel challenge...`;
+        
+        console.log(`Quiz loaded with ${this.state.questions.length} questions for ${this.state.difficulty} difficulty`);
     }
     
     displayQuestion() {
@@ -236,21 +239,18 @@ class QuizEngine {
         setTimeout(() => {
             this.nextQuestion();
         }, 2000);
-    }
-    
-    handleCorrectAnswer(timeSpent) {
-        const settings = this.difficultySettings[this.state.difficulty];
-        const basePoints = settings.pointsPerCorrect;
+    }    handleCorrectAnswer(timeSpent) {
+        // Use enhanced scoring system
+        const points = this.calculateScore(true, timeSpent / 1000);
         
-        // Time bonus (faster answers get more points)
-        const timeBonus = Math.max(0, Math.floor((settings.timePerQuestion - timeSpent / 1000) / 2));
-        const totalPoints = basePoints + timeBonus;
-        
-        this.state.score += totalPoints;
+        this.state.score += points;
         this.state.correctAnswers++;
         
-        // Animate score increase
-        this.effects.animateScoreIncrease(totalPoints);
+        // Update score display
+        document.getElementById('current-score').textContent = this.state.score;
+        
+        // Show floating score
+        this.showFloatingScore(`+${points}`);
     }
     
     handleWrongAnswer() {
@@ -550,7 +550,11 @@ Can you beat my score? Play now!`;
             },
             gameStartTime: null,
             questionStartTime: null,
-            questionTimes: []
+            questionTimes: [],
+            characterFocusActive: false,
+            characterFocusBonus: 0,
+            timeMasterActive: false,
+            timerMultiplier: 1
         };
         
         // Reset powerup displays
@@ -614,6 +618,153 @@ Can you beat my score? Play now!`;
     stopBackgroundMusic() {
         if (this.sounds.background) {
             this.sounds.background.pause();
+        }
+    }
+    
+    // Character Focus Feature: Bonus points for correct answers
+    activateCharacterFocus() {
+        this.state.characterFocusActive = true;
+        this.state.characterFocusBonus = 5;
+        console.log('🎯 Character Focus activated - bonus points enabled!');
+        
+        // Visual effect on character image
+        const characterImage = document.querySelector('.character-image');
+        if (characterImage) {
+            characterImage.style.filter = 'brightness(1.2) contrast(1.1)';
+            characterImage.style.animation = 'focusPulse 2s ease-in-out infinite';
+        }
+    }
+    
+    // Time Master Feature: Extra time and slower countdown
+    activateTimeMaster() {
+        this.state.timeMasterActive = true;
+        this.state.timeRemaining += 10; // Add 10 seconds immediately
+        this.state.timerMultiplier = 0.7; // Slow down timer by 30%
+        
+        console.log('⏰ Time Master activated - time bonus enabled!');
+        
+        // Update timer display
+        this.updateTimerDisplay();
+        
+        // Visual effect on timer
+        const timerContainer = document.querySelector('.timer-container');
+        if (timerContainer) {
+            timerContainer.style.animation = 'timerGlow 1s ease-in-out infinite alternate';
+        }
+    }
+    
+    // Enhanced scoring with character focus bonus
+    calculateScore(isCorrect, timeUsed) {
+        const settings = this.difficultySettings[this.state.difficulty];
+        let points = 0;
+        
+        if (isCorrect) {
+            // Base points
+            points = settings.pointsPerCorrect;
+            
+            // Time bonus (faster answers get more points)
+            const timeBonus = Math.max(0, Math.floor((settings.timePerQuestion - timeUsed) / 2));
+            points += timeBonus;
+            
+            // Character focus bonus
+            if (this.state.characterFocusActive) {
+                points += this.state.characterFocusBonus;
+                this.showBonusEffect(`+${this.state.characterFocusBonus} Character Focus Bonus!`);
+            }
+            
+            console.log(`Score: ${points} (base: ${settings.pointsPerCorrect}, time: ${timeBonus}, focus: ${this.state.characterFocusActive ? this.state.characterFocusBonus : 0})`);
+        }
+        
+        return points;
+    }
+    
+    // Show bonus effect notification
+    showBonusEffect(message) {
+        const bonusElement = document.createElement('div');
+        bonusElement.className = 'floating-bonus';
+        bonusElement.textContent = message;
+        bonusElement.style.cssText = `
+            position: fixed;
+            top: 30%;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--primary-gold);
+            font-size: 1.2rem;
+            font-weight: bold;
+            z-index: 9999;
+            pointer-events: none;
+            animation: floatUp 2s ease-out forwards;
+        `;
+        
+        document.body.appendChild(bonusElement);
+        
+        setTimeout(() => {
+            if (bonusElement.parentNode) {
+                bonusElement.remove();
+            }
+        }, 2000);
+    }
+    
+    // Show floating score animation
+    showFloatingScore(scoreText) {
+        const floatingScore = document.createElement('div');
+        floatingScore.className = 'floating-score';
+        floatingScore.textContent = scoreText;
+        floatingScore.style.cssText = `
+            position: fixed;
+            top: 20%;
+            right: 20px;
+            color: var(--hero-green);
+            font-size: 1.5rem;
+            font-weight: bold;
+            z-index: 9999;
+            pointer-events: none;
+            animation: floatUpScore 2s ease-out forwards;
+        `;
+        
+        document.body.appendChild(floatingScore);
+        
+        setTimeout(() => {
+            if (floatingScore.parentNode) {
+                floatingScore.remove();
+            }
+        }, 2000);
+    }
+    
+    // Enhanced timer that respects time master multiplier
+    updateTimer() {
+        if (this.state.timeRemaining <= 0) {
+            this.timeUp();
+            return;
+        }
+        
+        // Apply time master multiplier if active
+        const decrement = this.state.timeMasterActive ? (this.state.timerMultiplier || 1) : 1;
+        this.state.timeRemaining -= decrement;
+        
+        this.updateTimerDisplay();
+        
+        // Change timer color based on time remaining
+        const timerText = document.getElementById('timer-text');
+        const timerFill = document.getElementById('timer-fill');
+        
+        if (timerText && timerFill) {
+            const percentage = this.state.timeRemaining / this.difficultySettings[this.state.difficulty].timePerQuestion;
+            
+            if (percentage > 0.5) {
+                timerText.style.color = '#00ff51'; // Green
+                timerFill.style.background = 'conic-gradient(#00ff51 0deg, transparent 0deg)';
+            } else if (percentage > 0.25) {
+                timerText.style.color = '#ffd700'; // Gold
+                timerFill.style.background = 'conic-gradient(#ffd700 0deg, transparent 0deg)';
+            } else {
+                timerText.style.color = '#ff0000'; // Red
+                timerFill.style.background = 'conic-gradient(#ff0000 0deg, transparent 0deg)';
+            }
+            
+            // Update the conic gradient
+            const angle = (1 - percentage) * 360;
+            timerFill.style.background = `conic-gradient(${timerText.style.color} ${angle}deg, transparent ${angle}deg)`;
         }
     }
 }

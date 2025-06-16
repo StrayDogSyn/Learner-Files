@@ -24,6 +24,7 @@
 
 body, html {
     overflow-x: hidden;
+    height: 100%;
 }
 
 .marvel-body {
@@ -32,7 +33,8 @@ body, html {
     background: #000;
     color: #fff;
     position: relative;
-    min-height: 100vh;
+    height: 100vh;
+    overflow-y: auto;
 }
 
 /* Animated Background */
@@ -140,35 +142,48 @@ body, html {
 .game-wrapper {
     position: relative;
     z-index: 1;
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 100px 20px 20px;
+    padding: 20px;
     width: 100%;
     box-sizing: border-box;
+    overflow-y: auto;
 }
 
 /* Layout Improvements */
 .quiz-hud {
-    position: sticky;
-    top: 80px;
+    position: fixed;
+    top: 10px;
+    left: 20px;
+    right: 20px;
     z-index: 50;
+    margin-bottom: 0;
 }
 
 .question-container {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 0 1rem;
+    padding: 80px 1rem 1rem;
+    height: 100vh;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .character-showcase {
     margin-bottom: 1rem;
-    min-height: 0; /* Prevent flex item overflow */
+    min-height: 0;
+    flex: 0 0 auto;
 }
 
 .answers-grid {
     justify-items: center;
+    flex: 1;
+    display: grid;
+    align-content: center;
 }
 
 .answer-btn {
@@ -303,6 +318,8 @@ body, html {
     flex-wrap: wrap;
     max-width: 500px;
     margin: 3rem auto;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .stat-item {
@@ -315,6 +332,24 @@ body, html {
     border: 1px solid rgba(255, 255, 255, 0.1);
     transition: all 0.3s ease;
     min-width: 150px;
+    cursor: pointer;
+    position: relative;
+}
+
+.stat-item::after {
+    content: "Click for details";
+    position: absolute;
+    bottom: 0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.stat-item:hover::after {
+    opacity: 1;
 }
 
 .stat-item:hover {
@@ -448,18 +483,36 @@ body, html {
     width: 100%;
     max-width: 600px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    height: 100vh;
+    box-sizing: border-box;
 }
 
 .marvel-loader {
-    margin: 2rem auto;
+    margin: 1.5rem auto;
     position: relative;
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
+}
+
+@media (max-height: 600px) {
+    .loading-content {
+        padding: 1rem;
+    }
+    
+    .marvel-loader {
+        width: 120px;
+        height: 120px;
+        margin: 1rem auto;
+    }
+    
+    .loading-text {
+        font-size: 1.2rem;
+    }
 }
 
 .arc-reactor {
@@ -573,16 +626,16 @@ body, html {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
-    padding: 1rem 2rem;
-    background: rgba(0, 0, 0, 0.4);
+    width: calc(100% - 40px);
+    padding: 0.8rem 1.5rem;
+    background: rgba(0, 0, 0, 0.5);
     -webkit-backdrop-filter: blur(15px);
     backdrop-filter: blur(15px);
-    border-radius: 15px;
-    margin-bottom: 2rem;
+    border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    position: sticky;
-    top: 80px;
+    position: fixed;
+    top: 10px;
+    left: 20px;
     z-index: 50;
 }
 
@@ -664,16 +717,16 @@ body, html {
 
 .character-showcase {
     display: flex;
-    gap: 3rem;
+    gap: 2rem;
     align-items: center;
     background: rgba(255, 255, 255, 0.05);
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
-    border-radius: 20px;
-    padding: 2rem;
+    border-radius: 15px;
+    padding: 1.5rem;
     border: 1px solid rgba(255, 255, 255, 0.1);
     margin-bottom: 1rem;
-    min-height: 0; /* Prevent flex item overflow */
+    min-height: 0;
     width: 100%;
     box-sizing: border-box;
 }
@@ -681,15 +734,15 @@ body, html {
 .character-image-container {
     position: relative;
     flex-shrink: 0;
-    min-width: 0; /* Prevent flex item overflow */
+    min-width: 0;
 }
 
 .character-image {
-    width: 300px;
-    height: 300px;
+    width: 200px;
+    height: 200px;
     object-fit: cover;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
     transition: all 0.3s ease;
 }
 
@@ -717,10 +770,10 @@ body, html {
 }
 
 .question-text h2 {
-    font-size: 2.5rem;
+    font-size: 1.8rem;
     font-weight: 700;
     color: #fff;
-    margin-bottom: 1rem;
+    margin-bottom: 0.8rem;
     line-height: 1.2;
     word-wrap: break-word;
     -webkit-hyphens: auto;
@@ -1021,132 +1074,139 @@ body, html {
     transform: translateY(-3px);
 }
 
-/* Animation Utilities */
-.animate-in {
-    animation: slideInUp 0.6s ease-out;
+/* Enhanced Interactive Stat Buttons */
+.interactive-stat {
+    background: none;
+    border: 2px solid rgba(255, 255, 255, 0.2) !important;
+    color: inherit;
+    font-family: inherit;
+    position: relative;
+    overflow: hidden;
 }
 
-@keyframes slideInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Particle and Energy Wave Animations */
-@keyframes float {
-    0%, 100% {
-        transform: translateY(0px);
-    }
-    50% {
-        transform: translateY(-20px);
-    }
-}
-
-@keyframes pulse {
-    0%, 100% {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 0.5;
-    }
-    50% {
-        transform: translate(-50%, -50%) scale(1.2);
-        opacity: 0.8;
-    }
-}
-
-/* Cosmic particles styling */
-.cosmic-particles {
+.interactive-stat::before {
+    content: '';
     position: absolute;
+    top: 0;
+    left: -100%;
     width: 100%;
     height: 100%;
-    overflow: hidden;
-    pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(230, 36, 41, 0.3), transparent);
+    transition: left 0.5s ease;
+    z-index: 1;
 }
 
-.cosmic-particle {
-    position: absolute;
-    pointer-events: none;
+.interactive-stat:hover::before {
+    left: 100%;
 }
 
-/* Energy waves styling */
-.energy-waves {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    pointer-events: none;
+.interactive-stat > * {
+    position: relative;
+    z-index: 2;
 }
 
-.energy-wave {
-    position: absolute;
-    pointer-events: none;
+.interactive-stat:hover {
+    background: rgba(230, 36, 41, 0.1) !important;
+    border-color: var(--primary-red) !important;
+    box-shadow: 0 0 25px rgba(230, 36, 41, 0.5) !important;
 }
 
-/* Additional cosmic effects */
-@keyframes sparkle {
-    0%, 100% {
-        opacity: 0;
-        transform: scale(0);
+.interactive-stat:active {
+    transform: translateY(-2px) scale(0.98) !important;
+}
+
+.interactive-stat.activated {
+    background: rgba(230, 36, 41, 0.2) !important;
+    border-color: var(--primary-red) !important;
+    box-shadow: 0 0 30px rgba(230, 36, 41, 0.7) !important;
+    animation: statActivation 2s ease-in-out;
+}
+
+@keyframes statActivation {
+    0%, 100% { 
+        box-shadow: 0 0 30px rgba(230, 36, 41, 0.7);
     }
-    50% {
-        opacity: 1;
-        transform: scale(1);
+    50% { 
+        box-shadow: 0 0 50px rgba(230, 36, 41, 1);
+        transform: translateY(-8px) scale(1.05);
     }
 }
 
-/* Notification system */
-.notification {
-    position: fixed;
-    top: 100px;
-    right: 20px;
-    padding: 1rem 1.5rem;
-    border-radius: 10px;
-    color: white;
+.interactive-stat.cooldown {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.interactive-stat.cooldown::after {
+    content: "Cooldown Active";
+}
+
+.stat-bonus {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--primary-gold);
+    margin-top: 0.5rem;
+    opacity: 0.8;
     font-weight: 600;
-    z-index: 1000;
-    transform: translateX(400px);
-    animation: notificationSlideIn 0.5s ease-out forwards;
+    text-shadow: 0 0 10px var(--primary-gold);
 }
 
-.notification.success {
-    background: rgba(0, 200, 81, 0.9);
-    border-left: 4px solid var(--hero-green);
-}
-
-.notification.error {
-    background: rgba(230, 36, 41, 0.9);
-    border-left: 4px solid var(--primary-red);
-}
-
-.notification.info {
-    background: rgba(0, 86, 163, 0.9);
-    border-left: 4px solid var(--primary-blue);
-}
-
-@keyframes notificationSlideIn {
-    to {
-        transform: translateX(0);
-    }
-}
-
-/* Fade out animation */
-@keyframes fadeOut {
-    from {
-        opacity: 1;
-        transform: translateX(0);
-    }
-    to {
+/* Floating Score and Bonus Animations */
+@keyframes floatUp {
+    0% {
         opacity: 0;
-        transform: translateX(400px);
+        transform: translateX(-50%) translateY(0);
+    }
+    20% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(-20px);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-100px);
     }
 }
 
-.notification.fade-out {
-    animation: fadeOut 0.5s ease-in forwards;
+@keyframes floatUpScore {
+    0% {
+        opacity: 0;
+        transform: translateY(0) scale(0.5);
+    }
+    20% {
+        opacity: 1;
+        transform: translateY(-20px) scale(1.2);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-80px) scale(1);
+    }
+}
+
+@keyframes focusPulse {
+    0%, 100% {
+        filter: brightness(1.2) contrast(1.1);
+    }
+    50% {
+        filter: brightness(1.4) contrast(1.3);
+    }
+}
+
+@keyframes timerGlow {
+    0% {
+        box-shadow: 0 0 10px var(--primary-gold);
+    }
+    100% {
+        box-shadow: 0 0 25px var(--primary-gold);
+    }
+}
+
+.floating-score {
+    text-shadow: 0 0 10px currentColor;
+}
+
+.floating-bonus {
+    text-shadow: 0 0 15px var(--primary-gold);
 }
 
 /* Webkit Compatibility */
@@ -1200,57 +1260,89 @@ body, html {
 
 @media (max-width: 768px) {
     .game-wrapper {
-        padding: 120px 15px 20px;
+        padding: 10px;
+    }
+    
+    .question-container {
+        padding: 60px 0.5rem 0.5rem;
     }
     
     .stats-display {
-        gap: 1.5rem;
+        gap: 1rem;
         flex-direction: column;
         align-items: center;
     }
     
     .difficulty-buttons {
-        gap: 1rem;
+        gap: 0.8rem;
         flex-direction: column;
         align-items: center;
         width: 100%;
     }
     
     .difficulty-btn {
-        min-width: 220px;
-        max-width: 300px;
+        min-width: 200px;
+        max-width: 280px;
         width: 100%;
-        padding: 1rem 1.5rem;
+        padding: 0.8rem 1.2rem;
     }
     
     .quiz-hud {
         flex-direction: column;
-        gap: 1rem;
-        padding: 1rem;
+        gap: 0.8rem;
+        padding: 0.8rem;
         text-align: center;
+        width: calc(100% - 20px);
+        left: 10px;
+        top: 5px;
     }
     
     .character-showcase {
         flex-direction: column;
         text-align: center;
-        gap: 1.5rem;
-        padding: 1.5rem;
+        gap: 1rem;
+        padding: 1rem;
     }
     
     .character-image {
-        width: 200px;
-        height: 200px;
+        width: 180px;
+        height: 180px;
+        margin: 0 auto;
     }
     
     .question-text h2 {
-        font-size: 1.8rem;
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+      .answers-grid {
+        gap: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .game-wrapper {
+        padding: 5px;
+    }
+    
+    .question-container {
+        padding: 55px 0.3rem 0.3rem;
+    }
+    
+    .character-image {
+        width: 140px;
+        height: 140px;
+    }
+    
+    .question-text h2 {
+        font-size: 1.3rem;
+        margin-bottom: 0.4rem;
     }
     
     .answers-grid {
         grid-template-columns: 1fr;
-        gap: 1rem;
-        max-width: 400px;
-        margin: 2rem auto 0;
+        gap: 0.8rem;
+        max-width: 350px;
+        margin: 1.5rem auto 0;
     }
     
     .action-buttons {
@@ -1378,7 +1470,7 @@ body, html {
 /* Landscape orientation fixes */
 @media (max-height: 600px) and (orientation: landscape) {
     .game-wrapper {
-        padding-top: 70px;
+        padding: 10px;
     }
     
     .hero-title {
@@ -1387,12 +1479,85 @@ body, html {
     
     .character-showcase {
         flex-direction: row;
-        gap: 1.5rem;
+        gap: 1rem;
+        padding: 1rem;
     }
     
     .character-image {
-        width: 180px;
-        height: 180px;
+        width: 120px;
+        height: 120px;
+    }
+    
+    .question-text h2 {
+        font-size: 1.4rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .quiz-hud {
+        padding: 0.5rem 1rem;
+        top: 5px;
+    }
+}
+
+/* Short viewport height optimization */
+@media (max-height: 700px) {
+    .question-container {
+        padding: 70px 1rem 0.5rem;
+    }
+    
+    .character-showcase {
+        padding: 1rem;
+        gap: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .character-image {
+        width: 160px;
+        height: 160px;
+    }
+    
+    .question-text h2 {
+        font-size: 1.6rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .answers-grid {
+        gap: 0.8rem;
+    }
+    
+    .answer-btn {
+        min-height: 60px;
+        padding: 0.8rem 1rem;
+    }
+}
+
+/* Very short viewport height */
+@media (max-height: 500px) {
+    .character-showcase {
+        flex-direction: row;
+        gap: 1rem;
+        padding: 0.8rem;
+    }
+    
+    .character-image {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .question-text h2 {
+        font-size: 1.2rem;
+        margin-bottom: 0.3rem;
+    }
+    
+    .quiz-hud {
+        padding: 0.4rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .answer-btn {
+        min-height: 45px;
+        padding: 0.6rem 0.8rem;
+        font-size: 0.9rem;
     }
 }
 
@@ -1586,5 +1751,114 @@ body, html {
     
     .timer-text {
         font-size: 1rem;
+    }
+}
+
+/* Viewport height optimizations for stats display */
+.stats-display {
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+@media (max-height: 700px) {
+    .stats-display {
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .stat-item {
+        padding: 0.8rem 1.2rem;
+    }
+    
+    .stat-number {
+        font-size: 1.8rem;
+    }
+    
+    .welcome-screen .hero-title {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .welcome-screen .hero-subtitle {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+}
+
+@media (max-height: 500px) {
+    .stats-display {
+        flex-direction: row;
+        gap: 0.8rem;
+        margin-bottom: 0.8rem;
+        justify-content: center;
+    }
+    
+    .stat-item {
+        padding: 0.6rem 1rem;
+        min-width: auto;
+        flex: 1;
+        max-width: 120px;
+    }
+    
+    .stat-number {
+        font-size: 1.4rem;
+    }
+    
+    .stat-label {
+        font-size: 0.8rem;
+    }
+    
+    .welcome-screen .hero-title {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .welcome-screen .hero-subtitle {
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+    
+    .difficulty-buttons {
+        gap: 0.5rem;
+    }
+    
+    .difficulty-btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Ensure all screens work within viewport */
+.screen {
+    max-height: 100vh;
+    overflow-y: auto;
+}
+
+/* Results screen optimizations */
+.results-screen .screen-content {
+    padding: 1rem;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+}
+
+@media (max-height: 600px) {
+    .results-screen .screen-content {
+        padding: 0.5rem;
+        justify-content: flex-start;
+        padding-top: 2rem;
+    }
+    
+    .results-screen .hero-title {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .results-screen .stats-grid {
+        gap: 0.8rem;
+        margin: 1rem 0;
     }
 }

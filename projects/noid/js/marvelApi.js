@@ -65,6 +65,116 @@ const FALLBACK_CHARACTERS = [
         name: "Doctor Strange",
         thumbnail: { path: "https://i.annihil.us/u/prod/marvel/i/mg/5/f0/5261a85a501fe", extension: "jpg" },
         description: "Master of the Mystic Arts"
+    },
+    {
+        name: "Wolverine",
+        thumbnail: { path: "https://i.annihil.us/u/prod/marvel/i/mg/2/60/537bcaef0f6cf", extension: "jpg" },
+        description: "The best there is at what he does"
+    },
+    {
+        name: "Deadpool",
+        thumbnail: { path: "https://i.annihil.us/u/prod/marvel/i/mg/9/90/5261a86cacb99", extension: "jpg" },
+        description: "The Merc with a Mouth"
+    },
+    {
+        name: "Captain Marvel",
+        thumbnail: { path: "https://i.annihil.us/u/prod/marvel/i/mg/6/80/5269608c1be7a", extension: "jpg" },
+        description: "Cosmic-powered hero"
+    },
+    {
+        name: "Scarlet Witch",
+        thumbnail: { path: "https://i.annihil.us/u/prod/marvel/i/mg/6/70/5261a7d7498bb", extension: "jpg" },
+        description: "Master of chaos magic"
+    },
+    {
+        name: "Vision",
+        thumbnail: { path: "https://i.annihil.us/u/prod/marvel/i/mg/9/d0/5261a86657977", extension: "jpg" },
+        description: "Synthetic android with Mind Stone"
+    },
+    {
+        name: "Ant-Man",
+        thumbnail: { path: "https://i.annihil.us/u/prod/marvel/i/mg/e/20/52696868356d0", extension: "jpg" },
+        description: "Size-changing hero"
+    },
+    {
+        name: "Wasp",
+        thumbnail: { path: "https://i.annihil.us/u/prod/marvel/i/mg/9/c0/5261a85a501fe", extension: "jpg" },
+        description: "Flying, shrinking hero"
+    },
+    {
+        name: "Falcon",
+        thumbnail: { path: "https://i.annihil.us/u/prod/marvel/i/mg/0/40/5261a7e53f827", extension: "jpg" },
+        description: "Winged Avenger"
+    },
+    {
+        name: "Winter Soldier",
+        thumbnail: { path: "https://i.annihil.us/u/prod/marvel/i/mg/d/03/58dd080719806", extension: "jpg" },
+        description: "Reformed assassin"
+    },
+    {
+        name: "Black Panther",
+        thumbnail: { path: "https://i.annihil.us/u/prod/marvel/i/mg/6/60/5261a80a67e7b", extension: "jpg" },
+        description: "King of Wakanda"
+    },
+    {
+        name: "Daredevil",
+        thumbnail: { path: "https://i.annihil.us/u/prod/marvel/i/mg/d/50/50febb79985ee", extension: "jpg" },
+        description: "The Man Without Fear"
+    },
+    {
+        name: "Punisher",
+        thumbnail: { path: "https://i.annihil.us/u/prod/marvel/i/mg/6/90/50fec1e49298a", extension: "jpg" },
+        description: "Vigilante with a war against crime"
+    },
+    {
+        name: "Ghost Rider",
+        thumbnail: { path: "https://i.annihil.us/u/prod/marvel/i/mg/3/80/52696738a2d72", extension: "jpg" },
+        description: "Spirit of Vengeance"
+    },
+    {
+        name: "Silver Surfer",
+        thumbnail: { path: "https://i.annihil.us/u/prod/marvel/i/mg/3/50/527bb6490a176", extension: "jpg" },
+        description: "Herald of Galactus"
+    },
+    {
+        name: "Fantastic Four",
+        thumbnail: { path: "https://i.annihil.us/u/prod/marvel/i/mg/9/60/58dbce634ea70", extension: "jpg" },
+        description: "Marvel's First Family"
+    },
+    {
+        name: "Professor X",
+        thumbnail: { path: "https://i.annihil.us/u/prod/marvel/i/mg/3/e0/528d3378de525", extension: "jpg" },
+        description: "Leader of the X-Men"
+    },
+    {
+        name: "Magneto",
+        thumbnail: { path: "https://i.annihil.us/u/prod/marvel/i/mg/3/b0/5261a7e53f827", extension: "jpg" },
+        description: "Master of Magnetism"
+    },
+    {
+        name: "Storm",
+        thumbnail: { path: "https://i.annihil.us/u/prod/marvel/i/mg/6/40/526963dad214d", extension: "jpg" },
+        description: "Weather-controlling mutant"
+    },
+    {
+        name: "Cyclops",
+        thumbnail: { path: "https://i.annihil.us/u/prod/marvel/i/mg/6/70/526547e2d90bc", extension: "jpg" },
+        description: "Optic blast-powered X-Men leader"
+    },
+    {
+        name: "Jean Grey",
+        thumbnail: { path: "https://i.annihil.us/u/prod/marvel/i/mg/1/03/528d33d000749", extension: "jpg" },
+        description: "Telepathic and telekinetic mutant"
+    },
+    {
+        name: "Nightcrawler",
+        thumbnail: { path: "https://i.annihil.us/u/prod/marvel/i/mg/9/03/526548448d015", extension: "jpg" },
+        description: "Teleporting blue mutant"
+    },
+    {
+        name: "Rogue",
+        thumbnail: { path: "https://i.annihil.us/u/prod/marvel/i/mg/3/10/5112d84e2166c", extension: "jpg" },
+        description: "Power-absorbing mutant"
     }
 ];
 
@@ -116,14 +226,13 @@ class MarvelService {
                 character.thumbnail.path && 
                 !character.thumbnail.path.includes('image_not_available') &&
                 character.name.length > 0
-            ).slice(0, 20); // Limit to 20 characters for the quiz
+            ).slice(0, 100); // Increased to 100 characters for larger question pools
             
             console.log(`Successfully loaded ${this.characters.length} characters from Marvel API`);
-            
-            // If we don't get enough characters from API, supplement with fallback
-            if (this.characters.length < 8) {
+              // If we don't get enough characters from API, supplement with fallback
+            if (this.characters.length < 25) {
                 console.log('Using fallback characters due to insufficient API results');
-                this.characters = [...this.characters, ...FALLBACK_CHARACTERS].slice(0, 8);
+                this.characters = [...this.characters, ...FALLBACK_CHARACTERS].slice(0, 25);
             }
             
             return this.characters;
@@ -134,17 +243,21 @@ class MarvelService {
             this.characters = FALLBACK_CHARACTERS;
             return this.characters;
         }
-    }generateQuestions() {
+    }    generateQuestions(numQuestions = 10) {
+        // Ensure we don't request more questions than we have characters
+        const maxQuestions = Math.min(numQuestions, this.characters.length);
+        
         // Shuffle characters to randomize question order
         const shuffledCharacters = this.shuffleArray([...this.characters]);
         
-        this.questions = shuffledCharacters.slice(0, 10).map(character => ({
+        this.questions = shuffledCharacters.slice(0, maxQuestions).map(character => ({
             name: character.name,
             image: `${character.thumbnail.path}.${character.thumbnail.extension}`,
             description: character.description || 'No description available',
             options: this.generateOptions(character.name)
         }));
         
+        console.log(`Generated ${this.questions.length} questions for the quiz`);
         return this.questions;
     }
 
