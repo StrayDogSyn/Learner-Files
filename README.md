@@ -79,24 +79,25 @@ The following outlines the directory structure of the portfolio project, providi
 
 ## Featured Projects
 
-### 🎭 Marvel Universe Quiz - Ultimate Hero Challenge
+### 🎭 Marvel Universe Quiz - Enhanced Interactive Experience
 
 #### Primary Featured Project
 
-An immersive, visually stunning quiz game that tests your knowledge of the Marvel Universe. Built with modern web technologies and integrated with the Marvel API for authentic character data.
+An immersive, visually stunning quiz game featuring cutting-edge gameplay mechanics and accessibility. This enhanced version includes strategic power-ups, single-viewport responsive design, and advanced interactive elements.
 
 **Key Features:**
 
-- Real-time Marvel API integration for authentic character information
-- Stunning visual effects with glassmorphism design
-- Responsive layout optimized for all devices
-- Multiple difficulty levels (Rookie, Hero, Legend)
-- Power-ups and interactive gameplay elements
-- Comprehensive scoring system with detailed analytics
+- **Interactive Power-Up System**: Strategic "Heroes & Villains" and "80 Years of Stories" stat buttons with bonus scoring and cooldown mechanics
+- **Single-Viewport Responsive Design**: Optimized layout that fits entirely within any device viewport without scrolling
+- **Real-time Marvel API integration** with robust fallback system for authentic character information
+- **Advanced Visual Effects**: Glassmorphism design with smooth animations, hover states, and activation feedback
+- **Accessibility-First Design**: WCAG compliant with keyboard navigation and screen reader support
+- **Multiple difficulty levels** with scalable question pools (Easy: 25, Medium: 50, Hard: 75 questions)
+- **Enhanced Scoring System**: Bonus multipliers, power-up notifications, and strategic gameplay elements
 
-**Technologies:** HTML5, CSS3, JavaScript (ES6+), Marvel API, Advanced CSS animations
+**Technologies:** HTML5, CSS3 (Grid/Flexbox), JavaScript (ES6+), Marvel API, Advanced CSS animations, Responsive Design Patterns
 
-**[🎮 Play the Quiz](projects/noid/index.html)**
+**[🎮 Play the Enhanced Quiz](projects/noid/index.html)**
 
 ### Other Notable Projects
 
