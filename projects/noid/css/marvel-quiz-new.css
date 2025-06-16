@@ -160,23 +160,36 @@ body, html {
     right: 20px;
     z-index: 50;
     margin-bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: calc(100% - 40px);
+    padding: 0.8rem 1.5rem;
+    background: rgba(0, 0, 0, 0.6);
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-sizing: border-box;
 }
 
 .question-container {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 80px 1rem 1rem;
-    height: 100vh;
+    padding: 100px 1rem 1rem;
+    height: calc(100vh - 120px);
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    gap: 1.5rem;
 }
 
 .character-showcase {
-    margin-bottom: 1rem;
+    margin-bottom: 0;
     min-height: 0;
     flex: 0 0 auto;
+    max-height: 40vh;
 }
 
 .answers-grid {
@@ -184,6 +197,8 @@ body, html {
     flex: 1;
     display: grid;
     align-content: center;
+    max-height: 50vh;
+    overflow-y: auto;
 }
 
 .answer-btn {
@@ -622,23 +637,6 @@ body, html {
     max-width: 1200px;
 }
 
-.quiz-hud {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: calc(100% - 40px);
-    padding: 0.8rem 1.5rem;
-    background: rgba(0, 0, 0, 0.5);
-    -webkit-backdrop-filter: blur(15px);
-    backdrop-filter: blur(15px);
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    position: fixed;
-    top: 10px;
-    left: 20px;
-    z-index: 50;
-}
-
 .question-counter {
     color: #fff;
     font-weight: 600;
@@ -703,18 +701,7 @@ body, html {
     color: #fff;
 }
 
-/* Question Container */
-.question-container {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 0 1rem;
-    align-items: center;
-}
-
+/* Character Showcase Styling */
 .character-showcase {
     display: flex;
     gap: 2rem;
@@ -725,7 +712,7 @@ body, html {
     border-radius: 15px;
     padding: 1.5rem;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    margin-bottom: 1rem;
+    margin-bottom: 0;
     min-height: 0;
     width: 100%;
     box-sizing: border-box;
@@ -744,11 +731,35 @@ body, html {
     border-radius: 12px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
     transition: all 0.3s ease;
+    display: block;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .character-image:hover {
     transform: scale(1.05);
     box-shadow: 0 15px 40px rgba(230, 36, 41, 0.4);
+}
+
+/* Image loading state */
+.character-image:not([src]),
+.character-image[src=""] {
+    background: linear-gradient(45deg, 
+        rgba(230, 36, 41, 0.3), 
+        rgba(0, 86, 163, 0.3));
+    position: relative;
+}
+
+.character-image:not([src])::before,
+.character-image[src=""]::before {
+    content: "Loading...";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
 }
 
 .image-overlay {
@@ -1309,13 +1320,24 @@ body, html {
         height: 180px;
         margin: 0 auto;
     }
-    
-    .question-text h2 {
+      .question-text h2 {
         font-size: 1.5rem;
         margin-bottom: 0.5rem;
     }
-      .answers-grid {
+    
+    .answers-grid {
         gap: 0.8rem;
+        margin-top: 1rem;
+        max-height: 40vh;
+    }
+    
+    .powerups-container {
+        position: fixed;
+        bottom: 20px;
+        right: 10px;
+        flex-direction: row;
+        transform: none;
+        top: auto;
     }
 }
 
@@ -1325,7 +1347,20 @@ body, html {
     }
     
     .question-container {
-        padding: 55px 0.3rem 0.3rem;
+        padding: 80px 0.3rem 0.3rem;
+        height: calc(100vh - 90px);
+        gap: 0.8rem;
+    }
+    
+    .quiz-hud {
+        padding: 0.6rem 1rem;
+        gap: 0.5rem;
+    }
+    
+    .character-showcase {
+        padding: 0.8rem;
+        gap: 0.8rem;
+        max-height: 45vh;
     }
     
     .character-image {
@@ -1342,7 +1377,8 @@ body, html {
         grid-template-columns: 1fr;
         gap: 0.8rem;
         max-width: 350px;
-        margin: 1.5rem auto 0;
+        margin: 1rem auto 0;
+        max-height: 35vh;
     }
     
     .action-buttons {
@@ -1502,13 +1538,16 @@ body, html {
 /* Short viewport height optimization */
 @media (max-height: 700px) {
     .question-container {
-        padding: 70px 1rem 0.5rem;
+        padding: 90px 1rem 0.5rem;
+        height: calc(100vh - 100px);
+        gap: 1rem;
     }
     
     .character-showcase {
         padding: 1rem;
         gap: 1.5rem;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0;
+        max-height: 35vh;
     }
     
     .character-image {
@@ -1523,6 +1562,8 @@ body, html {
     
     .answers-grid {
         gap: 0.8rem;
+        max-height: 35vh;
+        margin-top: 0.5rem;
     }
     
     .answer-btn {
