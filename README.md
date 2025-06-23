@@ -4,7 +4,7 @@
 
 **View the portfolio online:** [https://straydogsyn.github.io/Learner-Files](https://straydogsyn.github.io/Learner-Files)
 
-<!-- Updated: 2025-06-16 - Enhanced Marvel Universe Quiz with interactive features -->
+<!-- Updated: 2025-06-23 - Added Codewars badges and enhanced Marvel Universe Quiz with improved image loading -->
 
 A comprehensive showcase of web development projects, skills, and technical expertise. This portfolio demonstrates proficiency in modern web technologies and creative problem-solving approaches.
 
@@ -116,6 +116,16 @@ An immersive, visually stunning quiz game featuring cutting-edge gameplay mechan
 - **JavaScript Libraries**: Various project-specific libraries
 - **Version Control**: Git
 - **Build Tools**: npm
+
+## 🏆 Coding Achievements
+
+### Codewars Progress
+
+![Codewars Badge](https://www.codewars.com/users/StrayDogSyn/badges/large)
+
+**Profile:** [StrayDogSyn on Codewars](https://www.codewars.com/users/StrayDogSyn)
+
+Continuously improving problem-solving skills and algorithmic thinking through daily coding challenges and kata completion across multiple programming languages.
 
 ## Development Guidelines
 
