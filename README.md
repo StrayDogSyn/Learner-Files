@@ -22,6 +22,8 @@ The portfolio has been professionally organized with a clear separation between 
 ├── bio.html                    # Professional biography
 ├── contacts.html               # Contact information
 ├── menu.html                   # Navigation menu
+├── package.json                # Main project dependencies
+├── tailwind.config.js          # Tailwind CSS configuration
 ├── projects/                   # Active professional projects
 │   ├── knucklebones/           # Featured: Interactive dice strategy game
 │   ├── quiz-ninja2.1/          # Featured: Marvel Universe quiz application
@@ -68,25 +70,19 @@ The portfolio has been professionally organized with a clear separation between 
 
 ### Screenshots
 
-![Portfolio Homepage](assets/screenshots/webpage/Screenshot%20(159).png)
+![Portfolio Homepage](archive/design-artifacts/screenshots/webpage/Screenshot%20(159).png)
 *Homepage with project overview and skills showcase*
 
-![Projects Gallery](assets/screenshots/webpage/Screenshot%20(160).png)
+![Projects Gallery](archive/design-artifacts/screenshots/webpage/Screenshot%20(160).png)
 *Interactive projects gallery with carousel navigation*
 
-![Knucklebones Game](assets/screenshots/webpage/Screenshot%20(161).png)
+![Knucklebones Game](archive/design-artifacts/screenshots/webpage/Screenshot%20(161).png)
 *Knucklebones dice game with interactive game board*
-
-![CompTIA Quiz Interface](assets/screenshots/webpage/Screenshot%20(162).png)
-*CompTIA certification quiz with multiple choice questions*
-
-![Contact Page](assets/screenshots/webpage/Screenshot%20(163).png)
-*Contact form and developer information*
 
 ## 🎯 Featured Professional Projects
 
 ### Knucklebones - Interactive Strategy Game
-![Knucklebones Screenshot](assets/screenshots/knuckle.png)
+![Knucklebones Screenshot](archive/design-artifacts/screenshots/knuckle.png)
 
 **Live Demo:** [Knucklebones Game](https://straydogsyn.github.io/Learner-Files/projects/knucklebones/)
 
@@ -108,7 +104,7 @@ A sophisticated dice-based strategy game featuring advanced game logic, interact
 - Object-oriented game design patterns
 
 ### Marvel Universe Quiz - Interactive Knowledge Platform
-![Marvel Quiz Screenshot](assets/screenshots/quiz.png)
+![Marvel Quiz Screenshot](archive/design-artifacts/screenshots/quiz.png)
 
 **Live Demo:** [Marvel Universe Quiz](https://straydogsyn.github.io/Learner-Files/projects/quiz-ninja2.1/)
 
