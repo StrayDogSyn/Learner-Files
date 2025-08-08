@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer - Portfolio Archive | StrayDog Syndications</title>
+    <meta name="description" content="This project has been archived as part of our portfolio modernization. View our current professional projects.">
+    <meta http-equiv="refresh" content="5;url=../index.html">
+    <link rel="canonical" href="../index.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        h1 {
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            font-weight: 700;
+            background: linear-gradient(45deg, #ffffff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        p {
+            margin: 15px 0;
+            font-size: 1.1em;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        .project-name {
+            font-weight: 600;
+            color: #f59e0b;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #f59e0b, #f97316);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+        }
+        
+        .archive-note {
+            font-size: 0.9em;
+            opacity: 0.7;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .countdown {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #f59e0b;
+            margin: 10px 0;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 15px;
+            }
+            
+            .container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Portfolio Evolution</h1>
+        <p>The <span class="project-name">Countdown Timer</span> project has been archived as part of our portfolio modernization.</p>
+        <p>We're now showcasing professional-grade applications that demonstrate advanced technical skills and real-world impact.</p>
+        
+        <a href="../index.html" class="cta-button">View Current Projects</a>
+        
+        <div class="archive-note">
+            <p class="countdown">Redirecting in <span id="countdown">5</span> seconds...</p>
+            <p>Legacy project preserved in our archive for reference.</p>
+        </div>
+    </div>
+    
+    <script>
+        let timeLeft = 5;
+        const countdownElement = document.getElementById('countdown');
+        
+        const timer = setInterval(() => {
+            timeLeft--;
+            countdownElement.textContent = timeLeft;
+            
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                // Enhanced redirect with user interaction tracking
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'archive_redirect', {
+                        'archived_project': 'countdown',
+                        'redirect_source': 'auto'
+                    });
+                }
+                window.location.href = '../index.html';
+            }
+        }, 1000);
+        
+        // Track manual navigation
+        document.querySelector('.cta-button').addEventListener('click', function() {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'archive_redirect', {
+                    'archived_project': 'countdown',
+                    'redirect_source': 'manual'
+                });
+            }
+        });
+    </script>
+</body>
+</html>
