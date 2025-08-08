@@ -196,6 +196,7 @@ const ImageGallery: React.FC<{
                 index === currentImage ? 'bg-blue-400' : 'bg-white/30'
               }`}
               onClick={() => setCurrentImage(index)}
+              aria-label={`View image ${index + 1} of ${images.length}`}
             />
           ))}
         </div>

@@ -224,14 +224,14 @@ export const ContactWizard: React.FC<ContactWizardProps> = ({
         await onSubmit(formData);
       } else {
         // Default submission logic
-        console.log('Submitting form data:', formData);
+        // Submitting form data
         // Simulate API call
         await new Promise(resolve => setTimeout(resolve, 2000));
       }
       
       setIsSubmitted(true);
-    } catch (error) {
-      console.error('Form submission error:', error);
+    } catch {
+      // Form submission error occurred
       setErrors({ submit: 'Failed to submit form. Please try again.' });
     } finally {
       setIsSubmitting(false);

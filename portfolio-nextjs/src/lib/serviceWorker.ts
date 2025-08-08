@@ -24,7 +24,7 @@ class ServiceWorkerManager {
   // Register service worker
   async register(swPath: string = '/sw.js'): Promise<ServiceWorkerRegistration | null> {
     if (!this.isSupported()) {
-      console.warn('Service Workers are not supported in this browser');
+      // Service Workers are not supported in this browser
       return null;
     }
 
@@ -53,11 +53,11 @@ class ServiceWorkerManager {
         this.config.onSuccess?.(registration);
       }
 
-      console.log('Service Worker registered successfully:', registration);
+      // Service Worker registered successfully
       return registration;
     } catch (error) {
       const swError = error as Error;
-      console.error('Service Worker registration failed:', swError);
+      // Service Worker registration failed
       this.config.onError?.(swError);
       return null;
     }
@@ -71,12 +71,12 @@ class ServiceWorkerManager {
       const registration = await navigator.serviceWorker.getRegistration();
       if (registration) {
         const result = await registration.unregister();
-        console.log('Service Worker unregistered:', result);
+        // Service Worker unregistered
         return result;
       }
       return false;
-    } catch (error) {
-      console.error('Service Worker unregistration failed:', error);
+    } catch {
+      // Service Worker unregistration failed
       return false;
     }
   }
@@ -84,22 +84,22 @@ class ServiceWorkerManager {
   // Update service worker
   async update(): Promise<void> {
     if (!this.registration) {
-      console.warn('No service worker registration found');
+      // No service worker registration found
       return;
     }
 
     try {
       await this.registration.update();
-      console.log('Service Worker update triggered');
-    } catch (error) {
-      console.error('Service Worker update failed:', error);
+      // Service Worker update triggered
+    } catch {
+      // Service Worker update failed
     }
   }
 
   // Skip waiting and activate new service worker
   async skipWaiting(): Promise<void> {
     if (!this.registration || !this.registration.waiting) {
-      console.warn('No waiting service worker found');
+      // No waiting service worker found
       return;
     }
 
@@ -109,7 +109,7 @@ class ServiceWorkerManager {
   // Send message to service worker
   sendMessage(message: Record<string, unknown>): void {
     if (!navigator.serviceWorker.controller) {
-      console.warn('No active service worker found');
+      // No active service worker found
       return;
     }
 
@@ -147,21 +147,21 @@ class ServiceWorkerManager {
 
     const deferredPrompt = (window as unknown as { deferredPrompt?: { prompt: () => void; userChoice: Promise<{ outcome: string }> } }).deferredPrompt;
     if (!deferredPrompt) {
-      console.warn('PWA install prompt not available');
+      // PWA install prompt not available
       return false;
     }
 
     try {
       deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
-      console.log('PWA install prompt result:', outcome);
+      // PWA install prompt result
       
       // Clear the deferredPrompt
       (window as unknown as { deferredPrompt?: unknown }).deferredPrompt = null;
       
       return outcome === 'accepted';
-    } catch (error) {
-      console.error('PWA install prompt failed:', error);
+    } catch {
+      // PWA install prompt failed
       return false;
     }
   }
@@ -178,9 +178,9 @@ export const cacheManager = {
       await Promise.all(
         cacheNames.map(cacheName => caches.delete(cacheName))
       );
-      console.log('All caches cleared');
-    } catch (error) {
-      console.error('Failed to clear caches:', error);
+      // All caches cleared
+    } catch {
+      // Failed to clear caches
     }
   },
 
@@ -206,8 +206,8 @@ export const cacheManager = {
       }
 
       return totalSize;
-    } catch (error) {
-      console.error('Failed to calculate cache size:', error);
+    } catch {
+      // Failed to calculate cache size
       return 0;
     }
   },
@@ -320,7 +320,7 @@ export const pwaUtils = {
     };
 
     const handleAppInstalled = () => {
-      console.log('PWA was installed');
+      // PWA was installed
       (window as unknown as { deferredPrompt?: unknown }).deferredPrompt = null;
       
       // Dispatch custom event

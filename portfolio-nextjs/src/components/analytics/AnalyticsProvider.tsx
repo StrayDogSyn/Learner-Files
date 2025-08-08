@@ -88,7 +88,7 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
             setSession({ ...parsedData, lastActivity: Date.now() });
           }
         } catch (error) {
-          console.warn('Failed to parse existing analytics session:', error);
+          // Failed to parse existing analytics session
         }
       }
     }
@@ -122,7 +122,7 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
     });
 
     if (enableConsoleLogging) {
-      console.log('Analytics Event:', event);
+      // Analytics event tracked
     }
 
     // Send to analytics service (placeholder)

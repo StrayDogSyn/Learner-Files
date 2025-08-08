@@ -121,6 +121,7 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ isOpen, onClose
             <button
               onClick={onClose}
               className="p-2 text-white/70 hover:text-white transition-colors"
+              aria-label="Close analytics dashboard"
             >
               <X className="w-6 h-6" />
             </button>

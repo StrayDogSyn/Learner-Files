@@ -120,6 +120,7 @@ export const ProjectFilter: React.FC<ProjectFilterProps> = ({
                   <select
                     value={filters.category}
                     onChange={(e) => updateFilter('category', e.target.value)}
+                    aria-label="Filter by category"
                     className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white focus:border-blue-400/50 focus:outline-none transition-all duration-300"
                   >
                     {categories.map((category) => (
@@ -191,6 +192,7 @@ export const ProjectFilter: React.FC<ProjectFilterProps> = ({
                   <select
                     value={filters.complexity}
                     onChange={(e) => updateFilter('complexity', e.target.value)}
+                    aria-label="Filter by complexity level"
                     className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white focus:border-blue-400/50 focus:outline-none transition-all duration-300"
                   >
                     {complexityLevels.map((level) => (
@@ -242,6 +244,7 @@ export const ProjectFilter: React.FC<ProjectFilterProps> = ({
               <button
                 onClick={() => updateFilter('search', '')}
                 className="hover:text-white transition-colors"
+                aria-label="Remove search filter"
               >
                 <X className="w-3 h-3" />
               </button>
@@ -253,6 +256,7 @@ export const ProjectFilter: React.FC<ProjectFilterProps> = ({
               <button
                 onClick={() => updateFilter('category', 'all')}
                 className="hover:text-white transition-colors"
+                aria-label="Remove category filter"
               >
                 <X className="w-3 h-3" />
               </button>
@@ -264,6 +268,7 @@ export const ProjectFilter: React.FC<ProjectFilterProps> = ({
               <button
                 onClick={() => updateFilter('technology', 'all')}
                 className="hover:text-white transition-colors"
+                aria-label="Remove technology filter"
               >
                 <X className="w-3 h-3" />
               </button>
@@ -275,6 +280,7 @@ export const ProjectFilter: React.FC<ProjectFilterProps> = ({
               <button
                 onClick={() => updateFilter('complexity', 'all')}
                 className="hover:text-white transition-colors"
+                aria-label="Remove complexity filter"
               >
                 <X className="w-3 h-3" />
               </button>
@@ -286,6 +292,7 @@ export const ProjectFilter: React.FC<ProjectFilterProps> = ({
               <button
                 onClick={() => updateFilter('featured', false)}
                 className="hover:text-white transition-colors"
+                aria-label="Remove featured filter"
               >
                 <X className="w-3 h-3" />
               </button>

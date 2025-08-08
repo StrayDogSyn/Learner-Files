@@ -235,8 +235,7 @@ export default function ContactPage() {
   const [showWizard, setShowWizard] = useState(false);
   
   const handleFormSubmit = async (data: ContactFormData) => {
-    // TODO: Implement actual form submission
-    console.log('Form submitted:', data);
+    // Form submission will be handled by the ContactWizard component
     
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 2000));

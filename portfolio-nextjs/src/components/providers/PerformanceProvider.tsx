@@ -51,15 +51,15 @@ export const PerformanceProvider: React.FC<PerformanceProviderProps> = ({ childr
       try {
         const registration = await serviceWorkerManager.register('/sw.js');
         if (registration) {
-          console.log('Service Worker registered successfully');
+          // Service Worker registered successfully
           
           // Handle updates
           registration.addEventListener('updatefound', () => {
             setShowUpdateNotification(true);
           });
         }
-      } catch (error) {
-        console.error('Service Worker registration failed:', error);
+      } catch {
+        // Service Worker registration failed
       }
 
       // Setup PWA install prompt
@@ -136,8 +136,8 @@ export const PerformanceProvider: React.FC<PerformanceProviderProps> = ({ childr
       const { cacheManager } = await import('@/lib/serviceWorker');
       await cacheManager.clearAll();
       window.location.reload();
-    } catch (error) {
-      console.error('Failed to clear cache:', error);
+    } catch {
+      // Failed to clear cache
     }
   };
 

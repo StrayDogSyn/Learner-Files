@@ -185,7 +185,7 @@ const usePerformanceMonitoring = () => {
       lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
       observersRef.current.push(lcpObserver);
     } catch {
-      console.warn('LCP observer not supported');
+      // LCP observer not supported
     }
 
     // First Input Delay (FID)
@@ -204,7 +204,7 @@ const usePerformanceMonitoring = () => {
       fidObserver.observe({ entryTypes: ['first-input'] });
       observersRef.current.push(fidObserver);
     } catch {
-      console.warn('FID observer not supported');
+      // FID observer not supported
     }
 
     // Cumulative Layout Shift (CLS)
@@ -223,7 +223,7 @@ const usePerformanceMonitoring = () => {
       clsObserver.observe({ entryTypes: ['layout-shift'] });
       observersRef.current.push(clsObserver);
     } catch {
-      console.warn('CLS observer not supported');
+      // CLS observer not supported
     }
 
     // First Contentful Paint (FCP)
@@ -240,7 +240,7 @@ const usePerformanceMonitoring = () => {
       fcpObserver.observe({ entryTypes: ['paint'] });
       observersRef.current.push(fcpObserver);
     } catch {
-      console.warn('FCP observer not supported');
+      // FCP observer not supported
     }
 
     // Time to First Byte (TTFB)
@@ -255,8 +255,8 @@ const usePerformanceMonitoring = () => {
       observersRef.current.forEach(observer => {
         try {
           observer.disconnect();
-        } catch (error) {
-          console.warn('Error disconnecting observer:', error);
+        } catch {
+          // Error disconnecting observer
         }
       });
       observersRef.current = [];

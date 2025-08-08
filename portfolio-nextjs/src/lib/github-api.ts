@@ -167,8 +167,8 @@ class GitHubService {
       }
       
       return 1;
-    } catch (error) {
-      console.warn(`Failed to get commit count for ${repoName}:`, error);
+    } catch {
+      // Failed to get commit count
       return 0;
     }
   }
@@ -205,8 +205,8 @@ class GitHubService {
           weeks: []
         }
       };
-    } catch (error) {
-      console.warn('Failed to get contribution data:', error);
+    } catch {
+      // Failed to get contribution data
       return null;
     }
   }
@@ -251,7 +251,7 @@ class GitHubService {
         recentActivity
       };
     } catch (error) {
-      console.error('Failed to get GitHub stats:', error);
+      // Failed to get GitHub stats
       throw error;
     }
   }
@@ -262,8 +262,8 @@ class GitHubService {
         repoNames.map(name => this.getRepository(name))
       );
       return repos;
-    } catch (error) {
-      console.error('Failed to get featured repositories:', error);
+    } catch {
+      // Failed to get featured repositories
       return [];
     }
   }

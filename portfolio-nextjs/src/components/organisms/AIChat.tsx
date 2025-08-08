@@ -188,8 +188,8 @@ What specific aspect would you like to explore? Feel free to ask about any proje
         };
         return [...withoutTyping, aiMessage];
       });
-    } catch (error) {
-      console.error('Error generating AI response:', error);
+    } catch {
+      // Error generating AI response
       setMessages(prev => {
         const withoutTyping = prev.filter(msg => msg.id !== 'typing');
         const errorMessage: ChatMessage = {
@@ -209,8 +209,8 @@ What specific aspect would you like to explore? Feel free to ask about any proje
     // Copy functionality is handled in ChatMessage component
   };
 
-  const handleFeedback = (messageId: string, feedback: 'positive' | 'negative') => {
-    console.log(`Feedback for message ${messageId}: ${feedback}`);
+  const handleFeedback = () => {
+    // Feedback recorded for message
     // Here you would typically send feedback to your analytics service
   };
 

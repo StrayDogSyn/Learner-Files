@@ -62,9 +62,9 @@ const PerformanceOptimizer: React.FC<PerformanceOptimizerProps> = ({
         const totalTime = performance.now() - startTime;
         measureCustomMetric('performance-optimization-total', totalTime);
         
-        console.log(`Performance optimizations completed in ${totalTime.toFixed(2)}ms`);
-      } catch (error) {
-        console.error('Performance optimization failed:', error);
+        // Performance optimizations completed
+      } catch {
+        // Performance optimization failed
         measureCustomMetric('performance-optimization-error', 1);
       }
     };
@@ -86,7 +86,7 @@ const PerformanceOptimizer: React.FC<PerformanceOptimizerProps> = ({
 
       performanceUtils.checkPerformanceBudget(budget).then(results => {
         if (results.violations.length > 0) {
-          console.warn('Performance budget violations:', results.violations);
+          // Performance budget violations detected
           measureCustomMetric('performance-budget-violations', results.violations.length);
         } else {
           measureCustomMetric('performance-budget-passed', 1);
@@ -111,13 +111,13 @@ const PerformanceOptimizer: React.FC<PerformanceOptimizerProps> = ({
               const observer = new PerformanceObserver((list) => {
                 for (const entry of list.getEntries()) {
                   if (entry.entryType === 'largest-contentful-paint') {
-                    console.log('LCP:', entry.startTime);
+                    // LCP measured
                   }
                   if (entry.entryType === 'first-input') {
-                    console.log('FID:', entry.processingStart - entry.startTime);
+                    // FID measured
                   }
                   if (entry.entryType === 'layout-shift' && !entry.hadRecentInput) {
-                    console.log('CLS:', entry.value);
+                    // CLS measured
                   }
                 }
               });
@@ -125,7 +125,7 @@ const PerformanceOptimizer: React.FC<PerformanceOptimizerProps> = ({
               try {
                 observer.observe({entryTypes: ['largest-contentful-paint', 'first-input', 'layout-shift']});
               } catch (e) {
-                console.warn('Performance Observer not supported');
+                // Performance Observer not supported
               }
             })();
           `

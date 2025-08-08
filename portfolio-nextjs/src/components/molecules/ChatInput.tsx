@@ -109,7 +109,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
       mediaRecorder.start();
       setIsRecording(true);
     } catch (error) {
-      console.error('Error starting recording:', error);
+      // Error starting recording
     }
   };
 
@@ -297,6 +297,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
           onChange={handleFileSelect}
           className="hidden"
           accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg,.gif"
+          aria-label="Upload files for chat"
         />
       </motion.div>
 
