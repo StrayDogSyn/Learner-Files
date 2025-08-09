@@ -1146,3 +1146,21 @@ export const ResumeBuilder: React.FC = () => {
     
     setIsGenerating(true)
     
+    try {
+      // Capture the resume as canvas
+      const canvas = await html2canvas(resumeRef.current, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#ffffff'
+      })
+      
+      // Create PDF
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
+      })
+      
+      const imgWidth = 210 // A4 width in mm
+      const imgHeight = (canvas.height * img
