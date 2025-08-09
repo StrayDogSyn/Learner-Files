@@ -544,4 +544,34 @@ export interface SubjectAnalytics {
 export interface DifficultyProgression {
   difficulty: DifficultyLevel;
   questionsAnswered: number;
-  accuracy
+  accuracy: number;
+  averageTime: number;
+  trend: 'improving' | 'stable' | 'declining';
+}
+
+export interface TimeAnalytics {
+  dailyAverage: number;
+  weeklyTotal: number;
+  monthlyTotal: number;
+  peakHours: number[];
+  studyPattern: 'morning' | 'afternoon' | 'evening' | 'night';
+}
+
+export interface StreakAnalytics {
+  currentStreak: number;
+  longestStreak: number;
+  streakHistory: StreakRecord[];
+}
+
+export interface StreakRecord {
+  date: Date;
+  streakLength: number;
+  questionsAnswered: number;
+}
+
+export interface PredictionAccuracy {
+  overallAccuracy: number;
+  subjectAccuracy: Record<Subject, number>;
+  difficultyAccuracy: Record<DifficultyLevel, number>;
+  lastUpdated: Date;
+}

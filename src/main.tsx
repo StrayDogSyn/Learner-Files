@@ -2,7 +2,9 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
+import "./css/responsive-utilities.css";
 import "./css/accessibility.css";
+import "./css/animations.css";
 
 // Initialize accessibility utilities
 import { accessibilityPreferences, screenReader } from "./utils/accessibility";
