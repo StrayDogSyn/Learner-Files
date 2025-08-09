@@ -1,41 +1,52 @@
-# Performance Optimizer Module Documentation
+# Performance Monitoring & Optimization System Documentation
 
 ## Overview
 
-The Performance Optimizer Module is a comprehensive JavaScript utility designed to monitor, analyze, and optimize web application performance. It provides real-time Web Vitals tracking, intelligent lazy loading, resource optimization, image optimization, and performance monitoring capabilities.
+The Performance Monitoring & Optimization System is a comprehensive TypeScript/JavaScript solution designed to monitor, analyze, and optimize web application performance in real-time. It provides automated Web Vitals tracking, intelligent optimizations, performance testing, and detailed reporting capabilities with a beautiful dashboard interface.
 
 ## Table of Contents
 
-1. [Installation](#installation)
+1. [Installation & Setup](#installation--setup)
 2. [Quick Start](#quick-start)
 3. [Core Features](#core-features)
 4. [API Reference](#api-reference)
-5. [Configuration Options](#configuration-options)
-6. [Web Vitals Tracking](#web-vitals-tracking)
-7. [Lazy Loading](#lazy-loading)
-8. [Resource Optimization](#resource-optimization)
-9. [Image Optimization](#image-optimization)
-10. [Performance Monitoring](#performance-monitoring)
-11. [Service Worker Integration](#service-worker-integration)
+5. [React Integration](#react-integration)
+6. [Performance Testing](#performance-testing)
+7. [Configuration](#configuration)
+8. [Web Vitals Tracking](#web-vitals-tracking)
+9. [Performance Dashboard](#performance-dashboard)
+10. [Service Worker Integration](#service-worker-integration)
+11. [Performance Hooks](#performance-hooks)
 12. [Best Practices](#best-practices)
 13. [Troubleshooting](#troubleshooting)
 14. [Browser Support](#browser-support)
 
-## Installation
+## Installation & Setup
 
-### NPM Installation (if packaging as module)
+### NPM Installation
 ```bash
-npm install performance-optimizer
+npm install @your-org/performance-optimizer
 ```
 
-### Direct Import
-```javascript
-import PerformanceOptimizer from './utils/performance.js';
-```
+### Direct Implementation
+Copy the following files to your project:
+- `src/utils/performance.ts` - Core performance monitor
+- `src/types/performance.ts` - TypeScript definitions
+- `src/hooks/usePerformance.ts` - React hook
+- `src/components/PerformanceDashboard.tsx` - Dashboard component
+- `src/tests/performance.test.ts` - Test suite
+- `src/config/performance.json` - Configuration
+- `public/sw.js` - Service worker
 
-### CDN Usage
-```html
-<script type="module" src="path/to/performance.js"></script>
+### TypeScript Setup
+```typescript
+// Include in your tsconfig.json
+{
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "es2019"],
+    "types": ["web-vitals"]
+  }
+}
 ```
 
 ## Quick Start
@@ -126,171 +137,254 @@ Cleanup method to remove observers and event listeners.
 optimizer.destroy();
 ```
 
-### WebVitalsTracker Class
+### React Integration
 
-#### Methods
+### Using the Performance Hook
 
-##### trackFCP()
-```javascript
-const fcp = await vitals.trackFCP();
+```tsx
+import React, { useEffect } from 'react';
+import { usePerformance } from '../hooks/usePerformance';
+
+function MyComponent() {
+  const {
+    measureFunction,
+    measureAsync,
+    getMetrics,
+    reportCustomMetric,
+  } = usePerformance({
+    enableLazyLoading: true,
+    enableResourceHints: true,
+    trackUserInteractions: true,
+    memoryThreshold: 0.8
+  });
+
+  useEffect(() => {
+    // Report component mount time
+    reportCustomMetric('component_mount', performance.now());
+  }, [reportCustomMetric]);
+
+  const handleClick = measureFunction(() => {
+    // Measured click handler
+    console.log('Button clicked');
+  }, 'button_click');
+
+  return (
+    <div>
+      <button onClick={handleClick}>Measured Click</button>
+    </div>
+  );
+}
 ```
 
-##### trackLCP()
-```javascript
-const lcp = await vitals.trackLCP();
+### Performance Dashboard Component
+
+```tsx
+import React from 'react';
+import PerformanceDashboard from '../components/PerformanceDashboard';
+
+function App() {
+  return (
+    <div className="app">
+      <header>
+        <h1>My Application</h1>
+      </header>
+      
+      {/* Performance Dashboard */}
+      <PerformanceDashboard />
+      
+      <main>
+        {/* Your app content */}
+      </main>
+    </div>
+  );
+}
 ```
 
-##### trackFID()
-```javascript
-const fid = await vitals.trackFID();
-```
+## Performance Testing
 
-##### trackCLS()
-```javascript
-const cls = vitals.trackCLS();
-```
+### Automated Test Suite
 
-##### trackTTFB()
-```javascript
-const ttfb = vitals.trackTTFB();
-```
+```typescript
+import { PerformanceTestRunner } from '../tests/performance.test';
 
-##### onVitalUpdate(callback)
-```javascript
-vitals.onVitalUpdate((name, value, allVitals) => {
-  console.log(`${name}: ${value}`);
+// Run comprehensive performance tests
+const testRunner = new PerformanceTestRunner();
+const results = await testRunner.runFullSuite();
+
+console.log('Performance Grade:', results.overall.grade);
+console.log('Performance Score:', results.overall.score);
+console.log('Summary:', results.overall.summary);
+
+// Access specific test results
+results.webVitals.forEach(test => {
+  console.log(`${test.testName}: ${test.passed ? 'PASS' : 'FAIL'}`);
 });
 ```
 
-### LazyLoadingManager Class
+### Test Categories
 
-#### Constructor
-```javascript
-new LazyLoadingManager(options)
+1. **Web Vitals Tests**: LCP, FID, CLS validation
+2. **Custom Metrics Tests**: Load time, render time, memory usage
+3. **Optimization Tests**: Service worker, lazy loading, resource hints
+
+### Performance Scoring
+
+```typescript
+interface PerformanceTestSuite {
+  webVitals: PerformanceTestResult[];
+  customMetrics: PerformanceTestResult[];
+  optimizations: PerformanceTestResult[];
+  overall: {
+    score: number; // 0-100
+    grade: 'A' | 'B' | 'C' | 'D' | 'F';
+    summary: string;
+  };
+}
 ```
 
-**Options:**
-- `rootMargin` (String): Intersection Observer root margin
-- `threshold` (Number): Intersection threshold
-- `enableImages` (Boolean): Enable image lazy loading
-- `enableComponents` (Boolean): Enable component lazy loading
+## Configuration
 
-#### Methods
+### Performance Configuration File
 
-##### addImages(images)
-```javascript
-const images = document.querySelectorAll('img[data-src]');
-lazyLoader.addImages(images);
+```json
+{
+  "performance": {
+    "monitoring": {
+      "enabled": true,
+      "sampleRate": 1.0,
+      "reportInterval": 30000,
+      "webVitals": {
+        "enabled": true,
+        "thresholds": {
+          "LCP": { "good": 2500, "poor": 4000 },
+          "FID": { "good": 100, "poor": 300 },
+          "CLS": { "good": 0.1, "poor": 0.25 }
+        }
+      }
+    },
+    "optimization": {
+      "lazyLoading": {
+        "enabled": true,
+        "rootMargin": "50px",
+        "threshold": 0.1
+      },
+      "resourceHints": {
+        "enabled": true,
+        "preconnectDomains": ["https://api.github.com"]
+      }
+    }
+  }
+}
 ```
 
-##### addComponents(components)
-```javascript
-const components = document.querySelectorAll('[data-component]');
-lazyLoader.addComponents(components);
+### Runtime Configuration
+
+```typescript
+import PerformanceMonitor from '../utils/performance';
+import performanceConfig from '../config/performance.json';
+
+// Configure at runtime
+PerformanceMonitor.configure({
+  enableWebVitals: performanceConfig.performance.monitoring.enabled,
+  enableLazyLoading: performanceConfig.performance.optimization.lazyLoading.enabled,
+  customThresholds: {
+    LCP: 2000, // Override default threshold
+    memoryUsage: 0.75
+  }
+});
 ```
 
-### ResourceOptimizer Class
+## Performance Dashboard
 
-#### Methods
+### Features
 
-##### preloadCriticalResources(resources)
-```javascript
-resourceOptimizer.preloadCriticalResources([
-  { href: '/fonts/main.woff2', as: 'font', type: 'font/woff2' },
-  { href: '/css/critical.css', as: 'style' }
-]);
+- **Real-time Metrics**: Live Web Vitals monitoring
+- **Memory Visualization**: Interactive memory usage charts
+- **Performance Score**: A-F grading system
+- **Historical Trends**: Performance over time
+- **Optimization Tips**: Contextual recommendations
+
+### Dashboard Props
+
+```typescript
+interface PerformanceDashboardProps {
+  refreshInterval?: number; // Default: 1000ms
+  showMemoryUsage?: boolean; // Default: true
+  showOptimizationTips?: boolean; // Default: true
+  className?: string;
+}
 ```
 
-##### prefetchLikelyPages(pages)
-```javascript
-resourceOptimizer.prefetchLikelyPages(['/about', '/contact']);
+### Custom Styling
+
+```css
+.performance-dashboard {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+}
+
+.metric-card {
+  background: #f8fafc;
+  border-radius: 6px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.metric-good { color: #10b981; }
+.metric-warning { color: #f59e0b; }
+.metric-poor { color: #ef4444; }
 ```
 
-##### setupDnsPrefetch(domains)
-```javascript
-resourceOptimizer.setupDnsPrefetch([
-  'fonts.googleapis.com',
-  'cdnjs.cloudflare.com'
-]);
+## Performance Hooks
+
+### usePerformance Options
+
+```typescript
+interface UsePerformanceOptions {
+  enableLazyLoading?: boolean;
+  enableResourceHints?: boolean;
+  trackUserInteractions?: boolean;
+  memoryThreshold?: number; // 0-1 (80% = 0.8)
+}
 ```
 
-### ImageOptimizer Class
+### Hook Return Values
 
-#### Constructor
-```javascript
-new ImageOptimizer(options)
+```typescript
+{
+  measureFunction: <T>(fn: Function, label?: string) => Function;
+  measureAsync: <T>(promise: Promise<T>, label?: string) => Promise<T>;
+  getMetrics: () => PerformanceMetrics;
+  reportCustomMetric: (name: string, value: number) => void;
+}
 ```
 
-**Options:**
-- `quality` (Number): Image quality (1-100)
-- `cdnBaseUrl` (String): CDN base URL
-- `breakpoints` (Array): Responsive breakpoints
+### Usage Examples
 
-#### Methods
-
-##### createResponsivePicture(imagePath, alt, className, sizes)
-```javascript
-const picture = imageOptimizer.createResponsivePicture(
-  '/images/hero.jpg',
-  'Hero image',
-  'hero-image',
-  '(max-width: 768px) 100vw, 50vw'
+```typescript
+// Measure function execution time
+const optimizedCalculation = measureFunction(
+  (data) => heavyCalculation(data),
+  'heavy_calculation'
 );
-document.body.appendChild(picture);
-```
 
-##### optimizeExistingImages()
-```javascript
-imageOptimizer.optimizeExistingImages();
-```
+// Measure async operations
+const apiData = await measureAsync(
+  fetch('/api/data').then(r => r.json()),
+  'api_fetch'
+);
 
-## Configuration Options
+// Get current metrics
+const metrics = getMetrics();
+if (metrics.memoryUsed && metrics.memoryTotal) {
+  const usage = (metrics.memoryUsed / metrics.memoryTotal) * 100;
+  console.log(`Memory usage: ${usage.toFixed(1)}%`);
+}
 
-### Complete Configuration Example
-
-```javascript
-const optimizer = new PerformanceOptimizer({
-  // Web Vitals Configuration
-  enableWebVitals: true,
-  analyticsEndpoint: '/api/performance',
-  
-  // Lazy Loading Configuration
-  enableLazyLoading: true,
-  lazyLoading: {
-    rootMargin: '50px 0px',
-    threshold: 0.1,
-    enableImages: true,
-    enableComponents: true,
-    placeholderClass: 'lazy-placeholder',
-    loadedClass: 'lazy-loaded',
-    errorClass: 'lazy-error'
-  },
-  
-  // Resource Optimization Configuration
-  enableResourceOptimization: true,
-  resourceOptimization: {
-    preloadResources: [
-      { href: '/fonts/main.woff2', as: 'font', type: 'font/woff2' }
-    ],
-    prefetchPages: ['/about', '/contact'],
-    dnsPrefetchDomains: ['fonts.googleapis.com']
-  },
-  
-  // Image Optimization Configuration
-  enableImageOptimization: true,
-  imageOptimization: {
-    quality: 80,
-    placeholder: 'blur',
-    cdnBaseUrl: 'https://cdn.example.com/',
-    breakpoints: [320, 640, 768, 1024, 1280, 1536],
-    webpSupport: true,
-    avifSupport: true
-  },
-  
-  // Service Worker Configuration
-  enableServiceWorker: true,
-  serviceWorkerPath: '/sw.js'
-});
+// Report custom metrics
+reportCustomMetric('user_action_completed', Date.now());
 ```
 
 ## Web Vitals Tracking

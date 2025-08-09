@@ -67,7 +67,8 @@ const PerformanceOptimizationExample: React.FC = () => {
   const setupLazyLoadingForImages = () => {
     // Convert existing images to lazy loading
     const images = document.querySelectorAll('img:not([data-src])');
-    images.forEach((img: HTMLImageElement) => {
+    images.forEach((element) => {
+      const img = element as HTMLImageElement;
       if (img.src && !img.complete) {
         img.dataset.src = img.src;
         img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
@@ -97,23 +98,6 @@ const PerformanceOptimizationExample: React.FC = () => {
   };
 
   const setupPerformanceMonitoring = () => {
-    // Monitor custom events
-    const monitoredFunction = measureFunction((data: any) => {
-      // Simulate processing
-      for (let i = 0; i < 1000; i++) {
-        Math.random();
-      }
-      return data;
-    }, 'dataProcessing');
-
-    // Example: Monitor an async operation
-    const monitoredAsyncOperation = async () => {
-      return await measureAsync(
-        fetch('/api/data').then(r => r.json()),
-        'API_DATA_FETCH'
-      );
-    };
-
     // Report custom metrics
     reportCustomMetric('app_initialization', performance.now());
 
@@ -138,9 +122,17 @@ const PerformanceOptimizationExample: React.FC = () => {
 
     // Track connection changes
     if ('connection' in navigator) {
-      const connection = (navigator as any).connection;
-      reportCustomMetric('connection_speed', connection.downlink || 0);
-      reportCustomMetric('connection_type', connection.effectiveType === '4g' ? 4 : 3);
+      const connection = (navigator as Navigator & {
+        connection?: {
+          downlink?: number;
+          effectiveType?: string;
+        };
+      }).connection;
+      
+      if (connection) {
+        reportCustomMetric('connection_speed', connection.downlink || 0);
+        reportCustomMetric('connection_type', connection.effectiveType === '4g' ? 4 : 3);
+      }
     }
   };
 
@@ -165,14 +157,15 @@ const PerformanceOptimizationExample: React.FC = () => {
       console.log(`🗑️ Cleared ${oldCaches.length} old caches`);
 
       // Trigger garbage collection if available
-      if ('gc' in window) {
-        (window as any).gc();
+      if (window.gc) {
+        window.gc();
         console.log('🧹 Triggered garbage collection');
       }
 
       // Optimize images
       const images = document.querySelectorAll('img');
-      images.forEach((img: HTMLImageElement) => {
+      images.forEach((element) => {
+        const img = element as HTMLImageElement;
         if (img.src && !img.loading) {
           img.loading = 'lazy';
         }

@@ -129,11 +129,14 @@ const PerformanceDashboard: React.FC = () => {
             </p>
           </div>
           {metrics.memoryUsed && metrics.memoryTotal && (
-            <div className="w-24 h-2 bg-gray-200 rounded-full">
+            <div className="memory-bar-container">
               <div 
-                className="h-2 bg-orange-500 rounded-full transition-all duration-300"
-                style={{ 
-                  width: `${Math.min((metrics.memoryUsed / metrics.memoryTotal) * 100, 100)}%` 
+                className="memory-bar"
+                ref={(el) => {
+                  if (el) {
+                    const percentage = Math.min((metrics.memoryUsed! / metrics.memoryTotal!) * 100, 100);
+                    el.style.setProperty('--memory-width', `${percentage}%`);
+                  }
                 }}
               ></div>
             </div>
