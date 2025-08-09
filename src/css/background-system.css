@@ -1,0 +1,522 @@
+/* ===================================================================
+   STRAYDOG SYNDICATIONS BACKGROUND SYSTEM
+   Dark Charcoal Gradients with Metallic Noise Textures
+   =================================================================== */
+
+/* Import design tokens */
+@import './design-tokens.css';
+
+/* ===================================================================
+   BASE BACKGROUND SYSTEM
+   =================================================================== */
+
+body {
+  background: var(--gradient-background-primary);
+  background-attachment: fixed;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: var(--texture-metallic-noise);
+  opacity: 0.03;
+  z-index: var(--depth-background);
+  pointer-events: none;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse at 20% 80%,
+    rgba(53, 94, 59, 0.1) 0%,
+    transparent 50%
+  ),
+  radial-gradient(
+    ellipse at 80% 20%,
+    rgba(192, 192, 192, 0.05) 0%,
+    transparent 50%
+  ),
+  radial-gradient(
+    ellipse at 40% 40%,
+    rgba(80, 200, 120, 0.03) 0%,
+    transparent 50%
+  );
+  z-index: var(--depth-background);
+  pointer-events: none;
+}
+
+/* ===================================================================
+   BACKGROUND VARIANTS
+   =================================================================== */
+
+.bg-primary {
+  background: var(--gradient-background-primary);
+  position: relative;
+}
+
+.bg-secondary {
+  background: var(--gradient-background-secondary);
+  position: relative;
+}
+
+.bg-charcoal {
+  background: var(--charcoal-black);
+  position: relative;
+}
+
+.bg-slate {
+  background: var(--black-slate);
+  position: relative;
+}
+
+.bg-graphite {
+  background: var(--dark-graphite);
+  position: relative;
+}
+
+/* Gradient overlays for sections */
+.bg-gradient-hunter {
+  background: linear-gradient(
+    135deg,
+    var(--charcoal-black) 0%,
+    var(--metallic-hunter) 50%,
+    var(--deep-forest) 100%
+  );
+  position: relative;
+}
+
+.bg-gradient-metallic {
+  background: linear-gradient(
+    135deg,
+    var(--charcoal-black) 0%,
+    var(--gunmetal) 50%,
+    var(--black-slate) 100%
+  );
+  position: relative;
+}
+
+.bg-gradient-emerald {
+  background: linear-gradient(
+    135deg,
+    var(--deep-forest) 0%,
+    var(--hunter-green-core) 50%,
+    var(--charcoal-black) 100%
+  );
+  position: relative;
+}
+
+/* ===================================================================
+   ANIMATED BACKGROUND PATTERNS
+   =================================================================== */
+
+.bg-animated-particles {
+  position: relative;
+  overflow: hidden;
+}
+
+.bg-animated-particles::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 25% 25%, var(--emerald-accent) 1px, transparent 1px),
+    radial-gradient(circle at 75% 75%, var(--silver-steel) 1px, transparent 1px),
+    radial-gradient(circle at 50% 10%, var(--sage-grey-green) 1px, transparent 1px),
+    radial-gradient(circle at 10% 90%, var(--gunmetal) 1px, transparent 1px);
+  background-size: 100px 100px, 150px 150px, 200px 200px, 120px 120px;
+  background-position: 0 0, 50px 50px, 100px 0, 0 75px;
+  opacity: 0.1;
+  animation: float-particles 20s ease-in-out infinite;
+  z-index: var(--depth-background);
+  pointer-events: none;
+}
+
+@keyframes float-particles {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+  }
+  25% {
+    transform: translateY(-10px) translateX(5px);
+  }
+  50% {
+    transform: translateY(-5px) translateX(-5px);
+  }
+  75% {
+    transform: translateY(-15px) translateX(10px);
+  }
+}
+
+/* ===================================================================
+   SECTION BACKGROUNDS
+   =================================================================== */
+
+.section-hero {
+  background: linear-gradient(
+    135deg,
+    var(--charcoal-black) 0%,
+    var(--black-slate) 25%,
+    var(--metallic-hunter) 50%,
+    var(--black-slate) 75%,
+    var(--charcoal-black) 100%
+  );
+  position: relative;
+  overflow: hidden;
+}
+
+.section-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(80, 200, 120, 0.1) 0%,
+    transparent 70%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+.section-about {
+  background: linear-gradient(
+    180deg,
+    var(--charcoal-black) 0%,
+    var(--dark-graphite) 50%,
+    var(--black-slate) 100%
+  );
+  position: relative;
+}
+
+.section-projects {
+  background: var(--gradient-background-secondary);
+  position: relative;
+}
+
+.section-contact {
+  background: linear-gradient(
+    135deg,
+    var(--deep-forest) 0%,
+    var(--charcoal-black) 50%,
+    var(--metallic-hunter) 100%
+  );
+  position: relative;
+}
+
+/* ===================================================================
+   GLASS PANEL BACKGROUNDS
+   =================================================================== */
+
+.glass-panel-bg {
+  background: var(--glass-primary);
+  backdrop-filter: var(--blur-medium);
+  -webkit-backdrop-filter: var(--blur-medium);
+  position: relative;
+}
+
+.glass-panel-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(192, 192, 192, 0.05) 50%,
+    transparent 70%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+.glass-panel-premium {
+  background: linear-gradient(
+    135deg,
+    var(--glass-primary) 0%,
+    var(--glass-secondary) 50%,
+    var(--glass-tertiary) 100%
+  );
+  backdrop-filter: var(--blur-heavy);
+  -webkit-backdrop-filter: var(--blur-heavy);
+  position: relative;
+}
+
+/* ===================================================================
+   METALLIC ACCENT OVERLAYS
+   =================================================================== */
+
+.metallic-overlay {
+  position: relative;
+}
+
+.metallic-overlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    rgba(192, 192, 192, 0.03) 25%,
+    rgba(215, 215, 215, 0.05) 50%,
+    rgba(192, 192, 192, 0.03) 75%,
+    transparent 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hunter-overlay {
+  position: relative;
+}
+
+.hunter-overlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    rgba(53, 94, 59, 0.05) 25%,
+    rgba(80, 200, 120, 0.03) 50%,
+    rgba(53, 94, 59, 0.05) 75%,
+    transparent 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ===================================================================
+   DEPTH & LAYERING EFFECTS
+   =================================================================== */
+
+.depth-layer-1 {
+  background: var(--glass-quaternary);
+  backdrop-filter: var(--blur-subtle);
+  -webkit-backdrop-filter: var(--blur-subtle);
+  z-index: var(--depth-base);
+}
+
+.depth-layer-2 {
+  background: var(--glass-primary);
+  backdrop-filter: var(--blur-medium);
+  -webkit-backdrop-filter: var(--blur-medium);
+  z-index: var(--depth-elevated);
+}
+
+.depth-layer-3 {
+  background: var(--glass-secondary);
+  backdrop-filter: var(--blur-heavy);
+  -webkit-backdrop-filter: var(--blur-heavy);
+  z-index: var(--depth-floating);
+}
+
+/* ===================================================================
+   TEXTURE PATTERNS
+   =================================================================== */
+
+.texture-noise {
+  position: relative;
+}
+
+.texture-noise::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: var(--texture-metallic-noise);
+  opacity: 0.05;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.texture-grid {
+  position: relative;
+}
+
+.texture-grid::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(192, 192, 192, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(192, 192, 192, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+  opacity: 0.5;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.texture-dots {
+  position: relative;
+}
+
+.texture-dots::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(
+    circle at center,
+    rgba(192, 192, 192, 0.1) 1px,
+    transparent 1px
+  );
+  background-size: 15px 15px;
+  opacity: 0.3;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ===================================================================
+   RESPONSIVE BACKGROUNDS
+   =================================================================== */
+
+@media (max-width: 768px) {
+  body::before {
+    opacity: 0.02;
+  }
+  
+  .bg-animated-particles::before {
+    animation-duration: 30s;
+    opacity: 0.05;
+  }
+  
+  .section-hero::before {
+    opacity: 0.05;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    background-attachment: scroll;
+  }
+  
+  .bg-animated-particles::before {
+    display: none;
+  }
+}
+
+/* ===================================================================
+   PERFORMANCE OPTIMIZATIONS
+   =================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-animated-particles::before {
+    animation: none;
+  }
+  
+  body::before,
+  body::after {
+    animation: none;
+  }
+}
+
+/* Low-end device optimizations */
+@media (max-width: 480px) and (max-height: 800px) {
+  body::before,
+  body::after {
+    display: none;
+  }
+  
+  .texture-noise::after,
+  .texture-grid::after,
+  .texture-dots::after {
+    display: none;
+  }
+}
+
+/* ===================================================================
+   PRINT STYLES
+   =================================================================== */
+
+@media print {
+  body,
+  .bg-primary,
+  .bg-secondary,
+  .section-hero,
+  .section-about,
+  .section-projects,
+  .section-contact {
+    background: white !important;
+    color: black !important;
+  }
+  
+  body::before,
+  body::after,
+  .bg-animated-particles::before,
+  .section-hero::before,
+  .glass-panel-bg::before,
+  .metallic-overlay::before,
+  .hunter-overlay::before,
+  .texture-noise::after,
+  .texture-grid::after,
+  .texture-dots::after {
+    display: none !important;
+  }
+}
+
+/* ===================================================================
+   ACCESSIBILITY ENHANCEMENTS
+   =================================================================== */
+
+@media (prefers-contrast: high) {
+  body::before,
+  body::after {
+    opacity: 0;
+  }
+  
+  .bg-animated-particles::before {
+    opacity: 0;
+  }
+  
+  .glass-panel-bg::before,
+  .metallic-overlay::before,
+  .hunter-overlay::before {
+    opacity: 0;
+  }
+}
+
+/* Focus indicators for keyboard navigation */
+.bg-interactive:focus-within {
+  outline: 2px solid var(--emerald-accent);
+  outline-offset: 2px;
+}
+
+/* Ensure sufficient contrast for text over backgrounds */
+.bg-ensure-contrast {
+  background: linear-gradient(
+    135deg,
+    rgba(28, 28, 28, 0.9) 0%,
+    rgba(43, 43, 43, 0.9) 100%
+  );
+}

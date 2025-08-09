@@ -25,8 +25,10 @@
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha384-EIHISlAOj4zgYieurP0SdoiBYfGJKkgWedPHH4jCzpCXLmzVsw1ouK59MuUtP4a1" crossorigin="anonymous">
-    <link rel="stylesheet" href="./src/css/modern.css">
-    <link rel="stylesheet" href="./src/css/styles.css">
+    <!-- StrayDog Syndications Glassmorphic Design System -->
+    <link rel="stylesheet" href="./css/straydog-glassmorphic.css">
+    <link rel="stylesheet" href="./css/modern.css">
+    <link rel="stylesheet" href="./css/styles.css">
     
     <!-- Performance Optimization -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -101,32 +103,32 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background: rgba(0,0,0,0.9);">
+    <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="https://www.straydog-syndications-llc.com" target="_blank" rel="noopener noreferrer" title="Visit StrayDog Syndications LLC">
+            <a class="navbar-brand brand-text-animated d-flex align-items-center" href="https://www.straydog-syndications-llc.com" target="_blank" rel="noopener noreferrer" title="Visit StrayDog Syndications LLC">
                 <img src="./assets/logos/stray-gear.png" width="40" height="40" class="d-inline-block align-top rounded-circle me-2" alt="StrayDog Logo">
                 <strong>StrayDog Syndications</strong>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            <button class="navbar-toggler glass-button" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#home"><i class="fa fa-home me-1"></i> Home</a>
+                        <a class="nav-link glass-nav-link" href="#home"><i class="fa fa-home me-1"></i> Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#projects"><i class="fa fa-code me-1"></i> Projects</a>
+                        <a class="nav-link glass-nav-link" href="#projects"><i class="fa fa-code me-1"></i> Projects</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./bio.html"><i class="fa fa-user me-1"></i> About</a>
+                        <a class="nav-link glass-nav-link" href="./bio.html"><i class="fa fa-user me-1"></i> About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./contacts.html"><i class="fa fa-envelope me-1"></i> Contact</a>
+                        <a class="nav-link glass-nav-link" href="./contacts.html"><i class="fa fa-envelope me-1"></i> Contact</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./resume/"><i class="fa fa-file-alt me-1"></i> Resume</a>
+                        <a class="nav-link glass-nav-link" href="./resume/"><i class="fa fa-file-alt me-1"></i> Resume</a>
                     </li>
                 </ul>
             </div>
@@ -134,40 +136,34 @@
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="hero-section">
+    <section id="home" class="section-hero background-primary">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <h1 class="display-4 fw-bold mb-4">
-                        I build <span class="typing-animation" id="typed-text">beautiful web experiences</span>
-                    </h1>
-                    <p class="lead mb-4">
-                        Full-stack developer specializing in modern web technologies. 
-                        I create responsive, user-friendly applications that solve real-world problems.
-                    </p>
-                    <div class="mb-4">
-                        <span class="skill-badge">JavaScript</span>
-                        <span class="skill-badge">React</span>
-                        <span class="skill-badge">TypeScript</span>
-                        <span class="skill-badge">Node.js</span>
-                        <span class="skill-badge">Python</span>
-                    </div>
-                    <div>
-                        <a href="#projects" class="btn btn-light btn-lg me-3">
-                            <i class="fa fa-rocket me-2"></i>View My Work
-                        </a>
-                        <a href="./contacts.html" class="btn btn-outline-light btn-lg">
-                            <i class="fa fa-envelope me-2"></i>Get In Touch
-                        </a>
-                    </div>
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    I build <span class="brand-text-animated" id="typed-text">beautiful web experiences</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Hunter & Cortana | Applied AI Solutions Engineering
+                </p>
+                <p class="hero-description">
+                    Full-stack developer specializing in modern web technologies and AI integration. 
+                    I create responsive, intelligent applications that solve real-world problems with cutting-edge solutions.
+                </p>
+                <div class="mb-4">
+                    <span class="tech-tag">JavaScript</span>
+                    <span class="tech-tag">React</span>
+                    <span class="tech-tag">TypeScript</span>
+                    <span class="tech-tag">Node.js</span>
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">AI/ML</span>
                 </div>
-                <div class="col-lg-6 text-center">
-                    <div class="position-relative">
-                        <img src="./assets/images/rubix.jpeg" alt="Developer workspace" 
-                             class="img-fluid rounded-circle shadow-lg" style="max-width: 300px;">
-                        <div class="position-absolute top-0 start-0 w-100 h-100 rounded-circle"
-                             style="background: linear-gradient(45deg, rgba(59,130,246,0.2), rgba(251,191,36,0.2));"></div>
-                    </div>
+                <div class="flex gap-4 justify-center">
+                    <a href="#projects" class="glass-button-primary">
+                        <i class="fa fa-rocket me-2"></i>View My Work
+                    </a>
+                    <a href="./contacts.html" class="glass-button-secondary">
+                        <i class="fa fa-envelope me-2"></i>Get In Touch
+                    </a>
                 </div>
             </div>
         </div>
@@ -184,20 +180,23 @@
             <div class="row g-4">
                 <!-- Knucklebones Game -->
                 <div class="col-lg-4 col-md-6">
-                    <div class="card project-card h-100">
-                        <div class="card-body text-center">
-                            <div class="feature-icon">
+                    <div class="project-card">
+                        <div class="text-center p-6">
+                            <div class="feature-icon mb-4">
                                 <i class="fa fa-dice"></i>
                             </div>
-                            <h5 class="card-title">Knucklebones Dice Game</h5>
-                            <p class="card-text">
-                                Strategic dice game with advanced game logic, real-time scoring, 
-                                and competitive gameplay mechanics.
+                            <h5 class="project-title">Knucklebones Dice Game</h5>
+                            <p class="project-description">
+                                Strategic dice game with advanced AI opponent, real-time multiplayer, 
+                                3D physics, and comprehensive analytics dashboard.
                             </p>
-                            <div class="mb-3">
-                                <small class="text-muted">JavaScript • Game Logic • Strategy</small>
+                            <div class="project-tech mb-4">
+                                <span class="tech-tag">JavaScript</span>
+                                <span class="tech-tag">Three.js</span>
+                                <span class="tech-tag">AI Logic</span>
+                                <span class="tech-tag">WebRTC</span>
                             </div>
-                            <a href="./projects/knucklebones/" class="btn btn-primary">
+                            <a href="./projects/knucklebones/" class="glass-button-primary">
                                 <i class="fa fa-play me-1"></i> Play Game
                             </a>
                         </div>
@@ -206,20 +205,23 @@
 
                 <!-- Quiz Ninja -->
                 <div class="col-lg-4 col-md-6">
-                    <div class="card project-card h-100">
-                        <div class="card-body text-center">
-                            <div class="feature-icon">
+                    <div class="project-card">
+                        <div class="text-center p-6">
+                            <div class="feature-icon mb-4">
                                 <i class="fa fa-brain"></i>
                             </div>
-                            <h5 class="card-title">Quiz Master Pro</h5>
-                            <p class="card-text">
-                                Advanced quiz application with dynamic questions, progress tracking, 
-                                and performance analytics.
+                            <h5 class="project-title">Quiz Ninja Pro</h5>
+                            <p class="project-description">
+                                AI-powered learning platform with adaptive questioning, multi-subject engine, 
+                                advanced analytics, and gamification features.
                             </p>
-                            <div class="mb-3">
-                                <small class="text-muted">JavaScript • JSON • Analytics</small>
+                            <div class="project-tech mb-4">
+                                <span class="tech-tag">JavaScript</span>
+                                <span class="tech-tag">AI Engine</span>
+                                <span class="tech-tag">Analytics</span>
+                                <span class="tech-tag">PWA</span>
                             </div>
-                            <a href="./projects/quiz-ninja2.1/" class="btn btn-primary">
+                            <a href="./projects/quiz-ninja2.1/" class="glass-button-primary">
                                 <i class="fa fa-graduation-cap me-1"></i> Take Quiz
                             </a>
                         </div>
@@ -228,20 +230,23 @@
 
                 <!-- Calculator -->
                 <div class="col-lg-4 col-md-6">
-                    <div class="card project-card h-100">
-                        <div class="card-body text-center">
-                            <div class="feature-icon">
+                    <div class="project-card">
+                        <div class="text-center p-6">
+                            <div class="feature-icon mb-4">
                                 <i class="fa fa-calculator"></i>
                             </div>
-                            <h5 class="card-title">Advanced Calculator</h5>
-                            <p class="card-text">
-                                Feature-rich calculator with scientific functions, history, 
-                                and keyboard shortcuts.
+                            <h5 class="project-title">Scientific Calculator Pro</h5>
+                            <p class="project-description">
+                                Advanced calculator with scientific functions, programming modes, 
+                                graphing capabilities, unit conversion, and voice commands.
                             </p>
-                            <div class="mb-3">
-                                <small class="text-muted">JavaScript • Math • UI/UX</small>
+                            <div class="project-tech mb-4">
+                                <span class="tech-tag">JavaScript</span>
+                                <span class="tech-tag">Math.js</span>
+                                <span class="tech-tag">Voice API</span>
+                                <span class="tech-tag">Canvas</span>
                             </div>
-                            <a href="./projects/calculator.html" class="btn btn-primary">
+                            <a href="./projects/calculator.html" class="glass-button-primary">
                                 <i class="fa fa-calculator me-1"></i> Open Calculator
                             </a>
                         </div>
@@ -250,20 +255,23 @@
 
                 <!-- Rock Paper Scissors -->
                 <div class="col-lg-4 col-md-6">
-                    <div class="card project-card h-100">
-                        <div class="card-body text-center">
-                            <div class="feature-icon">
+                    <div class="project-card">
+                        <div class="text-center p-6">
+                            <div class="feature-icon mb-4">
                                 <i class="fa fa-hand-rock"></i>
                             </div>
-                            <h5 class="card-title">Rock Paper Scissors</h5>
-                            <p class="card-text">
-                                Classic game with animations, score tracking, 
-                                and AI opponent logic.
+                            <h5 class="project-title">Rock Paper Scissors</h5>
+                            <p class="project-description">
+                                Classic game enhanced with smooth animations, intelligent AI opponent, 
+                                comprehensive score tracking, and tournament modes.
                             </p>
-                            <div class="mb-3">
-                                <small class="text-muted">JavaScript • Animations • AI</small>
+                            <div class="project-tech mb-4">
+                                <span class="tech-tag">JavaScript</span>
+                                <span class="tech-tag">CSS3</span>
+                                <span class="tech-tag">AI Logic</span>
+                                <span class="tech-tag">Animations</span>
                             </div>
-                            <a href="./projects/rps.html" class="btn btn-primary">
+                            <a href="./projects/rps.html" class="glass-button-primary">
                                 <i class="fa fa-gamepad me-1"></i> Play Game
                             </a>
                         </div>
@@ -272,20 +280,23 @@
 
                 <!-- Countdown Timer -->
                 <div class="col-lg-4 col-md-6">
-                    <div class="card project-card h-100">
-                        <div class="card-body text-center">
-                            <div class="feature-icon">
+                    <div class="project-card">
+                        <div class="text-center p-6">
+                            <div class="feature-icon mb-4">
                                 <i class="fa fa-clock"></i>
                             </div>
-                            <h5 class="card-title">Countdown Timer</h5>
-                            <p class="card-text">
-                                Interactive countdown with flip animations, 
-                                customizable targets, and notifications.
+                            <h5 class="project-title">Countdown Pro</h5>
+                            <p class="project-description">
+                                Multi-timer productivity platform with Pomodoro integration, 
+                                event management, analytics, and voice announcements.
                             </p>
-                            <div class="mb-3">
-                                <small class="text-muted">JavaScript • Animations • Time</small>
+                            <div class="project-tech mb-4">
+                                <span class="tech-tag">JavaScript</span>
+                                <span class="tech-tag">PWA</span>
+                                <span class="tech-tag">Analytics</span>
+                                <span class="tech-tag">Notifications</span>
                             </div>
-                            <a href="./projects/countdown.html" class="btn btn-primary">
+                            <a href="./projects/countdown.html" class="glass-button-primary">
                                 <i class="fa fa-stopwatch me-1"></i> View Timer
                             </a>
                         </div>
@@ -294,20 +305,23 @@
 
                 <!-- CompTIA Study Guide -->
                 <div class="col-lg-4 col-md-6">
-                    <div class="card project-card h-100">
-                        <div class="card-body text-center">
-                            <div class="feature-icon">
+                    <div class="project-card">
+                        <div class="text-center p-6">
+                            <div class="feature-icon mb-4">
                                 <i class="fa fa-book"></i>
                             </div>
-                            <h5 class="card-title">CompTIA Study Guide</h5>
-                            <p class="card-text">
-                                Comprehensive study materials for CompTIA certification 
-                                with interactive content and progress tracking.
+                            <h5 class="project-title">CompTIA Study Guide</h5>
+                            <p class="project-description">
+                                Comprehensive certification study platform with interactive content, 
+                                progress tracking, practice exams, and performance analytics.
                             </p>
-                            <div class="mb-3">
-                                <small class="text-muted">Education • Certification • Learning</small>
+                            <div class="project-tech mb-4">
+                                <span class="tech-tag">Education</span>
+                                <span class="tech-tag">JavaScript</span>
+                                <span class="tech-tag">Analytics</span>
+                                <span class="tech-tag">PWA</span>
                             </div>
-                            <a href="./projects/compTIA.html" class="btn btn-primary">
+                            <a href="./projects/compTIA.html" class="glass-button-primary">
                                 <i class="fa fa-book-open me-1"></i> Study Now
                             </a>
                         </div>
@@ -316,7 +330,7 @@
             </div>
 
             <div class="text-center mt-5">
-                <a href="./projects.html" class="btn btn-outline-primary btn-lg">
+                <a href="./projects.html" class="glass-button-secondary btn-lg">
                     <i class="fa fa-folder-open me-2"></i>View All Projects
                 </a>
             </div>
@@ -324,81 +338,141 @@
     </section>
 
     <!-- Skills & Technologies -->
-    <section class="py-5" style="background: white;">
+    <section class="section-content background-secondary">
         <div class="container">
             <div class="text-center mb-5">
-                <h2 class="display-5 fw-bold mb-3">Skills & Technologies</h2>
-                <p class="lead text-muted">Continuously expanding my technical toolkit</p>
+                <h2 class="heading-display brand-text">Skills & Technologies</h2>
+                <p class="text-secondary">Continuously expanding my technical toolkit with cutting-edge solutions</p>
             </div>
             
-            <div class="row g-4">
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="feature-icon">
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <div class="feature-icon mb-4">
                         <i class="fab fa-js-square"></i>
                     </div>
-                    <h5>Frontend Development</h5>
-                    <p class="text-muted">JavaScript, React, TypeScript, HTML5, CSS3, Bootstrap, Tailwind</p>
+                    <h5 class="skill-category-title">Frontend Development</h5>
+                    <div class="skill-list">
+                        <div class="skill-item">
+                            <span class="skill-name">JavaScript/TypeScript</span>
+                            <span class="skill-level">Expert</span>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">React/Vue.js</span>
+                            <span class="skill-level">Advanced</span>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">CSS3/Tailwind</span>
+                            <span class="skill-level">Expert</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="feature-icon">
+                <div class="skill-category">
+                    <div class="feature-icon mb-4">
                         <i class="fa fa-server"></i>
                     </div>
-                    <h5>Backend Development</h5>
-                    <p class="text-muted">Node.js, Express, Python, API Development, Database Design</p>
+                    <h5 class="skill-category-title">Backend Development</h5>
+                    <div class="skill-list">
+                        <div class="skill-item">
+                            <span class="skill-name">Node.js/Express</span>
+                            <span class="skill-level">Advanced</span>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">Python/FastAPI</span>
+                            <span class="skill-level">Advanced</span>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">Database Design</span>
+                            <span class="skill-level">Expert</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="feature-icon">
+                <div class="skill-category">
+                    <div class="feature-icon mb-4">
+                        <i class="fa fa-brain"></i>
+                    </div>
+                    <h5 class="skill-category-title">AI & Machine Learning</h5>
+                    <div class="skill-list">
+                        <div class="skill-item">
+                            <span class="skill-name">TensorFlow/PyTorch</span>
+                            <span class="skill-level">Intermediate</span>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">NLP/Computer Vision</span>
+                            <span class="skill-level">Intermediate</span>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">AI Integration</span>
+                            <span class="skill-level">Advanced</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <div class="feature-icon mb-4">
                         <i class="fa fa-tools"></i>
                     </div>
-                    <h5>Development Tools</h5>
-                    <p class="text-muted">Git, GitHub, VS Code, Vite, Webpack, npm, Docker</p>
-                </div>
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="feature-icon">
-                        <i class="fa fa-chart-line"></i>
+                    <h5 class="skill-category-title">DevOps & Tools</h5>
+                    <div class="skill-list">
+                        <div class="skill-item">
+                            <span class="skill-name">Git/GitHub Actions</span>
+                            <span class="skill-level">Expert</span>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">Docker/Kubernetes</span>
+                            <span class="skill-level">Intermediate</span>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">CI/CD Pipelines</span>
+                            <span class="skill-level">Advanced</span>
+                        </div>
                     </div>
-                    <h5>Performance & Testing</h5>
-                    <p class="text-muted">Web Vitals, Optimization, Testing, CI/CD, Analytics</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Call to Action -->
-    <section class="py-5" style="background: var(--primary-color); color: white;">
+    <section class="section-cta background-accent">
         <div class="container text-center">
-            <h2 class="display-5 fw-bold mb-3">Let's Build Something Amazing</h2>
-            <p class="lead mb-4">
-                Ready to collaborate on your next project? Let's discuss how I can help bring your ideas to life.
-            </p>
-            <div>
-                <a href="./contacts.html" class="btn btn-light btn-lg me-3">
-                    <i class="fa fa-envelope me-2"></i>Get In Touch
-                </a>
-                <a href="./resume/" class="btn btn-outline-light btn-lg">
-                    <i class="fa fa-download me-2"></i>Download Resume
-                </a>
+            <div class="cta-content">
+                <h2 class="heading-display brand-text-animated mb-4">Ready to Collaborate?</h2>
+                <p class="cta-description mb-5">
+                    Let's build something extraordinary together. I'm passionate about creating innovative 
+                    AI-powered solutions and cutting-edge web applications that push the boundaries of what's possible.
+                </p>
+                <div class="cta-buttons">
+                    <a href="./contacts.html" class="glass-button-primary btn-lg me-3">
+                        <i class="fa fa-envelope me-2"></i>Get In Touch
+                    </a>
+                    <a href="./resume/" class="glass-button-secondary btn-lg">
+                        <i class="fa fa-file-alt me-2"></i>View Resume
+                    </a>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="py-4" style="background: #1f2937; color: white;">
+    <footer class="footer-main background-primary">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <p class="mb-0">&copy; 2025 <a href="https://www.straydog-syndications-llc.com" target="_blank" rel="noopener noreferrer" title="Visit StrayDog Syndications LLC" class="text-white text-decoration-none">StrayDog Syndications LLC</a>. All rights reserved.</p>
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h5 class="brand-text-animated mb-2">StrayDog Syndications</h5>
+                    <p class="footer-tagline">Hunter & Cortana | Applied AI Solutions Engineering</p>
+                    <p class="footer-copyright">&copy; 2025 <a href="https://www.straydog-syndications-llc.com" target="_blank" rel="noopener noreferrer" title="Visit StrayDog Syndications LLC" class="text-white text-decoration-none">StrayDog Syndications LLC</a>. All rights reserved.</p>
                 </div>
-                <div class="col-md-6 text-md-end">
+                <div class="footer-links">
                     <div class="social-links">
-                        <a href="https://github.com/StrayDogSyn" class="text-white me-3" title="GitHub">
-                            <i class="fab fa-github fa-lg"></i>
+                        <a href="https://github.com/StrayDogSyn" class="social-link" target="_blank" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
                         </a>
-                        <a href="https://www.linkedin.com/in/eric-petross" class="text-white me-3" title="LinkedIn">
-                            <i class="fab fa-linkedin fa-lg"></i>
+                        <a href="https://www.linkedin.com/in/eric-petross" class="social-link" target="_blank" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin"></i>
                         </a>
-                        <a href="https://www.facebook.com/profile.php?id=61566503975625" class="text-white" title="Facebook">
-                            <i class="fab fa-facebook fa-lg"></i>
+                        <a href="https://www.facebook.com/profile.php?id=61566503975625" class="social-link" target="_blank" aria-label="Facebook">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="./resume/" class="social-link" aria-label="Resume">
+                            <i class="fa fa-file-alt"></i>
                         </a>
                     </div>
                 </div>
