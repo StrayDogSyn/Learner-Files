@@ -1,0 +1,224 @@
+{
+  "name": "performance-optimizer-module",
+  "version": "1.0.0",
+  "description": "Comprehensive performance monitoring and optimization utilities for web applications",
+  "main": "src/utils/performance.js",
+  "type": "module",
+  "scripts": {
+    "start": "npm run demo",
+    "demo": "vite serve --port 3000",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "docs": "jsdoc src/utils/performance.js -d docs/api",
+    "analyze": "npm run build && npx bundlesize",
+    "performance:audit": "lighthouse http://localhost:3000 --output=json --output-path=./performance-audit.json",
+    "sw:build": "workbox generateSW workbox-config.js"
+  },
+  "keywords": [
+    "performance",
+    "optimization",
+    "web-vitals",
+    "lazy-loading",
+    "image-optimization",
+    "monitoring",
+    "javascript",
+    "typescript",
+    "react",
+    "vue",
+    "angular"
+  ],
+  "author": "Performance Optimizer Team",
+  "license": "MIT",
+  "dependencies": {
+    "intersection-observer": "^0.12.2",
+    "web-vitals": "^3.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
+    "@vitejs/plugin-react": "^4.2.0",
+    "eslint": "^8.55.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jsdom": "^23.0.1",
+    "jsdoc": "^4.0.2",
+    "lighthouse": "^11.4.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.3.0",
+    "vite": "^5.0.0",
+    "workbox-cli": "^7.0.0",
+    "workbox-webpack-plugin": "^7.0.0"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "files": [
+    "src/",
+    "dist/",
+    "docs/",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/performance-optimizer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/performance-optimizer/issues"
+  },
+  "homepage": "https://github.com/your-org/performance-optimizer#readme",
+  "bundlesize": [
+    {
+      "path": "./dist/performance.min.js",
+      "maxSize": "50 kB",
+      "compression": "gzip"
+    },
+    {
+      "path": "./dist/performance.css",
+      "maxSize": "10 kB",
+      "compression": "gzip"
+    }
+  ],
+  "jest": {
+    "testEnvironment": "jsdom",
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/test/setup.js"
+    ],
+    "collectCoverageFrom": [
+      "src/utils/**/*.js",
+      "!src/utils/**/*.test.js"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      }
+    }
+  },
+  "eslintConfig": {
+    "extends": [
+      "eslint:recommended",
+      "@typescript-eslint/recommended",
+      "plugin:react/recommended",
+      "plugin:react-hooks/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaVersion": 2022,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    "env": {
+      "browser": true,
+      "node": true,
+      "es2022": true,
+      "jest": true
+    },
+    "rules": {
+      "no-console": "warn",
+      "no-unused-vars": "error",
+      "prefer-const": "error",
+      "no-var": "error"
+    },
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ],
+  "exports": {
+    ".": {
+      "import": "./src/utils/performance.js",
+      "require": "./dist/performance.cjs"
+    },
+    "./css": "./src/css/performance.css",
+    "./react": "./src/components/PerformanceProvider.jsx",
+    "./types": "./types/index.d.ts"
+  },
+  "workbox": {
+    "globDirectory": "dist/",
+    "globPatterns": [
+      "**/*.{html,js,css,png,jpg,jpeg,webp,avif,woff,woff2}"
+    ],
+    "swDest": "dist/sw.js",
+    "runtimeCaching": [
+      {
+        "urlPattern": /\.(?:png|jpg|jpeg|svg|webp|avif)$/,
+        "handler": "StaleWhileRevalidate",
+        "options": {
+          "cacheName": "images",
+          "expiration": {
+            "maxEntries": 100,
+            "maxAgeSeconds": 30 * 24 * 60 * 60
+          }
+        }
+      },
+      {
+        "urlPattern": /\.(?:js|css)$/,
+        "handler": "CacheFirst",
+        "options": {
+          "cacheName": "static-resources",
+          "expiration": {
+            "maxEntries": 50,
+            "maxAgeSeconds": 7 * 24 * 60 * 60
+          }
+        }
+      }
+    ]
+  },
+  "performance": {
+    "budgets": {
+      "javascript": "150kb",
+      "css": "50kb",
+      "images": "500kb",
+      "fonts": "100kb",
+      "total": "1mb"
+    },
+    "vitals": {
+      "fcp": 1800,
+      "lcp": 2500,
+      "fid": 100,
+      "cls": 0.1,
+      "ttfb": 800
+    }
+  },
+  "cdn": {
+    "baseUrl": "https://cdn.jsdelivr.net/npm/performance-optimizer-module@latest/",
+    "files": [
+      "dist/performance.min.js",
+      "dist/performance.css"
+    ]
+  }
+}

@@ -1163,4 +1163,319 @@ export const ResumeBuilder: React.FC = () => {
       })
       
       const imgWidth = 210 // A4 width in mm
-      const imgHeight = (canvas.height * img
+      const imgHeight = (canvas.height * imgWidth) / canvas.width
+      
+      pdf.addImage(
+        canvas.toDataURL('image/png'),
+        'PNG',
+        0,
+        0,
+        imgWidth,
+        imgHeight
+      )
+      
+      // Save PDF
+      const fileName = `${resumeData.personalInfo.name.replace(/\s+/g, '_')}_Resume.pdf`
+      pdf.save(fileName)
+      
+      // Save version
+      const version: ResumeVersion = {
+        id: Date.now().toString(),
+        name: `Version ${versions.length + 1}`,
+        templateId: selectedTemplate,
+        data: resumeData,
+        createdAt: new Date(),
+        pdfBlob: pdf.output('blob')
+      }
+      
+      setVersions(prev => [version, ...prev])
+      
+    } catch (error) {
+      console.error('PDF generation failed:', error)
+    } finally {
+      setIsGenerating(false)
+    }
+  }
+
+  const loadTemplate = (templateId: string) => {
+    setSelectedTemplate(templateId)
+  }
+
+  const updateResumeData = (section: keyof ResumeData, data: any) => {
+    setResumeData(prev => ({ ...prev, [section]: data }))
+  }
+
+  const SelectedTemplate = templates.find(t => t.id === selectedTemplate)?.component || ModernTemplate
+
+  return (
+    <div className="min-h-screen bg-gray-100">
+      <div className="flex h-screen">
+        {/* Editor Panel */}
+        <div className="w-1/3 bg-white border-r border-gray-300 overflow-y-auto">
+          <div className="p-6">
+            <h2 className="text-2xl font-bold mb-6">Resume Builder</h2>
+            
+            {/* Template Selection */}
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold mb-3">Choose Template</h3>
+              <div className="grid grid-cols-2 gap-3">
+                {templates.map(template => (
+                  <motion.div
+                    key={template.id}
+                    className={`cursor-pointer border-2 rounded-lg p-2 ${
+                      selectedTemplate === template.id
+                        ? 'border-blue-500 bg-blue-50'
+                        : 'border-gray-200 hover:border-gray-300'
+                    }`}
+                    onClick={() => loadTemplate(template.id)}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <img
+                      src={template.preview}
+                      alt={template.name}
+                      className="w-full h-24 object-cover rounded mb-2"
+                    />
+                    <div className="text-sm font-medium text-center">{template.name}</div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+            
+            {/* Data Editor */}
+            <ResumeDataEditor 
+              data={resumeData}
+              onChange={updateResumeData}
+            />
+            
+            {/* Actions */}
+            <div className="mt-6 space-y-3">
+              <button
+                onClick={generatePDF}
+                disabled={isGenerating}
+                className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+              >
+                <Download size={20} />
+                <span>{isGenerating ? 'Generating...' : 'Download PDF'}</span>
+              </button>
+              
+              <button className="w-full flex items-center justify-center space-x-2 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">
+                <Save size={20} />
+                <span>Save Version</span>
+              </button>
+            </div>
+            
+            {/* Version History */}
+            {versions.length > 0 && (
+              <div className="mt-6">
+                <h3 className="text-lg font-semibold mb-3">Version History</h3>
+                <div className="space-y-2">
+                  {versions.map(version => (
+                    <VersionItem key={version.id} version={version} />
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+        
+        {/* Preview Panel */}
+        <div className="flex-1 bg-gray-50 overflow-y-auto">
+          <div className="p-8">
+            <div className="max-w-4xl mx-auto">
+              <div 
+                ref={resumeRef}
+                className="bg-white shadow-lg"
+                style={{ minHeight: '297mm', width: '210mm' }} // A4 dimensions
+              >
+                <SelectedTemplate data={resumeData} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// Modern Template Component
+const ModernTemplate: React.FC<{ data: ResumeData }> = ({ data }) => {
+  return (
+    <div className="p-8 font-sans">
+      {/* Header */}
+      <div className="border-b-4 border-blue-600 pb-6 mb-6">
+        <h1 className="text-4xl font-bold text-gray-900 mb-2">{data.personalInfo.name}</h1>
+        <h2 className="text-xl text-blue-600 mb-4">{data.personalInfo.title}</h2>
+        
+        <div className="flex flex-wrap gap-4 text-sm text-gray-600">
+          <div>{data.personalInfo.email}</div>
+          <div>{data.personalInfo.phone}</div>
+          <div>{data.personalInfo.location}</div>
+          <div>{data.personalInfo.website}</div>
+        </div>
+      </div>
+      
+      {/* Summary */}
+      {data.summary && (
+        <div className="mb-6">
+          <h3 className="text-lg font-bold text-gray-900 mb-3 border-b border-gray-300 pb-1">
+            Professional Summary
+          </h3>
+          <p className="text-gray-700 leading-relaxed">{data.summary}</p>
+        </div>
+      )}
+      
+      {/* Experience */}
+      {data.experience.length > 0 && (
+        <div className="mb-6">
+          <h3 className="text-lg font-bold text-gray-900 mb-3 border-b border-gray-300 pb-1">
+            Professional Experience
+          </h3>
+          
+          {data.experience.map((exp, index) => (
+            <div key={index} className="mb-4">
+              <div className="flex justify-between items-start mb-2">
+                <div>
+                  <h4 className="font-bold text-gray-900">{exp.position}</h4>
+                  <div className="text-blue-600 font-medium">{exp.company}</div>
+                </div>
+                <div className="text-sm text-gray-600">
+                  {exp.startDate} - {exp.endDate || 'Present'}
+                </div>
+              </div>
+              
+              {exp.description && (
+                <p className="text-gray-700 text-sm mb-2">{exp.description}</p>
+              )}
+              
+              {exp.achievements && exp.achievements.length > 0 && (
+                <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
+                  {exp.achievements.map((achievement, i) => (
+                    <li key={i}>{achievement}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+      
+      {/* Skills */}
+      {data.skills.length > 0 && (
+        <div className="mb-6">
+          <h3 className="text-lg font-bold text-gray-900 mb-3 border-b border-gray-300 pb-1">
+            Technical Skills
+          </h3>
+          
+          <div className="grid grid-cols-2 gap-4">
+            {Object.entries(groupSkillsByCategory(data.skills)).map(([category, skills]) => (
+              <div key={category}>
+                <h4 className="font-semibold text-gray-900 mb-2">{category}</h4>
+                <div className="flex flex-wrap gap-2">
+                  {skills.map((skill, index) => (
+                    <span 
+                      key={index}
+                      className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded"
+                    >
+                      {skill.name}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      
+      {/* Projects */}
+      {data.projects.length > 0 && (
+        <div className="mb-6">
+          <h3 className="text-lg font-bold text-gray-900 mb-3 border-b border-gray-300 pb-1">
+            Key Projects
+          </h3>
+          
+          {data.projects.slice(0, 3).map((project, index) => (
+            <div key={index} className="mb-3">
+              <div className="flex justify-between items-start mb-1">
+                <h4 className="font-bold text-gray-900">{project.name}</h4>
+                {project.url && (
+                  <a href={project.url} className="text-blue-600 text-sm hover:underline">
+                    View Project
+                  </a>
+                )}
+              </div>
+              
+              <p className="text-gray-700 text-sm mb-2">{project.description}</p>
+              
+              {project.technologies && (
+                <div className="flex flex-wrap gap-1">
+                  {project.technologies.slice(0, 5).map((tech, i) => (
+                    <span 
+                      key={i}
+                      className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+      
+      {/* Education */}
+      {data.education.length > 0 && (
+        <div>
+          <h3 className="text-lg font-bold text-gray-900 mb-3 border-b border-gray-300 pb-1">
+            Education
+          </h3>
+          
+          {data.education.map((edu, index) => (
+            <div key={index} className="mb-3">
+              <div className="flex justify-between items-start">
+                <div>
+                  <h4 className="font-bold text-gray-900">{edu.degree}</h4>
+                  <div className="text-blue-600">{edu.institution}</div>
+                  {edu.gpa && <div className="text-sm text-gray-600">GPA: {edu.gpa}</div>}
+                </div>
+                <div className="text-sm text-gray-600">{edu.year}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+function getDefaultResumeData(): ResumeData {
+  return {
+    personalInfo: {
+      name: 'Your Name',
+      title: 'Software Developer',
+      email: 'your.email@example.com',
+      phone: '+1 (555) 123-4567',
+      location: 'City, State',
+      website: 'https://yourportfolio.com'
+    },
+    summary: 'Passionate software developer with expertise in modern web technologies...',
+    experience: [],
+    education: [],
+    skills: [],
+    projects: [],
+    customSections: []
+  }
+}
+
+function groupSkillsByCategory(skills: Skill[]): Record<string, Skill[]> {
+  return skills.reduce((acc, skill) => {
+    const category = skill.category || 'Other'
+    if (!acc[category]) acc[category] = []
+    acc[category].push(skill)
+    return acc
+  }, {} as Record<string, Skill[]>)
+}
+```
+
+This implementation guide provides comprehensive code examples for implementing advanced portfolio features. The guide covers 3D visualizations, live collaboration, achievement systems, and resume building with detailed TypeScript implementations and best practices.

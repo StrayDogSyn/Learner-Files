@@ -3,588 +3,266 @@
  * Features: Hover effects, animations, filtering, sorting, project links, export
  */
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  Code, 
+  Database, 
+  Palette, 
+  Server, 
+  Smartphone, 
+  Globe,
+  Zap,
+  TrendingUp,
+  Award,
+  BookOpen
+} from 'lucide-react';
 
 const SkillsMatrix = () => {
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [sortBy, setSortBy] = useState('level');
-  const [sortOrder, setSortOrder] = useState('desc');
+  const [selectedCategory, setSelectedCategory] = useState('frontend');
   const [hoveredSkill, setHoveredSkill] = useState(null);
-  const [isVisible, setIsVisible] = useState(false);
-  const [compareMode, setCompareMode] = useState(false);
-  const [selectedSkills, setSelectedSkills] = useState([]);
-  const matrixRef = useRef(null);
-  const observerRef = useRef(null);
 
-  const skills = {
-    frontend: [
-      { 
-        name: 'React', 
-        level: 90, 
-        experience: '3 years',
-        projects: ['Portfolio Website', 'E-commerce Dashboard', 'Social Media App'],
-        description: 'Component-based UI library with hooks and state management',
-        certifications: ['React Developer Certification'],
-        color: '#61DAFB'
-      },
-      { 
-        name: 'TypeScript', 
-        level: 85, 
-        experience: '2 years',
-        projects: ['GitHub Integration', 'API Management Tool'],
-        description: 'Strongly typed superset of JavaScript for scalable applications',
-        certifications: [],
-        color: '#3178C6'
-      },
-      { 
-        name: 'Tailwind CSS', 
-        level: 95, 
-        experience: '2 years',
-        projects: ['Modern UI Components', 'Responsive Dashboards'],
-        description: 'Utility-first CSS framework for rapid UI development',
-        certifications: [],
-        color: '#06B6D4'
-      },
-      { 
-        name: 'Vue.js', 
-        level: 75, 
-        experience: '1 year',
-        projects: ['Admin Panel', 'Data Visualization Tool'],
-        description: 'Progressive JavaScript framework for building user interfaces',
-        certifications: [],
-        color: '#4FC08D'
-      },
-      { 
-        name: 'Next.js', 
-        level: 80, 
-        experience: '1.5 years',
-        projects: ['SSR Blog Platform', 'E-commerce Site'],
-        description: 'React framework with SSR, routing, and performance optimizations',
-        certifications: [],
-        color: '#000000'
-      }
-    ],
-    backend: [
-      { 
-        name: 'Node.js', 
-        level: 85, 
-        experience: '3 years',
-        projects: ['REST API Server', 'Real-time Chat App', 'Microservices'],
-        description: 'JavaScript runtime for server-side development',
-        certifications: ['Node.js Application Developer'],
-        color: '#339933'
-      },
-      { 
-        name: 'Python', 
-        level: 80, 
-        experience: '2 years',
-        projects: ['Data Analysis Scripts', 'ML Models', 'Automation Tools'],
-        description: 'Versatile language for web development, data science, and automation',
-        certifications: ['Python Institute PCAP'],
-        color: '#3776AB'
-      },
-      { 
-        name: 'Express.js', 
-        level: 88, 
-        experience: '3 years',
-        projects: ['API Gateway', 'Authentication Service'],
-        description: 'Minimal and flexible Node.js web application framework',
-        certifications: [],
-        color: '#000000'
-      },
-      { 
-        name: 'PostgreSQL', 
-        level: 75, 
-        experience: '2 years',
-        projects: ['User Management System', 'Analytics Database'],
-        description: 'Advanced open-source relational database system',
-        certifications: [],
-        color: '#336791'
-      }
-    ],
-    ai_ml: [
-      { 
-        name: 'Claude API', 
-        level: 75, 
-        experience: '6 months',
-        projects: ['AI Chat Assistant', 'Content Generation Tool'],
-        description: 'Advanced AI language model API for conversational AI',
-        certifications: [],
-        color: '#FF6B35'
-      },
-      { 
-        name: 'LangChain', 
-        level: 70, 
-        experience: '6 months',
-        projects: ['Document QA System', 'AI Workflow Automation'],
-        description: 'Framework for developing applications with language models',
-        certifications: [],
-        color: '#2E8B57'
-      },
-      { 
-        name: 'OpenAI API', 
-        level: 80, 
-        experience: '8 months',
-        projects: ['Text Summarizer', 'Code Generator', 'Image Analysis'],
-        description: 'GPT and DALL-E APIs for various AI applications',
-        certifications: [],
-        color: '#412991'
-      },
-      { 
-        name: 'TensorFlow', 
-        level: 65, 
-        experience: '1 year',
-        projects: ['Image Classification', 'Time Series Prediction'],
-        description: 'Open-source machine learning framework',
-        certifications: [],
-        color: '#FF6F00'
-      }
-    ],
-    tools: [
-      { 
-        name: 'Git', 
-        level: 90, 
-        experience: '4 years',
-        projects: ['All Development Projects', 'Open Source Contributions'],
-        description: 'Distributed version control system for tracking changes',
-        certifications: [],
-        color: '#F05032'
-      },
-      { 
-        name: 'Docker', 
-        level: 75, 
-        experience: '1 year',
-        projects: ['Containerized Applications', 'Development Environment'],
-        description: 'Containerization platform for application deployment',
-        certifications: [],
-        color: '#2496ED'
-      },
-      { 
-        name: 'AWS', 
-        level: 70, 
-        experience: '1.5 years',
-        projects: ['Cloud Infrastructure', 'Serverless Functions'],
-        description: 'Amazon Web Services cloud computing platform',
-        certifications: ['AWS Cloud Practitioner'],
-        color: '#232F3E'
-      },
-      { 
-        name: 'VS Code', 
-        level: 95, 
-        experience: '4 years',
-        projects: ['All Development Work', 'Extension Development'],
-        description: 'Lightweight but powerful source code editor',
-        certifications: [],
-        color: '#007ACC'
-      }
-    ]
-  };
-
-  // Intersection Observer for animations
-  useEffect(() => {
-    observerRef.current = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.3 }
-    );
-
-    if (matrixRef.current) {
-      observerRef.current.observe(matrixRef.current);
+  const skillCategories = [
+    {
+      id: 'frontend',
+      name: 'Frontend',
+      icon: Code,
+      color: 'from-blue-500 to-cyan-500',
+      skills: [
+        { name: 'React.js', level: 95, experience: '4+ years', projects: 15 },
+        { name: 'TypeScript', level: 90, experience: '3+ years', projects: 12 },
+        { name: 'Next.js', level: 88, experience: '3+ years', projects: 10 },
+        { name: 'Tailwind CSS', level: 92, experience: '3+ years', projects: 18 },
+        { name: 'Vue.js', level: 75, experience: '2+ years', projects: 8 },
+        { name: 'Angular', level: 70, experience: '2+ years', projects: 6 }
+      ]
+    },
+    {
+      id: 'backend',
+      name: 'Backend',
+      icon: Server,
+      color: 'from-green-500 to-emerald-500',
+      skills: [
+        { name: 'Node.js', level: 90, experience: '4+ years', projects: 20 },
+        { name: 'Express.js', level: 88, experience: '4+ years', projects: 18 },
+        { name: 'Python', level: 85, experience: '3+ years', projects: 12 },
+        { name: 'Django', level: 80, experience: '2+ years', projects: 8 },
+        { name: 'PostgreSQL', level: 82, experience: '3+ years', projects: 15 },
+        { name: 'MongoDB', level: 78, experience: '2+ years', projects: 10 }
+      ]
+    },
+    {
+      id: 'mobile',
+      name: 'Mobile',
+      icon: Smartphone,
+      color: 'from-purple-500 to-pink-500',
+      skills: [
+        { name: 'React Native', level: 85, experience: '3+ years', projects: 12 },
+        { name: 'Flutter', level: 75, experience: '2+ years', projects: 8 },
+        { name: 'iOS Development', level: 70, experience: '2+ years', projects: 6 },
+        { name: 'Android Development', level: 72, experience: '2+ years', projects: 7 }
+      ]
+    },
+    {
+      id: 'design',
+      name: 'Design',
+      icon: Palette,
+      color: 'from-orange-500 to-red-500',
+      skills: [
+        { name: 'Figma', level: 88, experience: '3+ years', projects: 25 },
+        { name: 'Adobe XD', level: 80, experience: '2+ years', projects: 15 },
+        { name: 'Photoshop', level: 75, experience: '2+ years', projects: 12 },
+        { name: 'Illustrator', level: 70, experience: '2+ years', projects: 8 }
+      ]
+    },
+    {
+      id: 'devops',
+      name: 'DevOps',
+      icon: Zap,
+      color: 'from-yellow-500 to-orange-500',
+      skills: [
+        { name: 'Docker', level: 82, experience: '3+ years', projects: 18 },
+        { name: 'AWS', level: 78, experience: '2+ years', projects: 12 },
+        { name: 'CI/CD', level: 80, experience: '3+ years', projects: 15 },
+        { name: 'Kubernetes', level: 70, experience: '2+ years', projects: 8 }
+      ]
     }
+  ];
 
-    return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
-      }
-    };
-  }, []);
+  const currentCategory = skillCategories.find(cat => cat.id === selectedCategory);
 
-  // Get all skills as flat array
-  const getAllSkills = () => {
-    return Object.entries(skills).flatMap(([category, categorySkills]) =>
-      categorySkills.map(skill => ({ ...skill, category }))
-    );
+  const getLevelColor = (level) => {
+    if (level >= 90) return 'from-green-400 to-emerald-500';
+    if (level >= 80) return 'from-blue-400 to-cyan-500';
+    if (level >= 70) return 'from-yellow-400 to-orange-500';
+    return 'from-gray-400 to-gray-500';
   };
 
-  // Filter and sort skills
-  const getFilteredAndSortedSkills = () => {
-    let filteredSkills = getAllSkills();
-
-    // Filter by category
-    if (selectedCategory !== 'all') {
-      filteredSkills = filteredSkills.filter(skill => skill.category === selectedCategory);
-    }
-
-    // Sort skills
-    filteredSkills.sort((a, b) => {
-      let valueA, valueB;
-      
-      switch (sortBy) {
-        case 'level':
-          valueA = a.level;
-          valueB = b.level;
-          break;
-        case 'name':
-          valueA = a.name.toLowerCase();
-          valueB = b.name.toLowerCase();
-          break;
-        case 'experience':
-          valueA = parseFloat(a.experience);
-          valueB = parseFloat(b.experience);
-          break;
-        default:
-          return 0;
-      }
-
-      if (sortOrder === 'asc') {
-        return valueA > valueB ? 1 : -1;
-      } else {
-        return valueA < valueB ? 1 : -1;
-      }
-    });
-
-    return filteredSkills;
+  const getLevelText = (level) => {
+    if (level >= 90) return 'Expert';
+    if (level >= 80) return 'Advanced';
+    if (level >= 70) return 'Intermediate';
+    return 'Beginner';
   };
-
-  // Export as PDF (simplified version without html2canvas)
-  const exportAsPDF = () => {
-    // Simplified export - in real app would use html2canvas + jsPDF
-    const dataStr = JSON.stringify(skills, null, 2);
-    const dataBlob = new Blob([dataStr], { type: 'application/json' });
-    const url = URL.createObjectURL(dataBlob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'skills-matrix.json';
-    link.click();
-    URL.revokeObjectURL(url);
-  };
-
-  // Export as Image (simplified version)
-  const exportAsImage = () => {
-    // Simplified export - in real app would use html2canvas
-    alert('Export as image functionality would be implemented with html2canvas library');
-  };
-
-  // Toggle skill comparison
-  const toggleSkillComparison = (skill) => {
-    if (compareMode) {
-      setSelectedSkills(prev => {
-        const isSelected = prev.some(s => s.name === skill.name);
-        if (isSelected) {
-          return prev.filter(s => s.name !== skill.name);
-        } else if (prev.length < 3) {
-          return [...prev, skill];
-        }
-        return prev;
-      });
-    }
-  };
-
-  // Get skill level color
-  const getSkillLevelColor = (level) => {
-    if (level >= 90) return 'from-green-500 to-green-600';
-    if (level >= 80) return 'from-blue-500 to-blue-600';
-    if (level >= 70) return 'from-yellow-500 to-yellow-600';
-    if (level >= 60) return 'from-orange-500 to-orange-600';
-    return 'from-red-500 to-red-600';
-  };
-
-  const filteredSkills = getFilteredAndSortedSkills();
-  const categories = Object.keys(skills);
 
   return (
-    <div className="skills-matrix bg-gray-50 min-h-screen py-12 px-4" ref={matrixRef}>
-      <div className="max-w-7xl mx-auto">
+    <section id="skills" className="py-20 bg-gray-50 dark:bg-gray-900">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">Skills Matrix</h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Interactive visualization of technical skills, experience levels, and project applications
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+            Skills & Expertise
+          </h2>
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+            A comprehensive overview of my technical skills, experience, and proficiency levels across various technologies and domains.
           </p>
-        </div>
+        </motion.div>
 
-        {/* Controls */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            {/* Category Filter */}
-            <div className="flex items-center space-x-2">
-              <label className="text-sm font-medium text-gray-700">Category:</label>
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="all">All Categories</option>
-                {categories.map(category => (
-                  <option key={category} value={category}>
-                    {category.charAt(0).toUpperCase() + category.slice(1).replace('_', ' & ')}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Sort Controls */}
-            <div className="flex items-center space-x-2">
-              <label className="text-sm font-medium text-gray-700">Sort by:</label>
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="level">Proficiency Level</option>
-                <option value="name">Name</option>
-                <option value="experience">Experience</option>
-              </select>
-              <button
-                onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-                className="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors"
-              >
-                {sortOrder === 'asc' ? '↑' : '↓'}
-              </button>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex items-center space-x-2">
-              <button
-                onClick={() => setCompareMode(!compareMode)}
-                className={`px-4 py-2 rounded-md transition-colors ${
-                  compareMode
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
-                }`}
-              >
-                {compareMode ? 'Exit Compare' : 'Compare Skills'}
-              </button>
-              
-              <div className="relative group">
-                <button className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">
-                  Export
-                </button>
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
-                  <button
-                    onClick={exportAsImage}
-                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  >
-                    Export as PNG
-                  </button>
-                  <button
-                    onClick={exportAsPDF}
-                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  >
-                    Export as JSON
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Compare Mode Info */}
-          {compareMode && (
-            <div className="mt-4 p-3 bg-blue-50 rounded-md border border-blue-200">
-              <p className="text-sm text-blue-800">
-                Compare Mode: Click on skills to compare (max 3). Selected: {selectedSkills.length}/3
-              </p>
-              {selectedSkills.length > 0 && (
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {selectedSkills.map(skill => (
-                    <span
-                      key={skill.name}
-                      className="px-2 py-1 bg-blue-100 text-blue-800 rounded-md text-xs"
-                    >
-                      {skill.name}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-        </div>
+        {/* Category Tabs */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="flex flex-wrap justify-center gap-4 mb-12"
+        >
+          {skillCategories.map((category, index) => (
+            <motion.button
+              key={category.id}
+              onClick={() => setSelectedCategory(category.id)}
+              className={`flex items-center gap-3 px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+                selectedCategory === category.id
+                  ? `bg-gradient-to-r ${category.color} text-white shadow-lg`
+                  : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+              }`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+            >
+              <category.icon className="w-5 h-5" />
+              {category.name}
+            </motion.button>
+          ))}
+        </motion.div>
 
         {/* Skills Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredSkills.map((skill, index) => {
-            const isSelected = selectedSkills.some(s => s.name === skill.name);
-            
-            return (
-              <div
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={selectedCategory}
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.5 }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
+            {currentCategory?.skills.map((skill, index) => (
+              <motion.div
                 key={skill.name}
-                className={`bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-105 cursor-pointer ${
-                  compareMode && isSelected ? 'ring-2 ring-blue-500' : ''
-                }`}
-                onMouseEnter={() => setHoveredSkill(skill)}
-                onMouseLeave={() => setHoveredSkill(null)}
-                onClick={() => toggleSkillComparison(skill)}
+                className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300"
+                onHoverStart={() => setHoveredSkill(skill.name)}
+                onHoverEnd={() => setHoveredSkill(null)}
+                whileHover={{ y: -5 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
               >
                 {/* Skill Header */}
-                <div className="p-4 border-b border-gray-100">
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-lg font-semibold text-gray-900">{skill.name}</h3>
-                    <div
-                      className="w-4 h-4 rounded-full"
-                      style={{ backgroundColor: skill.color }}
-                    />
-                  </div>
-                  <div className="flex items-center justify-between text-sm text-gray-600">
-                    <span className="px-2 py-1 bg-gray-100 rounded-md">
-                      {skill.category.replace('_', ' & ')}
-                    </span>
-                    <span>{skill.experience}</span>
-                  </div>
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    {skill.name}
+                  </h3>
+                  <span className={`px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r ${getLevelColor(skill.level)} text-white`}>
+                    {getLevelText(skill.level)}
+                  </span>
                 </div>
 
                 {/* Progress Bar */}
-                <div className="p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-gray-700">Proficiency</span>
-                    <span className="text-sm font-bold text-gray-900">{skill.level}%</span>
+                <div className="mb-4">
+                  <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-2">
+                    <span>Proficiency</span>
+                    <span>{skill.level}%</span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
-                    <div
-                      className={`h-full bg-gradient-to-r ${getSkillLevelColor(skill.level)} rounded-full transition-all duration-1000 ease-out`}
-                      style={{ 
-                        width: isVisible ? `${skill.level}%` : '0%',
-                        transitionDelay: `${index * 100}ms`
-                      }}
+                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                    <motion.div
+                      className={`h-2 rounded-full bg-gradient-to-r ${getLevelColor(skill.level)}`}
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${skill.level}%` }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1, delay: index * 0.1 + 0.5 }}
                     />
                   </div>
                 </div>
 
-                {/* Additional Info on Hover */}
-                {hoveredSkill?.name === skill.name && (
-                  <div className="px-4 pb-4">
-                    <div className="bg-gray-50 rounded-md p-3">
-                      <p className="text-xs text-gray-600 mb-2">{skill.description}</p>
-                      
-                      {skill.projects.length > 0 && (
-                        <div className="mb-2">
-                          <p className="text-xs font-medium text-gray-700 mb-1">Projects:</p>
-                          <div className="flex flex-wrap gap-1">
-                            {skill.projects.slice(0, 2).map(project => (
-                              <span
-                                key={project}
-                                className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded"
-                              >
-                                {project}
-                              </span>
-                            ))}
-                            {skill.projects.length > 2 && (
-                              <span className="text-xs text-gray-500">
-                                +{skill.projects.length - 2} more
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                      )}
-
-                      {skill.certifications.length > 0 && (
-                        <div>
-                          <p className="text-xs font-medium text-gray-700 mb-1">Certifications:</p>
-                          {skill.certifications.map(cert => (
-                            <span
-                              key={cert}
-                              className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded mr-1"
-                            >
-                              ✓ {cert}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
+                {/* Skill Details */}
+                <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                  <div className="flex items-center gap-2">
+                    <BookOpen className="w-4 h-4" />
+                    <span>{skill.experience} experience</span>
                   </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Comparison Panel */}
-        {compareMode && selectedSkills.length > 1 && (
-          <div className="mt-12 bg-white rounded-lg shadow-md p-6">
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">Skill Comparison</h3>
-            
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-gray-200">
-                    <th className="text-left py-2 text-sm font-medium text-gray-700">Skill</th>
-                    <th className="text-center py-2 text-sm font-medium text-gray-700">Level</th>
-                    <th className="text-center py-2 text-sm font-medium text-gray-700">Experience</th>
-                    <th className="text-center py-2 text-sm font-medium text-gray-700">Projects</th>
-                    <th className="text-center py-2 text-sm font-medium text-gray-700">Category</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {selectedSkills.map(skill => (
-                    <tr key={skill.name} className="border-b border-gray-100">
-                      <td className="py-3">
-                        <div className="flex items-center space-x-2">
-                          <div
-                            className="w-3 h-3 rounded-full"
-                            style={{ backgroundColor: skill.color }}
-                          />
-                          <span className="font-medium">{skill.name}</span>
-                        </div>
-                      </td>
-                      <td className="text-center py-3">
-                        <span className={`px-2 py-1 rounded-md text-sm font-medium ${
-                          skill.level >= 90 ? 'bg-green-100 text-green-800' :
-                          skill.level >= 80 ? 'bg-blue-100 text-blue-800' :
-                          skill.level >= 70 ? 'bg-yellow-100 text-yellow-800' :
-                          'bg-red-100 text-red-800'
-                        }`}>
-                          {skill.level}%
-                        </span>
-                      </td>
-                      <td className="text-center py-3 text-sm text-gray-600">
-                        {skill.experience}
-                      </td>
-                      <td className="text-center py-3 text-sm text-gray-600">
-                        {skill.projects.length}
-                      </td>
-                      <td className="text-center py-3">
-                        <span className="px-2 py-1 bg-gray-100 rounded-md text-xs">
-                          {skill.category.replace('_', ' & ')}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
-
-        {/* Skills Summary */}
-        <div className="mt-12 bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">Skills Summary</h3>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {categories.map(category => {
-              const categorySkills = skills[category];
-              const avgLevel = Math.round(
-                categorySkills.reduce((sum, skill) => sum + skill.level, 0) / categorySkills.length
-              );
-              
-              return (
-                <div key={category} className="text-center">
-                  <h4 className="text-lg font-medium text-gray-900 mb-2">
-                    {category.charAt(0).toUpperCase() + category.slice(1).replace('_', ' & ')}
-                  </h4>
-                  <div className="text-3xl font-bold text-blue-600 mb-1">{avgLevel}%</div>
-                  <div className="text-sm text-gray-600">Average Proficiency</div>
-                  <div className="text-sm text-gray-500 mt-1">
-                    {categorySkills.length} skills
+                  <div className="flex items-center gap-2">
+                    <TrendingUp className="w-4 h-4" />
+                    <span>{skill.projects} projects completed</span>
                   </div>
                 </div>
-              );
-            })}
+
+                {/* Hover Effect */}
+                {hoveredSkill === skill.name && (
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/10 rounded-xl"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                  />
+                )}
+              </motion.div>
+            ))}
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Additional Info */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="mt-16 text-center"
+        >
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg max-w-4xl mx-auto">
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+              Continuous Learning & Growth
+            </h3>
+            <p className="text-gray-600 dark:text-gray-300 mb-6">
+              I'm constantly expanding my skill set through personal projects, online courses, and real-world applications. 
+              Technology evolves rapidly, and I believe in staying ahead of the curve.
+            </p>
+            <div className="flex flex-wrap justify-center gap-6">
+              <div className="flex items-center gap-2 text-purple-600 dark:text-purple-400">
+                <Award className="w-5 h-5" />
+                <span className="font-medium">Certified Developer</span>
+              </div>
+              <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400">
+                <BookOpen className="w-5 h-5" />
+                <span className="font-medium">Active Learner</span>
+              </div>
+              <div className="flex items-center gap-2 text-green-600 dark:text-green-400">
+                <TrendingUp className="w-5 h-5" />
+                <span className="font-medium">Skill Growth</span>
+              </div>
+            </div>
           </div>
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </section>
   );
 };
 

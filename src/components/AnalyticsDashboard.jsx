@@ -3,676 +3,348 @@
  * Comprehensive analytics dashboard with multiple visualization types
  */
 
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement,
-  Filler
-} from 'chart.js';
-import { Line, Bar, Doughnut, Pie } from 'react-chartjs-2';
-import '../css/analytics-dashboard.css';
-
-// Register Chart.js components
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement,
-  Filler
-);
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { 
+  BarChart, 
+  Bar, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  PieChart,
+  Pie,
+  Cell,
+  AreaChart,
+  Area
+} from 'recharts';
+import { 
+  TrendingUp, 
+  Users, 
+  Eye, 
+  Code, 
+  Star, 
+  Download,
+  Calendar,
+  Globe,
+  Smartphone,
+  Monitor
+} from 'lucide-react';
 
 const AnalyticsDashboard = () => {
-  // State for analytics data
-  const [analytics, setAnalytics] = useState({
-    pageViews: [],
-    projectViews: {},
-    visitorLocations: [],
-    deviceTypes: {},
-    trafficSources: {},
-    aiInteractions: [],
-    liveVisitors: 0,
-    totalSessions: 0,
-    bounceRate: 0,
-    avgSessionDuration: 0,
-    conversionRate: 0,
-    downloads: 0,
-    clickEvents: 0
-  });
+  const [selectedPeriod, setSelectedPeriod] = useState('month');
+  const [isLoading, setIsLoading] = useState(true);
 
-  const [timeRange, setTimeRange] = useState('7d'); // 1d, 7d, 30d, 90d
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [realTimeData, setRealTimeData] = useState({
-    activeUsers: 0,
-    pageViews: 0,
-    events: []
-  });
+  // Mock data - in real app this would come from API
+  const pageViewsData = [
+    { month: 'Jan', views: 1200, unique: 800, bounce: 35 },
+    { month: 'Feb', views: 1800, unique: 1200, bounce: 28 },
+    { month: 'Mar', views: 2200, unique: 1500, bounce: 25 },
+    { month: 'Apr', views: 2800, unique: 1900, bounce: 22 },
+    { month: 'May', views: 3200, unique: 2200, bounce: 20 },
+    { month: 'Jun', views: 3800, unique: 2600, bounce: 18 }
+  ];
 
-  const wsRef = useRef(null);
-  const intervalRef = useRef(null);
+  const trafficSources = [
+    { name: 'Direct', value: 45, color: '#3B82F6' },
+    { name: 'Search', value: 30, color: '#10B981' },
+    { name: 'Social', value: 15, color: '#F59E0B' },
+    { name: 'Referral', value: 10, color: '#EF4444' }
+  ];
 
-  // Mock data generator for demonstration
-  const generateMockData = useCallback(() => {
-    const now = new Date();
-    const days = timeRange === '1d' ? 1 : timeRange === '7d' ? 7 : timeRange === '30d' ? 30 : 90;
-    
-    // Generate page views data
-    const pageViews = Array.from({ length: days * 24 }, (_, i) => {
-      const date = new Date(now.getTime() - (days * 24 - i - 1) * 60 * 60 * 1000);
-      return {
-        timestamp: date.toISOString(),
-        views: Math.floor(Math.random() * 100) + 20,
-        uniqueViews: Math.floor(Math.random() * 80) + 15
-      };
-    });
+  const deviceBreakdown = [
+    { name: 'Desktop', value: 65, color: '#8B5CF6' },
+    { name: 'Mobile', value: 30, color: '#06B6D4' },
+    { name: 'Tablet', value: 5, color: '#F97316' }
+  ];
 
-    // Project views data
-    const projectViews = {
-      'GitHub Dashboard': Math.floor(Math.random() * 500) + 200,
-      'Skills Matrix': Math.floor(Math.random() * 400) + 150,
-      'Analytics Dashboard': Math.floor(Math.random() * 300) + 100,
-      'Portfolio Site': Math.floor(Math.random() * 600) + 300,
-      'Calculator App': Math.floor(Math.random() * 250) + 80,
-      'Todo List': Math.floor(Math.random() * 200) + 60
-    };
+  const projectMetrics = [
+    { name: 'React Projects', completed: 15, inProgress: 3, planned: 5 },
+    { name: 'Node.js Apps', completed: 12, inProgress: 2, planned: 4 },
+    { name: 'Mobile Apps', completed: 8, inProgress: 1, planned: 3 },
+    { name: 'Design Work', completed: 20, inProgress: 4, planned: 6 }
+  ];
 
-    // Visitor locations
-    const visitorLocations = [
-      { country: 'United States', visits: Math.floor(Math.random() * 1000) + 500, percentage: 35 },
-      { country: 'United Kingdom', visits: Math.floor(Math.random() * 600) + 200, percentage: 18 },
-      { country: 'Canada', visits: Math.floor(Math.random() * 400) + 150, percentage: 12 },
-      { country: 'Germany', visits: Math.floor(Math.random() * 350) + 100, percentage: 10 },
-      { country: 'Australia', visits: Math.floor(Math.random() * 300) + 80, percentage: 8 },
-      { country: 'France', visits: Math.floor(Math.random() * 250) + 70, percentage: 7 },
-      { country: 'Japan', visits: Math.floor(Math.random() * 200) + 50, percentage: 5 },
-      { country: 'Other', visits: Math.floor(Math.random() * 300) + 100, percentage: 5 }
-    ];
-
-    // Device types
-    const deviceTypes = {
-      Desktop: Math.floor(Math.random() * 60) + 40,
-      Mobile: Math.floor(Math.random() * 40) + 30,
-      Tablet: Math.floor(Math.random() * 20) + 10
-    };
-
-    // Traffic sources
-    const trafficSources = {
-      'Direct': Math.floor(Math.random() * 40) + 25,
-      'Google Search': Math.floor(Math.random() * 35) + 20,
-      'GitHub': Math.floor(Math.random() * 25) + 15,
-      'LinkedIn': Math.floor(Math.random() * 20) + 10,
-      'Social Media': Math.floor(Math.random() * 15) + 8,
-      'Referral': Math.floor(Math.random() * 12) + 5
-    };
-
-    // AI interactions
-    const aiInteractions = Array.from({ length: days }, (_, i) => {
-      const date = new Date(now.getTime() - (days - i - 1) * 24 * 60 * 60 * 1000);
-      return {
-        date: date.toISOString().split('T')[0],
-        interactions: Math.floor(Math.random() * 50) + 10,
-        avgResponseTime: Math.floor(Math.random() * 2000) + 500,
-        satisfaction: Math.random() * 2 + 3 // 3-5 rating
-      };
-    });
-
-    return {
-      pageViews,
-      projectViews,
-      visitorLocations,
-      deviceTypes,
-      trafficSources,
-      aiInteractions,
-      liveVisitors: Math.floor(Math.random() * 25) + 5,
-      totalSessions: Math.floor(Math.random() * 10000) + 5000,
-      bounceRate: Math.random() * 20 + 30, // 30-50%
-      avgSessionDuration: Math.floor(Math.random() * 300) + 120, // 2-7 minutes
-      conversionRate: Math.random() * 5 + 2, // 2-7%
-      downloads: Math.floor(Math.random() * 500) + 100,
-      clickEvents: Math.floor(Math.random() * 2000) + 500
-    };
-  }, [timeRange]);
-
-  // Fetch analytics data
-  const fetchAnalytics = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      
-      // In a real implementation, this would call your analytics API
-      // const response = await fetch(`/api/analytics?timeRange=${timeRange}`);
-      // const data = await response.json();
-      
-      // For now, using mock data
-      const data = generateMockData();
-      
-      setAnalytics(data);
-      
-      // Simulate real-time updates
-      setRealTimeData({
-        activeUsers: Math.floor(Math.random() * 50) + 10,
-        pageViews: Math.floor(Math.random() * 100) + 50,
-        events: [
-          { type: 'page_view', page: '/projects', timestamp: new Date() },
-          { type: 'download', file: 'resume.pdf', timestamp: new Date() },
-          { type: 'ai_chat', message: 'Hello!', timestamp: new Date() }
-        ]
-      });
-      
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+  const keyMetrics = [
+    { 
+      title: 'Total Page Views', 
+      value: '18.2K', 
+      change: '+12.5%', 
+      trend: 'up',
+      icon: Eye,
+      color: 'from-blue-500 to-cyan-500'
+    },
+    { 
+      title: 'Unique Visitors', 
+      value: '12.8K', 
+      change: '+8.3%', 
+      trend: 'up',
+      icon: Users,
+      color: 'from-green-500 to-emerald-500'
+    },
+    { 
+      title: 'Project Downloads', 
+      value: '2.4K', 
+      change: '+15.7%', 
+      trend: 'up',
+      icon: Download,
+      color: 'from-purple-500 to-pink-500'
+    },
+    { 
+      title: 'GitHub Stars', 
+      value: '156', 
+      change: '+23.1%', 
+      trend: 'up',
+      icon: Star,
+      color: 'from-yellow-500 to-orange-500'
     }
-  }, [timeRange, generateMockData]);
-
-  // Initialize real-time connection
-  const initializeRealTime = useCallback(() => {
-    // In a real implementation, this would connect to a WebSocket
-    // wsRef.current = new WebSocket('wss://your-analytics-ws.com');
-    
-    // For demo, simulate real-time updates
-    intervalRef.current = setInterval(() => {
-      setRealTimeData(prev => ({
-        ...prev,
-        activeUsers: Math.max(1, prev.activeUsers + Math.floor(Math.random() * 3) - 1),
-        pageViews: prev.pageViews + Math.floor(Math.random() * 3),
-        events: [
-          ...prev.events.slice(-10), // Keep last 10 events
-          {
-            type: ['page_view', 'download', 'ai_chat', 'click'][Math.floor(Math.random() * 4)],
-            page: ['/home', '/projects', '/about', '/contact'][Math.floor(Math.random() * 4)],
-            timestamp: new Date()
-          }
-        ]
-      }));
-      
-      // Update live visitors count
-      setAnalytics(prev => ({
-        ...prev,
-        liveVisitors: Math.max(1, prev.liveVisitors + Math.floor(Math.random() * 3) - 1)
-      }));
-    }, 5000);
-  }, []);
+  ];
 
   useEffect(() => {
-    fetchAnalytics();
-    initializeRealTime();
-    
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-      if (wsRef.current) wsRef.current.close();
-    };
-  }, [fetchAnalytics, initializeRealTime]);
+    // Simulate loading
+    const timer = setTimeout(() => setIsLoading(false), 1000);
+    return () => clearTimeout(timer);
+  }, []);
 
-  // Chart configurations
-  const pageViewsChartData = {
-    labels: analytics.pageViews.slice(-24).map(item => 
-      new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    ),
-    datasets: [
-      {
-        label: 'Page Views',
-        data: analytics.pageViews.slice(-24).map(item => item.views),
-        borderColor: 'rgb(59, 130, 246)',
-        backgroundColor: 'rgba(59, 130, 246, 0.1)',
-        fill: true,
-        tension: 0.4
-      },
-      {
-        label: 'Unique Views',
-        data: analytics.pageViews.slice(-24).map(item => item.uniqueViews),
-        borderColor: 'rgb(16, 185, 129)',
-        backgroundColor: 'rgba(16, 185, 129, 0.1)',
-        fill: true,
-        tension: 0.4
-      }
-    ]
-  };
-
-  const projectViewsChartData = {
-    labels: Object.keys(analytics.projectViews),
-    datasets: [
-      {
-        label: 'Project Views',
-        data: Object.values(analytics.projectViews),
-        backgroundColor: [
-          'rgba(59, 130, 246, 0.8)',
-          'rgba(16, 185, 129, 0.8)',
-          'rgba(245, 158, 11, 0.8)',
-          'rgba(239, 68, 68, 0.8)',
-          'rgba(139, 92, 246, 0.8)',
-          'rgba(236, 72, 153, 0.8)'
-        ],
-        borderColor: [
-          'rgb(59, 130, 246)',
-          'rgb(16, 185, 129)',
-          'rgb(245, 158, 11)',
-          'rgb(239, 68, 68)',
-          'rgb(139, 92, 246)',
-          'rgb(236, 72, 153)'
-        ],
-        borderWidth: 2
-      }
-    ]
-  };
-
-  const deviceTypesChartData = {
-    labels: Object.keys(analytics.deviceTypes),
-    datasets: [
-      {
-        data: Object.values(analytics.deviceTypes),
-        backgroundColor: [
-          'rgba(59, 130, 246, 0.8)',
-          'rgba(16, 185, 129, 0.8)',
-          'rgba(245, 158, 11, 0.8)'
-        ],
-        borderColor: [
-          'rgb(59, 130, 246)',
-          'rgb(16, 185, 129)',
-          'rgb(245, 158, 11)'
-        ],
-        borderWidth: 2
-      }
-    ]
-  };
-
-  const trafficSourcesChartData = {
-    labels: Object.keys(analytics.trafficSources),
-    datasets: [
-      {
-        data: Object.values(analytics.trafficSources),
-        backgroundColor: [
-          'rgba(59, 130, 246, 0.8)',
-          'rgba(16, 185, 129, 0.8)',
-          'rgba(245, 158, 11, 0.8)',
-          'rgba(239, 68, 68, 0.8)',
-          'rgba(139, 92, 246, 0.8)',
-          'rgba(236, 72, 153, 0.8)'
-        ],
-        borderWidth: 2
-      }
-    ]
-  };
-
-  const aiInteractionsChartData = {
-    labels: analytics.aiInteractions.map(item => 
-      new Date(item.date).toLocaleDateString()
-    ),
-    datasets: [
-      {
-        label: 'AI Interactions',
-        data: analytics.aiInteractions.map(item => item.interactions),
-        borderColor: 'rgb(139, 92, 246)',
-        backgroundColor: 'rgba(139, 92, 246, 0.1)',
-        fill: true,
-        tension: 0.4,
-        yAxisID: 'y'
-      },
-      {
-        label: 'Avg Response Time (ms)',
-        data: analytics.aiInteractions.map(item => item.avgResponseTime),
-        borderColor: 'rgb(245, 158, 11)',
-        backgroundColor: 'rgba(245, 158, 11, 0.1)',
-        fill: false,
-        tension: 0.4,
-        yAxisID: 'y1'
-      }
-    ]
-  };
-
-  const chartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        position: 'top',
-        labels: {
-          usePointStyle: true,
-          padding: 20
-        }
-      },
-      tooltip: {
-        mode: 'index',
-        intersect: false,
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        titleColor: 'white',
-        bodyColor: 'white',
-        borderColor: 'rgba(255, 255, 255, 0.1)',
-        borderWidth: 1
-      }
-    },
-    interaction: {
-      mode: 'nearest',
-      axis: 'x',
-      intersect: false
-    },
-    scales: {
-      x: {
-        display: true,
-        grid: {
-          display: false
-        }
-      },
-      y: {
-        display: true,
-        grid: {
-          color: 'rgba(0, 0, 0, 0.1)'
-        }
-      }
-    }
-  };
-
-  const dualAxisOptions = {
-    ...chartOptions,
-    scales: {
-      ...chartOptions.scales,
-      y1: {
-        type: 'linear',
-        display: true,
-        position: 'right',
-        grid: {
-          drawOnChartArea: false,
-        },
-      }
-    }
-  };
-
-  const formatDuration = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes}m ${remainingSeconds}s`;
-  };
-
-  const formatNumber = (num) => {
-    if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
-    if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
-    return num.toString();
-  };
-
-  if (loading && !analytics.pageViews.length) {
-    return (
-      <div className="analytics-dashboard loading">
-        <div className="loading-spinner"></div>
-        <p>Loading analytics data...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="analytics-dashboard error">
-        <div className="error-message">
-          <h3>Error Loading Analytics</h3>
-          <p>{error}</p>
-          <button onClick={fetchAnalytics} className="retry-button">
-            Retry
-          </button>
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-white dark:bg-gray-800 p-3 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg">
+          <p className="font-medium text-gray-900 dark:text-white">{label}</p>
+          {payload.map((entry, index) => (
+            <p key={index} className="text-sm" style={{ color: entry.color }}>
+              {entry.name}: {entry.value}
+            </p>
+          ))}
         </div>
+      );
+    }
+    return null;
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
       </div>
     );
   }
 
   return (
-    <div className="analytics-dashboard">
-      {/* Dashboard Header */}
-      <div className="dashboard-header">
-        <div className="header-content">
-          <h2>Portfolio Analytics</h2>
-          <div className="header-controls">
-            <div className="time-range-selector">
-              {['1d', '7d', '30d', '90d'].map(range => (
-                <button
-                  key={range}
-                  className={`time-range-btn ${timeRange === range ? 'active' : ''}`}
-                  onClick={() => setTimeRange(range)}
+    <section className="py-20 bg-gray-50 dark:bg-gray-900">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+            Analytics Dashboard
+          </h2>
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+            Track performance metrics, user engagement, and project analytics in real-time.
+          </p>
+        </motion.div>
+
+        {/* Period Selector */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="flex justify-center mb-12"
+        >
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-1 shadow-lg">
+            {['week', 'month', 'quarter', 'year'].map((period) => (
+              <button
+                key={period}
+                onClick={() => setSelectedPeriod(period)}
+                className={`px-6 py-2 rounded-md font-medium transition-all duration-200 ${
+                  selectedPeriod === period
+                    ? 'bg-purple-600 text-white shadow-lg'
+                    : 'text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400'
+                }`}
+              >
+                {period.charAt(0).toUpperCase() + period.slice(1)}
+              </button>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Key Metrics */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12"
+        >
+          {keyMetrics.map((metric, index) => (
+            <motion.div
+              key={metric.title}
+              className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300"
+              whileHover={{ y: -5 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+            >
+              <div className="flex items-center justify-between mb-4">
+                <div className={`p-3 rounded-lg bg-gradient-to-r ${metric.color}`}>
+                  <metric.icon className="w-6 h-6 text-white" />
+                </div>
+                <span className={`text-sm font-medium ${
+                  metric.trend === 'up' ? 'text-green-600' : 'text-red-600'
+                }`}>
+                  {metric.change}
+                </span>
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+                {metric.value}
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">
+                {metric.title}
+              </p>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Charts Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+          {/* Page Views Chart */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg"
+          >
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6">
+              Page Views Trend
+            </h3>
+            <ResponsiveContainer width="100%" height={300}>
+              <AreaChart data={pageViewsData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+                <XAxis dataKey="month" stroke="#9CA3AF" />
+                <YAxis stroke="#9CA3AF" />
+                <Tooltip content={<CustomTooltip />} />
+                <Area 
+                  type="monotone" 
+                  dataKey="views" 
+                  stroke="#8B5CF6" 
+                  fill="#8B5CF6" 
+                  fillOpacity={0.3} 
+                />
+                <Area 
+                  type="monotone" 
+                  dataKey="unique" 
+                  stroke="#06B6D4" 
+                  fill="#06B6D4" 
+                  fillOpacity={0.3} 
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </motion.div>
+
+          {/* Traffic Sources */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+            className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg"
+          >
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6">
+              Traffic Sources
+            </h3>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie
+                  data={trafficSources}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={false}
+                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                  outerRadius={80}
+                  fill="#8884d8"
+                  dataKey="value"
                 >
-                  {range.toUpperCase()}
-                </button>
-              ))}
-            </div>
-            <button onClick={fetchAnalytics} className="refresh-button" disabled={loading}>
-              {loading ? '↻' : '🔄'} Refresh
-            </button>
-          </div>
-        </div>
-        
-        <div className="live-stats">
-          <div className="live-visitors">
-            <span className="pulse"></span>
-            <span className="count">{analytics.liveVisitors}</span>
-            <span className="label">live visitors</span>
-          </div>
-          <div className="real-time-metrics">
-            <div className="metric">
-              <span className="value">{realTimeData.activeUsers}</span>
-              <span className="label">active users</span>
-            </div>
-            <div className="metric">
-              <span className="value">{realTimeData.pageViews}</span>
-              <span className="label">page views today</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Key Metrics Cards */}
-      <div className="metrics-grid">
-        <div className="metric-card">
-          <div className="metric-icon">👥</div>
-          <div className="metric-content">
-            <div className="metric-value">{formatNumber(analytics.totalSessions)}</div>
-            <div className="metric-label">Total Sessions</div>
-            <div className="metric-change positive">+12.5%</div>
-          </div>
-        </div>
-        
-        <div className="metric-card">
-          <div className="metric-icon">⏱️</div>
-          <div className="metric-content">
-            <div className="metric-value">{formatDuration(analytics.avgSessionDuration)}</div>
-            <div className="metric-label">Avg Session Duration</div>
-            <div className="metric-change positive">+8.3%</div>
-          </div>
-        </div>
-        
-        <div className="metric-card">
-          <div className="metric-icon">📈</div>
-          <div className="metric-content">
-            <div className="metric-value">{analytics.bounceRate.toFixed(1)}%</div>
-            <div className="metric-label">Bounce Rate</div>
-            <div className="metric-change negative">-3.2%</div>
-          </div>
-        </div>
-        
-        <div className="metric-card">
-          <div className="metric-icon">🎯</div>
-          <div className="metric-content">
-            <div className="metric-value">{analytics.conversionRate.toFixed(1)}%</div>
-            <div className="metric-label">Conversion Rate</div>
-            <div className="metric-change positive">+15.7%</div>
-          </div>
-        </div>
-        
-        <div className="metric-card">
-          <div className="metric-icon">📥</div>
-          <div className="metric-content">
-            <div className="metric-value">{formatNumber(analytics.downloads)}</div>
-            <div className="metric-label">Downloads</div>
-            <div className="metric-change positive">+22.1%</div>
-          </div>
-        </div>
-        
-        <div className="metric-card">
-          <div className="metric-icon">🖱️</div>
-          <div className="metric-content">
-            <div className="metric-value">{formatNumber(analytics.clickEvents)}</div>
-            <div className="metric-label">Click Events</div>
-            <div className="metric-change positive">+7.9%</div>
-          </div>
-        </div>
-      </div>
-
-      {/* Charts Grid */}
-      <div className="charts-grid">
-        {/* Page Views Chart */}
-        <div className="chart-container large">
-          <div className="chart-header">
-            <h3>Page Views Over Time</h3>
-            <div className="chart-legend">
-              <span className="legend-item">
-                <span className="legend-color" style={{ backgroundColor: 'rgb(59, 130, 246)' }}></span>
-                Total Views
-              </span>
-              <span className="legend-item">
-                <span className="legend-color" style={{ backgroundColor: 'rgb(16, 185, 129)' }}></span>
-                Unique Views
-              </span>
-            </div>
-          </div>
-          <div className="chart-wrapper">
-            <Line data={pageViewsChartData} options={chartOptions} />
-          </div>
+                  {trafficSources.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip content={<CustomTooltip />} />
+              </PieChart>
+            </ResponsiveContainer>
+          </motion.div>
         </div>
 
-        {/* Project Views Chart */}
-        <div className="chart-container medium">
-          <div className="chart-header">
-            <h3>Most Viewed Projects</h3>
-          </div>
-          <div className="chart-wrapper">
-            <Bar data={projectViewsChartData} options={chartOptions} />
-          </div>
-        </div>
+        {/* Project Metrics */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg mb-12"
+        >
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6">
+            Project Completion Metrics
+          </h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={projectMetrics}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+              <XAxis dataKey="name" stroke="#9CA3AF" />
+              <YAxis stroke="#9CA3AF" />
+              <Tooltip content={<CustomTooltip />} />
+              <Bar dataKey="completed" fill="#10B981" name="Completed" />
+              <Bar dataKey="inProgress" fill="#F59E0B" name="In Progress" />
+              <Bar dataKey="planned" fill="#8B5CF6" name="Planned" />
+            </BarChart>
+          </ResponsiveContainer>
+        </motion.div>
 
-        {/* Device Types Chart */}
-        <div className="chart-container small">
-          <div className="chart-header">
-            <h3>Device Types</h3>
-          </div>
-          <div className="chart-wrapper">
-            <Doughnut data={deviceTypesChartData} options={{
-              ...chartOptions,
-              plugins: {
-                ...chartOptions.plugins,
-                legend: {
-                  position: 'bottom'
-                }
-              }
-            }} />
-          </div>
-        </div>
-
-        {/* Traffic Sources Chart */}
-        <div className="chart-container small">
-          <div className="chart-header">
-            <h3>Traffic Sources</h3>
-          </div>
-          <div className="chart-wrapper">
-            <Pie data={trafficSourcesChartData} options={{
-              ...chartOptions,
-              plugins: {
-                ...chartOptions.plugins,
-                legend: {
-                  position: 'bottom'
-                }
-              }
-            }} />
-          </div>
-        </div>
-
-        {/* AI Interactions Chart */}
-        <div className="chart-container large">
-          <div className="chart-header">
-            <h3>AI Chat Interactions</h3>
-            <div className="chart-legend">
-              <span className="legend-item">
-                <span className="legend-color" style={{ backgroundColor: 'rgb(139, 92, 246)' }}></span>
-                Interactions
-              </span>
-              <span className="legend-item">
-                <span className="legend-color" style={{ backgroundColor: 'rgb(245, 158, 11)' }}></span>
-                Response Time
-              </span>
-            </div>
-          </div>
-          <div className="chart-wrapper">
-            <Line data={aiInteractionsChartData} options={dualAxisOptions} />
-          </div>
-        </div>
-
-        {/* Visitor Geography */}
-        <div className="chart-container medium">
-          <div className="chart-header">
-            <h3>Visitor Locations</h3>
-          </div>
-          <div className="geography-list">
-            {analytics.visitorLocations.map((location, index) => (
-              <div key={index} className="geography-item">
-                <div className="location-info">
-                  <span className="country-name">{location.country}</span>
-                  <span className="visit-count">{formatNumber(location.visits)} visits</span>
-                </div>
-                <div className="location-bar">
+        {/* Device Breakdown */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.7 }}
+          className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg"
+        >
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6">
+            Device Usage Breakdown
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {deviceBreakdown.map((device, index) => (
+              <div key={device.name} className="text-center">
+                <div className="flex items-center justify-center mb-4">
                   <div 
-                    className="location-fill"
-                    style={{ width: `${location.percentage}%` }}
-                  ></div>
+                    className="w-20 h-20 rounded-full flex items-center justify-center"
+                    style={{ backgroundColor: device.color }}
+                  >
+                    {device.name === 'Desktop' && <Monitor className="w-10 h-10 text-white" />}
+                    {device.name === 'Mobile' && <Smartphone className="w-10 h-10 text-white" />}
+                    {device.name === 'Tablet' && <Monitor className="w-10 h-10 text-white" />}
+                  </div>
                 </div>
-                <span className="location-percentage">{location.percentage}%</span>
+                <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                  {device.name}
+                </h4>
+                <p className="text-3xl font-bold" style={{ color: device.color }}>
+                  {device.value}%
+                </p>
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
-
-      {/* Real-time Activity Feed */}
-      <div className="activity-feed">
-        <div className="activity-header">
-          <h3>Real-time Activity</h3>
-          <div className="activity-indicator">
-            <span className="pulse small"></span>
-            <span>Live</span>
-          </div>
-        </div>
-        <div className="activity-list">
-          {realTimeData.events.slice(-5).reverse().map((event, index) => (
-            <div key={index} className="activity-item">
-              <div className="activity-icon">
-                {event.type === 'page_view' && '👁️'}
-                {event.type === 'download' && '📥'}
-                {event.type === 'ai_chat' && '🤖'}
-                {event.type === 'click' && '🖱️'}
-              </div>
-              <div className="activity-content">
-                <div className="activity-description">
-                  {event.type === 'page_view' && `Page view: ${event.page}`}
-                  {event.type === 'download' && `Downloaded: ${event.file || 'file'}`}
-                  {event.type === 'ai_chat' && 'AI chat interaction'}
-                  {event.type === 'click' && `Clicked: ${event.element || 'element'}`}
-                </div>
-                <div className="activity-time">
-                  {event.timestamp.toLocaleTimeString()}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
+    </section>
   );
 };
 
