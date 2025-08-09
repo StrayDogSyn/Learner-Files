@@ -1,13 +1,6 @@
 # TODO:
 
-- [x] 1: Create Bio.tsx component from bio.html with TypeScript and existing styling (priority: High)
-- [x] 2: Create Contact.tsx component from contacts.html with form functionality (priority: High)
-- [x] 9: Update App.tsx router to include Bio and Contact routes (priority: High)
-- [x] 3: Create Calculator.tsx component from calculator.html (priority: Medium)
-- [x] 4: Create Knucklebones.tsx component from knucklebones/index.html (priority: Medium)
-- [x] 5: Create CompTIA.tsx component from compTIA.html (priority: Medium)
-- [x] 6: Create QuizNinja.tsx component from quiz-ninja2.1/index.html (priority: Medium)
-- [x] 7: Create RockPaperScissors.tsx component from rps.html (priority: Medium)
-- [x] 8: Create Countdown.tsx component from countdown.html (priority: Medium)
-- [x] 10: Test all migrated components and ensure functionality is preserved (priority: Low)
-- [x] 11: Start development server and verify all components work correctly (priority: Low)
+- [x] 1: Update deploy-github-pages.yml workflow to build React/Vite app instead of Next.js (priority: High)
+- [x] 2: Create 404.html file for client-side routing support (priority: High)
+- [x] 3: Test the build process locally to ensure it works correctly (priority: Medium)
+- [x] 4: Verify the deployment workflow and check if it deploys successfully (priority: Medium)
