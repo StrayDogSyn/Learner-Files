@@ -118,7 +118,7 @@ export class PerformanceObserver {
       const observer = new window.PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
           const navEntry = entry as PerformanceNavigationTiming;
-          this.metrics.timeToInteractive = navEntry.domInteractive - navEntry.navigationStart;
+          this.metrics.timeToInteractive = navEntry.domInteractive - navEntry.fetchStart;
         }
       });
       

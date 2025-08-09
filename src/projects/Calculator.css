@@ -16,6 +16,10 @@
   --button-border-right: #666;
   --button-border-bottom: #333;
   --button-border-left: #858585;
+  --memory-buttons: #4a90e2;
+  --memory-buttons-hover: #357abd;
+  --scientific-buttons: #8e44ad;
+  --scientific-buttons-hover: #732d91;
   --font-size: 40px;
   --font-style: monospace;
 }
@@ -331,6 +335,397 @@
   90% { transform: translateX(-2px); }
 }
 
+/* Mode Selector Styles */
+.mode-selector {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.mode-selector .btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  justify-content: center;
+}
+
+.mode-selector .btn {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  transition: all 0.3s ease;
+}
+
+/* Enhanced Display Styles */
+.calculator-display {
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.display-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+  color: #888;
+}
+
+.mode-indicator {
+  color: #4a90e2;
+  font-weight: bold;
+}
+
+.angle-unit {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+.inv-indicator, .hyp-indicator {
+  background: #f39c12;
+  color: white;
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  font-size: 0.625rem;
+  font-weight: bold;
+}
+
+.operation-history {
+  color: #bbb;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+  min-height: 1.25rem;
+  text-align: right;
+}
+
+/* Memory Display */
+.memory-display {
+  background: rgba(74, 144, 226, 0.1);
+  border: 1px solid rgba(74, 144, 226, 0.3);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #4a90e2;
+}
+
+/* Enhanced Button Styles */
+.calc-button.memory {
+  background: var(--memory-buttons);
+  color: white;
+  border: 1px solid rgba(74, 144, 226, 0.3);
+}
+
+.calc-button.memory:hover {
+  background: var(--memory-buttons-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(74, 144, 226, 0.3);
+}
+
+.calc-button.function.active {
+  background: var(--scientific-buttons);
+  color: white;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.calc-button.function.active:hover {
+  background: var(--scientific-buttons-hover);
+}
+
+/* Scientific function buttons */
+.calc-button.function[data-key="sin"],
+.calc-button.function[data-key="cos"],
+.calc-button.function[data-key="tan"],
+.calc-button.function[data-key="sinh"],
+.calc-button.function[data-key="cosh"],
+.calc-button.function[data-key="tanh"],
+.calc-button.function[data-key="ln"],
+.calc-button.function[data-key="log"],
+.calc-button.function[data-key="sqrt"],
+.calc-button.function[data-key="cbrt"] {
+  background: linear-gradient(135deg, var(--scientific-buttons), var(--scientific-buttons-hover));
+  color: white;
+  font-size: 0.875rem;
+}
+
+.calc-button.function[data-key="sin"]:hover,
+.calc-button.function[data-key="cos"]:hover,
+.calc-button.function[data-key="tan"]:hover,
+.calc-button.function[data-key="sinh"]:hover,
+.calc-button.function[data-key="cosh"]:hover,
+.calc-button.function[data-key="tanh"]:hover,
+.calc-button.function[data-key="ln"]:hover,
+.calc-button.function[data-key="log"]:hover,
+.calc-button.function[data-key="sqrt"]:hover,
+.calc-button.function[data-key="cbrt"]:hover {
+  background: linear-gradient(135deg, var(--scientific-buttons-hover), var(--scientific-buttons));
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(142, 68, 173, 0.3);
+}
+
+/* Constants buttons */
+.calc-button.function[data-key="π"],
+.calc-button.function[data-key="e"] {
+  background: linear-gradient(135deg, #e67e22, #d35400);
+  color: white;
+  font-weight: bold;
+}
+
+.calc-button.function[data-key="π"]:hover,
+.calc-button.function[data-key="e"]:hover {
+  background: linear-gradient(135deg, #d35400, #e67e22);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(230, 126, 34, 0.3);
+}
+
+/* History Panel */
+.history-panel {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-top: 1rem;
+  backdrop-filter: blur(10px);
+}
+
+.history-panel h6 {
+  color: #4a90e2;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: bold;
+}
+
+.history-list {
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.history-item {
+  padding: 0.25rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: #bbb;
+  font-family: monospace;
+}
+
+.history-item:last-child {
+  border-bottom: none;
+}
+
+/* Coming Soon Placeholder */
+.coming-soon {
+  text-align: center;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 1rem;
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+}
+
+.coming-soon h4 {
+  color: #4a90e2;
+  margin-bottom: 1rem;
+}
+
+.coming-soon p {
+  color: #888;
+  margin-bottom: 1.5rem;
+}
+
+/* Feature Cards */
+.feature-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.feature-card:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.feature-card h5 {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.feature-card p {
+  margin-bottom: 0;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+/* Alert Enhancements */
+.alert {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: inherit;
+}
+
+.alert-primary {
+  background: rgba(13, 110, 253, 0.2);
+  border-color: rgba(13, 110, 253, 0.3);
+  color: #b6d7ff;
+}
+
+.alert-info {
+  background: rgba(13, 202, 240, 0.2);
+  border-color: rgba(13, 202, 240, 0.3);
+  color: #b3ecf7;
+}
+
+/* Graphing Mode Styles */
+.graphing-mode {
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  margin-top: 1rem;
+}
+
+.graph-controls {
+  margin-bottom: 1.5rem;
+}
+
+.function-input {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.function-input label {
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.function-input input {
+  flex: 1;
+  min-width: 200px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+  border-radius: 5px;
+  padding: 0.5rem;
+}
+
+.function-input input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.range-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.range-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.range-group label {
+  font-weight: 600;
+  color: var(--text-primary);
+  min-width: 70px;
+}
+
+.range-input {
+  width: 80px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+  border-radius: 5px;
+  padding: 0.25rem 0.5rem;
+  text-align: center;
+}
+
+.range-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.graph-container {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 1rem;
+  min-height: 400px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.no-graph {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-muted);
+}
+
+.no-graph p {
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+}
+
+.example-functions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.example-functions h5 {
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.example-functions .btn {
+  margin: 0.25rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+.example-functions .btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+/* Responsive adjustments for graphing */
+@media (max-width: 768px) {
+  .function-input {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .function-input input {
+    min-width: unset;
+  }
+  
+  .range-group {
+    justify-content: center;
+  }
+  
+  .graph-container {
+    min-height: 300px;
+  }
+  
+  .example-functions {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
 /* Fade in animation */
 .fade-in {
   opacity: 0;
@@ -417,6 +812,24 @@
   .calculator-main-header h1 {
     font-size: 2.5rem;
   }
+  
+  .mode-selector .btn {
+    font-size: 0.625rem;
+    padding: 0.125rem 0.25rem;
+  }
+  
+  .calc-button {
+    font-size: 0.875rem;
+    padding: 0.5rem;
+  }
+  
+  .display-info {
+    font-size: 0.625rem;
+  }
+  
+  .operation-history {
+    font-size: 0.75rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -440,5 +853,19 @@
   
   .card-body {
     padding: 1.5rem;
+  }
+  
+  .mode-selector .btn-group {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .calc-button-row {
+    gap: 0.25rem;
+  }
+  
+  .calc-button {
+    font-size: 0.75rem;
+    padding: 0.375rem;
   }
 }

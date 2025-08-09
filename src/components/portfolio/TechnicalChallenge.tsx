@@ -1,31 +1,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { AlertCircle, CheckCircle, TrendingUp, Code, Lightbulb, Target } from 'lucide-react';
+import { AlertCircle, Lightbulb, Target, Code } from 'lucide-react';
+import { ArchitectureDiagram } from '../../data/architectureDiagrams';
 
 interface TechnicalChallengeProps {
-  projectId: string;
-  challenge: {
-    problem: string;
-    solution: string;
-    impact: string;
-    technologies: string[];
-    metrics?: {
-      before: string;
-      after: string;
-      improvement: string;
-    };
-    codeExample?: {
-      title: string;
-      code: string;
-      language: string;
-    };
-  };
+  architecture: ArchitectureDiagram;
   className?: string;
 }
 
-const TechnicalChallenge: React.FC<TechnicalChallengeProps> = ({
-  projectId,
-  challenge,
+export const TechnicalChallenge: React.FC<TechnicalChallengeProps> = ({
+  architecture,
   className = ''
 }) => {
   const containerVariants = {
@@ -63,11 +47,11 @@ const TechnicalChallenge: React.FC<TechnicalChallengeProps> = ({
       initial="hidden"
       animate="visible"
       role="article"
-      aria-labelledby={`challenge-title-${projectId}`}
+      aria-labelledby={`challenge-title-${architecture.id}`}
     >
       <div className="glass-panel p-8 rounded-2xl border border-white/20 backdrop-blur-lg bg-white/5">
         <motion.h3
-          id={`challenge-title-${projectId}`}
+          id={`challenge-title-${architecture.id}`}
           className="text-2xl font-bold text-white mb-6 flex items-center gap-3"
           variants={itemVariants}
         >
@@ -75,138 +59,72 @@ const TechnicalChallenge: React.FC<TechnicalChallengeProps> = ({
           Technical Challenge
         </motion.h3>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Problem Section */}
-          <motion.div
-            className="challenge-section"
-            variants={itemVariants}
-            whileHover={cardVariants.hover}
-          >
-            <div className="glass-card p-6 rounded-xl bg-red-500/10 border border-red-500/20 h-full">
-              <div className="flex items-center gap-3 mb-4">
-                <AlertCircle className="w-5 h-5 text-red-400" />
-                <h4 className="text-lg font-semibold text-red-300">Problem</h4>
-              </div>
-              <p className="text-gray-300 leading-relaxed">
-                {challenge.problem}
-              </p>
-            </div>
-          </motion.div>
+        {/* Technical Challenges */}
+        <div className="space-y-6">
+          {architecture.technicalChallenges.map((challenge, index) => (
+            <motion.div
+              key={index}
+              className="challenge-item"
+              variants={itemVariants}
+            >
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Problem Section */}
+                <motion.div
+                  className="challenge-section"
+                  whileHover={cardVariants.hover}
+                >
+                  <div className="glass-card p-6 rounded-xl bg-red-500/10 border border-red-500/20 h-full">
+                    <div className="flex items-center gap-3 mb-4">
+                      <AlertCircle className="w-5 h-5 text-red-400" />
+                      <h4 className="text-lg font-semibold text-red-300">Challenge</h4>
+                    </div>
+                    <p className="text-gray-300 leading-relaxed">
+                      {challenge.challenge}
+                    </p>
+                  </div>
+                </motion.div>
 
-          {/* Solution Section */}
-          <motion.div
-            className="challenge-section"
-            variants={itemVariants}
-            whileHover={cardVariants.hover}
-          >
-            <div className="glass-card p-6 rounded-xl bg-blue-500/10 border border-blue-500/20 h-full">
-              <div className="flex items-center gap-3 mb-4">
-                <Lightbulb className="w-5 h-5 text-blue-400" />
-                <h4 className="text-lg font-semibold text-blue-300">Solution</h4>
-              </div>
-              <p className="text-gray-300 leading-relaxed mb-4">
-                {challenge.solution}
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {challenge.technologies.map((tech, index) => (
-                  <span
-                    key={index}
-                    className="px-3 py-1 text-xs font-medium bg-blue-500/20 text-blue-300 rounded-full border border-blue-500/30"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </motion.div>
+                {/* Solution Section */}
+                <motion.div
+                  className="challenge-section"
+                  whileHover={cardVariants.hover}
+                >
+                  <div className="glass-card p-6 rounded-xl bg-blue-500/10 border border-blue-500/20 h-full">
+                    <div className="flex items-center gap-3 mb-4">
+                      <Lightbulb className="w-5 h-5 text-blue-400" />
+                      <h4 className="text-lg font-semibold text-blue-300">Solution</h4>
+                    </div>
+                    <p className="text-gray-300 leading-relaxed">
+                       {challenge.solution}
+                     </p>
+                  </div>
+                </motion.div>
 
-          {/* Impact Section */}
-          <motion.div
-            className="challenge-section"
-            variants={itemVariants}
-            whileHover={cardVariants.hover}
-          >
-            <div className="glass-card p-6 rounded-xl bg-green-500/10 border border-green-500/20 h-full">
-              <div className="flex items-center gap-3 mb-4">
-                <Target className="w-5 h-5 text-green-400" />
-                <h4 className="text-lg font-semibold text-green-300">Impact</h4>
+                {/* Impact Section */}
+                <motion.div
+                  className="challenge-section"
+                  whileHover={cardVariants.hover}
+                >
+                  <div className="glass-card p-6 rounded-xl bg-green-500/10 border border-green-500/20 h-full">
+                    <div className="flex items-center gap-3 mb-4">
+                      <Target className="w-5 h-5 text-green-400" />
+                      <h4 className="text-lg font-semibold text-green-300">Impact</h4>
+                    </div>
+                    <p className="text-gray-300 leading-relaxed">
+                      {challenge.impact}
+                    </p>
+                  </div>
+                </motion.div>
               </div>
-              <p className="text-gray-300 leading-relaxed">
-                {challenge.impact}
-              </p>
-            </div>
-          </motion.div>
+            </motion.div>
+          ))}
         </div>
 
-        {/* Metrics Section */}
-        {challenge.metrics && (
-          <motion.div
-            className="metrics-section mt-8"
-            variants={itemVariants}
-          >
-            <div className="glass-card p-6 rounded-xl bg-hunter-green-primary/10 border border-hunter-green-primary/20">
-              <div className="flex items-center gap-3 mb-4">
-                <TrendingUp className="w-5 h-5 text-hunter-green-primary" />
-                <h4 className="text-lg font-semibold text-hunter-green-primary">Performance Metrics</h4>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="metric-item text-center">
-                  <div className="text-2xl font-bold text-red-400 mb-1">
-                    {challenge.metrics.before}
-                  </div>
-                  <div className="text-sm text-gray-400">Before</div>
-                </div>
-                <div className="metric-item text-center">
-                  <div className="text-2xl font-bold text-green-400 mb-1">
-                    {challenge.metrics.after}
-                  </div>
-                  <div className="text-sm text-gray-400">After</div>
-                </div>
-                <div className="metric-item text-center">
-                  <div className="text-2xl font-bold text-hunter-green-primary mb-1">
-                    {challenge.metrics.improvement}
-                  </div>
-                  <div className="text-sm text-gray-400">Improvement</div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        )}
 
-        {/* Code Example Section */}
-        {challenge.codeExample && (
-          <motion.div
-            className="code-example-section mt-8"
-            variants={itemVariants}
-          >
-            <div className="glass-card p-6 rounded-xl bg-charcoal-primary/20 border border-charcoal-primary/30">
-              <div className="flex items-center gap-3 mb-4">
-                <CheckCircle className="w-5 h-5 text-metallic-gold" />
-                <h4 className="text-lg font-semibold text-metallic-gold">
-                  {challenge.codeExample.title}
-                </h4>
-              </div>
-              <div className="relative">
-                <pre className="bg-gray-900/50 p-4 rounded-lg overflow-x-auto border border-gray-700/50">
-                  <code className={`language-${challenge.codeExample.language} text-sm text-gray-300`}>
-                    {challenge.codeExample.code}
-                  </code>
-                </pre>
-                <div className="absolute top-2 right-2">
-                  <span className="px-2 py-1 text-xs bg-gray-700/80 text-gray-300 rounded">
-                    {challenge.codeExample.language}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        )}
       </div>
     </motion.div>
   );
 };
-
-export default TechnicalChallenge;
 
 // Example usage data structure for reference:
 /*

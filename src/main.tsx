@@ -16,7 +16,7 @@ skipLink.textContent = 'Skip to main content';
 document.body.insertBefore(skipLink, document.body.firstChild);
 
 // Initialize accessibility utilities
-accessibilityPreferences.loadPreferences();
+// Preferences are automatically loaded in the constructor
 
 // Initialize cross-browser compatibility
 initializeCompatibility();
