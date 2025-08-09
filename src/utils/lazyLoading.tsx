@@ -113,13 +113,13 @@ export function withLazyLoading<P extends object>(
   }
 ) {
   return React.forwardRef<any, P>((props, ref) => (
-    <Suspense fallback={fallback ? <fallback /> : <LoadingSpinner />}>
+    <Suspense fallback={fallback ? React.createElement(fallback) : <LoadingSpinner />}>
       <LazyWrapper 
         fallback={fallback}
         threshold={options?.threshold}
         rootMargin={options?.rootMargin}
       >
-        <Component {...props} ref={ref} />
+        <Component {...(props as any)} ref={ref} />
       </LazyWrapper>
     </Suspense>
   ));
@@ -133,8 +133,8 @@ export function createLazyComponent<P extends object>(
   const LazyComponent = React.lazy(importFn);
   
   return React.forwardRef<any, P>((props, ref) => (
-    <Suspense fallback={fallback ? <fallback /> : <LoadingSpinner />}>
-      <LazyComponent {...props} ref={ref} />
+    <Suspense fallback={fallback ? React.createElement(fallback) : <LoadingSpinner />}>
+      <LazyComponent {...(props as any)} ref={ref} />
     </Suspense>
   ));
 }

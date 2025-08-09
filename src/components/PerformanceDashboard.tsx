@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import PerformanceMonitor from '../utils/performance';
+import { performanceMonitor } from '../utils/performance';
 
 interface PerformanceData {
   LCP?: number;
@@ -17,7 +17,7 @@ const PerformanceDashboard: React.FC = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const currentMetrics = PerformanceMonitor.getMetrics();
+      const currentMetrics = performanceMonitor.getMetrics();
       setMetrics(currentMetrics);
     }, 1000);
 

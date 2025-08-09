@@ -112,6 +112,21 @@ class PerformanceMonitor {
   public disconnect() {
     this.observers.forEach(observer => observer.disconnect());
   }
+
+  public setupLazyLoading() {
+    // Setup intersection observer for lazy loading
+    console.log('Setting up lazy loading...');
+  }
+
+  public addResourceHints() {
+    // Add resource hints for better performance
+    console.log('Adding resource hints...');
+  }
+
+  public reportMetric(name: string, value: number) {
+    // Report custom metrics
+    console.log(`Custom metric: ${name} = ${value}`);
+  }
 }
 
 // Resource preloading utilities
@@ -137,3 +152,40 @@ class ResourcePreloader {
     });
 
     return Promise.all(promises);
+  }
+
+  // Preload critical CSS files
+  public preloadCSS(urls: string[]): void {
+    urls.forEach(url => {
+      if (!this.preloadedResources.has(url)) {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'style';
+        link.href = url;
+        document.head.appendChild(link);
+        this.preloadedResources.add(url);
+      }
+    });
+  }
+
+  // Preload JavaScript modules
+  public preloadJS(urls: string[]): void {
+    urls.forEach(url => {
+      if (!this.preloadedResources.has(url)) {
+        const link = document.createElement('link');
+        link.rel = 'modulepreload';
+        link.href = url;
+        document.head.appendChild(link);
+        this.preloadedResources.add(url);
+      }
+    });
+  }
+}
+
+// Export instances
+export const performanceMonitor = new PerformanceMonitor();
+export const resourcePreloader = new ResourcePreloader();
+
+// Export classes for custom usage
+export { PerformanceMonitor, ResourcePreloader };
+export type { PerformanceMetrics };

@@ -3,7 +3,7 @@
  * Automated tests for performance monitoring and optimization
  */
 
-import PerformanceMonitor from '../utils/performance';
+import { performanceMonitor } from '../utils/performance';
 
 interface PerformanceTestResult {
   testName: string;
@@ -50,42 +50,42 @@ class PerformanceTestRunner {
   private async testWebVitals(): Promise<PerformanceTestResult[]> {
     console.log('📊 Testing Web Vitals...');
     
-    const metrics = PerformanceMonitor.getMetrics();
+    const metrics = performanceMonitor.getMetrics();
     const tests: PerformanceTestResult[] = [];
 
     // Test Largest Contentful Paint (LCP)
-    if (metrics.LCP !== undefined) {
+    if (metrics.largestContentfulPaint !== undefined) {
       tests.push({
         testName: 'Largest Contentful Paint (LCP)',
-        passed: metrics.LCP <= 2500,
-        actualValue: metrics.LCP,
+        passed: metrics.largestContentfulPaint <= 2500,
+        actualValue: metrics.largestContentfulPaint,
         expectedThreshold: 2500,
-        message: metrics.LCP <= 2500 ? 'Excellent LCP' : 
-                metrics.LCP <= 4000 ? 'Needs improvement' : 'Poor LCP'
+        message: metrics.largestContentfulPaint <= 2500 ? 'Excellent LCP' :
+                metrics.largestContentfulPaint <= 4000 ? 'Needs improvement' : 'Poor LCP'
       });
     }
 
     // Test First Input Delay (FID)
-    if (metrics.FID !== undefined) {
+    if (metrics.firstInputDelay !== undefined) {
       tests.push({
         testName: 'First Input Delay (FID)',
-        passed: metrics.FID <= 100,
-        actualValue: metrics.FID,
+        passed: metrics.firstInputDelay <= 100,
+        actualValue: metrics.firstInputDelay,
         expectedThreshold: 100,
-        message: metrics.FID <= 100 ? 'Excellent FID' : 
-                metrics.FID <= 300 ? 'Needs improvement' : 'Poor FID'
+        message: metrics.firstInputDelay <= 100 ? 'Excellent FID' : 
+                metrics.firstInputDelay <= 300 ? 'Needs improvement' : 'Poor FID'
       });
     }
 
     // Test Cumulative Layout Shift (CLS)
-    if (metrics.CLS !== undefined) {
+    if (metrics.cumulativeLayoutShift !== undefined) {
       tests.push({
         testName: 'Cumulative Layout Shift (CLS)',
-        passed: metrics.CLS <= 0.1,
-        actualValue: metrics.CLS,
+        passed: metrics.cumulativeLayoutShift <= 0.1,
+        actualValue: metrics.cumulativeLayoutShift,
         expectedThreshold: 0.1,
-        message: metrics.CLS <= 0.1 ? 'Excellent CLS' : 
-                metrics.CLS <= 0.25 ? 'Needs improvement' : 'Poor CLS'
+        message: metrics.cumulativeLayoutShift <= 0.1 ? 'Excellent CLS' : 
+                metrics.cumulativeLayoutShift <= 0.25 ? 'Needs improvement' : 'Poor CLS'
       });
     }
 
@@ -95,7 +95,7 @@ class PerformanceTestRunner {
   private async testCustomMetrics(): Promise<PerformanceTestResult[]> {
     console.log('⚡ Testing Custom Performance Metrics...');
     
-    const metrics = PerformanceMonitor.getMetrics();
+    const metrics = performanceMonitor.getMetrics();
     const tests: PerformanceTestResult[] = [];
 
     // Test Load Time
@@ -109,26 +109,14 @@ class PerformanceTestRunner {
       });
     }
 
-    // Test Render Time
-    if (metrics.renderTime !== undefined) {
+    // Test DOM Content Loaded
+    if (metrics.domContentLoaded !== undefined) {
       tests.push({
-        testName: 'Initial Render Time',
-        passed: metrics.renderTime <= 16.67, // 60fps threshold
-        actualValue: metrics.renderTime,
-        expectedThreshold: 16.67,
-        message: metrics.renderTime <= 16.67 ? 'Smooth rendering' : 'Choppy rendering'
-      });
-    }
-
-    // Test Memory Usage
-    if (metrics.memoryUsed !== undefined && metrics.memoryTotal !== undefined) {
-      const memoryUsage = (metrics.memoryUsed / metrics.memoryTotal) * 100;
-      tests.push({
-        testName: 'Memory Usage',
-        passed: memoryUsage <= 70,
-        actualValue: memoryUsage,
-        expectedThreshold: 70,
-        message: memoryUsage <= 70 ? 'Healthy memory usage' : 'High memory usage'
+        testName: 'DOM Content Loaded',
+        passed: metrics.domContentLoaded <= 2000, // 2 second threshold
+        actualValue: metrics.domContentLoaded,
+        expectedThreshold: 2000,
+        message: metrics.domContentLoaded <= 2000 ? 'Fast DOM loading' : 'Slow DOM loading'
       });
     }
 

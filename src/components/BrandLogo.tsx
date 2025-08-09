@@ -31,38 +31,20 @@ const BrandLogo: React.FC<BrandLogoProps> = ({
     initial: { opacity: 0, scale: 0.8 },
     animate: { 
       opacity: 1, 
-      scale: 1,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut"
-      }
+      scale: 1
     },
     hover: {
-      scale: 1.05,
-      transition: {
-        duration: 0.2,
-        ease: "easeInOut"
-      }
+      scale: 1.05
     }
   };
 
   const iconVariants = {
     initial: { rotate: 0 },
     animate: {
-      rotate: [0, 10, -10, 0],
-      transition: {
-        duration: 2,
-        repeat: Infinity,
-        repeatDelay: 3,
-        ease: "easeInOut"
-      }
+      rotate: [0, 10, -10, 0]
     },
     hover: {
-      rotate: 360,
-      transition: {
-        duration: 0.8,
-        ease: "easeInOut"
-      }
+      rotate: 360
     }
   };
 
@@ -70,12 +52,7 @@ const BrandLogo: React.FC<BrandLogoProps> = ({
     initial: { opacity: 0, x: -20 },
     animate: {
       opacity: 1,
-      x: 0,
-      transition: {
-        duration: 0.6,
-        delay: 0.3,
-        ease: "easeOut"
-      }
+      x: 0
     }
   };
 
@@ -83,12 +60,7 @@ const BrandLogo: React.FC<BrandLogoProps> = ({
     initial: { opacity: 0, y: 10 },
     animate: {
       opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        delay: 0.6,
-        ease: "easeOut"
-      }
+      y: 0
     }
   };
 

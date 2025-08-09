@@ -7,6 +7,12 @@ import Bio from "@/pages/Bio";
 import Contact from "@/pages/Contact";
 import Navigation from "@/components/Navigation";
 import BrandLogo from "@/components/BrandLogo";
+// Flagship Applications
+import Calculator from "@/projects/Calculator";
+import QuizNinja from "@/projects/QuizNinja";
+import Countdown from "@/projects/Countdown";
+import Knucklebones from "@/projects/Knucklebones";
+import CompTIA from "@/projects/CompTIA";
 import "./css/brand-system.css";
 import "./css/hero.css";
 import "./css/projects.css";
@@ -52,6 +58,12 @@ export default function App() {
             <Route path="/portfolio" element={<Portfolio />} />
             <Route path="/bio" element={<Bio />} />
             <Route path="/contact" element={<Contact />} />
+            {/* Flagship Applications Routes */}
+            <Route path="/calculator" element={<Calculator />} />
+            <Route path="/quiz-ninja" element={<QuizNinja />} />
+            <Route path="/countdown" element={<Countdown />} />
+            <Route path="/knucklebones" element={<Knucklebones />} />
+            <Route path="/comptia-trainer" element={<CompTIA />} />
             <Route path="/other" element={<div className="text-center text-xl text-white">Other Page - Coming Soon</div>} />
           </Routes>
         </main>

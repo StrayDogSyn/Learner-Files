@@ -4,7 +4,7 @@
  */
 
 import React, { useEffect, useState, useCallback } from 'react';
-import PerformanceMonitor from '../utils/performance';
+import { performanceMonitor } from '../utils/performance';
 import { usePerformance } from '../hooks/usePerformance';
 import PerformanceDashboard from '../components/PerformanceDashboard';
 import { PerformanceTestRunner, type PerformanceTestSuite } from '../tests/performance.test';
@@ -37,7 +37,7 @@ const PerformanceOptimizationExample: React.FC = () => {
         setupLazyLoadingForImages();
 
         // 2. Add resource hints
-        PerformanceMonitor.addResourceHints();
+        performanceMonitor.addResourceHints();
 
         // 3. Register service worker for caching
         await registerServiceWorker();
@@ -76,7 +76,7 @@ const PerformanceOptimizationExample: React.FC = () => {
       }
     });
 
-    PerformanceMonitor.setupLazyLoading();
+    performanceMonitor.setupLazyLoading();
     console.log(`📷 Lazy loading setup for ${images.length} images`);
   };
 
