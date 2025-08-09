@@ -183,7 +183,7 @@ const Bio: React.FC = () => {
     }, 4000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [learningGoals.length]);
 
   const getSkillColor = (category: string) => {
     switch (category) {
