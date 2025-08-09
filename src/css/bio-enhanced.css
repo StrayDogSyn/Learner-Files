@@ -71,6 +71,7 @@
 /* Fun Facts and Learning Goals */
 .fun-fact-container, .learning-goal-container {
   transition: all 0.3s ease;
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
 }
 
@@ -129,6 +130,7 @@
 .skill-card {
   transition: all 0.3s ease;
   border-left: 4px solid transparent;
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
 }
 
@@ -159,6 +161,7 @@
 /* CodeWars Stats */
 .stat-item {
   transition: all 0.3s ease;
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
 }
 
@@ -181,6 +184,7 @@
 /* Favorite Tools */
 .tool-card {
   transition: all 0.3s ease;
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -201,6 +205,7 @@
 
 /* Call to Action */
 .cta-section .bg-dark {
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }

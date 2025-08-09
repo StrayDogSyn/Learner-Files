@@ -294,6 +294,7 @@
 /* Navigation Components */
 .nav-main {
   background: rgba(13, 17, 23, 0.95);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--gray-800);
   padding: var(--space-4) 0;
@@ -302,6 +303,24 @@
   width: 100%;
   z-index: 1000;
 }
+
+/* Progress Indicator */
+.progress-indicator {
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+.progress-indicator[data-progress="0"] { width: 0%; }
+.progress-indicator[data-progress="10"] { width: 10%; }
+.progress-indicator[data-progress="20"] { width: 20%; }
+.progress-indicator[data-progress="30"] { width: 30%; }
+.progress-indicator[data-progress="40"] { width: 40%; }
+.progress-indicator[data-progress="50"] { width: 50%; }
+.progress-indicator[data-progress="60"] { width: 60%; }
+.progress-indicator[data-progress="70"] { width: 70%; }
+.progress-indicator[data-progress="80"] { width: 80%; }
+.progress-indicator[data-progress="90"] { width: 90%; }
+.progress-indicator[data-progress="100"] { width: 100%; }
 
 .nav-brand {
   font-family: var(--font-heading);

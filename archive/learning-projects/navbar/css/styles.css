@@ -1,3 +1,5 @@
+@import url('../../../css/modern.css');
+
 *,
 html {
   padding: 0;
@@ -181,8 +183,6 @@ ul li:hover {
   color: #2b2c2b;
   transform: scale(1.05);
 }
-
-@import url('../../../css/modern.css');
 
 .navbar {
   position: sticky;

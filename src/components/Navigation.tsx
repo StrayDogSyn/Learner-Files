@@ -130,8 +130,10 @@ const useActiveSection = () => {
 
 // Components
 const ProgressIndicator: React.FC<{ progress: number }> = ({ progress }) => (
-  <div className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-hunter-green via-emerald-accent to-metallic-silver transition-all duration-300"
-       style={{ width: `${progress}%` }} />
+  <div 
+    className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-hunter-green via-emerald-accent to-metallic-silver progress-indicator"
+    data-progress={progress}
+  />
 );
 
 const Breadcrumbs: React.FC<{ items: BreadcrumbItem[] }> = ({ items }) => (
@@ -226,6 +228,8 @@ const MobileMenu: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen
               <button
                 onClick={onClose}
                 className="glass-button p-2 rounded-full transition-colors"
+                aria-label="Close menu"
+                title="Close menu"
               >
                 <X className="w-5 h-5 text-light-smoke" />
               </button>
@@ -249,7 +253,11 @@ const MobileMenu: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen
             </nav>
             
             <div className="p-6 glass-mobile-footer">
-              <button className="w-full flex items-center justify-center space-x-2 px-4 py-3 glass-button-primary text-white rounded-lg hover:shadow-lg transition-all duration-200">
+              <button 
+                className="w-full flex items-center justify-center space-x-2 px-4 py-3 glass-button-primary text-white rounded-lg hover:shadow-lg transition-all duration-200"
+                aria-label="Open AI Assistant"
+                title="Open AI Assistant"
+              >
                 <MessageCircle className="w-4 h-4" />
                 <span>AI Assistant</span>
               </button>

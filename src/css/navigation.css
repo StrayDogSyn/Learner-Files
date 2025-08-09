@@ -200,6 +200,7 @@
   align-items: center;
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.5);
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
 }
 
@@ -247,6 +248,7 @@
   inset: 0;
   z-index: 40;
   background-color: rgba(0, 0, 0, 0.5);
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
 }
 
@@ -259,6 +261,7 @@
   max-width: 80vw;
   z-index: 50;
   background-color: rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
   border-left: 1px solid rgba(255, 255, 255, 0.2);
   display: flex;
@@ -337,6 +340,7 @@
   margin-top: 0.5rem;
   width: 16rem;
   background-color: rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 0.5rem;
