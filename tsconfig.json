@@ -35,8 +35,10 @@
   "include": [
     "src/**/*",
     "src/**/*.ts",
-    "src/**/*.tsx"
+    "src/**/*.tsx",
+    "src/types/**/*.d.ts"
   ],
+  "types": ["@testing-library/jest-dom"],
   "exclude": [
     "node_modules",
     "dist",
