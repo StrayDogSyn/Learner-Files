@@ -1,0 +1,128 @@
+{
+  "performance": {
+    "monitoring": {
+      "enabled": true,
+      "sampleRate": 1.0,
+      "reportInterval": 30000,
+      "webVitals": {
+        "enabled": true,
+        "thresholds": {
+          "LCP": {
+            "good": 2500,
+            "poor": 4000
+          },
+          "FID": {
+            "good": 100,
+            "poor": 300
+          },
+          "CLS": {
+            "good": 0.1,
+            "poor": 0.25
+          }
+        }
+      },
+      "customMetrics": {
+        "loadTime": {
+          "enabled": true,
+          "threshold": 3000
+        },
+        "renderTime": {
+          "enabled": true,
+          "threshold": 16.67
+        },
+        "memoryUsage": {
+          "enabled": true,
+          "warningThreshold": 0.7,
+          "criticalThreshold": 0.9,
+          "checkInterval": 10000
+        }
+      }
+    },
+    "optimization": {
+      "lazyLoading": {
+        "enabled": true,
+        "rootMargin": "50px",
+        "threshold": 0.1
+      },
+      "resourceHints": {
+        "enabled": true,
+        "preconnectDomains": [
+          "https://api.github.com",
+          "https://www.googletagmanager.com"
+        ],
+        "dnsPrefetchDomains": [
+          "https://fonts.googleapis.com",
+          "https://fonts.gstatic.com"
+        ],
+        "preloadResources": [
+          {
+            "href": "/fonts/main.woff2",
+            "as": "font",
+            "type": "font/woff2",
+            "crossorigin": "anonymous"
+          }
+        ]
+      },
+      "caching": {
+        "enabled": true,
+        "version": "1.0.0",
+        "staticCacheTTL": 86400000,
+        "dynamicCacheTTL": 3600000,
+        "strategies": {
+          "images": "cache-first",
+          "documents": "network-first",
+          "api": "network-first",
+          "static": "cache-first"
+        }
+      },
+      "compression": {
+        "enabled": true,
+        "algorithms": ["gzip", "brotli"],
+        "level": 6
+      }
+    },
+    "analytics": {
+      "enabled": true,
+      "endpoint": "/api/analytics/performance",
+      "batchSize": 10,
+      "flushInterval": 60000,
+      "includeUserAgent": true,
+      "includeConnectionType": true,
+      "includeTiming": true
+    },
+    "alerts": {
+      "enabled": true,
+      "thresholds": {
+        "loadTimeWarning": 5000,
+        "loadTimeCritical": 10000,
+        "memoryUsageWarning": 0.8,
+        "memoryUsageCritical": 0.95,
+        "errorRateWarning": 0.05,
+        "errorRateCritical": 0.1
+      },
+      "notifications": {
+        "console": true,
+        "push": false,
+        "email": false
+      }
+    },
+    "testing": {
+      "enabled": true,
+      "autoRun": true,
+      "runOnLoad": true,
+      "interval": 300000,
+      "thresholds": {
+        "passScore": 70,
+        "goodScore": 85,
+        "excellentScore": 95
+      }
+    },
+    "debug": {
+      "enabled": false,
+      "verbose": false,
+      "logLevel": "info",
+      "showTimelines": false,
+      "trackFunctionCalls": false
+    }
+  }
+}

@@ -1,0 +1,370 @@
+/* Rock Paper Scissors Component Styles */
+@import url('../../../css/modern.css');
+
+/* Game-specific variables */
+:root {
+  --win-color: hsla(120, 100%, 50%, 1);
+  --tie-color: hsla(60, 100%, 50%, 1);
+  --lose-color: hsla(0, 100%, 50%, 1);
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --radius-md: 0.5rem;
+  --primary-bg: #3b82f6;
+  --border-color: #d1d5db;
+  --text-primary: #1f2937;
+}
+
+.rps-container {
+  min-height: 100vh;
+  background: 
+    url('../../../assets/images/bg-btm.svg') bottom right no-repeat fixed,
+    url('../../../assets/images/bg-top.svg') left top no-repeat fixed,
+    linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+}
+
+.game-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-md);
+}
+
+/* Header Styling */
+.game-header {
+  position: relative;
+  overflow: hidden;
+  padding: 1.5rem 1rem !important;
+  margin-bottom: 2rem !important;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-md);
+}
+
+.game-header h1 {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.game-header p {
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Canvas Styling */
+.canvas {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Navigation Toggle */
+.top-label {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  cursor: pointer;
+  font-size: 2rem;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 0.5rem;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.top-label:hover {
+  background: rgba(0, 0, 0, 0.7);
+  transform: scale(1.1);
+}
+
+.top-hidden-nav {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 320px;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(10px);
+  padding: 2rem;
+  z-index: 999;
+  overflow-y: auto;
+  color: white;
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Game Choice Buttons */
+.game-choice-buttons {
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.game-choice-buttons .btn {
+  min-width: 80px;
+  padding: 0.75rem 1rem;
+  transition: all 0.3s ease;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  color: white;
+}
+
+.game-choice-buttons .btn:hover:not(:disabled) {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  color: rgba(51, 170, 51, 0.9);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.game-choice-buttons .btn:active {
+  transform: translateY(-2px) scale(1.02);
+}
+
+.game-choice-buttons .btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Choice Display */
+.choice-display {
+  text-align: center;
+  padding: var(--space-md);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  border-radius: var(--radius-md);
+  margin: 0 var(--space-sm);
+  animation: slideUp 0.5s ease;
+}
+
+.choice-display p {
+  margin: 0;
+  color: white;
+  font-weight: bold;
+}
+
+/* Scoreboard */
+.scorecard {
+  background: var(--primary-bg);
+  backdrop-filter: blur(10px);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  box-shadow: 8px 12px 4px hsla(120, 100%, 0%, 0.7);
+  margin-top: var(--space-md);
+}
+
+.won {
+  color: var(--win-color);
+}
+
+.tied {
+  color: var(--tie-color);
+}
+
+.lose {
+  color: var(--lose-color);
+}
+
+/* Result Icons */
+.result-icon {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+.result-win {
+  width: 120px;
+  height: 120px;
+  animation: spin 1s ease-in-out, fadeIn 0.5s ease;
+}
+
+.result-lose {
+  animation: spin 1s ease-in-out, fadeIn 0.5s ease;
+}
+
+.result-icon.show {
+  display: block !important;
+}
+
+/* Button Effects */
+.btn:hover {
+  text-decoration: underline;
+}
+
+.title {
+  z-index: 101;
+  box-shadow: 8px 12px 4px hsla(120, 100%, 0%, 0.7);
+  text-align: center;
+  margin: var(--space-lg) 0;
+  animation: fadeIn 0.5s ease;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+}
+
+.title span {
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.title i {
+  color: #ffd700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Card Styling */
+.card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-body {
+  color: white;
+}
+
+/* Feedback Section */
+.figure h2 {
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  padding: var(--space-sm);
+  border-radius: var(--radius-md);
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* E-Wreck Styling */
+.fab.fa-mandalorian {
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+.fab.fa-mandalorian:hover {
+  color: #dc3545 !important;
+  text-shadow: 0 0 10px rgba(220, 53, 69, 0.5);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .game-choice-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .game-choice-buttons .btn {
+    width: 200px;
+    margin-bottom: 1rem;
+  }
+  
+  .fa-4x {
+    font-size: 3em !important;
+  }
+  
+  .top-hidden-nav {
+    width: 100%;
+  }
+  
+  .game-container {
+    padding: var(--space-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  .game-choice-buttons .btn {
+    width: 100%;
+    margin-bottom: var(--space-sm);
+  }
+  
+  .scorecard {
+    font-size: 0.9rem;
+  }
+  
+  .title {
+    padding: var(--space-sm);
+  }
+  
+  .display-6 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Animations */
+@keyframes spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease;
+}
+
+/* Text Utilities */
+.text-center {
+  text-align: center;
+}
+
+.initialism {
+  font-variant: small-caps;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.fw-bold {
+  font-weight: bold;
+}
+
+.small {
+  font-size: 0.875rem;
+}
+
+.lead {
+  font-size: 1.25rem;
+  font-weight: 300;
+}
+
+/* Box Shadow Utility */
+.box-shadow {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Background Utility */
+.background {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Section Modern */
+.section-modern {
+  margin: var(--space-lg) 0;
+}

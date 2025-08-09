@@ -7,6 +7,6 @@
 - [x] 4: Create Knucklebones.tsx component from knucklebones/index.html (priority: Medium)
 - [x] 5: Create CompTIA.tsx component from compTIA.html (priority: Medium)
 - [x] 6: Create QuizNinja.tsx component from quiz-ninja2.1/index.html (priority: Medium)
-- [ ] 7: Create RockPaperScissors.tsx component from rps.html (**IN PROGRESS**) (priority: Medium)
-- [ ] 8: Create Countdown.tsx component from countdown.html (priority: Medium)
+- [x] 7: Create RockPaperScissors.tsx component from rps.html (priority: Medium)
+- [ ] 8: Create Countdown.tsx component from countdown.html (**IN PROGRESS**) (priority: Medium)
 - [ ] 10: Test all migrated components and ensure functionality is preserved (priority: Low)
