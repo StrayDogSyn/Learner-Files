@@ -2,8 +2,8 @@
 
 - [x] 1: Create Bio.tsx component from bio.html with TypeScript and existing styling (priority: High)
 - [x] 2: Create Contact.tsx component from contacts.html with form functionality (priority: High)
-- [ ] 9: Update App.tsx router to include Bio and Contact routes (**IN PROGRESS**) (priority: High)
-- [ ] 3: Create Calculator.tsx component from calculator.html (priority: Medium)
+- [x] 9: Update App.tsx router to include Bio and Contact routes (priority: High)
+- [ ] 3: Create Calculator.tsx component from calculator.html (**IN PROGRESS**) (priority: Medium)
 - [ ] 4: Create Knucklebones.tsx component from knucklebones/index.html (priority: Medium)
 - [ ] 5: Create CompTIA.tsx component from compTIA.html (priority: Medium)
 - [ ] 6: Create QuizNinja.tsx component from quiz-ninja2.1/index.html (priority: Medium)
