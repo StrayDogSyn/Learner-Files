@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Trophy,
@@ -11,12 +11,10 @@ import {
   Target,
   TrendingUp,
   Award,
-  Zap,
-  Shield
+  Zap
 } from 'lucide-react';
 import {
   Tournament,
-  TournamentBracket,
   TournamentMatch,
   Player,
   TournamentSettings,
@@ -55,7 +53,7 @@ const TournamentCreator: React.FC<TournamentCreatorProps> = ({
 }) => {
   const [settings, setSettings] = useState<Partial<TournamentSettings>>({
     name: '',
-    type: 'single_elimination',
+    type: 'single-elimination',
     maxPlayers: 8,
     entryFee: 0,
     prizePool: 0,
@@ -82,7 +80,7 @@ const TournamentCreator: React.FC<TournamentCreatorProps> = ({
       newErrors.players = 'At least 2 players are required';
     }
 
-    if (settings.type === 'single_elimination' && selectedPlayers.length > 0) {
+    if (settings.type === 'single-elimination' && selectedPlayers.length > 0) {
       const powerOfTwo = Math.pow(2, Math.ceil(Math.log2(selectedPlayers.length)));
       if (selectedPlayers.length !== powerOfTwo) {
         newErrors.players = `Single elimination requires a power of 2 players (2, 4, 8, 16, etc.). Current: ${selectedPlayers.length}`;
@@ -171,7 +169,7 @@ const TournamentCreator: React.FC<TournamentCreatorProps> = ({
               <select
                 id="tournament-type"
                 value={settings.type || 'single_elimination'}
-                onChange={(e) => setSettings(prev => ({ ...prev, type: e.target.value as any }))}
+                onChange={(e) => setSettings(prev => ({ ...prev, type: e.target.value as 'single-elimination' | 'double-elimination' | 'round-robin' }))}
                 aria-label="Select tournament type"
                 title="Choose tournament format"
                 className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -548,7 +546,7 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ entries, rankingSystem, timef
         <div className="flex gap-2">
           <select
             value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as any)}
+            onChange={(e) => setSortBy(e.target.value as 'rank' | 'rating' | 'wins' | 'winRate')}
             className="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
             aria-label="Sort leaderboard by"
             title="Sort leaderboard by"
@@ -561,7 +559,7 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ entries, rankingSystem, timef
           
           <select
             value={filterType}
-            onChange={(e) => setFilterType(e.target.value as any)}
+            onChange={(e) => setFilterType(e.target.value as 'all' | 'human' | 'ai')}
             className="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
             aria-label="Filter player type"
             title="Filter player type"
@@ -820,7 +818,7 @@ const TournamentSystem: React.FC<TournamentSystemProps> = ({
           return (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
+              onClick={() => setActiveTab(tab.id as 'tournaments' | 'bracket' | 'leaderboard')}
               className={`flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-md transition-all ${
                 activeTab === tab.id
                   ? 'bg-white/20 text-white'
@@ -993,7 +991,7 @@ export const useTournamentSystem = () => {
     );
   }, []);
 
-  const completeTournament = useCallback((tournamentId: string, results: any) => {
+  const completeTournament = useCallback((tournamentId: string, results: { winnerId: string; finalScore: number }) => {
     setTournaments(prev => 
       prev.map(t => 
         t.id === tournamentId 

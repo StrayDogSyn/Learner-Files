@@ -262,13 +262,17 @@ export interface Tournament {
   name: string;
   description: string;
   type: 'single-elimination' | 'double-elimination' | 'round-robin';
-  status: 'upcoming' | 'active' | 'completed';
+  status: 'upcoming' | 'active' | 'completed' | 'registration';
   participants: TournamentParticipant[];
   brackets: TournamentBracket[];
+  bracket?: TournamentBracket;
   prizes: Prize[];
   rules: TournamentRules;
   startDate: Date;
   endDate?: Date;
+  maxPlayers: number;
+  startTime?: Date;
+  prizePool?: number;
 }
 
 export interface TournamentParticipant {
@@ -286,6 +290,12 @@ export interface TournamentBracket {
   id: string;
   round: number;
   matches: TournamentMatch[];
+  rounds: TournamentRound[];
+}
+
+export interface TournamentRound {
+  round: number;
+  matches: TournamentMatch[];
 }
 
 export interface TournamentMatch {
@@ -293,11 +303,15 @@ export interface TournamentMatch {
   player1Id: string;
   player2Id: string;
   winnerId?: string;
+  winner?: string;
   score1: number;
   score2: number;
+  scores?: { [playerId: string]: number };
   status: 'pending' | 'active' | 'completed';
   scheduledTime?: Date;
   completedTime?: Date;
+  round: number;
+  participants: string[];
 }
 
 export interface Prize {
@@ -312,6 +326,60 @@ export interface TournamentRules {
   bestOf: number;
   timeLimit: number;
   advancementCriteria: string;
+}
+
+// Additional Tournament Types
+export interface TournamentSettings {
+  name: string;
+  type: 'single-elimination' | 'double-elimination' | 'round-robin';
+  maxParticipants: number;
+  maxPlayers: number;
+  entryFee?: number;
+  prizePool?: number;
+  startTime?: Date;
+  format: 'best-of-1' | 'best-of-3' | 'best-of-5';
+  timeLimit: number;
+  isPrivate: boolean;
+  description?: string;
+  registrationDeadline?: Date;
+  participants?: TournamentParticipant[];
+  gameSettings?: {
+    roundLimit: number;
+    timeLimit: number;
+    diceCount: number;
+  };
+}
+
+export interface LeaderboardEntry {
+  id: string;
+  playerId: string;
+  playerName: string;
+  rank: number;
+  rating: number;
+  wins: number;
+  losses: number;
+  winRate: number;
+  totalGames: number;
+  currentStreak: number;
+  bestStreak: number;
+  averageScore: number;
+  totalScore: number;
+  achievements: string[];
+  isOnline: boolean;
+  lastActiveDate: Date;
+  playerType: 'human' | 'ai';
+  title?: string;
+  streak: number;
+  ratingChange: number;
+}
+
+export interface RankingSystem {
+  type: 'elo' | 'glicko' | 'points' | 'wins';
+  name: string;
+  baseRating: number;
+  kFactor?: number;
+  decayRate?: number;
+  seasonLength?: number;
 }
 
 // Data Visualization Types
