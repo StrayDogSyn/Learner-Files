@@ -1,28 +1,202 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import '../css/bio-enhanced.css';
+
+interface Experience {
+  year: string;
+  title: string;
+  description: string;
+  achievements: string[];
+  company?: string;
+  duration?: string;
+}
+
+interface Skill {
+  name: string;
+  proficiency: number;
+  category: 'frontend' | 'backend' | 'tools' | 'languages';
+  projects: string[];
+  certifications?: string[];
+  learningProgress?: number;
+}
+
+interface CodeWarsStats {
+  rank: string;
+  honor: number;
+  completed: number;
+  recentKatas: string[];
+}
 
 const Bio: React.FC = () => {
-  useEffect(() => {
-    // Initialize canvas animation if needed
-    const canvas = document.getElementById('canvasOne') as HTMLCanvasElement;
-    if (canvas) {
-      const ctx = canvas.getContext('2d');
-      if (ctx) {
-        // Add canvas animation logic here if needed
-        ctx.fillStyle = '#4CAF50';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-      }
+  const [currentTextIndex, setCurrentTextIndex] = useState(0);
+  const [displayText, setDisplayText] = useState('');
+  const [funFactIndex, setFunFactIndex] = useState(0);
+  const [isTyping, setIsTyping] = useState(true);
+
+  const [currentLearningGoal, setCurrentLearningGoal] = useState(0);
+
+  const typewriterTexts = [
+    "Full-Stack Developer",
+    "Problem Solver",
+    "Lifelong Learner",
+    "Creative Coder"
+  ];
+
+  const funFacts = [
+    "I can solve a Rubik's cube in under 2 minutes",
+    "I once coded for 36 hours straight during a hackathon",
+    "My first program was a text-based adventure game",
+    "I'm learning to play the guitar while debugging",
+    "I have a collection of 50+ programming books"
+  ];
+
+  const learningGoals = [
+    "Master React 18 and Next.js 14",
+    "Learn Rust for systems programming",
+    "Build a blockchain project",
+    "Contribute to open source",
+    "Get AWS Solutions Architect certification"
+  ];
+
+  const experiences: Experience[] = [
+    {
+      year: "2024",
+      title: "Full-Stack Developer",
+      company: "Freelance & Personal Projects",
+      duration: "Present",
+      description: "Building modern web applications using React, Node.js, and various modern technologies.",
+      achievements: ["Portfolio Website", "E-commerce Platform", "Real-time Chat App"]
+    },
+    {
+      year: "2023",
+      title: "Web Development Bootcamp",
+      company: "The Last Mile Program",
+      duration: "6 months",
+      description: "Intensive full-stack development training covering modern web technologies.",
+      achievements: ["JavaScript Mastery", "React Fundamentals", "Node.js Backend"]
+    },
+    {
+      year: "2022",
+      title: "Programming Fundamentals",
+      company: "Self-Study",
+      duration: "1 year",
+      description: "Started learning programming basics with HTML, CSS, and JavaScript.",
+      achievements: ["First Website", "Calculator App", "Basic Games"]
     }
+  ];
+
+  const skills: Skill[] = [
+    {
+      name: "React",
+      proficiency: 85,
+      category: "frontend",
+      projects: ["Portfolio Website", "E-commerce App", "Dashboard"],
+      learningProgress: 85
+    },
+    {
+      name: "TypeScript",
+      proficiency: 75,
+      category: "languages",
+      projects: ["Portfolio", "API Integration", "Type-safe Components"],
+      learningProgress: 75
+    },
+    {
+      name: "Node.js",
+      proficiency: 70,
+      category: "backend",
+      projects: ["REST APIs", "Authentication", "Database Integration"],
+      learningProgress: 70
+    },
+    {
+      name: "Python",
+      proficiency: 60,
+      category: "languages",
+      projects: ["Data Analysis", "Automation Scripts", "Web Scraping"],
+      learningProgress: 60
+    },
+    {
+      name: "Unity",
+      proficiency: 50,
+      category: "tools",
+      projects: ["2D Games", "Interactive Experiences", "Prototypes"],
+      learningProgress: 50
+    }
+  ];
+
+  const codewarsStats: CodeWarsStats = {
+    rank: "5 kyu",
+    honor: 1250,
+    completed: 47,
+    recentKatas: ["Valid Parentheses", "Two Sum", "Fibonacci Sequence", "Palindrome Checker"]
+  };
+
+  const favoriteTools = [
+    { name: "VS Code", icon: "💻", description: "My primary code editor" },
+    { name: "Git", icon: "📚", description: "Version control mastery" },
+    { name: "Chrome DevTools", icon: "🔍", description: "Debugging companion" },
+    { name: "Postman", icon: "📮", description: "API testing tool" },
+    { name: "Figma", icon: "🎨", description: "Design collaboration" }
+  ];
+
+  // Typewriter effect
+  useEffect(() => {
+    if (isTyping) {
+      const currentText = typewriterTexts[currentTextIndex];
+      let charIndex = 0;
+      
+      const typeInterval = setInterval(() => {
+        if (charIndex <= currentText.length) {
+          setDisplayText(currentText.slice(0, charIndex));
+          charIndex++;
+        } else {
+          clearInterval(typeInterval);
+          setTimeout(() => {
+            setIsTyping(false);
+          }, 2000);
+        }
+      }, 100);
+
+      return () => clearInterval(typeInterval);
+    } else {
+      const timeout = setTimeout(() => {
+        setCurrentTextIndex((prev) => (prev + 1) % typewriterTexts.length);
+        setIsTyping(true);
+      }, 1000);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [isTyping, currentTextIndex]);
+
+  // Rotate fun facts
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFunFactIndex((prev) => (prev + 1) % funFacts.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
   }, []);
+
+  // Rotate learning goals
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentLearningGoal((prev) => (prev + 1) % learningGoals.length);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const getSkillColor = (category: string) => {
+    switch (category) {
+      case 'frontend': return 'from-blue-500 to-cyan-500';
+      case 'backend': return 'from-green-500 to-emerald-500';
+      case 'tools': return 'from-purple-500 to-pink-500';
+      case 'languages': return 'from-orange-500 to-red-500';
+      default: return 'from-gray-500 to-slate-500';
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      {/* Header */}
-      <hgroup className="container-modern text-center fw-bold bg-transparent box-shadow py-3 bio-header">
-        <img src="./assets/images/two.webp" alt="Background Pattern" className="bg-image bg-image--header" />
-        <canvas id="canvasOne" width="875" height="110" className="my-2 canvas rounded-5"></canvas>
-      </hgroup>
-
       {/* Navigation */}
       <nav className="navbar navbar-expand-lg navbar-dark background box-shadow mb-4 bio-nav">
         <img src="./assets/images/four.webp" alt="Navigation Background" className="bg-image bg-image--nav" />
@@ -83,119 +257,290 @@ const Bio: React.FC = () => {
         </div>
       </nav>
 
-      {/* Main Content */}
-      <main className="container-modern py-4">
-        {/* Header */}
-        <header className="text-center mb-5 fade-in bio-main-header">
-          <img src="./assets/images/three.webp" alt="Background Pattern" className="bg-image bg-image--header" />
-          <h1 className="display-4 text-white fw-bold mb-3">
-            <i className="fa fa-user-astronaut me-2"></i>
-            About The Author
-          </h1>
-          <p className="lead text-white">Learn more about my background, skills and journey</p>
-        </header>
-        
-        {/* Skills Section */}
-        <section className="section-modern mb-5">
-          <div className="row justify-content-between">
-            <div className="col-md-4 mb-3 mb-md-0">
-              <div className="card box-shadow fade-in">
-                <div className="card-body text-center">
-                  <i className="fab fa-html5 fa-3x mb-3 text-warning"></i>
-                  <i className="fab fa-css3-alt fa-3x mb-3 text-info mx-2"></i>
-                  <i className="fab fa-bootstrap fa-3x mb-3 text-primary"></i>
-                  <h2 className="card-title h4">Web Development Fundamentals</h2>
-                  <p className="card-text">
-                    As an active alumni of the ever-expanding, <i className="fa fa-quote-left"></i> The Last Mile
-                    Program &trade; <i className="fa fa-quote-right"></i>, I have learned the fundamentals of modern web
-                    development. Utilizing up-to-date technologies by completing various intensive study technical bootcamps in order to be as current
-                    as possible with today's ever changing digital environments.
-                  </p>
+      {/* Hero Section */}
+      <section className="bio-hero py-5 mb-5">
+        <div className="container-modern">
+          <div className="row align-items-center">
+            <div className="col-lg-4 text-center mb-4 mb-lg-0">
+              <div className="avatar-container position-relative">
+                <img 
+                  src="./assets/images/rubix.jpeg" 
+                  alt="Profile" 
+                  className="rounded-circle img-fluid bio-avatar box-shadow"
+                  style={{ width: '250px', height: '250px', objectFit: 'cover' }}
+                />
+                <div className="status-indicator online position-absolute top-0 end-0 bg-success text-white px-3 py-1 rounded-pill">
+                  <span className="small">
+                    <i className="fa fa-circle me-1"></i>
+                    Available for Projects
+                  </span>
                 </div>
               </div>
             </div>
             
-            <div className="col-md-4 mb-3 mb-md-0">
-              <div className="card box-shadow fade-in">
-                <div className="card-body text-center">
-                  <i className="fab fa-js-square fa-3x mb-3 text-warning"></i>
-                  <h2 className="card-title h4">Object Orientated Programming</h2>
-                  <p className="card-text">
-                    As a fundamental programming language for both server-side &amp; client-side web-based
-                    applications, web pages, and object-orientated programming, JavaScript has become one of the most used
-                    languages on the web today.<br /> Therefore, a mastery of this language is not only essential, but an
-                    excellent gateway into learning the plethora of C-based programming languages available today.
-                  </p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="col-md-4">
-              <div className="card box-shadow fade-in">
-                <div className="card-body text-center">
-                  <i className="fab fa-unity fa-3x mb-3 text-success me-2"></i>
-                  <i className="fab fa-react fa-3x mb-3 text-info me-2"></i>
-                  <i className="fab fa-python fa-3x mb-3 text-primary"></i>
-                  <h2 className="card-title h4">Expanding Knowledge Base</h2>
-                  <p className="card-text">
-                    <i className="fa fa-quote-left"></i> Never stop learning <i className="fa fa-quote-right"></i>
-                    ...The best advice ever given in life to a young man. Following this personal credo, my ever-expanding
-                    knowledge base continues to grow daily. Working to eventually become a full-stack developer, through learning the fundamentals
-                    of the <i className="fa fa-database"></i> M.E.R.N. &amp; M.E.A.N. stacks.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Learning Journey Section */}
-        <section className="section-modern">
-          <div className="card box-shadow fade-in">
-            <div className="card-body">
-              <div className="row align-items-center">
-                <div className="col-md-4 mb-3 mb-md-0 text-center">
-                  <img 
-                    src="./assets/images/rubix.jpeg" 
-                    alt="A rubix cube" 
-                    className="img-fluid rounded-circle box-shadow mb-3 bio-profile-image" 
-                  />
-                  <figcaption className="text-center mb-3">
-                    Programming has become my personal ever-evolving puzzle game...
-                  </figcaption>
-                  <div className="text-center">
-                    <Link to="/projects/knucklebones" className="btn btn-outline-success">
-                      <i className="fa fa-dice me-2"></i>Featured Project: Knucklebones
-                    </Link>
-                  </div>
-                </div>
+            <div className="col-lg-8">
+              <div className="bio-content text-center text-lg-start">
+                <h1 className="animated-text display-3 text-white fw-bold mb-3">
+                  <span className="text-gradient">Eric Petross</span>
+                </h1>
+                <h2 className="typewriter-text h2 text-light mb-3">
+                  {displayText}
+                  <span className="cursor-blink">|</span>
+                </h2>
+                <p className="bio-description lead text-light mb-4">
+                  Passionate full-stack developer with a love for creating innovative solutions. 
+                  Graduate of The Last Mile Program&trade;, constantly expanding my knowledge 
+                  and building projects that make a difference.
+                </p>
                 
-                <div className="col-md-8">
-                  <h2 className="mb-4">Learning Journey</h2>
-                  <p>
-                    My journey into web development began with a simple curiosity that quickly evolved into a passion. 
-                    All thanks to The Last Mile Program&trade;, I've had the opportunity to explore various aspects of modern development:
+                {/* Fun Fact Rotator */}
+                <div className="fun-fact-container bg-dark bg-opacity-50 rounded-pill px-4 py-2 mb-4">
+                  <p className="text-warning mb-0">
+                    <i className="fa fa-lightbulb me-2"></i>
+                    {funFacts[funFactIndex]}
                   </p>
-                  <ul>
-                    <li>Expanding language skills with Typescript and Python</li>
-                    <li>Learning new technologies like Unity programming for tablet gaming</li>
-                    <li>Exploring the fundamentals of M.E.R.N. &amp; M.E.A.N. stacks</li>
-                    <li>Building practical applications that solve real-world problems</li>
-                  </ul>
-                  <div className="btn-container mt-4">
-                    <Link to="/projects" className="btn btn-outline-success">
-                      <i className="fa fa-folder-open me-2"></i>View All Projects
-                    </Link>
-                    <a href="./resume/index.html" className="btn btn-outline-success ms-2">
-                      <i className="fa fa-file-alt me-2"></i>View Resume
-                    </a>
+                </div>
+
+                {/* Current Learning Goal */}
+                <div className="learning-goal-container bg-primary bg-opacity-25 rounded-pill px-4 py-2">
+                  <p className="text-info mb-0">
+                    <i className="fa fa-graduation-cap me-2"></i>
+                    Currently learning: {learningGoals[currentLearningGoal]}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Interactive Timeline */}
+      <section className="experience-timeline py-5 mb-5">
+        <div className="container-modern">
+          <h2 className="text-center text-white mb-5">
+            <i className="fa fa-road me-2"></i>
+            My Journey
+          </h2>
+          <div className="timeline-container position-relative">
+            {experiences.map((exp, index) => (
+              <div key={index} className="timeline-item mb-4" data-year={exp.year}>
+                <div className="row align-items-center">
+                  <div className="col-md-4 text-center text-md-end">
+                    <div className="timeline-year bg-primary text-white rounded-pill px-4 py-2 d-inline-block">
+                      <h3 className="h4 mb-0">{exp.year}</h3>
+                    </div>
+                  </div>
+                  <div className="col-md-8">
+                    <div className="timeline-content bg-dark bg-opacity-75 text-white p-4 rounded-3 box-shadow">
+                      <h3 className="h5 text-primary mb-2">{exp.title}</h3>
+                      {exp.company && (
+                        <p className="text-muted mb-2">
+                          <i className="fa fa-building me-2"></i>
+                          {exp.company}
+                          {exp.duration && <span className="ms-2">• {exp.duration}</span>}
+                        </p>
+                      )}
+                      <p className="mb-3">{exp.description}</p>
+                      <div className="achievements">
+                        {exp.achievements.map((achievement, idx) => (
+                          <span key={idx} className="achievement-badge bg-success bg-opacity-25 text-success px-3 py-1 rounded-pill me-2 mb-2 d-inline-block">
+                            <i className="fa fa-trophy me-1"></i>
+                            {achievement}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Skills Visualization */}
+      <section className="skills-visualization py-5 mb-5">
+        <div className="container-modern">
+          <h2 className="text-center text-white mb-5">
+            <i className="fa fa-code me-2"></i>
+            Skills & Expertise
+          </h2>
+          <div className="row">
+            {skills.map((skill, index) => (
+              <div key={index} className="col-lg-6 mb-4">
+                <div 
+                  className="skill-card bg-dark bg-opacity-75 p-4 rounded-3 box-shadow h-100"
+                >
+                  <div className="d-flex justify-content-between align-items-center mb-3">
+                    <h3 className="h5 text-white mb-0">{skill.name}</h3>
+                    <span className={`badge bg-gradient ${getSkillColor(skill.category)}`}>
+                      {skill.category}
+                    </span>
+                  </div>
+                  
+                  {/* Proficiency Bar */}
+                  <div className="mb-3">
+                    <div className="d-flex justify-content-between text-light mb-1">
+                      <span>Proficiency</span>
+                      <span>{skill.proficiency}%</span>
+                    </div>
+                    <div className="progress" style={{ height: '8px' }}>
+                      <div 
+                        className="progress-bar bg-gradient" 
+                        style={{ 
+                          width: `${skill.proficiency}%`,
+                          background: `linear-gradient(90deg, ${getSkillColor(skill.category).split(' ')[1]}, ${getSkillColor(skill.category).split(' ')[3]})`
+                        }}
+                      ></div>
+                    </div>
+                  </div>
+
+                  {/* Learning Progress */}
+                  {skill.learningProgress && (
+                    <div className="mb-3">
+                      <div className="d-flex justify-content-between text-light mb-1">
+                        <span>Learning Progress</span>
+                        <span>{skill.learningProgress}%</span>
+                      </div>
+                      <div className="progress" style={{ height: '6px' }}>
+                        <div 
+                          className="progress-bar bg-info" 
+                          style={{ width: `${skill.learningProgress}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Projects */}
+                  <div className="mb-3">
+                    <h6 className="text-light mb-2">Related Projects:</h6>
+                    <div className="d-flex flex-wrap gap-1">
+                      {skill.projects.map((project, idx) => (
+                        <span key={idx} className="badge bg-secondary bg-opacity-50">
+                          {project}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Certifications */}
+                  {skill.certifications && skill.certifications.length > 0 && (
+                    <div>
+                      <h6 className="text-light mb-2">Certifications:</h6>
+                      <div className="d-flex flex-wrap gap-1">
+                        {skill.certifications.map((cert, idx) => (
+                          <span key={idx} className="badge bg-warning text-dark">
+                            <i className="fa fa-certificate me-1"></i>
+                            {cert}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CodeWars Integration */}
+      <section className="codewars-stats py-5 mb-5">
+        <div className="container-modern">
+          <div className="row justify-content-center">
+            <div className="col-lg-8">
+              <div className="card bg-dark bg-opacity-75 text-white box-shadow">
+                <div className="card-body text-center">
+                  <h3 className="card-title h4 mb-4">
+                    <i className="fa fa-trophy me-2 text-warning"></i>
+                    Coding Challenge Stats
+                  </h3>
+                  <div className="stats-grid row mb-4">
+                    <div className="col-md-4 mb-3">
+                      <div className="stat-item bg-primary bg-opacity-25 p-3 rounded-3">
+                        <h4 className="h5 text-primary mb-1">Rank</h4>
+                        <p className="h3 mb-0 text-white">{codewarsStats.rank}</p>
+                      </div>
+                    </div>
+                    <div className="col-md-4 mb-3">
+                      <div className="stat-item bg-success bg-opacity-25 p-3 rounded-3">
+                        <h4 className="h5 text-success mb-1">Honor</h4>
+                        <p className="h3 mb-0 text-white">{codewarsStats.honor}</p>
+                      </div>
+                    </div>
+                    <div className="col-md-4 mb-3">
+                      <div className="stat-item bg-info bg-opacity-25 p-3 rounded-3">
+                        <h4 className="h5 text-info mb-1">Completed</h4>
+                        <p className="h3 mb-0 text-white">{codewarsStats.completed}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="recent-katas">
+                    <h5 className="mb-3">Recent Challenges</h5>
+                    <div className="d-flex flex-wrap justify-content-center gap-2">
+                      {codewarsStats.recentKatas.map((kata, index) => (
+                        <span key={index} className="badge bg-secondary bg-opacity-50 px-3 py-2">
+                          {kata}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </section>
-      </main>
+        </div>
+      </section>
+
+      {/* Personal Touch - Favorite Tools */}
+      <section className="favorite-tools py-5 mb-5">
+        <div className="container-modern">
+          <h2 className="text-center text-white mb-5">
+            <i className="fa fa-tools me-2"></i>
+            My Favorite Tools
+          </h2>
+          <div className="row">
+            {favoriteTools.map((tool, index) => (
+              <div key={index} className="col-md-4 col-lg-2 mb-4">
+                <div className="tool-card text-center bg-dark bg-opacity-75 p-4 rounded-3 box-shadow h-100">
+                  <div className="tool-icon mb-3">
+                    <span className="display-6">{tool.icon}</span>
+                  </div>
+                  <h5 className="text-white mb-2">{tool.name}</h5>
+                  <p className="text-muted small mb-0">{tool.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="cta-section py-5 mb-5">
+        <div className="container-modern text-center">
+          <div className="bg-dark bg-opacity-75 p-5 rounded-3 box-shadow">
+            <h2 className="text-white mb-4">Ready to Work Together?</h2>
+            <p className="lead text-light mb-4">
+              Let's build something amazing together. I'm always excited to take on new challenges 
+              and collaborate on innovative projects.
+            </p>
+            <div className="d-flex flex-wrap justify-content-center gap-3">
+              <Link to="/projects" className="btn btn-primary btn-lg">
+                <i className="fa fa-folder-open me-2"></i>
+                View My Projects
+              </Link>
+              <Link to="/contact" className="btn btn-outline-light btn-lg">
+                <i className="fa fa-envelope me-2"></i>
+                Get In Touch
+              </Link>
+              <a href="./resume/index.html" className="btn btn-outline-info btn-lg">
+                <i className="fa fa-file-alt me-2"></i>
+                Download Resume
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Footer */}
       <footer className="container-fluid background text-white py-5 mt-5">
@@ -282,6 +627,97 @@ const Bio: React.FC = () => {
           </div>
         </div>
       </footer>
+
+      <style jsx>{`
+        .text-gradient {
+          background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+        
+        .cursor-blink {
+          animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+          0%, 50% { opacity: 1; }
+          51%, 100% { opacity: 0; }
+        }
+        
+        .bio-avatar {
+          border: 4px solid #667eea;
+          transition: transform 0.3s ease;
+        }
+        
+        .bio-avatar:hover {
+          transform: scale(1.05);
+        }
+        
+        .status-indicator {
+          animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+          0% { transform: scale(1); }
+          50% { transform: scale(1.05); }
+          100% { transform: scale(1); }
+        }
+        
+        .fun-fact-container, .learning-goal-container {
+          transition: all 0.3s ease;
+        }
+        
+        .fun-fact-container:hover, .learning-goal-container:hover {
+          transform: translateY(-2px);
+        }
+        
+        .timeline-year {
+          transition: all 0.3s ease;
+        }
+        
+        .timeline-year:hover {
+          transform: scale(1.1);
+        }
+        
+        .skill-card {
+          transition: all 0.3s ease;
+          border-left: 4px solid transparent;
+        }
+        
+        .skill-card:hover {
+          transform: translateY(-5px);
+          border-left-color: #667eea;
+        }
+        
+        .tool-card {
+          transition: all 0.3s ease;
+        }
+        
+        .tool-card:hover {
+          transform: translateY(-5px);
+        }
+        
+        .achievement-badge {
+          transition: all 0.3s ease;
+        }
+        
+        .achievement-badge:hover {
+          transform: scale(1.05);
+        }
+        
+        .stat-item {
+          transition: all 0.3s ease;
+        }
+        
+        .stat-item:hover {
+          transform: scale(1.05);
+        }
+        
+        .bg-gradient {
+          background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+        }
+      `}</style>
     </div>
   );
 };
