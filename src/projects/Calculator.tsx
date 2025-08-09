@@ -1616,7 +1616,7 @@ const Calculator: React.FC = () => {
                                 className={`btn base-btn ${state.numberBase === base ? 'active' : ''}`}
                                 onClick={() => setState(prev => ({ ...prev, numberBase: base }))}
                                 role="radio"
-                                aria-checked={state.numberBase === base ? "true" as const : "false" as const}
+                                aria-checked={state.numberBase === base}
                                 aria-label={`${base.toUpperCase()} - ${base === 'bin' ? 'Binary' : base === 'oct' ? 'Octal' : base === 'dec' ? 'Decimal' : 'Hexadecimal'}`}
                                 title={`Switch to ${base === 'bin' ? 'Binary' : base === 'oct' ? 'Octal' : base === 'dec' ? 'Decimal' : 'Hexadecimal'} base`}
                               >

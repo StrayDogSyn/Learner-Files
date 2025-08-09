@@ -266,8 +266,7 @@ const Bio: React.FC = () => {
                 <img 
                   src="./assets/images/rubix.jpeg" 
                   alt="Profile" 
-                  className="rounded-circle img-fluid bio-avatar box-shadow"
-                  style={{ width: '250px', height: '250px', objectFit: 'cover' }}
+                  className="rounded-circle img-fluid bio-avatar box-shadow profile-avatar"
                 />
                 <div className="status-indicator online position-absolute top-0 end-0 bg-success text-white px-3 py-1 rounded-pill">
                   <span className="small">
@@ -384,9 +383,9 @@ const Bio: React.FC = () => {
                       <span>Proficiency</span>
                       <span>{skill.proficiency}%</span>
                     </div>
-                    <div className="progress" style={{ height: '8px' }}>
+                    <div className="progress skill-progress-bar">
                       <div 
-                        className="progress-bar bg-gradient" 
+                        className="progress-bar bg-gradient skill-proficiency-bar" 
                         style={{ 
                           width: `${skill.proficiency}%`,
                           background: `linear-gradient(90deg, ${getSkillColor(skill.category).split(' ')[1]}, ${getSkillColor(skill.category).split(' ')[3]})`
@@ -402,9 +401,9 @@ const Bio: React.FC = () => {
                         <span>Learning Progress</span>
                         <span>{skill.learningProgress}%</span>
                       </div>
-                      <div className="progress" style={{ height: '6px' }}>
+                      <div className="progress learning-progress-bar">
                         <div 
-                          className="progress-bar bg-info" 
+                          className="progress-bar bg-info learning-progress-fill" 
                           style={{ width: `${skill.learningProgress}%` }}
                         ></div>
                       </div>

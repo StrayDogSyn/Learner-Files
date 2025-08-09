@@ -8,6 +8,45 @@ import {
   ProbabilityDistribution
 } from '../types/knucklebones';
 
+// Additional ML-specific interfaces
+interface TrendAnalysis {
+  changes: Record<string, number>;
+  significance: number;
+  direction: 'increasing' | 'decreasing';
+}
+
+interface PatternComparison {
+  changes: Record<string, number>;
+  significance: number;
+  direction: 'increasing' | 'decreasing';
+}
+
+interface GameState {
+  currentRound: number;
+  playerScore: number;
+  opponentScore: number;
+  remainingDice: number;
+  turnTimeRemaining: number;
+  riskLevel?: number;
+  boardAdvantage?: number;
+  streakCount: number;
+  pressureLevel?: number;
+}
+
+interface PlayerMove {
+  type: 'aggressive' | 'conservative' | 'strategic' | 'defensive';
+  strategy: string;
+  success: boolean;
+  riskLevel?: number;
+  timeToDecide?: number;
+  pressureLevel?: number;
+}
+
+interface PredictedMove {
+  action: string;
+  probability: number;
+}
+
 // Simple neural network implementation for pattern recognition
 class SimpleNeuralNetwork {
   private weights: number[][];
@@ -267,7 +306,7 @@ class MLService {
     return frequencies;
   }
 
-  private identifyTrends(patterns: DicePattern[]): any[] {
+  private identifyTrends(patterns: DicePattern[]): TrendAnalysis[] {
     // Filter patterns with valid timestamps
     const validPatterns = patterns.filter(p => p.timestamp);
     if (validPatterns.length < 2) return [];
@@ -317,7 +356,7 @@ class MLService {
     return windows;
   }
 
-  private comparePatternsWindows(current: DicePattern[], previous: DicePattern[]): any {
+  private comparePatternsWindows(current: DicePattern[], previous: DicePattern[]): PatternComparison {
     const currentFreq = this.calculatePatternFrequencies(current);
     const previousFreq = this.calculatePatternFrequencies(previous);
     
@@ -369,7 +408,7 @@ class MLService {
   }
 
   // Predictive Modeling
-  predictNextMove(gameState: any, playerHistory: any[]): MLPrediction {
+  predictNextMove(gameState: GameState, playerHistory: PlayerMove[]): MLPrediction {
     const features = this.extractGameStateFeatures(gameState, playerHistory);
     const prediction = this.predictionNetwork.predict(features);
     
@@ -396,7 +435,7 @@ class MLService {
     };
   }
 
-  private extractGameStateFeatures(gameState: any, playerHistory: any[]): number[] {
+  private extractGameStateFeatures(gameState: GameState, playerHistory: PlayerMove[]): number[] {
     const features = new Array(18).fill(0);
     
     // Current game state features (0-8)
@@ -427,7 +466,7 @@ class MLService {
     return features;
   }
 
-  private calculatePlayerConsistency(history: any[]): number {
+  private calculatePlayerConsistency(history: PlayerMove[]): number {
     if (history.length < 5) return 0.5;
     
     const strategies = history.map(h => h.strategy || 'unknown');
@@ -436,7 +475,7 @@ class MLService {
     return 1 - (uniqueStrategies / strategies.length);
   }
 
-  private calculatePlayerAdaptability(history: any[]): number {
+  private calculatePlayerAdaptability(history: PlayerMove[]): number {
     if (history.length < 10) return 0.5;
     
     const recentStrategy = history.slice(-5).map(h => h.strategy);
@@ -448,7 +487,7 @@ class MLService {
     return Math.abs(recentUnique - olderUnique) / 5;
   }
 
-  private calculatePlayerPressureResponse(history: any[]): number {
+  private calculatePlayerPressureResponse(history: PlayerMove[]): number {
     const pressureMoves = history.filter(h => h.pressureLevel > 0.7);
     if (pressureMoves.length === 0) return 0.5;
     
@@ -456,7 +495,7 @@ class MLService {
     return successRate;
   }
 
-  private generateReasoning(bestMove: any, features: number[]): string {
+  private generateReasoning(bestMove: PredictedMove, features: number[]): string {
     const reasons = [];
     
     if (features[1] < features[2]) {
@@ -580,7 +619,7 @@ class MLService {
     return output;
   }
 
-  private reconstructGameState(session: GameSession, roundIndex: number, actionIndex: number): any {
+  private reconstructGameState(session: GameSession, roundIndex: number, actionIndex: number): GameState {
     // Reconstruct game state at specific point in time
     return {
       currentRound: roundIndex + 1,
@@ -595,8 +634,8 @@ class MLService {
     };
   }
 
-  private getPlayerHistory(session: GameSession, playerId: string, beforeRound: number): any[] {
-    const history: any[] = [];
+  private getPlayerHistory(session: GameSession, playerId: string, beforeRound: number): PlayerMove[] {
+    const history: PlayerMove[] = [];
     
     for (let i = 0; i < beforeRound; i++) {
       const round = session.rounds[i];
@@ -699,7 +738,7 @@ class MLService {
   }
 
   // Probability calculations
-  calculateWinProbability(gameState: any, playerHistory: any[]): ProbabilityDistribution {
+  calculateWinProbability(gameState: GameState, playerHistory: PlayerMove[]): ProbabilityDistribution {
     const features = this.extractGameStateFeatures(gameState, playerHistory);
     const prediction = this.predictionNetwork.predict(features);
     

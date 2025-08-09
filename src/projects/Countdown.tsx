@@ -280,7 +280,7 @@ const Countdown: React.FC<CountdownProps> = ({ targetDate }) => {
       
       {/* Case Study Card - shown when countdown is not expired */}
       {!isExpired && projectData && (
-        <div className="case-study-overlay" style={{ position: 'absolute', top: '20px', right: '20px', zIndex: 1000, maxWidth: '400px' }}>
+        <div className="case-study-overlay case-study-positioned">
           <CaseStudyCard 
             project={projectData}
             className="mb-4"
