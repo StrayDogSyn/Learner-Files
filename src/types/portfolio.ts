@@ -29,7 +29,7 @@ export interface Skill {
 
 export interface SkillCategory {
   id: string;
-  name: 'Frontend' | 'Backend' | 'AI/ML' | 'DevOps';
+  name: 'Frontend' | 'Backend' | 'AI/ML' | 'DevOps' | 'Programming Languages' | 'Database' | 'Cloud';
   skills: Skill[];
   color: string;
 }

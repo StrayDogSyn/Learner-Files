@@ -55,12 +55,12 @@ const ProjectCard: React.FC<{ project: Project; onSelect: (project: Project) => 
       opacity: 1, 
       y: 0, 
       scale: 1,
-      transition: { duration: 0.3, ease: 'easeOut' }
+      transition: { duration: 0.3 }
     },
     hover: {
       y: -8,
       scale: 1.02,
-      transition: { duration: 0.2, ease: 'easeOut' }
+      transition: { duration: 0.2 }
     },
     exit: { 
       opacity: 0, 

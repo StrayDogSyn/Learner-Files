@@ -264,8 +264,7 @@ const TimelineEntry: React.FC<TimelineEntryProps> = ({
       scale: 1,
       transition: { 
           duration: 0.6,
-          delay: index * 0.1,
-          ease: "easeOut"
+          delay: index * 0.1
         }
     }
   };
@@ -276,8 +275,7 @@ const TimelineEntry: React.FC<TimelineEntryProps> = ({
       height: 'auto', 
       opacity: 1,
       transition: { 
-          duration: 0.4,
-          ease: "easeOut"
+          duration: 0.4
         }
     }
   };

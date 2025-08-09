@@ -110,7 +110,7 @@ const ActivityItem: React.FC<ActivityItemProps> = ({ event, showRepo = true }) =
       opacity: 1, 
       x: 0, 
       scale: 1,
-      transition: { duration: 0.3, ease: 'easeOut' }
+      transition: { duration: 0.3 }
     },
     hover: {
       scale: 1.02,

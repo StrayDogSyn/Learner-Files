@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, ChevronUp, Code, Database, Brain, Settings, ExternalLink } from 'lucide-react';
+import { ChevronDown, ChevronUp, Code, Database, Brain, Settings, ExternalLink, Cloud } from 'lucide-react';
 import { usePortfolioStore } from '../store/portfolioStore';
 import type { Skill, SkillCategory } from '../types/portfolio';
 import { useQuery } from '@tanstack/react-query';
@@ -61,16 +61,16 @@ const categoryColors = {
     progress: 'bg-red-500'
   },
   'Database': {
+    bg: 'bg-yellow-100 dark:bg-yellow-900',
+    text: 'text-yellow-800 dark:text-yellow-200',
+    border: 'border-yellow-200 dark:border-yellow-700',
+    progress: 'bg-yellow-500'
+  },
+  'Cloud': {
     bg: 'bg-indigo-100 dark:bg-indigo-900',
     text: 'text-indigo-800 dark:text-indigo-200',
     border: 'border-indigo-200 dark:border-indigo-700',
     progress: 'bg-indigo-500'
-  },
-  'Cloud': {
-    bg: 'bg-teal-100 dark:bg-teal-900',
-    text: 'text-teal-800 dark:text-teal-200',
-    border: 'border-teal-200 dark:border-teal-700',
-    progress: 'bg-teal-500'
   }
 };
 
@@ -89,8 +89,7 @@ const SkillProgressBar: React.FC<SkillProgressBarProps> = ({
       width: `${skill.proficiency}%`,
       transition: { 
           duration: animated && animationsEnabled ? 1.5 : 0,
-          delay: animated && animationsEnabled ? 0.2 : 0,
-          ease: "easeOut"
+          delay: animated && animationsEnabled ? 0.2 : 0
         }
     }
   };
