@@ -79,11 +79,11 @@ const ProjectCard: React.FC<{ project: Project; onSelect: (project: Project) => 
 
   return (
     <motion.div
-      variants={animationsEnabled ? cardVariants : {}}
-      initial={animationsEnabled ? 'hidden' : false}
-      animate={animationsEnabled ? 'visible' : false}
-      whileHover={animationsEnabled ? 'hover' : undefined}
-      exit={animationsEnabled ? 'exit' : false}
+      variants={animationsEnabled ? cardVariants : undefined}
+      initial={animationsEnabled ? 'hidden' : undefined}
+      animate={animationsEnabled ? 'visible' : undefined}
+        whileHover={animationsEnabled ? 'hover' : undefined}
+        exit={animationsEnabled ? 'exit' : undefined}
       className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden cursor-pointer group"
       onClick={() => onSelect(project)}
       role="button"
@@ -414,8 +414,8 @@ const FilterableProjectGrid: React.FC<FilterableProjectGridProps> = ({
       ) : (
         <motion.div
           variants={animationsEnabled ? containerVariants : {}}
-          initial={animationsEnabled ? 'hidden' : false}
-          animate={animationsEnabled ? 'visible' : false}
+          initial={animationsEnabled ? 'hidden' : undefined}
+          animate={animationsEnabled ? 'visible' : undefined}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
           <AnimatePresence mode="popLayout">

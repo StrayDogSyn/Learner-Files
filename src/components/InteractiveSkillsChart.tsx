@@ -23,7 +23,10 @@ const categoryIcons = {
   'Frontend': Code,
   'Backend': Database,
   'AI/ML': Brain,
-  'DevOps': Settings
+  'DevOps': Settings,
+  'Programming Languages': Code,
+  'Database': Database,
+  'Cloud': Cloud
 };
 
 const categoryColors = {
@@ -50,6 +53,24 @@ const categoryColors = {
     text: 'text-orange-800 dark:text-orange-200',
     border: 'border-orange-200 dark:border-orange-700',
     progress: 'bg-orange-500'
+  },
+  'Programming Languages': {
+    bg: 'bg-red-100 dark:bg-red-900',
+    text: 'text-red-800 dark:text-red-200',
+    border: 'border-red-200 dark:border-red-700',
+    progress: 'bg-red-500'
+  },
+  'Database': {
+    bg: 'bg-indigo-100 dark:bg-indigo-900',
+    text: 'text-indigo-800 dark:text-indigo-200',
+    border: 'border-indigo-200 dark:border-indigo-700',
+    progress: 'bg-indigo-500'
+  },
+  'Cloud': {
+    bg: 'bg-teal-100 dark:bg-teal-900',
+    text: 'text-teal-800 dark:text-teal-200',
+    border: 'border-teal-200 dark:border-teal-700',
+    progress: 'bg-teal-500'
   }
 };
 
@@ -67,10 +88,10 @@ const SkillProgressBar: React.FC<SkillProgressBarProps> = ({
     visible: { 
       width: `${skill.proficiency}%`,
       transition: { 
-        duration: animated && animationsEnabled ? 1.5 : 0,
-        ease: 'easeOut',
-        delay: animated && animationsEnabled ? 0.2 : 0
-      }
+          duration: animated && animationsEnabled ? 1.5 : 0,
+          delay: animated && animationsEnabled ? 0.2 : 0,
+          ease: "easeOut"
+        }
     }
   };
 
@@ -88,8 +109,8 @@ const SkillProgressBar: React.FC<SkillProgressBarProps> = ({
 
   return (
     <motion.div
-      variants={animationsEnabled ? barVariants : {}}
-      initial={animationsEnabled ? 'idle' : false}
+      variants={animationsEnabled ? barVariants : undefined}
+      initial={animationsEnabled ? 'idle' : undefined}
       whileHover={animationsEnabled && onClick ? 'hover' : undefined}
       animate={isSelected && animationsEnabled ? 'selected' : 'idle'}
       className={`p-4 rounded-lg border-2 transition-all duration-200 ${
@@ -123,9 +144,9 @@ const SkillProgressBar: React.FC<SkillProgressBarProps> = ({
       
       <div className="relative h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
         <motion.div
-          variants={animationsEnabled ? progressVariants : {}}
-          initial={animationsEnabled ? 'hidden' : false}
-          animate={animationsEnabled ? 'visible' : false}
+          variants={animationsEnabled ? progressVariants : undefined}
+          initial={animationsEnabled ? 'hidden' : undefined}
+          animate={animationsEnabled ? 'visible' : undefined}
           className={`h-full ${colors.progress} rounded-full`}
           style={!animationsEnabled ? { width: `${skill.proficiency}%` } : {}}
         />
@@ -133,8 +154,8 @@ const SkillProgressBar: React.FC<SkillProgressBarProps> = ({
       
       <div className="flex items-center justify-between mt-2 text-sm text-gray-600 dark:text-gray-400">
         <span>{skill.yearsOfExperience} years</span>
-        {skill.projects.length > 0 && (
-          <span>{skill.projects.length} projects</span>
+        {skill.relatedProjects && skill.relatedProjects.length > 0 && (
+          <span>{skill.relatedProjects.length} projects</span>
         )}
       </div>
     </motion.div>
@@ -209,17 +230,17 @@ const SkillCategorySection: React.FC<{
         {isExpanded && (
           <motion.div
             id={`skills-${category.name.toLowerCase()}`}
-            variants={animationsEnabled ? containerVariants : {}}
-            initial={animationsEnabled ? 'hidden' : false}
-            animate={animationsEnabled ? 'visible' : false}
-            exit={animationsEnabled ? 'hidden' : false}
+            variants={animationsEnabled ? containerVariants : undefined}
+            initial={animationsEnabled ? 'hidden' : undefined}
+            animate={animationsEnabled ? 'visible' : undefined}
+            exit={animationsEnabled ? 'hidden' : undefined}
             className="px-6 pb-6"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {displayedSkills.map((skill) => (
                 <motion.div
                   key={skill.id}
-                  variants={animationsEnabled ? skillVariants : {}}
+                  variants={animationsEnabled ? skillVariants : undefined}
                 >
                   <SkillProgressBar
                     skill={skill}
@@ -256,7 +277,7 @@ const SkillDetailModal: React.FC<{
   const colors = categoryColors[skill.category];
   
   const relatedProjects = projects.filter(project => 
-    skill.projects.includes(project.id)
+    skill.relatedProjects?.includes(project.id)
   );
 
   const modalVariants = {
@@ -285,7 +306,7 @@ const SkillDetailModal: React.FC<{
         variants={animationsEnabled ? backdropVariants : {}}
         initial={animationsEnabled ? 'hidden' : false}
         animate={animationsEnabled ? 'visible' : false}
-        exit={animationsEnabled ? 'exit' : false}
+        exit={animationsEnabled ? 'exit' : undefined}
         className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
         onClick={onClose}
       >
@@ -293,7 +314,7 @@ const SkillDetailModal: React.FC<{
           variants={animationsEnabled ? modalVariants : {}}
           initial={animationsEnabled ? 'hidden' : false}
           animate={animationsEnabled ? 'visible' : false}
-          exit={animationsEnabled ? 'exit' : false}
+          exit={animationsEnabled ? 'exit' : undefined}
           className="bg-white dark:bg-gray-800 rounded-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto"
           onClick={(e) => e.stopPropagation()}
         >

@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 import { usePortfolioStore } from '../store/portfolioStore';
 import type { CodeSnippet } from '../types/portfolio';
-import { getHighlighter } from 'shiki';
+import { createHighlighter } from 'shiki';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
@@ -80,7 +80,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
   useEffect(() => {
     const highlightCode = async () => {
       try {
-        const highlighter = await getHighlighter({
+        const highlighter = await createHighlighter({
           themes: ['github-light', 'github-dark'],
           langs: Object.values(languageMap)
         });
@@ -218,8 +218,8 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
   return (
     <motion.div
       variants={animationsEnabled ? cardVariants : {}}
-      initial={animationsEnabled ? 'hidden' : false}
-      animate={animationsEnabled ? (isExpanded ? 'expanded' : 'visible') : false}
+      initial={animationsEnabled ? 'hidden' : undefined}
+      animate={animationsEnabled ? (isExpanded ? 'expanded' : 'visible') : undefined}
       className={`bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700 ${
         isExpanded ? 'fixed inset-4 z-50' : ''
       }`}

@@ -10,6 +10,9 @@ export interface Project {
   liveUrl?: string;
   imageUrl: string;
   featured: boolean;
+  status: 'completed' | 'in-progress' | 'planned';
+  startDate: string;
+  endDate?: string;
   starCount?: number;
   lastUpdated?: string;
 }
@@ -17,11 +20,11 @@ export interface Project {
 export interface Skill {
   id: string;
   name: string;
-  category: 'Frontend' | 'Backend' | 'AI/ML' | 'DevOps';
+  category: 'Frontend' | 'Backend' | 'AI/ML' | 'DevOps' | 'Programming Languages' | 'Database' | 'Cloud';
   proficiency: number; // 0-100
   yearsOfExperience: number;
   description?: string;
-  projects: string[]; // Project IDs
+  relatedProjects?: string[]; // Project IDs
 }
 
 export interface SkillCategory {
@@ -40,14 +43,16 @@ export interface Experience {
   endDate?: string;
   description: string;
   technologies: string[];
+  achievements?: string[];
   media?: MediaItem[];
 }
 
 export interface MediaItem {
-  id: string;
+  id?: string;
   type: 'image' | 'video' | 'link';
   url: string;
-  title: string;
+  title?: string;
+  caption?: string;
   description?: string;
 }
 
@@ -80,7 +85,8 @@ export interface CodeSnippet {
   language: string;
   code: string;
   description: string;
-  executable: boolean;
+  executable?: boolean;
+  featured?: boolean;
   tags: string[];
 }
 

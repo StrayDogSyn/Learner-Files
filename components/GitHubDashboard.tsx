@@ -14,6 +14,7 @@ import GitHubIntegration, {
   GitHubUser,
   GitHubRepo,
 } from '../lib/github-integration';
+import '../css/github-dashboard.css';
 
 // Types for component props
 interface GitHubDashboardProps {
@@ -142,12 +143,13 @@ const RepositoryCard: React.FC<RepositoryCardProps> = ({ repoName, github }) => 
 
       {/* Language breakdown */}
       <div className="mb-4">
-        <div className="flex rounded-md overflow-hidden h-2 mb-2">
+        <div className="language-bar">
           {Object.entries(languages).map(([language, bytes]) => {
             const percentage = (bytes / totalBytes) * 100;
             return (
               <div
                 key={language}
+                className="language-segment"
                 style={{
                   backgroundColor: getLanguageColor(language),
                   width: `${percentage}%`,
@@ -333,9 +335,9 @@ const GitHubDashboard: React.FC<GitHubDashboardProps> = ({ token, username }) =>
         fetchData(() => github.getContributionData()),
       ]);
 
-      if (statsData) setStats(statsData);
-      if (activityData) setActivity(activityData);
-      if (contributionsData) setContributions(contributionsData);
+      if (statsData) setStats(statsData as GitHubStats);
+      if (activityData) setActivity(activityData as UserActivity);
+      if (contributionsData) setContributions(contributionsData as ContributionData);
     };
 
     loadDashboardData();
@@ -442,7 +444,7 @@ const GitHubDashboard: React.FC<GitHubDashboardProps> = ({ token, username }) =>
                         <div key={language} className="flex items-center justify-between">
                           <div className="flex items-center space-x-2">
                             <div
-                              className="w-3 h-3 rounded-full"
+                              className="language-dot"
                               style={{ backgroundColor: getLanguageColor(language) }}
                             />
                             <span className="text-sm font-medium">{language}</span>

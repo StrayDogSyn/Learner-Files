@@ -77,6 +77,27 @@ export interface GitHubIssue {
   };
 }
 
+export interface GitHubEvent {
+  id: string;
+  type: string;
+  actor: {
+    id: number;
+    login: string;
+    display_login: string;
+    gravatar_id: string;
+    url: string;
+    avatar_url: string;
+  };
+  repo: {
+    id: number;
+    name: string;
+    url: string;
+  };
+  payload: Record<string, unknown>;
+  public: boolean;
+  created_at: string;
+}
+
 export interface GitHubUser {
   login: string;
   id: number;
@@ -176,7 +197,7 @@ export interface RateLimitInfo {
 class GitHubIntegration {
   private token: string;
   private baseURL: string = 'https://api.github.com';
-  private cache: Map<string, CacheEntry<any>> = new Map();
+  private cache: Map<string, CacheEntry<unknown>> = new Map();
   private rateLimitRemaining: number = 60;
   private rateLimitReset: number = 0;
   private username?: string;
@@ -626,7 +647,7 @@ class GitHubIntegration {
     }
 
     const cacheKey = this.getCacheKey('stats', user);
-    const cached = this.getCache<any>(cacheKey);
+    const cached = this.getCache<ReturnType<typeof this.getGitHubStats>>(cacheKey);
     
     if (cached) {
       return cached;
@@ -713,22 +734,6 @@ class GitHubIntegration {
   }
 }
 
-// Initialize the integration
-const github = new GitHubIntegration('your-github-token', 'your-username');
-
-// Get comprehensive repository data
-const repoData = await github.getRepoData('microsoft/vscode');
-
-// Get user activity and statistics
-const [stats, activity, contributions] = await Promise.all([
-  github.getGitHubStats(),
-  github.getUserActivity(),
-  github.getContributionData()
-]);
-
-// Use in React components
-<GitHubDashboard token={token} username={username} />
-
 // Utility functions
 export const formatNumber = (num: number): string => {
   if (num >= 1000000) {
@@ -782,3 +787,7 @@ export const formatDate = (dateString: string): string => {
   if (diffInSeconds < 2592000) return `${Math.floor(diffInSeconds / 86400)} days ago`;
   if (diffInSeconds < 31536000) return `${Math.floor(diffInSeconds / 2592000)} months ago`;
   return `${Math.floor(diffInSeconds / 31536000)} years ago`;
+};
+
+// Export the GitHubIntegration class as default
+export default GitHubIntegration;
