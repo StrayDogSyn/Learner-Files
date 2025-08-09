@@ -242,12 +242,15 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ filters, onFiltersChange, onR
           >
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-white/80 mb-2">
+                <label htmlFor="time-range-filter" className="block text-sm font-medium text-white/80 mb-2">
                   Time Range
                 </label>
                 <select
+                  id="time-range-filter"
                   value={filters.timeRange}
                   onChange={(e) => handleFilterChange('timeRange', e.target.value)}
+                  aria-label="Select time range for data visualization"
+                  title="Filter data by time period"
                   className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="day">Last 24 Hours</option>
@@ -259,27 +262,31 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ filters, onFiltersChange, onR
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-white/80 mb-2">
-                  Game Modes
-                </label>
-                <div className="space-y-2">
-                  {['Classic', 'Speed', 'Blitz', 'Survival', 'Tournament'].map(mode => (
-                    <label key={mode} className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        checked={filters.gameMode.includes(mode)}
-                        onChange={(e) => {
-                          const newModes = e.target.checked
-                            ? [...filters.gameMode, mode]
-                            : filters.gameMode.filter(m => m !== mode);
-                          handleFilterChange('gameMode', newModes);
-                        }}
-                        className="w-4 h-4 text-blue-600 bg-white/10 border-white/20 rounded focus:ring-blue-500"
-                      />
-                      <span className="text-sm text-white/80">{mode}</span>
-                    </label>
-                  ))}
-                </div>
+                <fieldset>
+                  <legend className="block text-sm font-medium text-white/80 mb-2">
+                    Game Modes
+                  </legend>
+                  <div className="space-y-2">
+                    {['Classic', 'Speed', 'Blitz', 'Survival', 'Tournament'].map(mode => (
+                      <label key={mode} className="flex items-center gap-2">
+                        <input
+                          id={`game-mode-${mode.toLowerCase()}`}
+                          type="checkbox"
+                          checked={filters.gameMode.includes(mode)}
+                          onChange={(e) => {
+                            const newModes = e.target.checked
+                              ? [...filters.gameMode, mode]
+                              : filters.gameMode.filter(m => m !== mode);
+                            handleFilterChange('gameMode', newModes);
+                          }}
+                          aria-label={`Include ${mode} game mode in visualization`}
+                          className="w-4 h-4 text-blue-600 bg-white/10 border-white/20 rounded focus:ring-blue-500"
+                        />
+                        <span className="text-sm text-white/80">{mode}</span>
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
               </div>
 
               <div className="flex gap-2">

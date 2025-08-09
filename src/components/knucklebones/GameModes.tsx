@@ -328,15 +328,20 @@ const SpeedRoundConfig: React.FC<SpeedRoundConfigProps> = ({
 
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-white/80 mb-2">
+            <label htmlFor="turn-time-limit" className="block text-sm font-medium text-white/80 mb-2">
               Turn Time Limit: {settings.turnTimeLimit}s
             </label>
             <input
+              id="turn-time-limit"
               type="range"
               min="5"
               max="30"
               value={settings.turnTimeLimit}
               onChange={(e) => handleSettingChange('turnTimeLimit', parseInt(e.target.value))}
+              aria-label={`Set turn time limit to ${settings.turnTimeLimit} seconds`}
+              aria-valuemin={5}
+              aria-valuemax={30}
+              aria-valuenow={settings.turnTimeLimit}
               className="w-full"
             />
             <div className="flex justify-between text-xs text-white/60 mt-1">
@@ -346,16 +351,21 @@ const SpeedRoundConfig: React.FC<SpeedRoundConfigProps> = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-white/80 mb-2">
+            <label htmlFor="speed-bonus-multiplier" className="block text-sm font-medium text-white/80 mb-2">
               Speed Bonus Multiplier: {settings.speedBonusMultiplier}x
             </label>
             <input
+              id="speed-bonus-multiplier"
               type="range"
               min="1"
               max="3"
               step="0.1"
               value={settings.speedBonusMultiplier}
               onChange={(e) => handleSettingChange('speedBonusMultiplier', parseFloat(e.target.value))}
+              aria-label={`Set speed bonus multiplier to ${settings.speedBonusMultiplier}x`}
+              aria-valuemin={1}
+              aria-valuemax={3}
+              aria-valuenow={settings.speedBonusMultiplier}
               className="w-full"
             />
             <div className="flex justify-between text-xs text-white/60 mt-1">
@@ -365,15 +375,20 @@ const SpeedRoundConfig: React.FC<SpeedRoundConfigProps> = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-white/80 mb-2">
+            <label htmlFor="timeout-penalty" className="block text-sm font-medium text-white/80 mb-2">
               Penalty for Timeout: -{settings.timeoutPenalty} points
             </label>
             <input
+              id="timeout-penalty"
               type="range"
               min="0"
               max="50"
               value={settings.timeoutPenalty}
               onChange={(e) => handleSettingChange('timeoutPenalty', parseInt(e.target.value))}
+              aria-label={`Set timeout penalty to ${settings.timeoutPenalty} points`}
+              aria-valuemin={0}
+              aria-valuemax={50}
+              aria-valuenow={settings.timeoutPenalty}
               className="w-full"
             />
             <div className="flex justify-between text-xs text-white/60 mt-1">
@@ -397,15 +412,20 @@ const SpeedRoundConfig: React.FC<SpeedRoundConfigProps> = ({
 
           {settings.warningEnabled && (
             <div className="ml-7">
-              <label className="block text-sm font-medium text-white/80 mb-2">
+              <label htmlFor="warning-threshold" className="block text-sm font-medium text-white/80 mb-2">
                 Warning at: {settings.warningThreshold}s remaining
               </label>
               <input
+                id="warning-threshold"
                 type="range"
                 min="1"
                 max={settings.turnTimeLimit - 1}
                 value={settings.warningThreshold}
                 onChange={(e) => handleSettingChange('warningThreshold', parseInt(e.target.value))}
+                aria-label={`Set warning threshold to ${settings.warningThreshold} seconds remaining`}
+                aria-valuemin={1}
+                aria-valuemax={settings.turnTimeLimit - 1}
+                aria-valuenow={settings.warningThreshold}
                 className="w-full"
               />
             </div>

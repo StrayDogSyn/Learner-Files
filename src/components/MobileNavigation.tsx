@@ -216,7 +216,7 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
               role="navigation"
               aria-label="Mobile navigation"
             >
-              <ul className="space-y-1" role="list">
+              <ul className="space-y-1" role="menubar" aria-label="Main menu">
                 {navigationItems.map((item, index) => {
                   const isActive = currentPath === item.href;
                   const isFirst = index === 0;

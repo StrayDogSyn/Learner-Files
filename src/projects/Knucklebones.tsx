@@ -816,8 +816,12 @@ const Knucklebones: React.FC = () => {
               <button 
                 type="button" 
                 className="btn-close btn-close-white me-2 m-auto"
+                aria-label="Close notification"
+                title="Close"
                 onClick={() => setToasts(prev => prev.filter(t => t.id !== toast.id))}
-              />
+              >
+                <span className="sr-only">Close notification</span>
+              </button>
             </div>
           </div>
         ))}

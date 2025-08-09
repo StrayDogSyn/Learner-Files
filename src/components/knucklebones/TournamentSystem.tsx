@@ -165,12 +165,15 @@ const TournamentCreator: React.FC<TournamentCreatorProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-white/80 mb-2">
+              <label htmlFor="tournament-type" className="block text-sm font-medium text-white/80 mb-2">
                 Tournament Type
               </label>
               <select
+                id="tournament-type"
                 value={settings.type || 'single_elimination'}
                 onChange={(e) => setSettings(prev => ({ ...prev, type: e.target.value as any }))}
+                aria-label="Select tournament type"
+                title="Choose tournament format"
                 className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
               >
                 <option value="single_elimination">Single Elimination</option>
@@ -182,28 +185,34 @@ const TournamentCreator: React.FC<TournamentCreatorProps> = ({
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-white/80 mb-2">
+                <label htmlFor="max-players" className="block text-sm font-medium text-white/80 mb-2">
                   Max Players
                 </label>
                 <input
+                  id="max-players"
                   type="number"
                   min="2"
                   max="64"
                   value={settings.maxPlayers || 8}
                   onChange={(e) => setSettings(prev => ({ ...prev, maxPlayers: parseInt(e.target.value) }))}
+                  aria-label="Set maximum number of players"
+                  title="Maximum players allowed in tournament"
                   className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-white/80 mb-2">
+                <label htmlFor="entry-fee" className="block text-sm font-medium text-white/80 mb-2">
                   Entry Fee
                 </label>
                 <input
+                  id="entry-fee"
                   type="number"
                   min="0"
                   value={settings.entryFee || 0}
                   onChange={(e) => setSettings(prev => ({ ...prev, entryFee: parseInt(e.target.value) }))}
+                  aria-label="Set tournament entry fee"
+                  title="Entry fee for tournament participation"
                   className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
                 />
               </div>
@@ -216,10 +225,11 @@ const TournamentCreator: React.FC<TournamentCreatorProps> = ({
             
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-medium text-white/80 mb-2">
+                <label htmlFor="round-limit" className="block text-sm font-medium text-white/80 mb-2">
                   Round Limit
                 </label>
                 <input
+                  id="round-limit"
                   type="number"
                   min="5"
                   max="20"
@@ -231,15 +241,18 @@ const TournamentCreator: React.FC<TournamentCreatorProps> = ({
                       roundLimit: parseInt(e.target.value)
                     }
                   }))}
+                  aria-label="Set round limit for games"
+                  title="Maximum number of rounds per game"
                   className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-white/80 mb-2">
+                <label htmlFor="time-limit" className="block text-sm font-medium text-white/80 mb-2">
                   Time Limit (s)
                 </label>
                 <input
+                  id="time-limit"
                   type="number"
                   min="60"
                   max="600"
@@ -251,15 +264,18 @@ const TournamentCreator: React.FC<TournamentCreatorProps> = ({
                       timeLimit: parseInt(e.target.value)
                     }
                   }))}
+                  aria-label="Set time limit for games in seconds"
+                  title="Time limit per game in seconds"
                   className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-white/80 mb-2">
+                <label htmlFor="dice-count" className="block text-sm font-medium text-white/80 mb-2">
                   Dice Count
                 </label>
                 <input
+                  id="dice-count"
                   type="number"
                   min="1"
                   max="6"
@@ -271,6 +287,8 @@ const TournamentCreator: React.FC<TournamentCreatorProps> = ({
                       diceCount: parseInt(e.target.value)
                     }
                   }))}
+                  aria-label="Set number of dice per turn"
+                  title="Number of dice rolled per turn"
                   className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
                 />
               </div>
@@ -323,25 +341,31 @@ const TournamentCreator: React.FC<TournamentCreatorProps> = ({
             
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-white/80 mb-2">
+                <label htmlFor="registration-deadline" className="block text-sm font-medium text-white/80 mb-2">
                   Registration Deadline
                 </label>
                 <input
+                  id="registration-deadline"
                   type="datetime-local"
                   value={settings.registrationDeadline?.toISOString().slice(0, 16) || ''}
                   onChange={(e) => setSettings(prev => ({ ...prev, registrationDeadline: new Date(e.target.value) }))}
+                  aria-label="Set registration deadline date and time"
+                  title="Deadline for tournament registration"
                   className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-white/80 mb-2">
+                <label htmlFor="start-time" className="block text-sm font-medium text-white/80 mb-2">
                   Start Time
                 </label>
                 <input
+                  id="start-time"
                   type="datetime-local"
                   value={settings.startTime?.toISOString().slice(0, 16) || ''}
                   onChange={(e) => setSettings(prev => ({ ...prev, startTime: new Date(e.target.value) }))}
+                  aria-label="Set tournament start date and time"
+                  title="Tournament start date and time"
                   className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
                 />
                 {errors.startTime && <p className="text-red-400 text-sm mt-1">{errors.startTime}</p>}

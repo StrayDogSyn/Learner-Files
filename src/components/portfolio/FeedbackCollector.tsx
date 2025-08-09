@@ -167,12 +167,15 @@ export const FeedbackCollector: React.FC<FeedbackCollectorProps> = ({
               {/* Close Button */}
               <button
                 onClick={() => setShowModal(false)}
+                aria-label="Close feedback modal"
+                title="Close"
                 className="
                   absolute top-4 right-4 p-2 rounded-full
                   hover:bg-white/10 transition-colors
                 "
               >
                 <X className="w-5 h-5 text-white/70" />
+                <span className="sr-only">Close feedback modal</span>
               </button>
 
               {/* Header */}

@@ -1451,17 +1451,22 @@ const Calculator: React.FC = () => {
                     <div className="graphing-mode">
                       <div className="graph-controls">
                         <div className="function-input">
-                          <label>Function: f(x) = </label>
+                          <label htmlFor="graph-function-input">Function: f(x) = </label>
                           <input 
+                            id="graph-function-input"
                             type="text" 
                             value={state.graphFunction}
                             onChange={(e) => setState(prev => ({ ...prev, graphFunction: e.target.value }))}
                             placeholder="Enter function (e.g., x^2, sin(x), log(x))"
                             className="form-control"
+                            aria-label="Enter mathematical function to graph"
+                            title="Enter a mathematical function using x as the variable"
                           />
                           <button 
                             className="btn btn-primary" 
                             onClick={() => plotFunction(state.graphFunction)}
+                            aria-label="Plot the entered function on the graph"
+                            title="Generate graph for the entered function"
                           >
                             Plot
                           </button>
@@ -1469,37 +1474,57 @@ const Calculator: React.FC = () => {
                         
                         <div className="range-controls">
                           <div className="range-group">
-                            <label>X Range:</label>
-                            <input 
-                              type="number" 
-                              value={state.graphXMin}
-                              onChange={(e) => setState(prev => ({ ...prev, graphXMin: Number(e.target.value) }))}
-                              className="form-control range-input"
-                            />
-                            <span>to</span>
-                            <input 
-                              type="number" 
-                              value={state.graphXMax}
-                              onChange={(e) => setState(prev => ({ ...prev, graphXMax: Number(e.target.value) }))}
-                              className="form-control range-input"
-                            />
+                            <fieldset>
+                              <legend>X Range:</legend>
+                              <label htmlFor="graph-x-min" className="sr-only">X minimum value</label>
+                              <input 
+                                id="graph-x-min"
+                                type="number" 
+                                value={state.graphXMin}
+                                onChange={(e) => setState(prev => ({ ...prev, graphXMin: Number(e.target.value) }))}
+                                className="form-control range-input"
+                                aria-label="X axis minimum value"
+                                title="Set the minimum value for the X axis"
+                              />
+                              <span>to</span>
+                              <label htmlFor="graph-x-max" className="sr-only">X maximum value</label>
+                              <input 
+                                id="graph-x-max"
+                                type="number" 
+                                value={state.graphXMax}
+                                onChange={(e) => setState(prev => ({ ...prev, graphXMax: Number(e.target.value) }))}
+                                className="form-control range-input"
+                                aria-label="X axis maximum value"
+                                title="Set the maximum value for the X axis"
+                              />
+                            </fieldset>
                           </div>
                           
                           <div className="range-group">
-                            <label>Y Range:</label>
-                            <input 
-                              type="number" 
-                              value={state.graphYMin}
-                              onChange={(e) => setState(prev => ({ ...prev, graphYMin: Number(e.target.value) }))}
-                              className="form-control range-input"
-                            />
-                            <span>to</span>
-                            <input 
-                              type="number" 
-                              value={state.graphYMax}
-                              onChange={(e) => setState(prev => ({ ...prev, graphYMax: Number(e.target.value) }))}
-                              className="form-control range-input"
-                            />
+                            <fieldset>
+                              <legend>Y Range:</legend>
+                              <label htmlFor="graph-y-min" className="sr-only">Y minimum value</label>
+                              <input 
+                                id="graph-y-min"
+                                type="number" 
+                                value={state.graphYMin}
+                                onChange={(e) => setState(prev => ({ ...prev, graphYMin: Number(e.target.value) }))}
+                                className="form-control range-input"
+                                aria-label="Y axis minimum value"
+                                title="Set the minimum value for the Y axis"
+                              />
+                              <span>to</span>
+                              <label htmlFor="graph-y-max" className="sr-only">Y maximum value</label>
+                              <input 
+                                id="graph-y-max"
+                                type="number" 
+                                value={state.graphYMax}
+                                onChange={(e) => setState(prev => ({ ...prev, graphYMax: Number(e.target.value) }))}
+                                className="form-control range-input"
+                                aria-label="Y axis maximum value"
+                                title="Set the maximum value for the Y axis"
+                              />
+                            </fieldset>
                           </div>
                           
                           <button 
@@ -1582,63 +1607,81 @@ const Calculator: React.FC = () => {
                       
                       {/* Number Base Selector */}
                       <div className="base-selector">
-                        <label>Number Base:</label>
-                        <div className="base-buttons">
-                          {(['bin', 'oct', 'dec', 'hex'] as const).map(base => (
-                            <button
-                              key={base}
-                              className={`btn base-btn ${state.numberBase === base ? 'active' : ''}`}
-                              onClick={() => setState(prev => ({ ...prev, numberBase: base }))}
-                            >
-                              {base.toUpperCase()}
-                            </button>
-                          ))}
-                        </div>
+                        <fieldset>
+                          <legend>Number Base:</legend>
+                          <div className="base-buttons" role="radiogroup" aria-label="Select number base">
+                            {(['bin', 'oct', 'dec', 'hex'] as const).map(base => (
+                              <button
+                                key={base}
+                                className={`btn base-btn ${state.numberBase === base ? 'active' : ''}`}
+                                onClick={() => setState(prev => ({ ...prev, numberBase: base }))}
+                                role="radio"
+                                aria-checked={state.numberBase === base}
+                                aria-label={`${base.toUpperCase()} - ${base === 'bin' ? 'Binary' : base === 'oct' ? 'Octal' : base === 'dec' ? 'Decimal' : 'Hexadecimal'}`}
+                                title={`Switch to ${base === 'bin' ? 'Binary' : base === 'oct' ? 'Octal' : base === 'dec' ? 'Decimal' : 'Hexadecimal'} base`}
+                              >
+                                {base.toUpperCase()}
+                              </button>
+                            ))}
+                          </div>
+                        </fieldset>
                       </div>
 
                       {/* Number Base Conversion Display */}
                       <div className="base-conversion-display">
                         <div className="base-input-group">
-                          <label>Binary (BIN):</label>
+                          <label htmlFor="binary-input">Binary (BIN):</label>
                           <input
+                            id="binary-input"
                             type="text"
                             value={state.binaryValue}
                             onChange={(e) => handleProgrammingInput(e.target.value, 'bin')}
                             className="form-control base-input"
                             placeholder="Enter binary number"
+                            aria-label="Enter binary number (0s and 1s only)"
+                            title="Enter a binary number using only 0s and 1s"
                           />
                         </div>
                         
                         <div className="base-input-group">
-                          <label>Octal (OCT):</label>
+                          <label htmlFor="octal-input">Octal (OCT):</label>
                           <input
+                            id="octal-input"
                             type="text"
                             value={state.octalValue}
                             onChange={(e) => handleProgrammingInput(e.target.value, 'oct')}
                             className="form-control base-input"
                             placeholder="Enter octal number"
+                            aria-label="Enter octal number (digits 0-7 only)"
+                            title="Enter an octal number using digits 0-7"
                           />
                         </div>
                         
                         <div className="base-input-group">
-                          <label>Decimal (DEC):</label>
+                          <label htmlFor="decimal-input">Decimal (DEC):</label>
                           <input
+                            id="decimal-input"
                             type="text"
                             value={state.decimalValue}
                             onChange={(e) => handleProgrammingInput(e.target.value, 'dec')}
                             className="form-control base-input"
                             placeholder="Enter decimal number"
+                            aria-label="Enter decimal number (digits 0-9)"
+                            title="Enter a decimal number using digits 0-9"
                           />
                         </div>
                         
                         <div className="base-input-group">
-                          <label>Hexadecimal (HEX):</label>
+                          <label htmlFor="hex-input">Hexadecimal (HEX):</label>
                           <input
+                            id="hex-input"
                             type="text"
                             value={state.hexValue}
                             onChange={(e) => handleProgrammingInput(e.target.value, 'hex')}
                             className="form-control base-input"
                             placeholder="Enter hex number"
+                            aria-label="Enter hexadecimal number (digits 0-9, A-F)"
+                            title="Enter a hexadecimal number using digits 0-9 and letters A-F"
                           />
                         </div>
                       </div>
@@ -1648,17 +1691,23 @@ const Calculator: React.FC = () => {
                         <h5>Bitwise Operations</h5>
                         <div className="bitwise-controls">
                           <div className="operand-inputs">
+                            <label htmlFor="operand1" className="sr-only">First operand for bitwise operation</label>
                             <input
                               type="text"
                               placeholder="Operand 1 (decimal)"
                               className="form-control operand-input"
                               id="operand1"
+                              aria-label="Enter first operand for bitwise operation (decimal number)"
+                              title="Enter the first decimal number for bitwise operation"
                             />
+                            <label htmlFor="operand2" className="sr-only">Second operand for bitwise operation</label>
                             <input
                               type="text"
                               placeholder="Operand 2 (decimal)"
                               className="form-control operand-input"
                               id="operand2"
+                              aria-label="Enter second operand for bitwise operation (decimal number)"
+                              title="Enter the second decimal number for bitwise operation"
                             />
                           </div>
                           
@@ -1750,19 +1799,26 @@ const Calculator: React.FC = () => {
                        <div className="conversion-interface">
                          <div className="conversion-row">
                            <div className="conversion-input">
-                             <label>From:</label>
+                             <label htmlFor="conversion-value-input">From:</label>
                              <div className="input-group">
                                <input
+                                 id="conversion-value-input"
                                  type="number"
                                  value={state.conversionValue}
                                  onChange={(e) => setState(prev => ({ ...prev, conversionValue: e.target.value }))}
                                  className="form-control value-input"
                                  placeholder="Enter value"
+                                 aria-label="Enter value to convert"
+                                 title="Enter the value you want to convert"
                                />
+                               <label htmlFor="from-unit-select" className="sr-only">From unit</label>
                                <select
+                                 id="from-unit-select"
                                  value={state.fromUnit}
                                  onChange={(e) => setState(prev => ({ ...prev, fromUnit: e.target.value }))}
                                  className="form-control unit-select"
+                                 aria-label="Select unit to convert from"
+                                 title="Select the unit to convert from"
                                >
                                  {Object.entries(getUnitsForCategory(state.unitCategory)).map(([key, label]) => (
                                    <option key={key} value={key}>{label}</option>
@@ -1782,25 +1838,34 @@ const Calculator: React.FC = () => {
                                  conversionResult: prev.conversionValue
                                }))}
                                title="Swap units"
+                               aria-label="Swap from and to units"
                              >
                                ⇄
+                               <span className="sr-only">Swap units</span>
                              </button>
                            </div>
                            
                            <div className="conversion-output">
-                             <label>To:</label>
+                             <label htmlFor="conversion-result-input">To:</label>
                              <div className="input-group">
                                <input
+                                 id="conversion-result-input"
                                  type="text"
                                  value={state.conversionResult}
                                  readOnly
                                  className="form-control result-input"
                                  placeholder="Result"
+                                 aria-label="Conversion result"
+                                 title="Conversion result will appear here"
                                />
+                               <label htmlFor="to-unit-select" className="sr-only">To unit</label>
                                <select
+                                 id="to-unit-select"
                                  value={state.toUnit}
                                  onChange={(e) => setState(prev => ({ ...prev, toUnit: e.target.value }))}
                                  className="form-control unit-select"
+                                 aria-label="Select unit to convert to"
+                                 title="Select the unit to convert to"
                                >
                                  {Object.entries(getUnitsForCategory(state.unitCategory)).map(([key, label]) => (
                                    <option key={key} value={key}>{label}</option>

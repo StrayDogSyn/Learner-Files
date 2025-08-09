@@ -147,8 +147,10 @@ export default function Projects() {
             >
               {/* Search */}
               <div className="relative flex-1 max-w-md">
+                <label htmlFor="project-search" className="sr-only">Search projects</label>
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-charcoal opacity-60 w-4 h-4" />
                 <input
+                  id="project-search"
                   type="text"
                   placeholder="Search projects..."
                   value={searchQuery}
@@ -156,19 +158,24 @@ export default function Projects() {
                     setSearchQuery(e.target.value);
                     trackInteraction('search', 'projects_search', { query: e.target.value });
                   }}
+                  aria-label="Search projects by name or technology"
                   className="glassmorphic-card w-full pl-10 pr-4 py-3 text-charcoal placeholder-charcoal/60 focus:outline-none focus:ring-2 focus:ring-hunter-green focus:ring-opacity-50"
                 />
               </div>
               
               {/* Category Filter */}
               <div className="relative">
+                <label htmlFor="category-filter" className="sr-only">Filter by category</label>
                 <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-charcoal opacity-60 w-4 h-4" />
                 <select
+                  id="category-filter"
                   value={selectedCategory}
                   onChange={(e) => {
                     setSelectedCategory(e.target.value);
                     trackInteraction('filter', 'category_filter', { category: e.target.value });
                   }}
+                  aria-label="Filter projects by category"
+                  title="Select project category"
                   className="glassmorphic-card pl-10 pr-8 py-3 text-charcoal focus:outline-none focus:ring-2 focus:ring-hunter-green focus:ring-opacity-50 appearance-none"
                 >
                   {categories.slice(0, 8).map(category => (
@@ -181,13 +188,17 @@ export default function Projects() {
               
               {/* Sort */}
               <div className="relative">
+                <label htmlFor="sort-projects" className="sr-only">Sort projects</label>
                 <TrendingUp className="absolute left-3 top-1/2 transform -translate-y-1/2 text-charcoal opacity-60 w-4 h-4" />
                 <select
+                  id="sort-projects"
                   value={sortBy}
                   onChange={(e) => {
                     setSortBy(e.target.value);
                     trackInteraction('sort', 'projects_sort', { sortBy: e.target.value });
                   }}
+                  aria-label="Sort projects by criteria"
+                  title="Select sorting criteria"
                   className="glassmorphic-card pl-10 pr-8 py-3 text-charcoal focus:outline-none focus:ring-2 focus:ring-hunter-green focus:ring-opacity-50 appearance-none"
                 >
                   <option value="featured">Featured First</option>
