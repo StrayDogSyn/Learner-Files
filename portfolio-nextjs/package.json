@@ -6,12 +6,16 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "export": "next build",
+    "deploy": "npm run build && touch out/.nojekyll",
+    "deploy:github": "npm run deploy && gh-pages -d out -t true"
   },
   "dependencies": {
+    "@react-three/fiber": "8.15",
     "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "framer-motion": "^12.23.12",
+    "clsx": "2.0",
+    "framer-motion": "^11.18.2",
     "intersection-observer": "^0.12.2",
     "lodash.debounce": "^4.0.8",
     "lodash.throttle": "^4.1.1",
@@ -21,7 +25,8 @@
     "react-dom": "19.1.0",
     "recharts": "^3.1.2",
     "resize-observer-polyfill": "^1.5.1",
-    "tailwind-merge": "^3.3.1"
+    "tailwind-merge": "2.0",
+    "three": "^0.158.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -31,8 +36,10 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/three": "^0.179.0",
     "eslint": "^9",
     "eslint-config-next": "15.4.6",
+    "gh-pages": "^6.1.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

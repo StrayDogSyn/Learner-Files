@@ -47,7 +47,7 @@ export default function CaseStudiesPage() {
                   transition={{ duration: 0.6, delay: 0.2 }}
                   className="mb-8"
                 >
-                  <Glass variant="card" className="p-4">
+                  <Glass config="card" className="p-4">
                     <div className="flex items-center justify-between">
                       <Button
                         variant="ghost"

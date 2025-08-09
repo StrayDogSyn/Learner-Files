@@ -57,8 +57,7 @@ const SkillBadge: React.FC<{ skill: string; delay: number }> = ({ skill, delay }
     className="group"
   >
     <Glass 
-      variant="button" 
-      interactive
+      config="button" 
       className="px-3 py-1.5 text-sm font-medium text-white/80 group-hover:text-white transition-colors duration-300"
     >
       {skill}
@@ -74,8 +73,7 @@ const StatCard: React.FC<{
 }> = ({ number, label, delay, icon }) => (
   <FloatingCard delay={delay}>
     <Glass 
-      variant="card" 
-      interactive
+      config="card" 
       className="p-6 text-center group hover-glow"
     >
       <div className="flex items-center justify-center mb-3 text-blue-400 group-hover:text-blue-300 transition-colors duration-300">
@@ -126,7 +124,7 @@ export const EnhancedHero: React.FC = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <Glass variant="button" className="inline-flex items-center px-4 py-2 mb-6">
+              <Glass config="button" className="inline-flex items-center px-4 py-2 mb-6">
                 <span className="w-2 h-2 bg-green-400 rounded-full mr-3 animate-pulse" />
                 <Typography variant="bodySmall" className="text-white/80">
                 Available for new opportunities
@@ -214,8 +212,7 @@ export const EnhancedHero: React.FC = () => {
                   className="group"
                 >
                   <Glass 
-                    variant="button" 
-                    interactive
+                    config="button" 
                     className="p-3 text-white/60 group-hover:text-white transition-colors duration-300"
                   >
                     <Icon className="w-5 h-5" />
@@ -238,9 +235,7 @@ export const EnhancedHero: React.FC = () => {
             {/* Featured Project Preview */}
             <FloatingCard delay={1.8}>
               <Glass 
-                variant="modal" 
-                interactive
-                shimmer
+                config="modal" 
                 className="p-6 group cursor-pointer"
               >
                 <div className="flex items-center justify-between mb-4">
@@ -283,7 +278,7 @@ export const EnhancedHero: React.FC = () => {
             {/* Profile Image */}
             <FloatingCard delay={2.0}>
               <Glass 
-                variant="card" 
+                config="card" 
                 className="p-4 text-center"
               >
                 <div className="relative w-24 h-24 mx-auto mb-4">

@@ -1,2 +1,3 @@
-export { Glass, default } from './Glass';
-export type { GlassConfig } from '@/lib/glass-effects';
+export { Glass } from './Glass';
+export type { GlassConfig } from '@/hooks/useGlassEffect';
+export { glassPresets } from '@/hooks/useGlassEffect';

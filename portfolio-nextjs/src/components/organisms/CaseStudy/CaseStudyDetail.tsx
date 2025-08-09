@@ -41,7 +41,7 @@ const MetricCard: React.FC<{
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.6, delay }}
   >
-    <Glass variant="card" interactive className="p-6 text-center group hover-glow">
+    <Glass config="card" className="p-6 text-center group hover-glow">
       <div className="text-blue-400 mb-3 flex justify-center group-hover:text-blue-300 transition-colors duration-300">
         {icon}
       </div>
@@ -64,7 +64,7 @@ const ChallengeCard: React.FC<{
     animate={{ opacity: 1, x: 0 }}
     transition={{ duration: 0.6, delay }}
   >
-    <Glass variant="card" className="p-6 group hover-lift">
+    <Glass config="card" className="p-6 group hover-lift">
       <div className="flex items-start gap-4">
         <div className="text-red-400 mt-1 flex-shrink-0">
           <Target className="w-5 h-5" />
@@ -122,7 +122,7 @@ const ProcessStep: React.FC<{
     className="flex items-start gap-4"
   >
     <div className="flex-shrink-0">
-      <Glass variant="button" className="w-8 h-8 flex items-center justify-center">
+      <Glass config="button" className="w-8 h-8 flex items-center justify-center">
         <Typography variant="bodySmall" className="text-blue-400 font-bold">
           {index + 1}
         </Typography>
@@ -149,7 +149,7 @@ const ImageGallery: React.FC<{
   };
   
   return (
-    <Glass variant="modal" className="p-6">
+    <Glass config="modal" className="p-6">
       <div className="relative aspect-video rounded-lg overflow-hidden mb-4">
         <AnimatePresence mode="wait">
           <motion.img
@@ -354,7 +354,7 @@ export const CaseStudyDetail: React.FC<CaseStudyDetailProps> = ({ caseStudy }) =
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
         >
-          <Glass variant="card" className="p-8 h-full">
+          <Glass config="card" className="p-8 h-full">
             <div className="flex items-center gap-3 mb-6">
               <Target className="w-6 h-6 text-red-400" />
               <Typography variant="h4" className="text-white font-bold">
@@ -372,7 +372,7 @@ export const CaseStudyDetail: React.FC<CaseStudyDetailProps> = ({ caseStudy }) =
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.7 }}
         >
-          <Glass variant="card" className="p-8 h-full">
+          <Glass config="card" className="p-8 h-full">
             <div className="flex items-center gap-3 mb-6">
               <Lightbulb className="w-6 h-6 text-green-400" />
               <Typography variant="h4" className="text-white font-bold">
@@ -396,7 +396,7 @@ export const CaseStudyDetail: React.FC<CaseStudyDetailProps> = ({ caseStudy }) =
           Development Process
         </Typography>
         
-        <Glass variant="card" className="p-8">
+        <Glass config="card" className="p-8">
           <div className="space-y-6">
             {caseStudy.process.map((step, index) => (
               <ProcessStep
@@ -443,7 +443,7 @@ export const CaseStudyDetail: React.FC<CaseStudyDetailProps> = ({ caseStudy }) =
           Project Results
         </Typography>
         
-        <Glass variant="card" className="p-8">
+        <Glass config="card" className="p-8">
           <div className="grid md:grid-cols-2 gap-6">
             {caseStudy.results.map((result, index) => (
               <motion.div
@@ -470,7 +470,7 @@ export const CaseStudyDetail: React.FC<CaseStudyDetailProps> = ({ caseStudy }) =
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.4 }}
         >
-          <Glass variant="modal" className="p-8 text-center">
+          <Glass config="modal" className="p-8 text-center">
             <Quote className="w-12 h-12 text-blue-400 mx-auto mb-6" />
             
             <Typography variant="h5" className="text-white font-medium mb-6 italic leading-relaxed">
@@ -517,7 +517,7 @@ export const CaseStudyDetail: React.FC<CaseStudyDetailProps> = ({ caseStudy }) =
               transition={{ duration: 0.5, delay: 1.8 + index * 0.05 }}
               whileHover={{ scale: 1.05 }}
             >
-              <Glass variant="button" className="px-4 py-2">
+              <Glass config="button" className="px-4 py-2">
                 <Typography variant="bodySmall" className="text-white/80 font-medium">
                   {tech}
                 </Typography>

@@ -226,7 +226,7 @@ export const PersonalInfoStep: React.FC<ContactStepProps> = ({
         </Typography>
       </div>
       
-      <Glass variant="card" className="p-6 space-y-6">
+      <Glass config="card" className="p-6 space-y-6">
         <div className="grid md:grid-cols-2 gap-6">
           <InputField
             label="First Name"
@@ -361,7 +361,7 @@ export const ProjectDetailsStep: React.FC<ContactStepProps> = ({
         </Typography>
       </div>
       
-      <Glass variant="card" className="p-6 space-y-6">
+      <Glass config="card" className="p-6 space-y-6">
         <SelectField
           label="Project Type"
           value={formData.projectType}
@@ -475,7 +475,7 @@ export const GoalsStep: React.FC<ContactStepProps> = ({
         </Typography>
       </div>
       
-      <Glass variant="card" className="p-6 space-y-6">
+      <Glass config="card" className="p-6 space-y-6">
         <CheckboxGroup
           label="Project Goals"
           options={goalOptions}
@@ -563,7 +563,7 @@ export const ReviewStep: React.FC<ContactStepProps> = ({
       
       <div className="space-y-6">
         {/* Personal Information */}
-        <Glass variant="card" className="p-6">
+        <Glass config="card" className="p-6">
           <Typography variant="h5" className="text-white font-bold mb-4 flex items-center gap-2">
             <User className="w-5 h-5 text-blue-400" />
             Personal Information
@@ -594,7 +594,7 @@ export const ReviewStep: React.FC<ContactStepProps> = ({
         </Glass>
         
         {/* Project Details */}
-        <Glass variant="card" className="p-6">
+        <Glass config="card" className="p-6">
           <Typography variant="h5" className="text-white font-bold mb-4 flex items-center gap-2">
             <Target className="w-5 h-5 text-blue-400" />
             Project Details
@@ -622,7 +622,7 @@ export const ReviewStep: React.FC<ContactStepProps> = ({
         
         {/* Goals & Additional Info */}
         {(formData.goals.length > 0 || formData.additionalInfo) && (
-          <Glass variant="card" className="p-6">
+          <Glass config="card" className="p-6">
             <Typography variant="h5" className="text-white font-bold mb-4 flex items-center gap-2">
               <CheckCircle className="w-5 h-5 text-blue-400" />
               Goals & Additional Information

@@ -48,9 +48,8 @@ const StatCard: React.FC<StatCardProps> = ({
     transition={{ duration: 0.6, delay }}
     whileHover={{ scale: 1.02, y: -2 }}
   >
-    <Glass 
-      variant="card" 
-      interactive
+    <Glass
+      config="card"
       className="p-6 group hover-glow"
     >
       <div className="flex items-center justify-between mb-4">
@@ -91,7 +90,7 @@ const LanguageBar: React.FC<{
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay }}
     >
-      <Glass variant="card" className="p-6">
+      <Glass config="card" className="p-6">
         <Typography variant="h6" className="text-white font-semibold mb-4 flex items-center">
           <Code className="w-5 h-5 mr-2 text-blue-400" />
           Top Languages
@@ -153,9 +152,8 @@ const RepoCard: React.FC<{
     transition={{ duration: 0.6, delay }}
     whileHover={{ scale: 1.02 }}
   >
-    <Glass 
-      variant="card" 
-      interactive
+    <Glass
+      config="card"
       className="p-6 group hover-lift"
     >
       <div className="flex items-start justify-between mb-3">
@@ -212,13 +210,19 @@ const RepoCard: React.FC<{
 const LoadingState: React.FC = () => (
   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
     {[...Array(4)].map((_, index) => (
-      <Glass key={index} variant="card" shimmer className="p-6 h-32" />
+      <Glass key={index} config="card" className="p-6 h-32">
+        <div className="animate-pulse">
+          <div className="h-4 bg-white/20 rounded mb-2"></div>
+          <div className="h-3 bg-white/10 rounded mb-1"></div>
+          <div className="h-3 bg-white/10 rounded w-3/4"></div>
+        </div>
+      </Glass>
     ))}
   </div>
 );
 
 const ErrorState: React.FC<{ onRetry: () => void }> = ({ onRetry }) => (
-  <Glass variant="modal" className="p-8 text-center">
+  <Glass config="modal" className="p-8 text-center">
     <Typography variant="h6" className="text-white font-semibold mb-4">
       Failed to load GitHub data
     </Typography>
@@ -375,7 +379,7 @@ export const GitHubStats: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.6 }}
             >
-              <Glass variant="card" className="p-6">
+              <Glass config="card" className="p-6">
                 <Typography variant="h6" className="text-white font-semibold mb-4 flex items-center">
                   <Star className="w-5 h-5 mr-2 text-yellow-400" />
                   Most Starred Repository

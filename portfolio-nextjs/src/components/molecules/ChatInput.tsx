@@ -108,7 +108,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
       
       mediaRecorder.start();
       setIsRecording(true);
-    } catch (error) {
+    } catch {
       // Error starting recording
     }
   };

@@ -129,11 +129,11 @@ export const ProjectShowcase: React.FC = () => {
           className="text-center mb-12"
         >
           <Typography variant="h1" className="text-white mb-4">
-            Project Showcase
+            Justice Reform Projects
           </Typography>
           <Typography variant="body" className="text-gray-300 max-w-2xl mx-auto">
-            Explore my portfolio of innovative projects, from interactive games to professional web applications.
-            Each project demonstrates cutting-edge technologies and creative problem-solving.
+            Explore my portfolio of AI-powered justice reform projects featuring Claude 4.1 integration.
+            From bias detection systems to legal accessibility platforms, each project demonstrates transformative technology for social impact.
           </Typography>
         </motion.div>
 

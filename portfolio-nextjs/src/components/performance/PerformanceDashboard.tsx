@@ -10,7 +10,7 @@ import {
   TrendingUp, 
   AlertTriangle, 
   CheckCircle, 
-  XCircle,
+  X,
   BarChart3,
   Settings
 } from 'lucide-react';
@@ -51,7 +51,7 @@ const MetricCard: React.FC<MetricCardProps> = ({
     switch (grade) {
       case 'good': return <CheckCircle className="w-4 h-4" />;
       case 'needs-improvement': return <AlertTriangle className="w-4 h-4" />;
-      case 'poor': return <XCircle className="w-4 h-4" />;
+      case 'poor': return <X className="w-4 h-4" />;
       default: return <Clock className="w-4 h-4" />;
     }
   };
@@ -65,7 +65,7 @@ const MetricCard: React.FC<MetricCardProps> = ({
 
   return (
     <Glass
-      variant="card"
+      config="card"
       className="p-6 hover:scale-105 transition-transform duration-300"
     >
       <div className="flex items-start justify-between mb-4">
@@ -234,7 +234,7 @@ const PerformanceDashboard: React.FC<PerformanceDashboardProps> = ({
           className="w-full max-w-6xl max-h-[90vh] overflow-y-auto"
           onClick={(e) => e.stopPropagation()}
         >
-          <Glass variant="modal" className="p-8">
+          <Glass config="modal" className="p-8">
             {/* Header */}
             <div className="flex items-center justify-between mb-8">
               <div className="flex items-center space-x-4">
@@ -280,13 +280,13 @@ const PerformanceDashboard: React.FC<PerformanceDashboardProps> = ({
 
             {/* Overall Status */}
             <div className="mb-8">
-              <Glass variant="card" className="p-6">
+              <Glass config="card" className="p-6">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-4">
                     <div className={cn('text-2xl', getOverallGradeColor())}>
                       {isGood && <CheckCircle className="w-8 h-8" />}
                       {needsImprovement && <AlertTriangle className="w-8 h-8" />}
-                      {isPoor && <XCircle className="w-8 h-8" />}
+                      {isPoor && <X className="w-8 h-8" />}
                       {!isGood && !needsImprovement && !isPoor && <Clock className="w-8 h-8" />}
                     </div>
                     <div>
@@ -365,7 +365,7 @@ const PerformanceDashboard: React.FC<PerformanceDashboardProps> = ({
                     <h4 className="text-md font-medium text-gray-900 dark:text-white mb-3">
                       Custom Metrics
                     </h4>
-                    <Glass variant="card" className="p-4">
+                    <Glass config="card" className="p-4">
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         {Object.entries(customMetrics).map(([name, value]) => (
                           <div key={name} className="text-center">
@@ -389,7 +389,7 @@ const PerformanceDashboard: React.FC<PerformanceDashboardProps> = ({
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                 Optimization Tips
               </h3>
-              <Glass variant="card" className="p-6">
+              <Glass config="card" className="p-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <h4 className="font-medium text-gray-900 dark:text-white mb-2">

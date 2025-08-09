@@ -248,7 +248,7 @@ export const ContactWizard: React.FC<ContactWizardProps> = ({
         transition={{ duration: 0.5 }}
         className="text-center py-12"
       >
-        <Glass variant="modal" className="p-8 max-w-md mx-auto">
+        <Glass config="modal" className="p-8 max-w-md mx-auto">
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
@@ -345,7 +345,7 @@ export const ContactWizard: React.FC<ContactWizardProps> = ({
           animate={{ opacity: 1 }}
           className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50"
         >
-          <Glass variant="modal" className="p-8 text-center">
+          <Glass config="modal" className="p-8 text-center">
             <div className="w-12 h-12 border-4 border-blue-400 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
             <Typography variant="h6" className="text-white font-medium">
               Submitting your request...
@@ -361,7 +361,7 @@ export const ContactWizard: React.FC<ContactWizardProps> = ({
           animate={{ opacity: 1, y: 0 }}
           className="mt-6"
         >
-          <Glass variant="card" className="p-4 border border-red-400/30 bg-red-500/10">
+          <Glass config="card" className="p-4 border border-red-400/30 bg-red-500/10">
             <Typography variant="bodySmall" className="text-red-400">
               {errors.submit}
             </Typography>

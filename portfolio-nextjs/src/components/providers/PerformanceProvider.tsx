@@ -201,7 +201,7 @@ export const PerformanceProvider: React.FC<PerformanceProviderProps> = ({ childr
               exit={{ opacity: 0, x: 300 }}
               className="max-w-sm"
             >
-              <Glass variant="card" className="p-4">
+              <Glass config="card" className="p-4">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <h4 className="font-semibold text-white mb-1">
@@ -250,7 +250,7 @@ export const PerformanceProvider: React.FC<PerformanceProviderProps> = ({ childr
               exit={{ opacity: 0, x: 300 }}
               className="max-w-sm"
             >
-              <Glass variant="card" className="p-4">
+              <Glass config="card" className="p-4">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <h4 className="font-semibold text-white mb-1">
@@ -299,7 +299,7 @@ export const PerformanceProvider: React.FC<PerformanceProviderProps> = ({ childr
               exit={{ opacity: 0, x: 300 }}
               className="max-w-sm"
             >
-              <Glass variant="card" className="p-4 border-yellow-500/50">
+              <Glass config="card" className="p-4 border-yellow-500/50">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <h4 className="font-semibold text-yellow-400 mb-1">

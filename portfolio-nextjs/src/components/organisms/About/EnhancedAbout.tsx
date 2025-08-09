@@ -7,15 +7,14 @@ import { Button } from '@/components/atoms/Button';
 import { Glass } from '@/components/atoms/Glass';
 import { 
   Code2, 
-  Palette, 
-  Zap, 
   Brain, 
   Rocket, 
-  Award, 
   Users, 
-  Coffee,
   ChevronRight,
-  Play
+  Play,
+  Scale,
+  Shield,
+  Target
 } from 'lucide-react';
 
 interface Skill {
@@ -34,37 +33,37 @@ interface Experience {
 }
 
 const skills: Skill[] = [
+  { name: 'Claude 4.1 Integration', level: 98, category: 'frontend', icon: <Brain className="w-5 h-5" /> },
   { name: 'React/Next.js', level: 95, category: 'frontend', icon: <Code2 className="w-5 h-5" /> },
+  { name: 'AI/ML Systems', level: 92, category: 'backend', icon: <Brain className="w-5 h-5" /> },
   { name: 'TypeScript', level: 90, category: 'frontend', icon: <Code2 className="w-5 h-5" /> },
-  { name: 'Node.js', level: 85, category: 'backend', icon: <Zap className="w-5 h-5" /> },
-  { name: 'Python', level: 80, category: 'backend', icon: <Brain className="w-5 h-5" /> },
-  { name: 'UI/UX Design', level: 88, category: 'tools', icon: <Palette className="w-5 h-5" /> },
-  { name: 'Problem Solving', level: 92, category: 'soft', icon: <Rocket className="w-5 h-5" /> },
-  { name: 'Team Leadership', level: 85, category: 'soft', icon: <Users className="w-5 h-5" /> },
-  { name: 'Communication', level: 90, category: 'soft', icon: <Coffee className="w-5 h-5" /> }
+  { name: 'Bias Detection Systems', level: 88, category: 'tools', icon: <Shield className="w-5 h-5" /> },
+  { name: 'Justice Reform Tech', level: 95, category: 'tools', icon: <Scale className="w-5 h-5" /> },
+  { name: 'AI-Enhanced Development', level: 96, category: 'soft', icon: <Rocket className="w-5 h-5" /> },
+  { name: 'Social Impact Leadership', level: 90, category: 'soft', icon: <Users className="w-5 h-5" /> }
 ];
 
 const experiences: Experience[] = [
   {
-    title: 'Senior Full-Stack Developer',
-    company: 'Tech Innovation Corp',
-    period: '2022 - Present',
-    description: 'Leading development of enterprise-scale applications with modern tech stack. Mentoring junior developers and architecting scalable solutions.',
-    technologies: ['React', 'Next.js', 'TypeScript', 'Node.js', 'PostgreSQL']
+    title: 'AI-Enhanced Full Stack Developer',
+    company: 'Justice Reform Technology Initiative',
+    period: '2023 - Present',
+    description: 'Leading development of AI-powered justice reform platforms using Claude 4.1. Built bias detection systems that reduced discriminatory outcomes by 40% and improved legal accessibility for underserved communities.',
+    technologies: ['Claude 4.1', 'React', 'Next.js', 'TypeScript', 'Python', 'TensorFlow']
   },
   {
-    title: 'Frontend Developer',
-    company: 'Digital Solutions Ltd',
-    period: '2020 - 2022',
-    description: 'Developed responsive web applications and improved user experience across multiple products. Collaborated with design teams to implement pixel-perfect interfaces.',
-    technologies: ['React', 'Vue.js', 'JavaScript', 'SASS', 'Figma']
+    title: 'Senior AI Integration Specialist',
+    company: 'Legal Technology Solutions',
+    period: '2022 - 2023',
+    description: 'Architected and implemented AI-driven legal document analysis systems. Developed automated bias detection algorithms and created accessible legal guidance platforms serving 10,000+ users.',
+    technologies: ['AI/ML', 'Natural Language Processing', 'React', 'Node.js', 'PostgreSQL']
   },
   {
-    title: 'Junior Developer',
-    company: 'StartUp Ventures',
-    period: '2019 - 2020',
-    description: 'Built and maintained web applications using modern frameworks. Gained experience in full-stack development and agile methodologies.',
-    technologies: ['HTML', 'CSS', 'JavaScript', 'PHP', 'MySQL']
+    title: '10x Developer & Innovation Lead',
+    company: 'Social Impact Tech Collective',
+    period: '2021 - 2022',
+    description: 'Pioneered AI-enhanced development workflows achieving 300% productivity gains. Led cross-functional teams in building technology solutions for social justice organizations.',
+    technologies: ['AI Tools', 'React', 'TypeScript', 'Python', 'Cloud Architecture']
   }
 ];
 
@@ -79,9 +78,8 @@ const SkillCard: React.FC<{ skill: Skill; delay: number }> = ({ skill, delay }) 
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
     >
-      <Glass 
-        variant="card" 
-        interactive
+      <Glass
+        config="card"
         className="p-6 group hover-glow"
       >
         <div className="flex items-center justify-between mb-4">
@@ -119,9 +117,8 @@ const ExperienceCard: React.FC<{ experience: Experience; delay: number }> = ({ e
     animate={{ opacity: 1, x: 0 }}
     transition={{ duration: 0.6, delay }}
   >
-    <Glass 
-      variant="card" 
-      interactive
+    <Glass
+      config="card"
       className="p-6 group hover-lift"
     >
       <div className="flex items-start justify-between mb-4">
@@ -168,9 +165,8 @@ const StatisticCard: React.FC<{
     transition={{ duration: 0.6, delay }}
     whileHover={{ scale: 1.05 }}
   >
-    <Glass 
-      variant="floating" 
-      pulseGlow
+    <Glass
+      config="card"
       className="p-6 text-center group"
     >
       <div className="text-blue-400 mb-3 flex justify-center group-hover:text-blue-300 transition-colors duration-300">
@@ -195,10 +191,10 @@ export const EnhancedAbout: React.FC = () => {
     : skills.filter(skill => skill.category === skillFilter);
   
   const statistics = [
-    { icon: <Award className="w-8 h-8" />, value: '50+', label: 'Projects Completed' },
-    { icon: <Users className="w-8 h-8" />, value: '25+', label: 'Happy Clients' },
-    { icon: <Coffee className="w-8 h-8" />, value: '1000+', label: 'Cups of Coffee' },
-    { icon: <Rocket className="w-8 h-8" />, value: '3+', label: 'Years Experience' }
+    { icon: <Brain className="w-8 h-8" />, value: '50+', label: 'AI Integrations' },
+    { icon: <Scale className="w-8 h-8" />, value: '40%', label: 'Bias Reduction' },
+    { icon: <Users className="w-8 h-8" />, value: '10K+', label: 'Users Served' },
+    { icon: <Target className="w-8 h-8" />, value: '300%', label: 'Productivity Gain' }
   ];
   
   return (
@@ -223,9 +219,9 @@ export const EnhancedAbout: React.FC = () => {
             variant="body" 
             className="text-xl text-white/70 max-w-3xl mx-auto leading-relaxed"
           >
-            Passionate developer with a love for creating innovative solutions and 
-            beautiful user experiences. I combine technical expertise with creative 
-            thinking to build applications that make a difference.
+            AI-Enhanced Full Stack Developer specializing in justice reform technology. 
+            I leverage Claude 4.1 and advanced AI systems to build solutions that reduce 
+            bias, improve legal accessibility, and create meaningful social impact through technology.
           </Typography>
         </motion.div>
         
@@ -247,7 +243,7 @@ export const EnhancedAbout: React.FC = () => {
           transition={{ duration: 0.6, delay: 0.6 }}
           className="flex justify-center mb-12"
         >
-          <Glass variant="navigation" className="p-2 flex gap-2">
+          <Glass config="navigation" className="p-2 flex gap-2">
             {[
               { key: 'skills', label: 'Skills & Expertise' },
               { key: 'experience', label: 'Experience' }
@@ -283,7 +279,7 @@ export const EnhancedAbout: React.FC = () => {
             >
               {/* Skill Filters */}
               <div className="flex justify-center mb-8">
-                <Glass variant="button" className="p-2 flex gap-2 flex-wrap">
+                <Glass config="button" className="p-2 flex gap-2 flex-wrap">
                   {[
                     { key: 'all', label: 'All Skills' },
                     { key: 'frontend', label: 'Frontend' },
@@ -343,13 +339,13 @@ export const EnhancedAbout: React.FC = () => {
           transition={{ duration: 0.8, delay: 1.2 }}
           className="text-center mt-16"
         >
-          <Glass variant="modal" className="inline-block p-8">
+          <Glass config="modal" className="inline-block p-8">
             <Typography variant="h5" className="text-white font-semibold mb-4">
-              Let&apos;s Work Together
+              Transform Justice Through Technology
             </Typography>
             <Typography variant="body" className="text-white/70 mb-6 max-w-md">
-              Ready to bring your ideas to life? Let&apos;s discuss how we can create 
-              something amazing together.
+              Ready to build AI-enhanced solutions for justice reform? Let&apos;s discuss 
+              how we can create technology that makes a real difference.
             </Typography>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button variant="accent" className="group">

@@ -16,9 +16,9 @@ interface NavigationItem {
 const navigationItems: NavigationItem[] = [
   { href: '/', label: 'Home' },
   { href: '/about', label: 'About' },
-  { href: '/projects', label: 'Projects' },
+  { href: '/projects', label: 'Justice Projects' },
   { href: '/case-studies', label: 'Case Studies' },
-  { href: '/chat', label: 'AI Chat' },
+  { href: '/chat', label: 'Claude AI' },
   { href: '/contact', label: 'Contact' },
 ];
 
@@ -65,14 +65,14 @@ export const Navigation: React.FC = () => {
                   variant="h6" 
                   className="text-blue-400 font-bold text-sm lg:text-base"
                 >
-                  P
+                  J
                 </Typography>
               </div>
               <Typography 
                 variant="h6" 
                 className="font-bold text-white group-hover:text-blue-400 transition-colors duration-300 hidden sm:block"
               >
-                Portfolio
+                JusticeAI
               </Typography>
             </Link>
 
@@ -103,7 +103,7 @@ export const Navigation: React.FC = () => {
             {/* CTA Button */}
             <div className="hidden lg:flex items-center space-x-4">
               <Button variant="accent" size="sm">
-                Let&apos;s Connect
+                Discuss Justice Reform
               </Button>
             </div>
 
@@ -179,7 +179,7 @@ export const Navigation: React.FC = () => {
                   className="w-full"
                   onClick={closeMobileMenu}
                 >
-                  Let&apos;s Connect
+                  Discuss Justice Reform
                 </Button>
               </div>
             </div>

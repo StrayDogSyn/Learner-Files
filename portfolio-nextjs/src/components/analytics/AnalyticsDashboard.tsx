@@ -107,7 +107,7 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ isOpen, onClose
         className="w-full max-w-6xl max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        <Glass variant="modal" className="p-6">
+        <Glass config="modal" className="p-6">
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
             <div>
@@ -129,7 +129,7 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ isOpen, onClose
 
           {/* Key Metrics */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            <Glass variant="card" className="p-4">
+            <Glass config="card" className="p-4">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-blue-500/20 rounded-lg">
                   <Activity className="w-5 h-5 text-blue-400" />
@@ -145,7 +145,7 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ isOpen, onClose
               </div>
             </Glass>
 
-            <Glass variant="card" className="p-4">
+            <Glass config="card" className="p-4">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-green-500/20 rounded-lg">
                   <Eye className="w-5 h-5 text-green-400" />
@@ -161,7 +161,7 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ isOpen, onClose
               </div>
             </Glass>
 
-            <Glass variant="card" className="p-4">
+            <Glass config="card" className="p-4">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-purple-500/20 rounded-lg">
                   <Clock className="w-5 h-5 text-purple-400" />
@@ -177,7 +177,7 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ isOpen, onClose
               </div>
             </Glass>
 
-            <Glass variant="card" className="p-4">
+            <Glass config="card" className="p-4">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-orange-500/20 rounded-lg">
                   <TrendingUp className="w-5 h-5 text-orange-400" />
@@ -197,7 +197,7 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ isOpen, onClose
           {/* Charts Section */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
             {/* Event Distribution */}
-            <Glass variant="card" className="p-6">
+            <Glass config="card" className="p-6">
               <Typography variant="h6" className="text-white font-semibold mb-4">
                 Event Distribution
               </Typography>
@@ -230,7 +230,7 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ isOpen, onClose
             </Glass>
 
             {/* Performance Metrics */}
-            <Glass variant="card" className="p-6">
+            <Glass config="card" className="p-6">
               <Typography variant="h6" className="text-white font-semibold mb-4">
                 Performance Metrics
               </Typography>
@@ -265,7 +265,7 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ isOpen, onClose
 
           {/* Session Details */}
           {sessionData && (
-            <Glass variant="card" className="p-6">
+            <Glass config="card" className="p-6">
               <Typography variant="h6" className="text-white font-semibold mb-4">
                 Current Session Details
               </Typography>

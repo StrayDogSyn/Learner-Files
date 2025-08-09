@@ -222,7 +222,7 @@ const VideoShowcase: React.FC<VideoShowcaseProps> = ({
 
   if (!selectedVideo) {
     return (
-      <Glass variant="card" className="p-8 text-center">
+      <Glass config="card" className="p-8 text-center">
         <Typography variant="h6" className="text-white/70">
           No videos available
         </Typography>
@@ -234,7 +234,7 @@ const VideoShowcase: React.FC<VideoShowcaseProps> = ({
     <div className="space-y-6">
       {/* Video Player */}
       <div ref={containerRef} className="relative group">
-        <Glass variant="modal" className="overflow-hidden">
+        <Glass config="modal" className="overflow-hidden">
           <div className="relative aspect-video bg-black">
             <video
               ref={videoRef}
@@ -351,7 +351,7 @@ const VideoShowcase: React.FC<VideoShowcaseProps> = ({
                 exit={{ opacity: 0, y: 20 }}
                 className="absolute top-4 left-4"
               >
-                <Glass variant="card" className="px-3 py-2">
+                <Glass config="card" className="px-3 py-2">
                   <Typography variant="bodySmall" className="text-white font-medium">
                     {currentChapter.title}
                   </Typography>
@@ -368,7 +368,7 @@ const VideoShowcase: React.FC<VideoShowcaseProps> = ({
                   exit={{ opacity: 0, x: 20 }}
                   className="absolute top-4 right-4 w-48"
                 >
-                  <Glass variant="modal" className="p-4">
+                  <Glass config="modal" className="p-4">
                     <Typography variant="h6" className="text-white font-semibold mb-3">
                       Settings
                     </Typography>
@@ -417,7 +417,7 @@ const VideoShowcase: React.FC<VideoShowcaseProps> = ({
       </div>
       
       {/* Video Info */}
-      <Glass variant="card" className="p-6">
+      <Glass config="card" className="p-6">
         <div className="flex items-start justify-between mb-4">
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-2">
@@ -470,7 +470,7 @@ const VideoShowcase: React.FC<VideoShowcaseProps> = ({
       
       {/* Chapters */}
       {showChapters && selectedVideo.chapters.length > 0 && (
-        <Glass variant="card" className="p-6">
+        <Glass config="card" className="p-6">
           <Typography variant="h6" className="text-white font-semibold mb-4">
             Chapters
           </Typography>
@@ -510,7 +510,7 @@ const VideoShowcase: React.FC<VideoShowcaseProps> = ({
       
       {/* Video Playlist */}
       {videos.length > 1 && (
-        <Glass variant="card" className="p-6">
+        <Glass config="card" className="p-6">
           <Typography variant="h6" className="text-white font-semibold mb-4">
             More Videos
           </Typography>
@@ -527,7 +527,7 @@ const VideoShowcase: React.FC<VideoShowcaseProps> = ({
                   trackEvent({ type: 'custom', element: 'video-switch', metadata: { videoId: video.id } });
                 }}
               >
-                <Glass variant="card" className="overflow-hidden">
+                <Glass config="card" className="overflow-hidden">
                   <div className="relative aspect-video">
                     <Image
                       src={video.thumbnail}

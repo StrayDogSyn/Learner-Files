@@ -48,7 +48,7 @@ const CaseStudyCard: React.FC<{
       className="group cursor-pointer"
       onClick={handleClick}
     >
-      <Glass variant="card" interactive className="p-6 h-full hover-glow">
+      <Glass config="card" className="p-6 h-full hover-glow">
         {/* Project Image */}
         <div className="relative aspect-video rounded-lg overflow-hidden mb-4">
           <Image
@@ -65,7 +65,7 @@ const CaseStudyCard: React.FC<{
           {/* Featured Badge */}
           {caseStudy.featured && (
             <div className="absolute top-3 right-3">
-              <Glass variant="button" className="px-2 py-1">
+              <Glass config="button" className="px-2 py-1">
                 <div className="flex items-center gap-1">
                   <Star className="w-3 h-3 text-yellow-400 fill-current" />
                   <Typography variant="caption" className="text-yellow-400 font-medium">
@@ -313,7 +313,7 @@ export const CaseStudyGrid: React.FC<CaseStudyGridProps> = ({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <Glass variant="card" className="p-6">
+          <Glass config="card" className="p-6">
             {/* Search */}
             <div className="relative mb-6">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/40 w-5 h-5" />
@@ -436,7 +436,7 @@ export const CaseStudyGrid: React.FC<CaseStudyGridProps> = ({
             transition={{ duration: 0.4 }}
             className="text-center py-12"
           >
-            <Glass variant="card" className="p-8 max-w-md mx-auto">
+            <Glass config="card" className="p-8 max-w-md mx-auto">
               <Search className="w-12 h-12 text-white/40 mx-auto mb-4" />
               <Typography variant="h5" className="text-white font-medium mb-2">
                 No projects found

@@ -9,7 +9,7 @@ export default function ProjectsPage() {
 }
 
 export const metadata = {
-  title: 'Projects | Portfolio',
-  description: 'Explore my portfolio of innovative projects, from interactive games to professional web applications. Each project demonstrates cutting-edge technologies and creative problem-solving.',
-  keywords: 'projects, portfolio, web development, games, applications, React, TypeScript, Next.js',
+  title: 'Justice Reform Projects | AI-Enhanced Portfolio',
+  description: 'Explore my portfolio of AI-powered justice reform projects featuring Claude 4.1 integration. From bias detection systems to legal accessibility platforms, each project demonstrates transformative technology for social impact.',
+  keywords: 'justice reform, AI projects, Claude 4.1, bias detection, legal technology, machine learning, social impact, portfolio',
 };

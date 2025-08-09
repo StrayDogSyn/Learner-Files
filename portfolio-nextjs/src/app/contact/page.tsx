@@ -96,7 +96,7 @@ const ContactInfo: React.FC = () => {
                 whileHover={{ x: 5 }}
                 className="block"
               >
-                <Glass variant="card" interactive className="p-4 group hover-glow">
+                <Glass config="card" className="p-4 group hover-glow">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center group-hover:bg-blue-500/30 transition-colors duration-300">
                       <IconComponent className="w-6 h-6 text-blue-400" />
@@ -130,7 +130,7 @@ const ContactInfo: React.FC = () => {
           Location & Availability
         </Typography>
         
-        <Glass variant="card" className="p-6">
+        <Glass config="card" className="p-6">
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <MapPin className="w-5 h-5 text-blue-400" />
@@ -181,7 +181,7 @@ const ContactInfo: React.FC = () => {
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Glass variant="button" className="w-12 h-12 flex items-center justify-center group">
+                <Glass config="button" className="w-12 h-12 flex items-center justify-center group">
                   <IconComponent className={`w-5 h-5 ${social.color} group-hover:scale-110 transition-transform duration-300`} />
                 </Glass>
               </motion.a>
@@ -196,7 +196,7 @@ const ContactInfo: React.FC = () => {
           Frequently Asked Questions
         </Typography>
         
-        <Glass variant="card" className="p-6">
+        <Glass config="card" className="p-6">
           <div className="space-y-4">
             <div>
               <Typography variant="body" className="text-white font-medium mb-1">
@@ -234,7 +234,7 @@ const ContactInfo: React.FC = () => {
 export default function ContactPage() {
   const [showWizard, setShowWizard] = useState(false);
   
-  const handleFormSubmit = async (data: ContactFormData) => {
+  const handleFormSubmit = async (_data: ContactFormData) => {
     // Form submission will be handled by the ContactWizard component
     
     // Simulate API call
@@ -300,7 +300,7 @@ export default function ContactPage() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8, delay: 0.4 }}
                 >
-                  <Glass variant="card" className="p-8">
+                  <Glass config="card" className="p-8">
                     <Typography variant="h4" className="text-white font-bold mb-6">
                       Quick Message
                     </Typography>
