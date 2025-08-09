@@ -2,13 +2,124 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  line-height: 1.5;
-  font-weight: 400;
+/* Import StrayDog Syndications Glassmorphic Design System */
+@import './css/glassmorphic-design-system.css';
 
+/* Base Reset and Optimization */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Override default body styles with glassmorphic system */
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Ensure all headings use the glassmorphic typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading-primary);
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+h1 {
+  font-size: var(--text-5xl);
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+h2 {
+  font-size: var(--text-3xl);
+  font-weight: 700;
+}
+
+h3 {
+  font-size: var(--text-2xl);
+  font-weight: 600;
+}
+
+h4 {
+  font-size: var(--text-xl);
+  font-weight: 600;
+}
+
+h5 {
+  font-size: var(--text-lg);
+  font-weight: 500;
+}
+
+h6 {
+  font-size: var(--text-base);
+  font-weight: 500;
+}
+
+/* Ensure all paragraphs use the glassmorphic typography */
+p {
+  font-family: var(--font-body-primary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Links styling */
+a {
+  color: var(--emerald-accent);
+  text-decoration: none;
+  transition: all var(--transition-base);
+}
+
+a:hover {
+  color: var(--brushed-platinum);
+  text-shadow: 0 0 8px rgba(80, 200, 120, 0.3);
+}
+
+/* Focus styles for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--emerald-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Selection styles */
+::selection {
+  background: rgba(53, 94, 59, 0.3);
+  color: var(--light-smoke);
+}
+
+::-moz-selection {
+  background: rgba(53, 94, 59, 0.3);
+  color: var(--light-smoke);
+}
+
+/* Scrollbar styling for webkit browsers */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--charcoal-black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gunmetal);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--silver-steel);
 }

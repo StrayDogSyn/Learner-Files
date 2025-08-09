@@ -279,14 +279,14 @@ export const Hero: React.FC = () => {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden glass-background-main"
       onMouseMove={handleMouseMove}
     >
-      {/* Animated gradient background */}
+      {/* Animated glassmorphic background */}
       <motion.div
-        className="absolute inset-0 opacity-50"
+        className="absolute inset-0 opacity-30"
         style={{
-          background: `radial-gradient(600px circle at ${springX}px ${springY}px, rgba(120, 119, 198, 0.3), transparent 40%)`,
+          background: `radial-gradient(600px circle at ${springX}px ${springY}px, rgba(53, 94, 59, 0.3), transparent 40%)`,
         }}
       />
 
@@ -298,9 +298,9 @@ export const Hero: React.FC = () => {
         className="absolute inset-0"
         style={{ y }}
       >
-        <div className="absolute top-20 left-20 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-pink-500/20 rounded-full blur-3xl" />
+        <div className="absolute top-20 left-20 w-72 h-72 bg-hunter-green/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-emerald-accent/20 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-metallic-silver/20 rounded-full blur-3xl" />
       </motion.div>
 
       {/* Theme toggle */}
@@ -321,7 +321,7 @@ export const Hero: React.FC = () => {
               transition={{ duration: 0.8, delay: 0.1 }}
               className="mb-6"
             >
-              <BrandLogo size="lg" animated />
+              <BrandLogo size="lg" animated variant="straydog" />
             </motion.div>
 
             {/* Dynamic greeting */}
@@ -338,13 +338,13 @@ export const Hero: React.FC = () => {
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="text-4xl lg:text-6xl font-bold font-heading"
               >
-                <span className="text-white">Hunter & Cortana</span>
+                <span className="branding-text">StrayDog Syndications</span>
                 <br />
                 <TypewriterText
                   text="Applied AI Solutions Engineering"
                   speed={100}
                   delay={1000}
-                  className="bg-gradient-to-r from-[var(--electric-blue)] via-[var(--ai-purple)] to-[var(--hunter-green)] bg-clip-text text-transparent text-2xl lg:text-4xl"
+                  className="branding-text text-2xl lg:text-4xl"
                 />
               </motion.h1>
               
@@ -352,7 +352,7 @@ export const Hero: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="text-xl text-white/70 max-w-lg leading-relaxed font-body"
+                className="text-xl text-light-smoke max-w-lg leading-relaxed font-body"
               >
                 Transforming Ideas into Intelligent Solutions through the fusion of human creativity and artificial intelligence.
               </motion.p>
@@ -379,7 +379,7 @@ export const Hero: React.FC = () => {
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => scrollToSection('projects')}
-                className="btn-cta group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[var(--electric-blue)] to-[var(--ai-purple)] text-white font-bold rounded-xl hover:shadow-lg transition-all duration-300"
+                className="glass-button-primary group inline-flex items-center gap-2 px-8 py-4 font-bold rounded-xl transition-all duration-300"
               >
                 Explore AI Solutions
                 <Brain className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
@@ -389,7 +389,7 @@ export const Hero: React.FC = () => {
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => scrollToSection('demonstrations')}
-                className="btn-secondary group inline-flex items-center gap-2 px-6 py-3 bg-transparent border-2 border-[var(--hunter-green)] text-white font-semibold rounded-lg hover:bg-[var(--hunter-green)] transition-all duration-300"
+                className="glass-button group inline-flex items-center gap-2 px-6 py-3 font-semibold rounded-lg transition-all duration-300"
               >
                 <Zap className="w-5 h-5" />
                 Try AI Demos
@@ -415,9 +415,9 @@ export const Hero: React.FC = () => {
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.95 }}
-                  className="group p-3 bg-white/10 backdrop-blur-sm rounded-full border border-[var(--hunter-green)]/30 hover:bg-[var(--hunter-green)]/20 hover:border-[var(--hunter-green)] transition-all duration-300"
+                  className="glass-icon-button group p-3 rounded-full transition-all duration-300"
                 >
-                  <Icon className="w-5 h-5 text-white/60 group-hover:text-[var(--electric-blue)] transition-colors duration-300" />
+                  <Icon className="w-5 h-5 text-medium-grey group-hover:text-emerald-accent transition-colors duration-300" />
                 </motion.a>
               ))}
             </motion.div>
@@ -440,14 +440,14 @@ export const Hero: React.FC = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 1.2 + index * 0.2 }}
                 whileHover={{ scale: 1.05, y: -5 }}
-                className="card-feature p-6 bg-[var(--deep-black)]/80 backdrop-blur-sm rounded-xl border border-[var(--hunter-green)]/30 hover:bg-[var(--hunter-green)]/10 hover:border-[var(--hunter-green)] transition-all duration-300"
+                className="glass-card p-6 rounded-xl transition-all duration-300"
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-2xl font-bold text-white">{stat.number}</div>
-                    <div className="text-white/60">{stat.label}</div>
+                    <div className="text-2xl font-bold text-light-smoke">{stat.number}</div>
+                    <div className="text-medium-grey">{stat.label}</div>
                   </div>
-                  <div className="text-[var(--electric-blue)]">{stat.icon}</div>
+                  <div className="text-emerald-accent">{stat.icon}</div>
                 </div>
               </motion.div>
             ))}
@@ -466,9 +466,9 @@ export const Hero: React.FC = () => {
           onClick={() => scrollToSection('about')}
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
-          className="group p-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 hover:bg-white/20 transition-all duration-300"
+          className="glass-icon-button group p-2 rounded-full transition-all duration-300"
         >
-          <ChevronDown className="w-6 h-6 text-white group-hover:text-blue-400 transition-colors duration-300" />
+          <ChevronDown className="w-6 h-6 text-light-smoke group-hover:text-emerald-accent transition-colors duration-300" />
         </motion.button>
       </motion.div>
     </section>
