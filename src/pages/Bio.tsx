@@ -174,7 +174,7 @@ const Bio: React.FC = () => {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [funFacts.length]);
 
   // Rotate learning goals
   useEffect(() => {
