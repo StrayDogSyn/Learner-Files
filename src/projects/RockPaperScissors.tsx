@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
+import '../css/modern.css';
 import './RockPaperScissors.css';
 
 type Choice = 'rock' | 'paper' | 'scissors';

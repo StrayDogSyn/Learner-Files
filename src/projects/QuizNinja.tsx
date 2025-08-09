@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import '../css/modern.css';
 import './QuizNinja.css';
 
 interface QuizQuestion {
