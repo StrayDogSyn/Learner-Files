@@ -295,6 +295,7 @@ export interface TournamentBracket {
 
 export interface TournamentRound {
   round: number;
+  name: string;
   matches: TournamentMatch[];
 }
 

@@ -285,7 +285,7 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
       )}
 
       {/* Styles */}
-      <style jsx>{`
+      <style>{`
         .mobile-nav-link {
           position: relative;
           overflow: hidden;

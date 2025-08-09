@@ -311,8 +311,8 @@
 .mobile-nav-toggle {
   display: none;
   background: rgba(43, 43, 43, var(--glass-opacity-medium));
-  backdrop-filter: blur(var(--glass-blur-light));
   -webkit-backdrop-filter: blur(var(--glass-blur-light));
+  backdrop-filter: blur(var(--glass-blur-light));
   border: 1px solid rgba(192, 192, 192, 0.2);
   border-radius: var(--radius-md);
   padding: var(--space-2);
@@ -480,8 +480,8 @@
     height: 100%;
     z-index: 9999;
     background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(var(--glass-blur-medium));
     -webkit-backdrop-filter: blur(var(--glass-blur-medium));
+    backdrop-filter: blur(var(--glass-blur-medium));
   }
 }
 
@@ -507,8 +507,8 @@
 /* Responsive Glassmorphic Cards */
 .glass-card-responsive {
   background: rgba(43, 43, 43, var(--glass-opacity-light));
-  backdrop-filter: blur(var(--glass-blur-light));
   -webkit-backdrop-filter: blur(var(--glass-blur-light));
+  backdrop-filter: blur(var(--glass-blur-light));
   border: 1px solid rgba(192, 192, 192, 0.2);
   border-radius: var(--radius-md);
   padding: var(--fluid-space-sm);

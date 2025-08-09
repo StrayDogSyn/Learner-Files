@@ -55,6 +55,7 @@ header {
   margin-bottom: var(--space-2xl);
   padding: var(--space-xl);
   background: rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
@@ -98,6 +99,7 @@ header {
 
 .question-section {
   background: rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border-radius: var(--radius-lg);
   padding: var(--space-lg);
@@ -162,6 +164,7 @@ header {
 
 .feedback-section {
   background: rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border-radius: var(--radius-lg);
   padding: var(--space-lg);
@@ -175,6 +178,7 @@ header {
 
 .correct-section {
   background: rgba(16, 185, 129, 0.2);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border-radius: var(--radius-lg);
   padding: var(--space-md);
@@ -215,6 +219,7 @@ header {
   right: var(--space-md);
   z-index: 1000;
   background: rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   color: white;
   padding: var(--space-sm) var(--space-md);
@@ -237,6 +242,7 @@ header {
   width: 250px;
   height: 100vh;
   background: rgba(255, 255, 255, 0.95);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   z-index: 999;
   padding: var(--space-2xl) var(--space-lg);

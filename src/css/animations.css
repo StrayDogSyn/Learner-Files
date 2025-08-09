@@ -266,8 +266,8 @@
 
 .hover-glass-morph:hover {
   background: var(--glass-morph-3);
-  backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px);
   border-color: rgba(192, 192, 192, 0.4);
 }
 
@@ -610,13 +610,13 @@
 @keyframes glassMorph {
   0%, 100% {
     background: var(--glass-morph-1);
-    backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
   }
   50% {
     background: var(--glass-morph-3);
-    backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
   }
 }
 

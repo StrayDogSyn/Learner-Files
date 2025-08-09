@@ -16,10 +16,12 @@ import {
 import {
   Tournament,
   TournamentMatch,
+  TournamentParticipant,
   Player,
   TournamentSettings,
   LeaderboardEntry,
-  RankingSystem
+  RankingSystem,
+  GameMode
 } from '../../types/knucklebones';
 
 interface TournamentSystemProps {
@@ -97,13 +99,29 @@ const TournamentCreator: React.FC<TournamentCreatorProps> = ({
 
   const handleCreateTournament = useCallback(() => {
     if (validateSettings()) {
+      // Convert selectedPlayers to TournamentParticipant objects
+      const participants: TournamentParticipant[] = selectedPlayers.map((playerId, index) => ({
+        id: `participant_${index}`,
+        playerId,
+        playerName: `Player ${index + 1}`,
+        seed: index + 1,
+        currentRound: 1,
+        isEliminated: false,
+        wins: 0,
+        losses: 0
+      }));
+
       const tournamentSettings: TournamentSettings = {
         ...settings,
-        participants: selectedPlayers,
-        id: Date.now().toString(),
-        createdAt: new Date(),
-        status: 'registration'
-      } as TournamentSettings;
+        participants,
+        name: settings.name || 'New Tournament',
+        type: settings.type || 'single-elimination',
+        maxParticipants: settings.maxParticipants || 8,
+        maxPlayers: settings.maxPlayers || 8,
+        format: settings.format || 'best-of-1',
+        timeLimit: settings.timeLimit || 300,
+        isPrivate: settings.isPrivate || false
+      };
 
       onCreateTournament(tournamentSettings);
     }
@@ -235,8 +253,9 @@ const TournamentCreator: React.FC<TournamentCreatorProps> = ({
                   onChange={(e) => setSettings(prev => ({
                     ...prev,
                     gameSettings: {
-                      ...prev.gameSettings,
-                      roundLimit: parseInt(e.target.value)
+                      roundLimit: parseInt(e.target.value),
+                      timeLimit: prev.gameSettings?.timeLimit || 300,
+                      diceCount: prev.gameSettings?.diceCount || 2
                     }
                   }))}
                   aria-label="Set round limit for games"
@@ -258,8 +277,9 @@ const TournamentCreator: React.FC<TournamentCreatorProps> = ({
                   onChange={(e) => setSettings(prev => ({
                     ...prev,
                     gameSettings: {
-                      ...prev.gameSettings,
-                      timeLimit: parseInt(e.target.value)
+                      roundLimit: prev.gameSettings?.roundLimit || 10,
+                      timeLimit: parseInt(e.target.value),
+                      diceCount: prev.gameSettings?.diceCount || 2
                     }
                   }))}
                   aria-label="Set time limit for games in seconds"
@@ -281,7 +301,8 @@ const TournamentCreator: React.FC<TournamentCreatorProps> = ({
                   onChange={(e) => setSettings(prev => ({
                     ...prev,
                     gameSettings: {
-                      ...prev.gameSettings,
+                      roundLimit: prev.gameSettings?.roundLimit || 10,
+                      timeLimit: prev.gameSettings?.timeLimit || 300,
                       diceCount: parseInt(e.target.value)
                     }
                   }))}
@@ -700,6 +721,7 @@ const TournamentSystem: React.FC<TournamentSystemProps> = ({
   // Mock leaderboard data
   const mockLeaderboard: LeaderboardEntry[] = [
     {
+      id: 'leaderboard_1',
       playerId: '1',
       playerName: 'Alice Champion',
       playerType: 'human',
@@ -708,13 +730,20 @@ const TournamentSystem: React.FC<TournamentSystemProps> = ({
       wins: 45,
       losses: 12,
       winRate: 0.789,
+      totalGames: 57,
+      currentStreak: 8,
+      bestStreak: 12,
+      averageScore: 85.6,
+      totalScore: 4879,
       streak: 8,
       ratingChange: 25,
       title: 'Grandmaster',
       isOnline: true,
-      achievements: ['Tournament Winner', 'Perfect Game', 'Speed Demon']
+      achievements: ['Tournament Winner', 'Perfect Game', 'Speed Demon'],
+      lastActiveDate: new Date()
     },
     {
+      id: 'leaderboard_2',
       playerId: '2',
       playerName: 'Bob Strategic',
       playerType: 'human',
@@ -723,13 +752,20 @@ const TournamentSystem: React.FC<TournamentSystemProps> = ({
       wins: 38,
       losses: 15,
       winRate: 0.717,
+      totalGames: 53,
+      currentStreak: -2,
+      bestStreak: 9,
+      averageScore: 78.2,
+      totalScore: 4145,
       streak: -2,
       ratingChange: -15,
-      title: 'Master',
+      title: 'Expert',
       isOnline: false,
-      achievements: ['Comeback King', 'Consistent Player']
+      achievements: ['Strategist', 'Comeback King'],
+      lastActiveDate: new Date()
     },
     {
+      id: 'leaderboard_3',
       playerId: '3',
       playerName: 'AI Overlord',
       playerType: 'ai',
@@ -738,27 +774,25 @@ const TournamentSystem: React.FC<TournamentSystemProps> = ({
       wins: 42,
       losses: 18,
       winRate: 0.700,
+      totalGames: 60,
+      currentStreak: 3,
+      bestStreak: 15,
+      averageScore: 82.1,
+      totalScore: 4926,
       streak: 3,
-      ratingChange: 12,
-      title: 'Expert AI',
+      ratingChange: 10,
+      title: 'Advanced AI',
       isOnline: true,
-      achievements: ['Machine Learning', 'Pattern Master']
+      achievements: ['Machine Learning', 'Perfect Logic', 'Speed Calculator'],
+      lastActiveDate: new Date()
     }
   ];
 
   const mockRankingSystem: RankingSystem = {
+    type: 'elo',
     name: 'ELO Rating',
-    description: 'Standard ELO rating system with K-factor adjustments',
     baseRating: 1200,
-    kFactor: 32,
-    ratingRanges: [
-      { min: 0, max: 1199, title: 'Novice', color: '#9CA3AF' },
-      { min: 1200, max: 1399, title: 'Beginner', color: '#10B981' },
-      { min: 1400, max: 1599, title: 'Intermediate', color: '#F59E0B' },
-      { min: 1600, max: 1799, title: 'Advanced', color: '#3B82F6' },
-      { min: 1800, max: 1999, title: 'Expert', color: '#8B5CF6' },
-      { min: 2000, max: 9999, title: 'Master', color: '#EF4444' }
-    ]
+    kFactor: 32
   };
 
   const handleCreateTournament = useCallback((settings: TournamentSettings) => {
@@ -767,13 +801,24 @@ const TournamentSystem: React.FC<TournamentSystemProps> = ({
       id: Date.now().toString(),
       status: 'registration',
       participants: settings.participants || [],
-      createdAt: new Date(),
-      bracket: null,
-      prizeDistribution: {
-        first: settings.prizePool ? settings.prizePool * 0.5 : 0,
-        second: settings.prizePool ? settings.prizePool * 0.3 : 0,
-        third: settings.prizePool ? settings.prizePool * 0.2 : 0
-      }
+      bracket: undefined,
+      brackets: [],
+      prizes: [],
+      rules: {
+        gameMode: {
+          id: 'classic',
+          name: 'Classic',
+          description: 'Standard knucklebones rules',
+          difficulty: 'medium',
+          features: ['dice-based', 'strategy']
+        },
+        bestOf: 1,
+        timeLimit: settings.timeLimit || 300,
+        advancementCriteria: 'single-elimination'
+      },
+      startDate: new Date(),
+      endDate: undefined,
+      description: settings.description || ''
     };
     
     setTournaments(prev => [...prev, tournament]);
@@ -968,13 +1013,24 @@ export const useTournamentSystem = () => {
       id: Date.now().toString(),
       status: 'registration',
       participants: settings.participants || [],
-      createdAt: new Date(),
-      bracket: null,
-      prizeDistribution: {
-        first: settings.prizePool ? settings.prizePool * 0.5 : 0,
-        second: settings.prizePool ? settings.prizePool * 0.3 : 0,
-        third: settings.prizePool ? settings.prizePool * 0.2 : 0
-      }
+      bracket: undefined,
+      brackets: [],
+      prizes: [],
+      rules: {
+        gameMode: {
+          id: 'classic',
+          name: 'Classic',
+          description: 'Standard knucklebones rules',
+          difficulty: 'medium',
+          features: ['dice-based', 'strategy']
+        },
+        bestOf: 1,
+        timeLimit: settings.timeLimit || 300,
+        advancementCriteria: 'single-elimination'
+      },
+      startDate: new Date(),
+      endDate: undefined,
+      description: settings.description || ''
     };
     
     setTournaments(prev => [...prev, tournament]);

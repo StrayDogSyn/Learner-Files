@@ -248,8 +248,8 @@ a:focus-visible {
   width: 100%;
   padding: var(--space-3) var(--space-4);
   background: rgba(43, 43, 43, var(--glass-opacity-medium));
-  backdrop-filter: blur(var(--glass-blur-light));
   -webkit-backdrop-filter: blur(var(--glass-blur-light));
+  backdrop-filter: blur(var(--glass-blur-light));
   border: 2px solid rgba(192, 192, 192, 0.3);
   border-radius: var(--radius-md);
   color: var(--a11y-text-primary);
@@ -338,8 +338,8 @@ a:focus-visible {
   width: 100%;
   border-collapse: collapse;
   background: rgba(43, 43, 43, var(--glass-opacity-light));
-  backdrop-filter: blur(var(--glass-blur-light));
   -webkit-backdrop-filter: blur(var(--glass-blur-light));
+  backdrop-filter: blur(var(--glass-blur-light));
   border-radius: var(--radius-md);
   overflow: hidden;
 }
@@ -375,8 +375,8 @@ a:focus-visible {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(var(--glass-blur-medium));
   -webkit-backdrop-filter: blur(var(--glass-blur-medium));
+  backdrop-filter: blur(var(--glass-blur-medium));
   z-index: 9999;
   display: flex;
   align-items: center;
@@ -386,8 +386,8 @@ a:focus-visible {
 
 .modal-content {
   background: rgba(28, 28, 28, 0.95);
-  backdrop-filter: blur(var(--glass-blur-heavy));
   -webkit-backdrop-filter: blur(var(--glass-blur-heavy));
+  backdrop-filter: blur(var(--glass-blur-heavy));
   border: 2px solid rgba(192, 192, 192, 0.3);
   border-radius: var(--radius-lg);
   padding: var(--space-6);
@@ -731,8 +731,8 @@ a:focus-visible {
   gap: var(--space-2);
   padding: var(--space-3) var(--space-4);
   background: rgba(43, 43, 43, var(--glass-opacity-light));
-  backdrop-filter: blur(var(--glass-blur-light));
   -webkit-backdrop-filter: blur(var(--glass-blur-light));
+  backdrop-filter: blur(var(--glass-blur-light));
   border-radius: var(--radius-md);
   margin-bottom: var(--space-4);
 }
@@ -777,8 +777,8 @@ a:focus-visible {
   padding: var(--space-3) var(--space-4);
   padding-right: var(--space-12);
   background: rgba(43, 43, 43, var(--glass-opacity-medium));
-  backdrop-filter: blur(var(--glass-blur-light));
   -webkit-backdrop-filter: blur(var(--glass-blur-light));
+  backdrop-filter: blur(var(--glass-blur-light));
   border: 2px solid rgba(192, 192, 192, 0.3);
   border-radius: var(--radius-md);
   color: var(--a11y-text-primary);
@@ -821,8 +821,8 @@ a:focus-visible {
 .pagination-button {
   padding: var(--space-2) var(--space-3);
   background: rgba(43, 43, 43, var(--glass-opacity-light));
-  backdrop-filter: blur(var(--glass-blur-light));
   -webkit-backdrop-filter: blur(var(--glass-blur-light));
+  backdrop-filter: blur(var(--glass-blur-light));
   border: 1px solid rgba(192, 192, 192, 0.2);
   border-radius: var(--radius-md);
   color: var(--a11y-text-primary);
@@ -971,8 +971,8 @@ a:focus-visible {
   right: var(--space-4);
   z-index: 9998;
   background: rgba(28, 28, 28, 0.95);
-  backdrop-filter: blur(var(--glass-blur-medium));
   -webkit-backdrop-filter: blur(var(--glass-blur-medium));
+  backdrop-filter: blur(var(--glass-blur-medium));
   border: 1px solid rgba(192, 192, 192, 0.3);
   border-radius: var(--radius-md);
   padding: var(--space-3);
