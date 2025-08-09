@@ -1,0 +1,66 @@
+{
+  "name": "analytics-dashboard-component",
+  "version": "1.0.0",
+  "description": "Comprehensive real-time analytics dashboard with Chart.js integration",
+  "main": "src/components/AnalyticsDashboard.jsx",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "format": "prettier --write src/"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "chart.js": "^4.4.0",
+    "react-chartjs-2": "^5.2.0",
+    "date-fns": "^2.30.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.1.4",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^14.5.1",
+    "eslint": "^8.53.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "prettier": "^3.0.3",
+    "react-scripts": "5.0.1"
+  },
+  "peerDependencies": {
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.1",
+    "react-window": "^1.8.8"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "keywords": [
+    "react",
+    "analytics",
+    "dashboard",
+    "charts",
+    "real-time",
+    "visualization",
+    "metrics",
+    "chartjs"
+  ],
+  "author": "StrayDogSyn",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/StrayDogSyn/Learner-Files.git"
+  },
+  "homepage": "https://github.com/StrayDogSyn/Learner-Files#readme"
+}
