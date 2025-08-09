@@ -1,5 +1,5 @@
 /* Rock Paper Scissors Component Styles */
-@import url('../../../css/modern.css');
+@import url('../css/modern.css');
 
 /* Game-specific variables */
 :root {
@@ -20,8 +20,8 @@
 .rps-container {
   min-height: 100vh;
   background: 
-    url('../../../assets/images/bg-btm.svg') bottom right no-repeat fixed,
-    url('../../../assets/images/bg-top.svg') left top no-repeat fixed,
+    url('../../assets/images/bg-btm.svg') bottom right no-repeat fixed,
+    url('../../assets/images/bg-top.svg') left top no-repeat fixed,
     linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   position: relative;
