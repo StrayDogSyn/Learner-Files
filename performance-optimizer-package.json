@@ -175,24 +175,24 @@
     "swDest": "dist/sw.js",
     "runtimeCaching": [
       {
-        "urlPattern": /\.(?:png|jpg|jpeg|svg|webp|avif)$/,
+        "urlPattern": "\\.(png|jpg|jpeg|svg|webp|avif)$",
         "handler": "StaleWhileRevalidate",
         "options": {
           "cacheName": "images",
           "expiration": {
             "maxEntries": 100,
-            "maxAgeSeconds": 30 * 24 * 60 * 60
+            "maxAgeSeconds": 2592000
           }
         }
       },
       {
-        "urlPattern": /\.(?:js|css)$/,
+        "urlPattern": "\\.(js|css)$",
         "handler": "CacheFirst",
         "options": {
           "cacheName": "static-resources",
           "expiration": {
             "maxEntries": 50,
-            "maxAgeSeconds": 7 * 24 * 60 * 60
+            "maxAgeSeconds": 604800
           }
         }
       }

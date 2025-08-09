@@ -580,4 +580,746 @@ const MetricCard: React.FC<{
           <p className="text-sm font-medium text-gray-600">{title}</p>
           <p className="text-2xl font-bold text-gray-900">{value}</p>
           {trend && (
-            <p
+            <p className={`text-sm ${
+              trend.startsWith('+') ? 'text-green-600' : 'text-red-600'
+            }`}>
+              {trend} from last period
+            </p>
+          )}
+        </div>
+        <div className={`p-3 rounded-full bg-opacity-20 ${colorClasses[color]}`}>
+          <Icon className="w-6 h-6" />
+        </div>
+      </div>
+    </motion.div>
+  )
+}
+
+// Chart Card Component
+const ChartCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => {
+  return (
+    <div className="bg-white rounded-lg shadow p-6">
+      <h3 className="text-lg font-semibold text-gray-900 mb-4">{title}</h3>
+      {children}
+    </div>
+  )
+}
+
+// Performance Metric Component
+const PerformanceMetric: React.FC<{
+  name: string
+  value: number
+  unit: string
+  threshold: number
+  goodThreshold: number
+}> = ({ name, value, unit, threshold, goodThreshold }) => {
+  const getStatus = () => {
+    if (value <= goodThreshold) return 'good'
+    if (value <= threshold) return 'needs-improvement'
+    return 'poor'
+  }
+
+  const status = getStatus()
+  const statusColors = {
+    good: 'bg-green-500',
+    'needs-improvement': 'bg-yellow-500',
+    poor: 'bg-red-500'
+  }
+
+  return (
+    <div className="flex items-center justify-between">
+      <div>
+        <div className="font-medium text-gray-900">{name}</div>
+        <div className="text-sm text-gray-500">
+          {value}{unit} • {status.replace('-', ' ')}
+        </div>
+      </div>
+      <div className={`w-3 h-3 rounded-full ${statusColors[status]}`} />
+    </div>
+  )
+}
+
+// Helper functions
+function generateTimeSeriesData() {
+  // Generate sample time series data
+  const data = []
+  const now = new Date()
+  
+  for (let i = 23; i >= 0; i--) {
+    const time = new Date(now.getTime() - i * 60 * 60 * 1000)
+    data.push({
+      time: time.toLocaleTimeString('en-US', { hour: '2-digit' }),
+      views: Math.floor(Math.random() * 100) + 50
+    })
+  }
+  
+  return data
+}
+
+function getDeviceColor(device: string): string {
+  const colors = {
+    desktop: '#3B82F6',
+    mobile: '#10B981',
+    tablet: '#8B5CF6'
+  }
+  return colors[device.toLowerCase()] || '#6B7280'
+}
+
+const DashboardSkeleton: React.FC = () => {
+  return (
+    <div className="min-h-screen bg-gray-50 p-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="animate-pulse">
+          <div className="h-8 bg-gray-300 rounded w-1/4 mb-8"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="bg-white rounded-lg shadow p-6">
+                <div className="h-4 bg-gray-300 rounded w-1/2 mb-2"></div>
+                <div className="h-8 bg-gray-300 rounded w-3/4"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+```
+
+### 2.3 Error Tracking and Alerting
+
+```typescript
+// src/services/errorTrackingService.ts
+import * as Sentry from '@sentry/react'
+import { BrowserTracing } from '@sentry/tracing'
+
+interface ErrorContext {
+  userId?: string
+  sessionId: string
+  page: string
+  userAgent: string
+  timestamp: number
+  additionalData?: Record<string, any>
+}
+
+class ErrorTrackingService {
+  private errorQueue: Array<{ error: Error; context: ErrorContext }> = []
+  private alertThresholds = {
+    errorRate: 5, // errors per minute
+    criticalErrors: 1, // critical errors per hour
+    performanceDegradation: 20 // % increase in load time
+  }
+
+  constructor() {
+    this.initializeSentry()
+    this.setupGlobalErrorHandlers()
+    this.startErrorProcessor()
+  }
+
+  private initializeSentry() {
+    Sentry.init({
+      dsn: import.meta.env.VITE_SENTRY_DSN,
+      integrations: [
+        new BrowserTracing({
+          tracingOrigins: ['localhost', /^\//],
+        })
+      ],
+      tracesSampleRate: 1.0,
+      environment: import.meta.env.MODE,
+      beforeSend: (event, hint) => {
+        // Custom error filtering
+        if (this.shouldIgnoreError(event, hint)) {
+          return null
+        }
+        return event
+      }
+    })
+  }
+
+  // Track application errors
+  trackError(error: Error, context: Partial<ErrorContext> = {}) {
+    const fullContext: ErrorContext = {
+      sessionId: this.getSessionId(),
+      page: window.location.pathname,
+      userAgent: navigator.userAgent,
+      timestamp: Date.now(),
+      ...context
+    }
+
+    // Add to queue for batch processing
+    this.errorQueue.push({ error, context: fullContext })
+
+    // Send to Sentry immediately for critical errors
+    if (this.isCriticalError(error)) {
+      Sentry.captureException(error, {
+        contexts: { custom: fullContext },
+        level: 'error'
+      })
+      
+      this.triggerAlert('critical_error', { error, context: fullContext })
+    }
+
+    // Check for error rate threshold
+    this.checkErrorRateThreshold()
+  }
+
+  // Track performance issues
+  trackPerformanceIssue(metric: string, value: number, threshold: number) {
+    if (value > threshold) {
+      const issue = {
+        metric,
+        value,
+        threshold,
+        severity: this.getPerformanceSeverity(value, threshold)
+      }
+
+      Sentry.addBreadcrumb({
+        message: `Performance issue: ${metric}`,
+        level: 'warning',
+        data: issue
+      })
+
+      if (issue.severity === 'critical') {
+        this.triggerAlert('performance_degradation', issue)
+      }
+    }
+  }
+
+  // Setup global error handlers
+  private setupGlobalErrorHandlers() {
+    // JavaScript errors
+    window.addEventListener('error', (event) => {
+      this.trackError(event.error, {
+        additionalData: {
+          filename: event.filename,
+          lineno: event.lineno,
+          colno: event.colno
+        }
+      })
+    })
+
+    // Promise rejections
+    window.addEventListener('unhandledrejection', (event) => {
+      const error = new Error(event.reason)
+      this.trackError(error, {
+        additionalData: {
+          type: 'unhandled_promise_rejection',
+          reason: event.reason
+        }
+      })
+    })
+
+    // React error boundary integration
+    Sentry.withErrorBoundary(() => {}, {
+      fallback: ({ error, resetError }) => (
+        <div className="error-boundary">
+          <h2>Something went wrong</h2>
+          <button onClick={resetError}>Try again</button>
+        </div>
+      )
+    })
+  }
+
+  // Process error queue
+  private startErrorProcessor() {
+    setInterval(() => {
+      if (this.errorQueue.length > 0) {
+        this.processErrorBatch()
+      }
+    }, 30000) // Process every 30 seconds
+  }
+
+  private async processErrorBatch() {
+    const batch = [...this.errorQueue]
+    this.errorQueue = []
+
+    try {
+      await fetch('/api/errors/batch', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ errors: batch })
+      })
+    } catch (error) {
+      // Re-queue errors if request fails
+      this.errorQueue.unshift(...batch)
+    }
+  }
+
+  // Error classification
+  private isCriticalError(error: Error): boolean {
+    const criticalPatterns = [
+      /payment/i,
+      /authentication/i,
+      /security/i,
+      /database/i,
+      /api.*5\d\d/i
+    ]
+
+    return criticalPatterns.some(pattern => 
+      pattern.test(error.message) || pattern.test(error.stack || '')
+    )
+  }
+
+  private shouldIgnoreError(event: any, hint: any): boolean {
+    const ignoredErrors = [
+      'Network request failed',
+      'ResizeObserver loop limit exceeded',
+      'Script error',
+      'Non-Error promise rejection captured'
+    ]
+
+    return ignoredErrors.some(ignored => 
+      event.message?.includes(ignored)
+    )
+  }
+
+  private getPerformanceSeverity(value: number, threshold: number): 'warning' | 'critical' {
+    return value > threshold * 2 ? 'critical' : 'warning'
+  }
+
+  // Alert system
+  private async triggerAlert(type: string, data: any) {
+    try {
+      await fetch('/api/alerts/trigger', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type, data, timestamp: Date.now() })
+      })
+    } catch (error) {
+      console.error('Failed to trigger alert:', error)
+    }
+  }
+
+  // Error rate monitoring
+  private checkErrorRateThreshold() {
+    const recentErrors = this.errorQueue.filter(
+      item => Date.now() - item.context.timestamp < 60000 // Last minute
+    )
+
+    if (recentErrors.length >= this.alertThresholds.errorRate) {
+      this.triggerAlert('high_error_rate', {
+        count: recentErrors.length,
+        timeWindow: '1 minute'
+      })
+    }
+  }
+
+  private getSessionId(): string {
+    return sessionStorage.getItem('sessionId') || 'unknown'
+  }
+}
+
+export const errorTracking = new ErrorTrackingService()
+```
+
+### 2.4 Performance Monitoring
+
+```typescript
+// src/services/performanceMonitoringService.ts
+import { getCLS, getFID, getFCP, getLCP, getTTFB } from 'web-vitals'
+
+interface PerformanceMetric {
+  name: string
+  value: number
+  rating: 'good' | 'needs-improvement' | 'poor'
+  timestamp: number
+  url: string
+  deviceType: string
+}
+
+class PerformanceMonitoringService {
+  private metrics: PerformanceMetric[] = []
+  private thresholds = {
+    LCP: { good: 2500, poor: 4000 },
+    FID: { good: 100, poor: 300 },
+    CLS: { good: 0.1, poor: 0.25 },
+    FCP: { good: 1800, poor: 3000 },
+    TTFB: { good: 800, poor: 1800 }
+  }
+
+  constructor() {
+    this.initializeWebVitals()
+    this.setupCustomMetrics()
+    this.startReporting()
+  }
+
+  private initializeWebVitals() {
+    getCLS((metric) => this.recordMetric('CLS', metric.value))
+    getFID((metric) => this.recordMetric('FID', metric.value))
+    getFCP((metric) => this.recordMetric('FCP', metric.value))
+    getLCP((metric) => this.recordMetric('LCP', metric.value))
+    getTTFB((metric) => this.recordMetric('TTFB', metric.value))
+  }
+
+  private setupCustomMetrics() {
+    // 3D rendering performance
+    this.monitor3DPerformance()
+    
+    // API response times
+    this.monitorAPIPerformance()
+    
+    // Bundle loading times
+    this.monitorResourceLoading()
+    
+    // Memory usage
+    this.monitorMemoryUsage()
+  }
+
+  private monitor3DPerformance() {
+    let frameCount = 0
+    let lastTime = performance.now()
+    
+    const measureFPS = () => {
+      frameCount++
+      const currentTime = performance.now()
+      
+      if (currentTime - lastTime >= 1000) {
+        const fps = Math.round((frameCount * 1000) / (currentTime - lastTime))
+        this.recordMetric('3D_FPS', fps)
+        
+        frameCount = 0
+        lastTime = currentTime
+      }
+      
+      requestAnimationFrame(measureFPS)
+    }
+    
+    requestAnimationFrame(measureFPS)
+  }
+
+  private monitorAPIPerformance() {
+    const originalFetch = window.fetch
+    
+    window.fetch = async (...args) => {
+      const startTime = performance.now()
+      
+      try {
+        const response = await originalFetch(...args)
+        const duration = performance.now() - startTime
+        
+        this.recordMetric('API_RESPONSE_TIME', duration, {
+          url: args[0].toString(),
+          status: response.status
+        })
+        
+        return response
+      } catch (error) {
+        const duration = performance.now() - startTime
+        this.recordMetric('API_ERROR_TIME', duration, {
+          url: args[0].toString(),
+          error: error.message
+        })
+        throw error
+      }
+    }
+  }
+
+  private monitorResourceLoading() {
+    const observer = new PerformanceObserver((list) => {
+      list.getEntries().forEach((entry) => {
+        if (entry.entryType === 'resource') {
+          const resource = entry as PerformanceResourceTiming
+          
+          this.recordMetric('RESOURCE_LOAD_TIME', resource.duration, {
+            resourceType: this.getResourceType(resource.name),
+            size: resource.transferSize
+          })
+        }
+      })
+    })
+    
+    observer.observe({ entryTypes: ['resource'] })
+  }
+
+  private monitorMemoryUsage() {
+    if ('memory' in performance) {
+      setInterval(() => {
+        const memory = (performance as any).memory
+        
+        this.recordMetric('MEMORY_USED', memory.usedJSHeapSize)
+        this.recordMetric('MEMORY_TOTAL', memory.totalJSHeapSize)
+        
+        const usagePercentage = (memory.usedJSHeapSize / memory.jsHeapSizeLimit) * 100
+        if (usagePercentage > 80) {
+          this.recordMetric('MEMORY_WARNING', usagePercentage)
+        }
+      }, 30000) // Check every 30 seconds
+    }
+  }
+
+  private recordMetric(name: string, value: number, additionalData?: any) {
+    const metric: PerformanceMetric = {
+      name,
+      value,
+      rating: this.getRating(name, value),
+      timestamp: Date.now(),
+      url: window.location.pathname,
+      deviceType: this.getDeviceType()
+    }
+
+    this.metrics.push(metric)
+    
+    // Trigger alerts for poor performance
+    if (metric.rating === 'poor') {
+      this.triggerPerformanceAlert(metric, additionalData)
+    }
+  }
+
+  private getRating(metricName: string, value: number): 'good' | 'needs-improvement' | 'poor' {
+    const threshold = this.thresholds[metricName]
+    if (!threshold) return 'good'
+    
+    if (value <= threshold.good) return 'good'
+    if (value <= threshold.poor) return 'needs-improvement'
+    return 'poor'
+  }
+
+  private async triggerPerformanceAlert(metric: PerformanceMetric, additionalData?: any) {
+    try {
+      await fetch('/api/alerts/performance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ metric, additionalData })
+      })
+    } catch (error) {
+      console.error('Failed to send performance alert:', error)
+    }
+  }
+
+  private startReporting() {
+    // Send metrics every 60 seconds
+    setInterval(() => {
+      if (this.metrics.length > 0) {
+        this.sendMetrics()
+      }
+    }, 60000)
+    
+    // Send on page unload
+    window.addEventListener('beforeunload', () => {
+      this.sendMetrics(true)
+    })
+  }
+
+  private async sendMetrics(synchronous: boolean = false) {
+    const metricsToSend = [...this.metrics]
+    this.metrics = []
+
+    const payload = {
+      metrics: metricsToSend,
+      sessionId: this.getSessionId(),
+      timestamp: Date.now()
+    }
+
+    try {
+      if (synchronous && navigator.sendBeacon) {
+        navigator.sendBeacon('/api/performance/metrics', JSON.stringify(payload))
+      } else {
+        await fetch('/api/performance/metrics', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+      }
+    } catch (error) {
+      // Re-queue metrics if request fails
+      this.metrics.unshift(...metricsToSend)
+    }
+  }
+
+  // Public methods for manual tracking
+  public trackCustomMetric(name: string, value: number, additionalData?: any) {
+    this.recordMetric(name, value, additionalData)
+  }
+
+  public getMetricsSummary() {
+    const summary = {
+      totalMetrics: this.metrics.length,
+      goodMetrics: this.metrics.filter(m => m.rating === 'good').length,
+      poorMetrics: this.metrics.filter(m => m.rating === 'poor').length
+    }
+    
+    return {
+      ...summary,
+      healthScore: (summary.goodMetrics / summary.totalMetrics) * 100
+    }
+  }
+
+  private getResourceType(url: string): string {
+    if (url.match(/\.(js|mjs)$/)) return 'script'
+    if (url.match(/\.(css)$/)) return 'stylesheet'
+    if (url.match(/\.(png|jpg|jpeg|gif|svg|webp)$/)) return 'image'
+    if (url.match(/\.(woff|woff2|ttf|otf)$/)) return 'font'
+    return 'other'
+  }
+
+  private getDeviceType(): string {
+    const width = window.innerWidth
+    if (width < 768) return 'mobile'
+    if (width < 1024) return 'tablet'
+    return 'desktop'
+  }
+
+  private getSessionId(): string {
+    return sessionStorage.getItem('sessionId') || 'unknown'
+  }
+}
+
+export const performanceMonitoring = new PerformanceMonitoringService()
+```
+
+## 3. Backend Analytics API
+
+### 3.1 Analytics Endpoints
+
+```typescript
+// api/analytics/events.ts
+import { NextApiRequest, NextApiResponse } from 'next'
+import { supabase } from '../../lib/supabase'
+import { rateLimit } from '../../lib/rateLimit'
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' })
+  }
+
+  // Rate limiting
+  const rateLimitResult = await rateLimit(req)
+  if (!rateLimitResult.success) {
+    return res.status(429).json({ error: 'Rate limit exceeded' })
+  }
+
+  try {
+    const { events, sessionId } = req.body
+
+    // Validate events
+    if (!Array.isArray(events) || events.length === 0) {
+      return res.status(400).json({ error: 'Invalid events data' })
+    }
+
+    // Process and store events
+    const processedEvents = events.map(event => ({
+      ...event,
+      ip_address: getClientIP(req),
+      processed_at: new Date().toISOString()
+    }))
+
+    // Batch insert to database
+    const { error } = await supabase
+      .from('analytics_events')
+      .insert(processedEvents)
+
+    if (error) {
+      console.error('Database error:', error)
+      return res.status(500).json({ error: 'Failed to store events' })
+    }
+
+    // Update real-time metrics
+    await updateRealTimeMetrics(processedEvents)
+
+    res.status(200).json({ success: true, processed: events.length })
+  } catch (error) {
+    console.error('Analytics error:', error)
+    res.status(500).json({ error: 'Internal server error' })
+  }
+}
+
+async function updateRealTimeMetrics(events: any[]) {
+  // Update Redis cache with real-time metrics
+  // Implementation depends on your caching strategy
+}
+
+function getClientIP(req: NextApiRequest): string {
+  return (
+    req.headers['x-forwarded-for'] as string ||
+    req.headers['x-real-ip'] as string ||
+    req.connection.remoteAddress ||
+    'unknown'
+  )
+}
+```
+
+### 3.2 Dashboard Data API
+
+```typescript
+// api/analytics/dashboard.ts
+import { NextApiRequest, NextApiResponse } from 'next'
+import { supabase } from '../../lib/supabase'
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== 'GET') {
+    return res.status(405).json({ error: 'Method not allowed' })
+  }
+
+  try {
+    const { timeRange = '24h' } = req.query
+    const timeFilter = getTimeFilter(timeRange as string)
+
+    // Fetch dashboard data in parallel
+    const [realTimeMetrics, performanceMetrics, topPages, deviceBreakdown, errorLogs, apiUsage] = await Promise.all([
+      getRealTimeMetrics(timeFilter),
+      getPerformanceMetrics(timeFilter),
+      getTopPages(timeFilter),
+      getDeviceBreakdown(timeFilter),
+      getErrorLogs(timeFilter),
+      getAPIUsage(timeFilter)
+    ])
+
+    const dashboardData = {
+      realTimeMetrics,
+      performanceMetrics,
+      topPages,
+      deviceBreakdown,
+      errorLogs,
+      apiUsage
+    }
+
+    res.status(200).json(dashboardData)
+  } catch (error) {
+    console.error('Dashboard error:', error)
+    res.status(500).json({ error: 'Failed to fetch dashboard data' })
+  }
+}
+
+function getTimeFilter(timeRange: string): string {
+  const now = new Date()
+  let startTime: Date
+
+  switch (timeRange) {
+    case '1h':
+      startTime = new Date(now.getTime() - 60 * 60 * 1000)
+      break
+    case '24h':
+      startTime = new Date(now.getTime() - 24 * 60 * 60 * 1000)
+      break
+    case '7d':
+      startTime = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
+      break
+    case '30d':
+      startTime = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
+      break
+    default:
+      startTime = new Date(now.getTime() - 24 * 60 * 60 * 1000)
+  }
+
+  return startTime.toISOString()
+}
+
+async function getRealTimeMetrics(timeFilter: string) {
+  // Implementation for real-time metrics
+  const { data } = await supabase
+    .from('analytics_events')
+    .select('*')
+    .gte('created_at', timeFilter)
+
+  return {
+    activeUsers: new Set(data?.map(d => d.session_id)).size || 0,
+    pageViews: data?.filter(d => d.type === 'page_view').length || 0,
+    avgSessionDuration: calculateAvgSessionDuration(data || []),
+    bounceRate: calculateBounceRate(data || [])
+  }
+}
+
+// Additional helper functions...
+```
+
+This comprehensive monitoring and analytics documentation provides a complete system for tracking user behavior, performance metrics, error monitoring, and real-time dashboard functionality for the advanced portfolio project.
