@@ -1,0 +1,61 @@
+name: 🚀 Deploy Main React App to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+    paths-ignore: [ 'portfolio-nextjs/**' ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📦 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🏗️ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: 📥 Install Dependencies
+        run: npm ci
+
+      - name: 🔨 Build React Application
+        run: npm run build
+        env:
+          NODE_ENV: production
+
+      - name: 📁 Prepare for GitHub Pages
+        run: |
+          # Create .nojekyll file to bypass Jekyll processing
+          touch dist/.nojekyll
+          
+          # Ensure proper file structure for GitHub Pages
+          if [ ! -f "dist/index.html" ]; then
+            echo "❌ No index.html found in build output"
+            exit 1
+          fi
+          
+          echo "✅ Build output verified successfully"
+
+      - name: 📤 Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: gh-pages
+          force_orphan: true
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: '🚀 Deploy main React app to GitHub Pages'

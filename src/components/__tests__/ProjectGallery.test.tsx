@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi } from '@jest/globals';
 import ProjectGallery from '../ProjectGallery';
 
 // Mock the projects data

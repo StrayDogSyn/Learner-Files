@@ -1,9 +1,9 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
-import { Search, Grid3X3, List, Carousel, Clock, Star, Eye, Calendar, Filter, SortAsc, SortDesc } from 'lucide-react';
+import { Search, Grid3X3, List, Clock, Star, Eye, Calendar, Filter, SortAsc, SortDesc } from 'lucide-react';
 import { projects, Project } from '../data/projects';
 
-type ViewMode = 'grid' | 'list' | 'carousel' | 'timeline';
+type ViewMode = 'grid' | 'list' | 'timeline';
 type SortOption = 'popular' | 'recent' | 'alphabetical' | 'custom';
 type FilterCategory = 'all' | 'game' | 'tool' | 'educational';
 
@@ -84,7 +84,7 @@ const ProjectGallery: React.FC<ProjectGalleryProps> = ({ className = '' }) => {
       scale: 1,
       transition: {
         duration: 0.4,
-        ease: "easeOut"
+        ease: "easeOut" as const
       }
     }
   };
@@ -99,7 +99,7 @@ const ProjectGallery: React.FC<ProjectGalleryProps> = ({ className = '' }) => {
   const viewModeButtons = [
     { key: 'grid', icon: Grid3X3, label: 'Grid' },
     { key: 'list', icon: List, label: 'List' },
-    { key: 'carousel', icon: Carousel, label: 'Carousel' },
+
     { key: 'timeline', icon: Clock, label: 'Timeline' }
   ];
 
@@ -204,7 +204,7 @@ const ProjectGallery: React.FC<ProjectGalleryProps> = ({ className = '' }) => {
           className={`projects-container ${
             viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6' :
             viewMode === 'list' ? 'space-y-4' :
-            viewMode === 'carousel' ? 'flex overflow-x-auto gap-6 pb-4' :
+                            'flex flex-wrap gap-6';
             'space-y-6'
           }`}
         >
@@ -217,7 +217,7 @@ const ProjectGallery: React.FC<ProjectGalleryProps> = ({ className = '' }) => {
                 className={`project-card group ${
                   viewMode === 'grid' ? 'h-full' :
                   viewMode === 'list' ? 'flex gap-6' :
-                  viewMode === 'carousel' ? 'flex-shrink-0 w-80' :
+                  '';
                   'border-l-4 border-blue-500 pl-6'
                 }`}
                 whileHover={{ 
