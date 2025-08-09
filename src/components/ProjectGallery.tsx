@@ -204,7 +204,6 @@ const ProjectGallery: React.FC<ProjectGalleryProps> = ({ className = '' }) => {
           className={`projects-container ${
             viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6' :
             viewMode === 'list' ? 'space-y-4' :
-                            'flex flex-wrap gap-6';
             'space-y-6'
           }`}
         >
@@ -217,7 +216,6 @@ const ProjectGallery: React.FC<ProjectGalleryProps> = ({ className = '' }) => {
                 className={`project-card group ${
                   viewMode === 'grid' ? 'h-full' :
                   viewMode === 'list' ? 'flex gap-6' :
-                  '';
                   'border-l-4 border-blue-500 pl-6'
                 }`}
                 whileHover={{ 
