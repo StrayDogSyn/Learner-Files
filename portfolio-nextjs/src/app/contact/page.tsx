@@ -234,7 +234,7 @@ const ContactInfo: React.FC = () => {
 export default function ContactPage() {
   const [showWizard, setShowWizard] = useState(false);
   
-  const handleFormSubmit = async (_data: ContactFormData) => {
+  const handleFormSubmit = async (data: ContactFormData) => {
     // Form submission will be handled by the ContactWizard component
     
     // Simulate API call
@@ -242,6 +242,7 @@ export default function ContactPage() {
     
     // Here you would typically send the data to your backend
     // Example: await fetch('/api/contact', { method: 'POST', body: JSON.stringify(data) })
+    console.log('Form data:', data);
   };
   
   return (

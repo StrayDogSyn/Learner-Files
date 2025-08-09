@@ -9,7 +9,11 @@
     "lint": "next lint",
     "export": "next build",
     "deploy": "npm run build && touch out/.nojekyll",
-    "deploy:github": "npm run deploy && gh-pages -d out -t true"
+    "deploy:github": "npm run deploy && gh-pages -d out -t true",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "check": "npm run lint && npm run test"
   },
   "dependencies": {
     "@react-three/fiber": "8.15",
@@ -26,11 +30,16 @@
     "recharts": "^3.1.2",
     "resize-observer-polyfill": "^1.5.1",
     "tailwind-merge": "2.0",
-    "three": "^0.158.0"
+    "three": "^0.158.0",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@testing-library/jest-dom": "^6.1.5",
+    "@testing-library/react": "^14.1.2",
+    "@testing-library/user-event": "^14.5.1",
+    "@types/jest": "^29.5.8",
     "@types/lodash.debounce": "^4.0.9",
     "@types/lodash.throttle": "^4.1.9",
     "@types/node": "^20",
@@ -40,6 +49,8 @@
     "eslint": "^9",
     "eslint-config-next": "15.4.6",
     "gh-pages": "^6.1.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

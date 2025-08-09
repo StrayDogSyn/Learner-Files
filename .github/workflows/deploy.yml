@@ -1,55 +1,216 @@
-name: 🚀 Deploy Next.js Portfolio to GitHub Pages
+name: 🚀 CI/CD Pipeline - Portfolio Deployment
 
 on:
   push:
+    branches: [ main, develop ]
+  pull_request:
     branches: [ main ]
   workflow_dispatch:
+
+env:
+  NODE_VERSION: '22'
+  PORTFOLIO_DIR: './portfolio-nextjs'
 
 permissions:
   contents: read
   pages: write
   id-token: write
+  security-events: write
+  actions: read
 
 concurrency:
-  group: "pages"
+  group: "pages-${{ github.ref }}"
   cancel-in-progress: false
 
 jobs:
-  build:
+  # Quality Assurance Job
+  quality-check:
+    name: 🔍 Quality Assurance
     runs-on: ubuntu-latest
     steps:
-      - name: 📦 Checkout
+      - name: 📦 Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: 🏗️ Setup Node.js
+      - name: 🏗️ Setup Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          cache-dependency-path: './portfolio-nextjs/package-lock.json'
+          cache-dependency-path: '${{ env.PORTFOLIO_DIR }}/package-lock.json'
 
-      - name: 📥 Install dependencies
+      - name: 📥 Install Dependencies
         run: |
-          cd portfolio-nextjs
-          npm ci
+          cd ${{ env.PORTFOLIO_DIR }}
+          npm ci --prefer-offline --no-audit
 
-      - name: 🔨 Build Next.js
+      - name: 🔍 Lint Code
         run: |
-          cd portfolio-nextjs
+          cd ${{ env.PORTFOLIO_DIR }}
+          npm run lint
+
+      - name: 🧪 Run Tests
+        run: |
+          cd ${{ env.PORTFOLIO_DIR }}
+          npm run test -- --coverage --watchAll=false
+
+      - name: 📊 Upload Coverage Reports
+        uses: codecov/codecov-action@v3
+        with:
+          directory: ${{ env.PORTFOLIO_DIR }}/coverage
+          flags: unittests
+          name: portfolio-coverage
+          fail_ci_if_error: false
+
+      - name: 🔒 Security Audit
+        run: |
+          cd ${{ env.PORTFOLIO_DIR }}
+          npm audit --audit-level=high
+        continue-on-error: true
+
+      - name: 📝 Type Check
+        run: |
+          cd ${{ env.PORTFOLIO_DIR }}
+          npx tsc --noEmit
+
+  # Build Job
+  build:
+    name: 🔨 Build Application
+    runs-on: ubuntu-latest
+    needs: quality-check
+    if: github.ref == 'refs/heads/main'
+    outputs:
+      build-success: ${{ steps.build-check.outputs.success }}
+    steps:
+      - name: 📦 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🏗️ Setup Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: '${{ env.PORTFOLIO_DIR }}/package-lock.json'
+
+      - name: 📥 Install Dependencies
+        run: |
+          cd ${{ env.PORTFOLIO_DIR }}
+          npm ci --prefer-offline --no-audit
+
+      - name: 🔧 Setup Environment
+        run: |
+          cd ${{ env.PORTFOLIO_DIR }}
+          echo "NODE_ENV=production" >> .env.local
+          echo "NEXT_PUBLIC_APP_URL=https://straydogsyn.github.io/Learner-Files" >> .env.local
+          echo "NEXT_PUBLIC_GITHUB_USERNAME=straydogsyn" >> .env.local
+
+      - name: 🔨 Build Next.js Application
+        run: |
+          cd ${{ env.PORTFOLIO_DIR }}
           npm run build
+        env:
+          NODE_ENV: production
 
-      - name: 📤 Upload artifact
+      - name: ✅ Verify Build
+        id: build-check
+        run: |
+          cd ${{ env.PORTFOLIO_DIR }}
+          if [ -d "out" ] && [ "$(ls -A out)" ]; then
+            echo "Build successful - out directory contains files"
+            echo "success=true" >> $GITHUB_OUTPUT
+          else
+            echo "Build failed - out directory is empty or missing"
+            echo "success=false" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+
+      - name: 🗜️ Optimize Build
+        run: |
+          cd ${{ env.PORTFOLIO_DIR }}/out
+          # Remove source maps in production
+          find . -name "*.map" -type f -delete
+          # Create .nojekyll file for GitHub Pages
+          touch .nojekyll
+          # Create robots.txt
+          echo "User-agent: *" > robots.txt
+          echo "Allow: /" >> robots.txt
+          echo "Sitemap: https://straydogsyn.github.io/Learner-Files/sitemap.xml" >> robots.txt
+
+      - name: 📤 Upload Build Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './portfolio-nextjs/out'
+          path: '${{ env.PORTFOLIO_DIR }}/out'
+          name: github-pages
 
+      - name: 📊 Build Size Analysis
+        run: |
+          cd ${{ env.PORTFOLIO_DIR }}
+          echo "## 📊 Build Analysis" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          du -sh out/ >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "### 📁 Build Contents:" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          ls -la out/ >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+
+  # Deployment Job
   deploy:
+    name: 🚀 Deploy to GitHub Pages
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
+    if: github.ref == 'refs/heads/main' && needs.build.outputs.build-success == 'true'
     steps:
       - name: 🚀 Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages
+
+      - name: 🎉 Deployment Success
+        run: |
+          echo "## 🎉 Deployment Successful!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🌐 **Live URL:** ${{ steps.deployment.outputs.page_url }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📋 Deployment Details:" >> $GITHUB_STEP_SUMMARY
+          echo "- **Environment:** Production" >> $GITHUB_STEP_SUMMARY
+          echo "- **Framework:** Next.js 15" >> $GITHUB_STEP_SUMMARY
+          echo "- **Build Time:** $(date)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🚀 Features Deployed:" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ AI-Enhanced Portfolio" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Claude 4.1 Integration" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Justice Reform Focus" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Responsive Design" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Performance Optimized" >> $GITHUB_STEP_SUMMARY
+
+  # Notification Job
+  notify:
+    name: 📢 Notify Status
+    runs-on: ubuntu-latest
+    needs: [quality-check, build, deploy]
+    if: always()
+    steps:
+      - name: 📊 Workflow Summary
+        run: |
+          echo "## 📊 Workflow Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Job | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Quality Check | ${{ needs.quality-check.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Build | ${{ needs.build.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Deploy | ${{ needs.deploy.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ needs.deploy.result }}" = "success" ]; then
+            echo "🎉 **Portfolio successfully deployed!**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "🌐 **Live Site:** https://straydogsyn.github.io/Learner-Files/" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **Deployment failed or skipped**" >> $GITHUB_STEP_SUMMARY
+          fi

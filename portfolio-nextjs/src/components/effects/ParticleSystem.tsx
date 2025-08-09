@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useEffect, useState, useMemo } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Canvas, useFrame, extend } from '@react-three/fiber';
 import * as THREE from 'three';
 
@@ -122,56 +122,59 @@ const ParticleField: React.FC<{ config: ParticleConfig }> = ({ config }) => {
     }
   });
   
-  const vertexShader = `
-    attribute float size;
-    attribute float opacity;
-    varying float vOpacity;
-    
-    void main() {
-      vOpacity = opacity;
-      vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-      gl_PointSize = size * (300.0 / -mvPosition.z);
-      gl_Position = projectionMatrix * mvPosition;
-    }
-  `;
+  // Commented out to avoid ESLint warnings - component is disabled
+  // const vertexShader = `
+  //   attribute float size;
+  //   attribute float opacity;
+  //   varying float vOpacity;
+  //   
+  //   void main() {
+  //     vOpacity = opacity;
+  //     vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+  //     gl_PointSize = size * (300.0 / -mvPosition.z);
+  //     gl_Position = projectionMatrix * mvPosition;
+  //   }
+  // `;
   
-  const fragmentShader = `
-    uniform vec3 color;
-    varying float vOpacity;
-    
-    void main() {
-      float distance = length(gl_PointCoord - vec2(0.5));
-      if (distance > 0.5) discard;
-      
-      float alpha = 1.0 - (distance * 2.0);
-      gl_FragColor = vec4(color, alpha * vOpacity);
-    }
-  `;
+  // Commented out to avoid ESLint warnings - component is disabled
+  // const fragmentShader = `
+  //   uniform vec3 color;
+  //   varying float vOpacity;
+  //   
+  //   void main() {
+  //     float distance = length(gl_PointCoord - vec2(0.5));
+  //     if (distance > 0.5) discard;
+  //     
+  //     float alpha = 1.0 - (distance * 2.0);
+  //     gl_FragColor = vec4(color, alpha * vOpacity);
+  //   }
+  // `;
   
-  const geometry = useMemo(() => {
-    const geo = new THREE.BufferGeometry();
-    const positions = new Float32Array(particles.length * 3);
-    const sizes = new Float32Array(particles.length);
-    const opacities = new Float32Array(particles.length);
-    
-    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geo.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
-    geo.setAttribute('opacity', new THREE.BufferAttribute(opacities, 1));
-    
-    return geo;
-  }, [particles.length]);
-  
-  const material = useMemo(() => {
-    return new THREE.ShaderMaterial({
-      vertexShader,
-      fragmentShader,
-      uniforms: {
-        color: { value: new THREE.Color(config.color) }
-      },
-      transparent: true,
-      blending: THREE.AdditiveBlending
-    });
-  }, [config.color, vertexShader, fragmentShader]);
+  // Temporarily commented out due to TypeScript issues with @react-three/fiber
+  // const geometry = useMemo(() => {
+  //   const geo = new THREE.BufferGeometry();
+  //   const positions = new Float32Array(particles.length * 3);
+  //   const sizes = new Float32Array(particles.length);
+  //   const opacities = new Float32Array(particles.length);
+  //   
+  //   geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  //   geo.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+  //   geo.setAttribute('opacity', new THREE.BufferAttribute(opacities, 1));
+  //   
+  //   return geo;
+  // }, [particles.length]);
+  // 
+  // const material = useMemo(() => {
+  //   return new THREE.ShaderMaterial({
+  //     vertexShader,
+  //     fragmentShader,
+  //     uniforms: {
+  //       color: { value: new THREE.Color(config.color) }
+  //     },
+  //     transparent: true,
+  //     blending: THREE.AdditiveBlending
+  //   });
+  // }, [config.color, vertexShader, fragmentShader]);
   
   // Temporarily disabled due to TypeScript issues with @react-three/fiber
   // TODO: Fix Three.js JSX element typing

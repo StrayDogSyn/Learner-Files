@@ -87,8 +87,9 @@ export const AnalyticsProvider: React.FC<AnalyticsProviderProps> = ({
           if (Date.now() - parsedData.lastActivity < 30 * 60 * 1000) {
             setSession({ ...parsedData, lastActivity: Date.now() });
           }
-        } catch (_error) {
+        } catch (error) {
           // Failed to parse existing analytics session
+          console.warn('Failed to parse analytics session:', error);
         }
       }
     }
