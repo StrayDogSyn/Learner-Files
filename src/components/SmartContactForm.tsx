@@ -475,7 +475,6 @@ export const SmartContactForm: React.FC = () => {
         <div className="hidden">
           <input
             type="text"
-            name="honeypot"
             tabIndex={-1}
             autoComplete="off"
             {...control.register('honeypot')}
