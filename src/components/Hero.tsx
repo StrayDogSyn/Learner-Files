@@ -11,8 +11,20 @@ import {
   Moon, 
   Sun,
   ChevronDown,
-  ExternalLink
+  ExternalLink,
+  Brain,
+  Cpu,
+  Zap
 } from 'lucide-react';
+import BrandLogo from './BrandLogo';
+
+// Utility function for smooth scrolling to sections
+const scrollToSection = (sectionId: string) => {
+  const element = document.getElementById(sectionId);
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth' });
+  }
+};
 
 // Typewriter effect component
 const TypewriterText: React.FC<{ 
@@ -94,14 +106,14 @@ const ParticleSystem: React.FC = () => {
 // Tech stack carousel component
 const TechStackCarousel: React.FC = () => {
   const techStack = [
-    { name: 'React', icon: '⚛️', color: '#61DAFB' },
-    { name: 'TypeScript', icon: '📘', color: '#3178C6' },
-    { name: 'Next.js', icon: '⚡', color: '#000000' },
-    { name: 'Node.js', icon: '🟢', color: '#339933' },
-    { name: 'Python', icon: '🐍', color: '#3776AB' },
-    { name: 'AI/ML', icon: '🤖', color: '#FF6B6B' },
-    { name: 'Three.js', icon: '🎨', color: '#000000' },
-    { name: 'Tailwind', icon: '🎨', color: '#06B6D4' },
+    { name: 'React', icon: '⚛️', color: 'var(--electric-blue)' },
+    { name: 'TypeScript', icon: '📘', color: 'var(--electric-blue)' },
+    { name: 'AI/ML', icon: '🤖', color: 'var(--ai-purple)' },
+    { name: 'Node.js', icon: '🟢', color: 'var(--hunter-green)' },
+    { name: 'Python', icon: '🐍', color: 'var(--ai-purple)' },
+    { name: 'OpenAI', icon: '🧠', color: 'var(--ai-purple)' },
+    { name: 'Three.js', icon: '🎨', color: 'var(--electric-blue)' },
+    { name: 'Tailwind', icon: '🎨', color: 'var(--hunter-green)' },
   ];
 
   return (
@@ -302,6 +314,16 @@ export const Hero: React.FC = () => {
             className="space-y-8"
             style={{ opacity }}
           >
+            {/* Brand Logo */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              className="mb-6"
+            >
+              <BrandLogo size="lg" animated />
+            </motion.div>
+
             {/* Dynamic greeting */}
             <DynamicGreeting />
 
@@ -314,15 +336,15 @@ export const Hero: React.FC = () => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="text-5xl lg:text-7xl font-bold"
+                className="text-4xl lg:text-6xl font-bold font-heading"
               >
-                <span className="text-white">Creative</span>
+                <span className="text-white">Hunter & Cortana</span>
                 <br />
                 <TypewriterText
-                  text="Developer"
-                  speed={150}
+                  text="Applied AI Solutions Engineering"
+                  speed={100}
                   delay={1000}
-                  className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"
+                  className="bg-gradient-to-r from-[var(--electric-blue)] via-[var(--ai-purple)] to-[var(--hunter-green)] bg-clip-text text-transparent text-2xl lg:text-4xl"
                 />
               </motion.h1>
               
@@ -330,10 +352,9 @@ export const Hero: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="text-xl text-white/70 max-w-lg leading-relaxed"
+                className="text-xl text-white/70 max-w-lg leading-relaxed font-body"
               >
-                Crafting exceptional digital experiences with cutting-edge technology 
-                and innovative design solutions.
+                Transforming Ideas into Intelligent Solutions through the fusion of human creativity and artificial intelligence.
               </motion.p>
             </div>
 
@@ -357,19 +378,21 @@ export const Hero: React.FC = () => {
               <motion.button
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                className="group inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium rounded-lg hover:shadow-lg transition-all duration-300"
+                onClick={() => scrollToSection('projects')}
+                className="btn-cta group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[var(--electric-blue)] to-[var(--ai-purple)] text-white font-bold rounded-xl hover:shadow-lg transition-all duration-300"
               >
-                View My Work
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                Explore AI Solutions
+                <Brain className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
               </motion.button>
               
               <motion.button
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                className="group inline-flex items-center gap-2 px-6 py-3 bg-white/10 backdrop-blur-sm text-white font-medium rounded-lg border border-white/20 hover:bg-white/20 transition-all duration-300"
+                onClick={() => scrollToSection('demonstrations')}
+                className="btn-secondary group inline-flex items-center gap-2 px-6 py-3 bg-transparent border-2 border-[var(--hunter-green)] text-white font-semibold rounded-lg hover:bg-[var(--hunter-green)] transition-all duration-300"
               >
-                <Download className="w-5 h-5" />
-                Download CV
+                <Zap className="w-5 h-5" />
+                Try AI Demos
               </motion.button>
             </motion.div>
 
@@ -381,9 +404,9 @@ export const Hero: React.FC = () => {
               className="flex gap-4"
             >
               {[
-                { icon: Github, href: 'https://github.com', label: 'GitHub' },
-                { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
-                { icon: Mail, href: 'mailto:contact@example.com', label: 'Email' }
+                { icon: Github, href: 'https://github.com/straydogsyn', label: 'GitHub' },
+                { icon: Linkedin, href: 'https://linkedin.com/in/hunter-cortana', label: 'LinkedIn' },
+                { icon: Mail, href: 'mailto:hunter@cortana-ai.dev', label: 'Email' }
               ].map(({ icon: Icon, href, label }) => (
                 <motion.a
                   key={label}
@@ -392,9 +415,9 @@ export const Hero: React.FC = () => {
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.95 }}
-                  className="group p-3 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 hover:bg-white/20 transition-all duration-300"
+                  className="group p-3 bg-white/10 backdrop-blur-sm rounded-full border border-[var(--hunter-green)]/30 hover:bg-[var(--hunter-green)]/20 hover:border-[var(--hunter-green)] transition-all duration-300"
                 >
-                  <Icon className="w-5 h-5 text-white/60 group-hover:text-white transition-colors duration-300" />
+                  <Icon className="w-5 h-5 text-white/60 group-hover:text-[var(--electric-blue)] transition-colors duration-300" />
                 </motion.a>
               ))}
             </motion.div>
@@ -407,9 +430,9 @@ export const Hero: React.FC = () => {
           >
             {/* Stats cards */}
             {[
-              { number: '50+', label: 'Projects', icon: <Code className="w-6 h-6" /> },
-              { number: '3+', label: 'Years Exp', icon: <Sparkles className="w-6 h-6" /> },
-              { number: '95%', label: 'Client Satisfaction', icon: <Github className="w-6 h-6" /> }
+              { number: '25+', label: 'AI Projects', icon: <Brain className="w-6 h-6" /> },
+              { number: '5+', label: 'Years Experience', icon: <Sparkles className="w-6 h-6" /> },
+              { number: '100%', label: 'AI Integration', icon: <Cpu className="w-6 h-6" /> }
             ].map((stat, index) => (
               <motion.div
                 key={stat.label}
@@ -417,14 +440,14 @@ export const Hero: React.FC = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 1.2 + index * 0.2 }}
                 whileHover={{ scale: 1.05, y: -5 }}
-                className="p-6 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 hover:bg-white/20 transition-all duration-300"
+                className="card-feature p-6 bg-[var(--deep-black)]/80 backdrop-blur-sm rounded-xl border border-[var(--hunter-green)]/30 hover:bg-[var(--hunter-green)]/10 hover:border-[var(--hunter-green)] transition-all duration-300"
               >
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="text-2xl font-bold text-white">{stat.number}</div>
                     <div className="text-white/60">{stat.label}</div>
                   </div>
-                  <div className="text-blue-400">{stat.icon}</div>
+                  <div className="text-[var(--electric-blue)]">{stat.icon}</div>
                 </div>
               </motion.div>
             ))}

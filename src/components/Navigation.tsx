@@ -40,36 +40,35 @@ interface MultiSiteItem {
 const navigationItems: NavigationItem[] = [
   { id: 'home', label: 'Home', href: '/', icon: <Home className="w-4 h-4" /> },
   { id: 'projects', label: 'Projects', href: '/projects', icon: <FolderOpen className="w-4 h-4" /> },
-  { id: 'skills', label: 'Skills', href: '/skills', icon: <Code className="w-4 h-4" /> },
-  { id: 'experience', label: 'Experience', href: '/experience', icon: <Briefcase className="w-4 h-4" /> },
-  { id: 'blog', label: 'Blog', href: '/blog', icon: <FileText className="w-4 h-4" /> },
+  { id: 'portfolio', label: 'Portfolio', href: '/portfolio', icon: <Briefcase className="w-4 h-4" /> },
+  { id: 'bio', label: 'Bio', href: '/bio', icon: <FileText className="w-4 h-4" /> },
   { id: 'contact', label: 'Contact', href: '/contact', icon: <Mail className="w-4 h-4" /> },
 ];
 
 const multiSiteItems: MultiSiteItem[] = [
   {
-    name: 'StrayDog Syndications',
-    url: 'https://straydogsyndications.com',
-    description: 'Main portfolio and services',
-    icon: '🏠'
+    name: 'Hunter & Cortana Portfolio',
+    url: 'https://straydogsyn.github.io/Learner-Files/',
+    description: 'Applied AI Solutions Engineering',
+    icon: '🧠'
   },
   {
-    name: 'JusticeAI Platform',
-    url: 'https://justiceai.com',
-    description: 'AI-powered legal technology',
-    icon: '⚖️'
+    name: 'AI Playground',
+    url: '#playground',
+    description: 'Interactive AI demonstrations',
+    icon: '🎮'
   },
   {
-    name: 'Tech Blog',
-    url: 'https://blog.straydogsyndications.com',
-    description: 'Technical articles and insights',
-    icon: '📝'
+    name: 'Case Studies',
+    url: '#case-studies',
+    description: 'Detailed project breakdowns',
+    icon: '📊'
   },
   {
-    name: 'Learning Hub',
-    url: 'https://learn.straydogsyndications.com',
-    description: 'Educational resources and tutorials',
-    icon: '🎓'
+    name: 'Research Papers',
+    url: '#research',
+    description: 'AI research and publications',
+    icon: '📄'
   }
 ];
 
@@ -128,7 +127,7 @@ const useActiveSection = () => {
 
 // Components
 const ProgressIndicator: React.FC<{ progress: number }> = ({ progress }) => (
-  <div className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-blue-500 to-purple-600 transition-all duration-300"
+  <div className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-hunter-green to-electric-blue transition-all duration-300"
        style={{ width: `${progress}%` }} />
 );
 
@@ -247,7 +246,7 @@ const MobileMenu: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen
             </nav>
             
             <div className="p-6 border-t border-white/20">
-              <button className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all duration-200">
+              <button className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-gradient-to-r from-hunter-green to-electric-blue text-white rounded-lg hover:shadow-lg transition-all duration-200">
                 <MessageCircle className="w-4 h-4" />
                 <span>AI Assistant</span>
               </button>
@@ -338,11 +337,11 @@ export const Navigation: React.FC = () => {
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Brand */}
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm lg:text-base">S</span>
+              <div className="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-r from-hunter-green to-electric-blue rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-sm lg:text-base">H&C</span>
               </div>
-              <span className="text-white font-bold text-lg lg:text-xl hidden sm:block">
-                StrayDog Syndications
+              <span className="text-white font-heading font-bold text-lg lg:text-xl hidden sm:block">
+                Hunter & Cortana
               </span>
             </div>
 
@@ -356,7 +355,7 @@ export const Navigation: React.FC = () => {
                   onClick={() => handleNavClick(item.href)}
                   className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                     activeSection === item.id
-                      ? 'text-blue-400 bg-blue-500/20 border border-blue-500/30'
+                      ? 'text-electric-blue bg-electric-blue/20 border border-electric-blue/30'
                       : 'text-white/80 hover:text-white hover:bg-white/10'
                   }`}
                 >
@@ -364,7 +363,7 @@ export const Navigation: React.FC = () => {
                   {activeSection === item.id && (
                     <motion.div
                       layoutId="activeIndicator"
-                      className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-transparent rounded-lg"
+                      className="absolute inset-0 bg-gradient-to-r from-hunter-green/20 to-electric-blue/10 rounded-lg"
                       transition={{ type: 'spring', damping: 25, stiffness: 200 }}
                     />
                   )}
@@ -443,16 +442,16 @@ export const Navigation: React.FC = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="hidden sm:flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all duration-200"
+                className="hidden sm:flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-hunter-green to-electric-blue text-white rounded-lg hover:shadow-lg transition-all duration-200"
               >
                 <MessageCircle className="w-4 h-4" />
                 <span className="text-sm font-medium">AI Assistant</span>
               </motion.button>
 
               {/* Status Indicator */}
-              <div className="hidden lg:flex items-center space-x-2 px-3 py-1 bg-green-500/20 border border-green-500/30 rounded-full">
-                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                <span className="text-xs text-green-400 font-medium">Available</span>
+              <div className="hidden lg:flex items-center space-x-2 px-3 py-1 bg-success/20 border border-success/30 rounded-full">
+                <span className="w-2 h-2 bg-success rounded-full animate-pulse" />
+                <span className="text-xs text-success font-medium">AI Online</span>
               </div>
 
               {/* Mobile Menu Button */}

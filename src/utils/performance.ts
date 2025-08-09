@@ -1,152 +1,139 @@
-// FILE: src/utils/performance.ts
-import type { 
-  LayoutShiftEntry, 
-  FirstInputEntry, 
-  LargestContentfulPaintEntry,
-  PerformanceMetrics,
-  ResourceHint 
-} from '../types/performance';
+// Performance monitoring and optimization utilities
 
+// Performance metrics interface
+interface PerformanceMetrics {
+  loadTime: number;
+  domContentLoaded: number;
+  firstContentfulPaint?: number;
+  largestContentfulPaint?: number;
+  cumulativeLayoutShift?: number;
+  firstInputDelay?: number;
+}
+
+// Performance observer for Core Web Vitals
 class PerformanceMonitor {
-  private metrics: Map<string, number>;
-  private observer: PerformanceObserver | null;
+  private metrics: Partial<PerformanceMetrics> = {};
+  private observers: PerformanceObserver[] = [];
 
   constructor() {
-    this.metrics = new Map();
-    this.observer = null;
-    this.initializeMonitoring();
+    this.initializeObservers();
+    this.measureBasicMetrics();
   }
 
-  initializeMonitoring() {
-    // Web Vitals monitoring
+  private initializeObservers() {
+    // Largest Contentful Paint (LCP)
     if ('PerformanceObserver' in window) {
-      this.observer = new PerformanceObserver((list) => {
-        for (const entry of list.getEntries()) {
-          if (entry.entryType === 'largest-contentful-paint') {
-            this.metrics.set('LCP', entry.startTime);
-          }
-          if (entry.entryType === 'first-input') {
-            const fidEntry = entry as FirstInputEntry;
-            this.metrics.set('FID', fidEntry.processingStart - fidEntry.startTime);
-          }
-          if (entry.entryType === 'layout-shift') {
-            const currentCLS = this.metrics.get('CLS') || 0;
-            const clsEntry = entry as LayoutShiftEntry;
-            this.metrics.set('CLS', currentCLS + clsEntry.value);
-          }
-        }
-      });
-
-      this.observer.observe({ 
-        entryTypes: ['largest-contentful-paint', 'first-input', 'layout-shift'] 
-      });
-    }
-
-    // Custom metrics
-    this.measureLoadTime();
-    this.measureRenderTime();
-    this.trackMemoryUsage();
-  }
-
-  measureLoadTime() {
-    window.addEventListener('load', () => {
-      const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
-      this.metrics.set('loadTime', loadTime);
-      this.reportMetric('load_time', loadTime);
-    });
-  }
-
-  measureRenderTime() {
-    const renderStart = performance.now();
-    requestAnimationFrame(() => {
-      const renderTime = performance.now() - renderStart;
-      this.metrics.set('renderTime', renderTime);
-      this.reportMetric('render_time', renderTime);
-    });
-  }
-
-  trackMemoryUsage() {
-    if ('memory' in performance) {
-      setInterval(() => {
-        const memory = performance.memory;
-        if (memory) {
-          this.metrics.set('memoryUsed', memory.usedJSHeapSize);
-          this.metrics.set('memoryTotal', memory.totalJSHeapSize);
-          
-          if (memory.usedJSHeapSize > memory.totalJSHeapSize * 0.9) {
-            console.warn('High memory usage detected');
-            this.optimizeMemory();
-          }
-        }
-      }, 10000);
-    }
-  }
-
-  optimizeMemory() {
-    // Clear caches
-    if ('caches' in window) {
-      caches.keys().then(names => {
-        names.forEach(name => {
-          if (name.includes('old-version')) {
-            caches.delete(name);
-          }
+      try {
+        const lcpObserver = new PerformanceObserver((list) => {
+          const entries = list.getEntries();
+          const lastEntry = entries[entries.length - 1] as any;
+          this.metrics.largestContentfulPaint = lastEntry.startTime;
         });
-      });
-    }
+        lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
+        this.observers.push(lcpObserver);
+      } catch (e) {
+        console.warn('LCP observer not supported');
+      }
 
-    // Trigger garbage collection hint
-    if (window.gc) {
-      window.gc();
-    }
-  }
+      // First Input Delay (FID)
+      try {
+        const fidObserver = new PerformanceObserver((list) => {
+          const entries = list.getEntries();
+          entries.forEach((entry: any) => {
+            this.metrics.firstInputDelay = entry.processingStart - entry.startTime;
+          });
+        });
+        fidObserver.observe({ entryTypes: ['first-input'] });
+        this.observers.push(fidObserver);
+      } catch (e) {
+        console.warn('FID observer not supported');
+      }
 
-  // Lazy loading implementation
-  setupLazyLoading() {
-    const images = document.querySelectorAll('img[data-src]');
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const img = entry.target as HTMLImageElement;
-          img.src = img.dataset.src!;
-          img.removeAttribute('data-src');
-          observer.unobserve(img);
-        }
-      });
-    });
-
-    images.forEach(img => imageObserver.observe(img));
-  }
-
-  // Resource hints
-  addResourceHints() {
-    const hints: ResourceHint[] = [
-      { rel: 'preconnect', href: 'https://api.github.com' },
-      { rel: 'preconnect', href: 'https://www.googletagmanager.com' },
-      { rel: 'dns-prefetch', href: 'https://fonts.googleapis.com' },
-      { rel: 'preload', href: '/fonts/main.woff2', as: 'font', type: 'font/woff2', crossOrigin: 'anonymous' }
-    ];
-
-    hints.forEach(hint => {
-      const link = document.createElement('link');
-      Object.assign(link, hint);
-      document.head.appendChild(link);
-    });
-  }
-
-  reportMetric(name: string, value: number) {
-    // Send to analytics
-    if (window.gtag) {
-      window.gtag('event', 'performance', {
-        metric_name: name,
-        value: value,
-        page: window.location.pathname
-      });
+      // Cumulative Layout Shift (CLS)
+      try {
+        const clsObserver = new PerformanceObserver((list) => {
+          let clsValue = 0;
+          const entries = list.getEntries();
+          entries.forEach((entry: any) => {
+            if (!entry.hadRecentInput) {
+              clsValue += entry.value;
+            }
+          });
+          this.metrics.cumulativeLayoutShift = clsValue;
+        });
+        clsObserver.observe({ entryTypes: ['layout-shift'] });
+        this.observers.push(clsObserver);
+      } catch (e) {
+        console.warn('CLS observer not supported');
+      }
     }
   }
 
-  getMetrics(): PerformanceMetrics {
-    return Object.fromEntries(this.metrics);
+  private measureBasicMetrics() {
+    // Wait for page load to complete
+    if (document.readyState === 'complete') {
+      this.calculateMetrics();
+    } else {
+      window.addEventListener('load', () => this.calculateMetrics());
+    }
+  }
+
+  private calculateMetrics() {
+    const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+    
+    if (navigation) {
+      this.metrics.loadTime = navigation.loadEventEnd - navigation.fetchStart;
+      this.metrics.domContentLoaded = navigation.domContentLoadedEventEnd - navigation.fetchStart;
+    }
+
+    // First Contentful Paint
+    const paintEntries = performance.getEntriesByType('paint');
+    const fcpEntry = paintEntries.find(entry => entry.name === 'first-contentful-paint');
+    if (fcpEntry) {
+      this.metrics.firstContentfulPaint = fcpEntry.startTime;
+    }
+  }
+
+  public getMetrics(): Partial<PerformanceMetrics> {
+    return { ...this.metrics };
+  }
+
+  public logMetrics() {
+    console.group('🚀 Performance Metrics');
+    console.log('Load Time:', this.metrics.loadTime?.toFixed(2) + 'ms');
+    console.log('DOM Content Loaded:', this.metrics.domContentLoaded?.toFixed(2) + 'ms');
+    console.log('First Contentful Paint:', this.metrics.firstContentfulPaint?.toFixed(2) + 'ms');
+    console.log('Largest Contentful Paint:', this.metrics.largestContentfulPaint?.toFixed(2) + 'ms');
+    console.log('Cumulative Layout Shift:', this.metrics.cumulativeLayoutShift?.toFixed(4));
+    console.log('First Input Delay:', this.metrics.firstInputDelay?.toFixed(2) + 'ms');
+    console.groupEnd();
+  }
+
+  public disconnect() {
+    this.observers.forEach(observer => observer.disconnect());
   }
 }
 
-export default new PerformanceMonitor();
+// Resource preloading utilities
+class ResourcePreloader {
+  private preloadedResources = new Set<string>();
+
+  // Preload critical images
+  public preloadImages(urls: string[]): Promise<void[]> {
+    const promises = urls.map(url => {
+      if (this.preloadedResources.has(url)) {
+        return Promise.resolve();
+      }
+
+      return new Promise<void>((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+          this.preloadedResources.add(url);
+          resolve();
+        };
+        img.onerror = reject;
+        img.src = url;
+      });
+    });
+
+    return Promise.all(promises);
