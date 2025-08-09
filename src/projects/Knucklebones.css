@@ -1,0 +1,467 @@
+/* Knucklebones Dice Simulator Styles */
+
+.knucklebones-container {
+  min-height: 100vh;
+  background: #1a1a2e;
+  color: #ffffff;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+}
+
+:root {
+  --primary-color: #2a2a72;
+  --secondary-color: #009ffd;
+  --accent-color: #ffd700;
+  --background-color: #1a1a2e;
+  --surface-color: #252525;
+  --text-primary: #ffffff;
+  --text-secondary: #b3b3b3;
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+}
+
+.background {
+  background-color: var(--surface-color);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.box-shadow {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Navigation Styles */
+.navbar {
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-link {
+  color: var(--text-secondary);
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: var(--accent-color);
+}
+
+/* Modern Dice Controls */
+.modern-dice-controls {
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.dice-type-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.dice-type-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+  background: var(--surface-color);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  flex: 1;
+  min-width: 60px;
+}
+
+.dice-type-btn i {
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.dice-type-btn.active {
+  background: var(--primary-color);
+  color: var(--text-primary);
+  border-color: var(--accent-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.dice-type-btn:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.dice-count-display {
+  background: var(--surface-color);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-md);
+  min-width: 2.5rem;
+  text-align: center;
+  font-weight: bold;
+  color: var(--accent-color);
+}
+
+.dice-preview {
+  margin-top: 1rem;
+  color: var(--accent-color);
+}
+
+/* Selected Dice Pool */
+.selected-dice-pool {
+  min-height: 80px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: var(--radius-md);
+  padding: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.dice-pool-item {
+  display: flex;
+  align-items: center;
+  background: var(--surface-color);
+  border-radius: var(--radius-md);
+  padding: 0.5rem 0.75rem;
+  animation: dice-pop 0.3s ease-out forwards;
+}
+
+.dice-pool-icon {
+  color: var(--accent-color);
+  font-size: 1.25rem;
+  margin-right: 0.5rem;
+}
+
+.dice-pool-count {
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+.remove-dice {
+  background: rgba(255, 0, 0, 0.2);
+  border: none;
+  color: #ff6b6b;
+  border-radius: 50%;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.5rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.remove-dice:hover {
+  background: rgba(255, 0, 0, 0.4);
+  transform: scale(1.1);
+}
+
+/* Quick Combinations */
+.combinations-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.combination-btn {
+  background: var(--surface-color);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  padding: 0.5rem 0.75rem;
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+  flex-grow: 1;
+  text-align: center;
+  cursor: pointer;
+}
+
+.combination-btn:hover {
+  background: var(--primary-color);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+}
+
+/* Roll Results */
+.roll-stats {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+}
+
+.stat-item {
+  margin-bottom: 1rem;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--accent-color);
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.roll-results-container {
+  min-height: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+  border-radius: var(--radius-md);
+  background: rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+}
+
+.empty-results-message {
+  color: var(--text-secondary);
+}
+
+/* Multi-dice roll results */
+.multi-roll-result {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: var(--radius-md);
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.multi-roll-header {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.75rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.multi-roll-body {
+  padding: 1rem;
+}
+
+.dice-group {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dice-group:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.dice-group-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.dice-group-icon {
+  color: var(--accent-color);
+  font-size: 1.25rem;
+  margin-right: 0.5rem;
+}
+
+.roll-dice-values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.dice-value {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: var(--surface-color);
+  border-radius: var(--radius-md);
+  color: var(--accent-color);
+  font-weight: bold;
+}
+
+/* Animations */
+@keyframes dice-pop {
+  0% { transform: scale(0.8); opacity: 0.5; }
+  70% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.dice-pop {
+  animation: dice-pop 0.4s ease-out forwards;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes roll {
+  0% { transform: translateY(-100%) rotate(0deg); }
+  50% { transform: translateY(0) rotate(180deg); }
+  100% { transform: translateY(0) rotate(360deg); }
+}
+
+.fa-spin {
+  animation: spin 2s linear infinite;
+}
+
+.rolling {
+  animation: roll 0.5s ease-out;
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+  background-color: #1a1a1a;
+  color: #f0f0f0;
+}
+
+.dark-card {
+  background-color: #2d2d2d !important;
+  color: #f0f0f0 !important;
+  border-color: #444 !important;
+}
+
+.dark-element {
+  background-color: #383838 !important;
+  color: #f0f0f0 !important;
+  border-color: #555 !important;
+}
+
+.dark-text {
+  color: #bbb !important;
+}
+
+/* Modal styles for saved pools and history */
+.saved-pools-list .list-group-item,
+.roll-history-list .list-group-item {
+  transition: background-color 0.2s ease;
+  background-color: var(--surface-color);
+  color: var(--text-primary);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.saved-pools-list .list-group-item:hover,
+.roll-history-list .list-group-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .saved-pools-list .list-group-item,
+body.dark-mode .roll-history-list .list-group-item {
+  background-color: #383838;
+  color: #f0f0f0;
+  border-color: #555;
+}
+
+body.dark-mode .saved-pools-list .list-group-item:hover,
+body.dark-mode .roll-history-list .list-group-item:hover {
+  background-color: #444;
+}
+
+body.dark-mode .modal-content {
+  background-color: #2d2d2d;
+  color: #f0f0f0;
+  border-color: #444;
+}
+
+body.dark-mode .modal-header,
+body.dark-mode .modal-footer {
+  border-color: #555;
+}
+
+body.dark-mode .text-muted {
+  color: #aaa !important;
+}
+
+/* Sound toggle animation */
+.fa-volume-up, .fa-volume-mute {
+  transition: transform 0.3s ease;
+}
+
+/* Dark mode toggle animation */
+.fa-moon, .fa-sun {
+  transition: transform 0.3s ease;
+}
+
+/* Additional Game Options dropdown styling */
+.dropdown-menu.background {
+  background-color: rgba(51, 51, 51, 0.95);
+  z-index: 1030;
+}
+
+.dropdown-menu.background .dropdown-item {
+  color: #fff;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-menu.background .dropdown-item:hover {
+  background-color: rgba(75, 75, 75, 0.8);
+}
+
+.dropdown-menu.background .dropdown-divider {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Ensure dropdowns stay on top of other elements */
+.dropdown-menu {
+  z-index: 1030;
+}
+
+/* Fix for modal backdrops to prevent z-index issues */
+.modal-backdrop {
+  z-index: 1025;
+}
+
+.modal {
+  z-index: 1029;
+}
+
+/* Toast notifications */
+.toast {
+  min-width: 250px;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .dice-type-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .combinations-container {
+    flex-direction: column;
+  }
+  
+  .combination-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .knucklebones-container .container-fluid {
+    padding: 0.5rem;
+  }
+  
+  .modern-dice-controls {
+    padding: 0.75rem;
+  }
+  
+  .dice-type-btn {
+    min-width: 50px;
+    padding: 0.5rem;
+  }
+  
+  .dice-type-btn i {
+    font-size: 1.25rem;
+  }
+}
