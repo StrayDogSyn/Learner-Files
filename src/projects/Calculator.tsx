@@ -62,6 +62,14 @@ interface CalculatorState {
   toUnit: string;
   conversionValue: string;
   conversionResult: string;
+  
+  // Programming calculator properties
+  numberBase: 'bin' | 'oct' | 'dec' | 'hex';
+  binaryValue: string;
+  octalValue: string;
+  decimalValue: string;
+  hexValue: string;
+  bitwiseResult: string;
 }
 
 const Calculator: React.FC = () => {
@@ -92,6 +100,14 @@ const Calculator: React.FC = () => {
     toUnit: 'foot',
     conversionValue: '1',
     conversionResult: '3.28084',
+    
+    // Programming calculator defaults
+    numberBase: 'dec',
+    binaryValue: '0',
+    octalValue: '0',
+    decimalValue: '0',
+    hexValue: '0',
+    bitwiseResult: '',
   });
 
   // Performance tracking
@@ -107,6 +123,345 @@ const Calculator: React.FC = () => {
 
   const isNumber = (value: string): boolean => {
     return !isNaN(Number(value)) && value !== " ";
+  };
+
+  // Unit conversion data and functions
+  const unitConversions = {
+    length: {
+      meter: 1,
+      kilometer: 0.001,
+      centimeter: 100,
+      millimeter: 1000,
+      inch: 39.3701,
+      foot: 3.28084,
+      yard: 1.09361,
+      mile: 0.000621371,
+      nautical_mile: 0.000539957
+    },
+    weight: {
+      kilogram: 1,
+      gram: 1000,
+      pound: 2.20462,
+      ounce: 35.274,
+      ton: 0.001,
+      stone: 0.157473
+    },
+    temperature: {
+      celsius: (c: number, to: string) => {
+        if (to === 'fahrenheit') return (c * 9/5) + 32;
+        if (to === 'kelvin') return c + 273.15;
+        return c;
+      },
+      fahrenheit: (f: number, to: string) => {
+        if (to === 'celsius') return (f - 32) * 5/9;
+        if (to === 'kelvin') return (f - 32) * 5/9 + 273.15;
+        return f;
+      },
+      kelvin: (k: number, to: string) => {
+        if (to === 'celsius') return k - 273.15;
+        if (to === 'fahrenheit') return (k - 273.15) * 9/5 + 32;
+        return k;
+      }
+    },
+    area: {
+      square_meter: 1,
+      square_kilometer: 0.000001,
+      square_centimeter: 10000,
+      square_inch: 1550.0031,
+      square_foot: 10.7639,
+      square_yard: 1.19599,
+      acre: 0.000247105,
+      hectare: 0.0001
+    },
+    volume: {
+      liter: 1,
+      milliliter: 1000,
+      cubic_meter: 0.001,
+      cubic_centimeter: 1000,
+      gallon_us: 0.264172,
+      gallon_uk: 0.219969,
+      quart: 1.05669,
+      pint: 2.11338,
+      cup: 4.22675,
+      fluid_ounce: 33.814
+    },
+    time: {
+      second: 1,
+      minute: 1/60,
+      hour: 1/3600,
+      day: 1/86400,
+      week: 1/604800,
+      month: 1/2629746,
+      year: 1/31556952
+    },
+    speed: {
+      meter_per_second: 1,
+      kilometer_per_hour: 3.6,
+      mile_per_hour: 2.23694,
+      foot_per_second: 3.28084,
+      knot: 1.94384
+    },
+    energy: {
+      joule: 1,
+      kilojoule: 0.001,
+      calorie: 0.239006,
+      kilocalorie: 0.000239006,
+      watt_hour: 0.000277778,
+      kilowatt_hour: 0.000000277778,
+      btu: 0.000947817
+    }
+  };
+
+  const getUnitsForCategory = (category: string) => {
+    const unitLabels: Record<string, Record<string, string>> = {
+      length: {
+        meter: 'Meter (m)',
+        kilometer: 'Kilometer (km)',
+        centimeter: 'Centimeter (cm)',
+        millimeter: 'Millimeter (mm)',
+        inch: 'Inch (in)',
+        foot: 'Foot (ft)',
+        yard: 'Yard (yd)',
+        mile: 'Mile (mi)',
+        nautical_mile: 'Nautical Mile (nmi)'
+      },
+      weight: {
+        kilogram: 'Kilogram (kg)',
+        gram: 'Gram (g)',
+        pound: 'Pound (lb)',
+        ounce: 'Ounce (oz)',
+        ton: 'Metric Ton (t)',
+        stone: 'Stone (st)'
+      },
+      temperature: {
+        celsius: 'Celsius (°C)',
+        fahrenheit: 'Fahrenheit (°F)',
+        kelvin: 'Kelvin (K)'
+      },
+      area: {
+        square_meter: 'Square Meter (m²)',
+        square_kilometer: 'Square Kilometer (km²)',
+        square_centimeter: 'Square Centimeter (cm²)',
+        square_inch: 'Square Inch (in²)',
+        square_foot: 'Square Foot (ft²)',
+        square_yard: 'Square Yard (yd²)',
+        acre: 'Acre',
+        hectare: 'Hectare (ha)'
+      },
+      volume: {
+        liter: 'Liter (L)',
+        milliliter: 'Milliliter (mL)',
+        cubic_meter: 'Cubic Meter (m³)',
+        cubic_centimeter: 'Cubic Centimeter (cm³)',
+        gallon_us: 'US Gallon (gal)',
+        gallon_uk: 'UK Gallon (gal)',
+        quart: 'Quart (qt)',
+        pint: 'Pint (pt)',
+        cup: 'Cup',
+        fluid_ounce: 'Fluid Ounce (fl oz)'
+      },
+      time: {
+        second: 'Second (s)',
+        minute: 'Minute (min)',
+        hour: 'Hour (h)',
+        day: 'Day',
+        week: 'Week',
+        month: 'Month',
+        year: 'Year'
+      },
+      speed: {
+        meter_per_second: 'Meter/Second (m/s)',
+        kilometer_per_hour: 'Kilometer/Hour (km/h)',
+        mile_per_hour: 'Mile/Hour (mph)',
+        foot_per_second: 'Foot/Second (ft/s)',
+        knot: 'Knot (kn)'
+      },
+      energy: {
+        joule: 'Joule (J)',
+        kilojoule: 'Kilojoule (kJ)',
+        calorie: 'Calorie (cal)',
+        kilocalorie: 'Kilocalorie (kcal)',
+        watt_hour: 'Watt Hour (Wh)',
+        kilowatt_hour: 'Kilowatt Hour (kWh)',
+        btu: 'British Thermal Unit (BTU)'
+      }
+    };
+    return unitLabels[category] || {};
+  };
+
+  const convertUnits = (value: number, fromUnit: string, toUnit: string, category: string): number => {
+    if (fromUnit === toUnit) return value;
+    
+    const conversions = unitConversions[category as keyof typeof unitConversions];
+    if (!conversions) return value;
+    
+    if (category === 'temperature') {
+      const tempConversions = conversions as any;
+      return tempConversions[fromUnit](value, toUnit);
+    } else {
+      const factors = conversions as Record<string, number>;
+      const fromFactor = factors[fromUnit];
+      const toFactor = factors[toUnit];
+      
+      if (!fromFactor || !toFactor) return value;
+      
+      // Convert to base unit, then to target unit
+      const baseValue = value / fromFactor;
+      return baseValue * toFactor;
+    }
+  };
+
+  const handleUnitConversion = () => {
+    try {
+      const value = parseFloat(state.conversionValue);
+      if (isNaN(value)) {
+        setState(prev => ({ ...prev, conversionResult: 'Invalid input' }));
+        return;
+      }
+      
+      const result = convertUnits(value, state.fromUnit, state.toUnit, state.unitCategory);
+      setState(prev => ({ 
+        ...prev, 
+        conversionResult: result.toFixed(8).replace(/\.?0+$/, '') // Remove trailing zeros
+      }));
+    } catch (error) {
+      setState(prev => ({ ...prev, conversionResult: 'Error' }));
+    }
+  };
+
+  const updateUnitCategory = (category: string) => {
+    const units = Object.keys(getUnitsForCategory(category));
+    setState(prev => ({
+      ...prev,
+      unitCategory: category as any,
+      fromUnit: units[0] || '',
+      toUnit: units[1] || units[0] || '',
+      conversionResult: ''
+    }));
+  };
+
+  // Programming calculator functions
+  const convertNumberBase = (value: string, fromBase: string, toBase: string): string => {
+    try {
+      let decimal: number;
+      
+      // Convert from source base to decimal
+      switch (fromBase) {
+        case 'bin':
+          decimal = parseInt(value, 2);
+          break;
+        case 'oct':
+          decimal = parseInt(value, 8);
+          break;
+        case 'dec':
+          decimal = parseInt(value, 10);
+          break;
+        case 'hex':
+          decimal = parseInt(value, 16);
+          break;
+        default:
+          return value;
+      }
+      
+      if (isNaN(decimal)) return '0';
+      
+      // Convert from decimal to target base
+      switch (toBase) {
+        case 'bin':
+          return decimal.toString(2);
+        case 'oct':
+          return decimal.toString(8);
+        case 'dec':
+          return decimal.toString(10);
+        case 'hex':
+          return decimal.toString(16).toUpperCase();
+        default:
+          return value;
+      }
+    } catch {
+      return '0';
+    }
+  };
+
+  const updateAllBases = (value: string, sourceBase: 'bin' | 'oct' | 'dec' | 'hex') => {
+    setState(prev => ({
+      ...prev,
+      numberBase: sourceBase,
+      binaryValue: convertNumberBase(value, sourceBase, 'bin'),
+      octalValue: convertNumberBase(value, sourceBase, 'oct'),
+      decimalValue: convertNumberBase(value, sourceBase, 'dec'),
+      hexValue: convertNumberBase(value, sourceBase, 'hex')
+    }));
+  };
+
+  const performBitwiseOperation = (operation: string, operand1: string, operand2: string): string => {
+    try {
+      const num1 = parseInt(operand1, 10);
+      const num2 = parseInt(operand2, 10);
+      
+      if (isNaN(num1) || isNaN(num2)) return 'Error';
+      
+      let result: number;
+      switch (operation) {
+        case 'AND':
+          result = num1 & num2;
+          break;
+        case 'OR':
+          result = num1 | num2;
+          break;
+        case 'XOR':
+          result = num1 ^ num2;
+          break;
+        case 'NOT':
+          result = ~num1;
+          break;
+        case 'LSHIFT':
+          result = num1 << num2;
+          break;
+        case 'RSHIFT':
+          result = num1 >> num2;
+          break;
+        default:
+          return 'Error';
+      }
+      
+      return result.toString();
+    } catch {
+      return 'Error';
+    }
+  };
+
+  const handleProgrammingInput = (value: string, base: 'bin' | 'oct' | 'dec' | 'hex') => {
+    // Validate input based on base
+    const isValidInput = (input: string, inputBase: string): boolean => {
+      switch (inputBase) {
+        case 'bin':
+          return /^[01]*$/.test(input);
+        case 'oct':
+          return /^[0-7]*$/.test(input);
+        case 'dec':
+          return /^[0-9]*$/.test(input);
+        case 'hex':
+          return /^[0-9A-Fa-f]*$/.test(input);
+        default:
+          return false;
+      }
+    };
+    
+    if (isValidInput(value, base)) {
+      updateAllBases(value, base);
+    }
+  };
+
+  const clearProgrammingCalculator = () => {
+    setState(prev => ({
+      ...prev,
+      binaryValue: '0',
+      octalValue: '0',
+      decimalValue: '0',
+      hexValue: '0',
+      bitwiseResult: ''
+    }));
   };
 
   const isNumpadNumber = (key: string): boolean => {
@@ -239,6 +594,26 @@ const Calculator: React.FC = () => {
       customFunctions: prevState.customFunctions,
       isInverse: false,
       isHyperbolic: false,
+      // Preserve graphing properties
+      graphFunction: prevState.graphFunction,
+      graphXMin: prevState.graphXMin,
+      graphXMax: prevState.graphXMax,
+      graphYMin: prevState.graphYMin,
+      graphYMax: prevState.graphYMax,
+      graphData: prevState.graphData,
+      // Preserve unit conversion properties
+      unitCategory: prevState.unitCategory,
+      fromUnit: prevState.fromUnit,
+      toUnit: prevState.toUnit,
+      conversionValue: prevState.conversionValue,
+      conversionResult: prevState.conversionResult,
+      // Preserve programming calculator properties
+      numberBase: prevState.numberBase,
+      binaryValue: prevState.binaryValue,
+      octalValue: prevState.octalValue,
+      decimalValue: prevState.decimalValue,
+      hexValue: prevState.hexValue,
+      bitwiseResult: prevState.bitwiseResult,
     }));
   };
 
@@ -1200,8 +1575,290 @@ const Calculator: React.FC = () => {
                     </div>
                   )}
 
+                  {/* Programming Calculator Mode */}
+                  {state.mode === 'programming' && (
+                    <div className="programming-mode">
+                      <h4>Programming Calculator</h4>
+                      
+                      {/* Number Base Selector */}
+                      <div className="base-selector">
+                        <label>Number Base:</label>
+                        <div className="base-buttons">
+                          {(['bin', 'oct', 'dec', 'hex'] as const).map(base => (
+                            <button
+                              key={base}
+                              className={`btn base-btn ${state.numberBase === base ? 'active' : ''}`}
+                              onClick={() => setState(prev => ({ ...prev, numberBase: base }))}
+                            >
+                              {base.toUpperCase()}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Number Base Conversion Display */}
+                      <div className="base-conversion-display">
+                        <div className="base-input-group">
+                          <label>Binary (BIN):</label>
+                          <input
+                            type="text"
+                            value={state.binaryValue}
+                            onChange={(e) => handleProgrammingInput(e.target.value, 'bin')}
+                            className="form-control base-input"
+                            placeholder="Enter binary number"
+                          />
+                        </div>
+                        
+                        <div className="base-input-group">
+                          <label>Octal (OCT):</label>
+                          <input
+                            type="text"
+                            value={state.octalValue}
+                            onChange={(e) => handleProgrammingInput(e.target.value, 'oct')}
+                            className="form-control base-input"
+                            placeholder="Enter octal number"
+                          />
+                        </div>
+                        
+                        <div className="base-input-group">
+                          <label>Decimal (DEC):</label>
+                          <input
+                            type="text"
+                            value={state.decimalValue}
+                            onChange={(e) => handleProgrammingInput(e.target.value, 'dec')}
+                            className="form-control base-input"
+                            placeholder="Enter decimal number"
+                          />
+                        </div>
+                        
+                        <div className="base-input-group">
+                          <label>Hexadecimal (HEX):</label>
+                          <input
+                            type="text"
+                            value={state.hexValue}
+                            onChange={(e) => handleProgrammingInput(e.target.value, 'hex')}
+                            className="form-control base-input"
+                            placeholder="Enter hex number"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Bitwise Operations */}
+                      <div className="bitwise-operations">
+                        <h5>Bitwise Operations</h5>
+                        <div className="bitwise-controls">
+                          <div className="operand-inputs">
+                            <input
+                              type="text"
+                              placeholder="Operand 1 (decimal)"
+                              className="form-control operand-input"
+                              id="operand1"
+                            />
+                            <input
+                              type="text"
+                              placeholder="Operand 2 (decimal)"
+                              className="form-control operand-input"
+                              id="operand2"
+                            />
+                          </div>
+                          
+                          <div className="bitwise-buttons">
+                            {['AND', 'OR', 'XOR', 'NOT', 'LSHIFT', 'RSHIFT'].map(op => (
+                              <button
+                                key={op}
+                                className="btn btn-outline-primary bitwise-btn"
+                                onClick={() => {
+                                  const op1 = (document.getElementById('operand1') as HTMLInputElement)?.value || '0';
+                                  const op2 = (document.getElementById('operand2') as HTMLInputElement)?.value || '0';
+                                  const result = performBitwiseOperation(op, op1, op2);
+                                  setState(prev => ({ ...prev, bitwiseResult: result }));
+                                }}
+                              >
+                                {op}
+                              </button>
+                            ))}
+                          </div>
+                          
+                          {state.bitwiseResult && (
+                            <div className="bitwise-result">
+                              <label>Result:</label>
+                              <div className="result-display">
+                                <span className="result-value">{state.bitwiseResult}</span>
+                                <div className="result-conversions">
+                                  <small>BIN: {convertNumberBase(state.bitwiseResult, 'dec', 'bin')}</small>
+                                  <small>OCT: {convertNumberBase(state.bitwiseResult, 'dec', 'oct')}</small>
+                                  <small>HEX: {convertNumberBase(state.bitwiseResult, 'dec', 'hex')}</small>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Programming Calculator Actions */}
+                      <div className="programming-actions">
+                        <button 
+                          className="btn btn-secondary"
+                          onClick={clearProgrammingCalculator}
+                        >
+                          Clear All
+                        </button>
+                        <button 
+                          className="btn btn-primary"
+                          onClick={() => {
+                            const currentValue = state.numberBase === 'bin' ? state.binaryValue :
+                                               state.numberBase === 'oct' ? state.octalValue :
+                                               state.numberBase === 'dec' ? state.decimalValue :
+                                               state.hexValue;
+                            setState(prev => ({ ...prev, buffer: currentValue }));
+                          }}
+                        >
+                          Use in Calculator
+                        </button>
+                      </div>
+
+                      {/* Quick Examples */}
+                      <div className="programming-examples">
+                        <h5>Quick Examples</h5>
+                        <div className="example-buttons">
+                          <button className="btn btn-outline-info btn-sm" onClick={() => updateAllBases('255', 'dec')}>255 (DEC)</button>
+                          <button className="btn btn-outline-info btn-sm" onClick={() => updateAllBases('11111111', 'bin')}>11111111 (BIN)</button>
+                          <button className="btn btn-outline-info btn-sm" onClick={() => updateAllBases('377', 'oct')}>377 (OCT)</button>
+                          <button className="btn btn-outline-info btn-sm" onClick={() => updateAllBases('FF', 'hex')}>FF (HEX)</button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                   {state.mode === 'units' && (
+                     <div className="units-mode">
+                       <div className="unit-category-selector">
+                         <h4>Unit Category</h4>
+                         <div className="category-buttons">
+                           {['length', 'weight', 'temperature', 'area', 'volume', 'time', 'speed', 'energy'].map(category => (
+                             <button
+                               key={category}
+                               className={`btn category-btn ${state.unitCategory === category ? 'active' : ''}`}
+                               onClick={() => updateUnitCategory(category)}
+                             >
+                               {category.charAt(0).toUpperCase() + category.slice(1)}
+                             </button>
+                           ))}
+                         </div>
+                       </div>
+                       
+                       <div className="conversion-interface">
+                         <div className="conversion-row">
+                           <div className="conversion-input">
+                             <label>From:</label>
+                             <div className="input-group">
+                               <input
+                                 type="number"
+                                 value={state.conversionValue}
+                                 onChange={(e) => setState(prev => ({ ...prev, conversionValue: e.target.value }))}
+                                 className="form-control value-input"
+                                 placeholder="Enter value"
+                               />
+                               <select
+                                 value={state.fromUnit}
+                                 onChange={(e) => setState(prev => ({ ...prev, fromUnit: e.target.value }))}
+                                 className="form-control unit-select"
+                               >
+                                 {Object.entries(getUnitsForCategory(state.unitCategory)).map(([key, label]) => (
+                                   <option key={key} value={key}>{label}</option>
+                                 ))}
+                               </select>
+                             </div>
+                           </div>
+                           
+                           <div className="conversion-arrow">
+                             <button 
+                               className="btn btn-secondary swap-btn"
+                               onClick={() => setState(prev => ({ 
+                                 ...prev, 
+                                 fromUnit: prev.toUnit, 
+                                 toUnit: prev.fromUnit,
+                                 conversionValue: prev.conversionResult || prev.conversionValue,
+                                 conversionResult: prev.conversionValue
+                               }))}
+                               title="Swap units"
+                             >
+                               ⇄
+                             </button>
+                           </div>
+                           
+                           <div className="conversion-output">
+                             <label>To:</label>
+                             <div className="input-group">
+                               <input
+                                 type="text"
+                                 value={state.conversionResult}
+                                 readOnly
+                                 className="form-control result-input"
+                                 placeholder="Result"
+                               />
+                               <select
+                                 value={state.toUnit}
+                                 onChange={(e) => setState(prev => ({ ...prev, toUnit: e.target.value }))}
+                                 className="form-control unit-select"
+                               >
+                                 {Object.entries(getUnitsForCategory(state.unitCategory)).map(([key, label]) => (
+                                   <option key={key} value={key}>{label}</option>
+                                 ))}
+                               </select>
+                             </div>
+                           </div>
+                         </div>
+                         
+                         <div className="conversion-actions">
+                           <button 
+                             className="btn btn-primary convert-btn"
+                             onClick={handleUnitConversion}
+                           >
+                             Convert
+                           </button>
+                           <button 
+                             className="btn btn-secondary clear-btn"
+                             onClick={() => setState(prev => ({ 
+                               ...prev, 
+                               conversionValue: '',
+                               conversionResult: ''
+                             }))}
+                           >
+                             Clear
+                           </button>
+                         </div>
+                       </div>
+                       
+                       <div className="conversion-examples">
+                         <h5>Quick Conversions</h5>
+                         <div className="example-conversions">
+                           {state.unitCategory === 'length' && (
+                             <>
+                               <button className="btn btn-outline-info btn-sm" onClick={() => { setState(prev => ({ ...prev, conversionValue: '1', fromUnit: 'meter', toUnit: 'foot' })); handleUnitConversion(); }}>1 m → ft</button>
+                               <button className="btn btn-outline-info btn-sm" onClick={() => { setState(prev => ({ ...prev, conversionValue: '1', fromUnit: 'kilometer', toUnit: 'mile' })); handleUnitConversion(); }}>1 km → mi</button>
+                               <button className="btn btn-outline-info btn-sm" onClick={() => { setState(prev => ({ ...prev, conversionValue: '12', fromUnit: 'inch', toUnit: 'centimeter' })); handleUnitConversion(); }}>12 in → cm</button>
+                             </>
+                           )}
+                           {state.unitCategory === 'weight' && (
+                             <>
+                               <button className="btn btn-outline-info btn-sm" onClick={() => { setState(prev => ({ ...prev, conversionValue: '1', fromUnit: 'kilogram', toUnit: 'pound' })); handleUnitConversion(); }}>1 kg → lb</button>
+                               <button className="btn btn-outline-info btn-sm" onClick={() => { setState(prev => ({ ...prev, conversionValue: '100', fromUnit: 'gram', toUnit: 'ounce' })); handleUnitConversion(); }}>100 g → oz</button>
+                             </>
+                           )}
+                           {state.unitCategory === 'temperature' && (
+                             <>
+                               <button className="btn btn-outline-info btn-sm" onClick={() => { setState(prev => ({ ...prev, conversionValue: '0', fromUnit: 'celsius', toUnit: 'fahrenheit' })); handleUnitConversion(); }}>0°C → °F</button>
+                               <button className="btn btn-outline-info btn-sm" onClick={() => { setState(prev => ({ ...prev, conversionValue: '100', fromUnit: 'celsius', toUnit: 'kelvin' })); handleUnitConversion(); }}>100°C → K</button>
+                             </>
+                           )}
+                         </div>
+                       </div>
+                     </div>
+                   )}
+
                   {/* Other modes will be implemented in subsequent updates */}
-                  {state.mode !== 'basic' && state.mode !== 'scientific' && state.mode !== 'graphing' && (
+                   {state.mode !== 'basic' && state.mode !== 'scientific' && state.mode !== 'graphing' && state.mode !== 'units' && state.mode !== 'programming' && (
                     <div className="coming-soon">
                       <h4>{state.mode.charAt(0).toUpperCase() + state.mode.slice(1)} Mode</h4>
                       <p>Advanced {state.mode} calculator features coming soon!</p>

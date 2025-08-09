@@ -626,8 +626,10 @@ const CompTIA: React.FC = () => {
         </div>
         
         <h4 className="white-text-shadow">
-          <img className="logo img-sm img-fluid img-thumbnail box-shadow" src="./assets/images/stray-gear.png" alt="StrayDog Syndications Logo" />
-          &copy; StrayDog Syndications LLC 2024. All Rights Reserved.
+          <a href="https://www.straydog-syndications-llc.com" target="_blank" rel="noopener noreferrer" title="Visit StrayDog Syndications LLC">
+            <img className="logo img-sm img-fluid img-thumbnail box-shadow" src="./assets/images/stray-gear.png" alt="StrayDog Syndications Logo" />
+          </a>
+          &copy; <a href="https://www.straydog-syndications-llc.com" target="_blank" rel="noopener noreferrer" title="Visit StrayDog Syndications LLC" className="text-white text-decoration-none">StrayDog Syndications LLC</a> 2024. All Rights Reserved.
           <img className="logo img-sm img-fluid img-thumbnail box-shadow bg-dark" src="./assets/images/tlm-logo.png" alt="The Last Mile Logo" />
           <br />Proud Participant of The Last Mile™ Program
         </h4>

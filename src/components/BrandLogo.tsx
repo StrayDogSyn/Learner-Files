@@ -125,13 +125,17 @@ const BrandLogo: React.FC<BrandLogoProps> = ({
           className="flex flex-col"
           variants={animated ? textVariants : undefined}
         >
-          <motion.div 
-            className={`font-heading font-bold ${sizeClasses[size]} leading-tight branding-text`}
+          <motion.a 
+            href="https://www.straydog-syndications-llc.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Visit StrayDog Syndications LLC"
+            className={`font-heading font-bold ${sizeClasses[size]} leading-tight branding-text hover:text-emerald-accent transition-colors duration-300 cursor-pointer`}
             variants={animated ? shimmerVariants : undefined}
             animate={animated ? "animate" : undefined}
           >
             StrayDog Syndications
-          </motion.div>
+          </motion.a>
           
           {showTagline && (
             <motion.div

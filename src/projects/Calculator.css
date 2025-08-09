@@ -793,6 +793,440 @@
   color: #0c5460;
 }
 
+/* Unit Conversion Styles */
+.units-mode {
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.unit-category-selector {
+  margin-bottom: 20px;
+}
+
+.unit-category-selector label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.unit-category-selector select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  font-size: 16px;
+  backdrop-filter: blur(5px);
+}
+
+.unit-conversion-container {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 15px;
+  align-items: end;
+  margin-bottom: 20px;
+}
+
+.unit-input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.unit-input-group label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.unit-input-group select,
+.unit-input-group input {
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  font-size: 16px;
+  backdrop-filter: blur(5px);
+  margin-bottom: 8px;
+}
+
+.unit-input-group input:focus,
+.unit-input-group select:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.3);
+}
+
+.swap-button {
+  padding: 12px;
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.swap-button:hover {
+  background: var(--accent-hover);
+  transform: rotate(180deg);
+}
+
+.unit-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.unit-controls button {
+  flex: 1;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.convert-btn {
+  background: var(--accent-color);
+  color: white;
+}
+
+.convert-btn:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+}
+
+.clear-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.clear-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.conversion-examples {
+  margin-top: 20px;
+}
+
+.conversion-examples h4 {
+  margin-bottom: 15px;
+  color: var(--text-primary);
+  font-size: 18px;
+}
+
+.example-conversions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.example-conversion {
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.example-conversion:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.example-conversion strong {
+  color: var(--accent-color);
+}
+
+/* Responsive adjustments for unit conversion */
+@media (max-width: 768px) {
+  .unit-conversion-container {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .swap-button {
+    justify-self: center;
+    transform: rotate(90deg);
+  }
+  
+  .swap-button:hover {
+    transform: rotate(270deg);
+  }
+  
+  .unit-controls {
+    flex-direction: column;
+  }
+  
+  .example-conversions {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Programming Calculator Styles */
+.programming-mode {
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.base-selector {
+  margin-bottom: 20px;
+}
+
+.base-selector label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.base-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.base-btn {
+  padding: 10px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.base-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.base-btn.active {
+  background: var(--accent-color);
+  color: white;
+  border-color: var(--accent-color);
+}
+
+.base-conversion-display {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.base-input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.base-input-group label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+.base-input {
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  font-size: 16px;
+  font-family: 'Courier New', monospace;
+  backdrop-filter: blur(5px);
+}
+
+.base-input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.3);
+}
+
+.bitwise-operations {
+  margin-bottom: 25px;
+}
+
+.bitwise-operations h5 {
+  margin-bottom: 15px;
+  color: var(--text-primary);
+}
+
+.operand-inputs {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.operand-input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  font-size: 16px;
+  font-family: 'Courier New', monospace;
+}
+
+.operand-input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.3);
+}
+
+.bitwise-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.bitwise-btn {
+  padding: 10px 15px;
+  border: 1px solid var(--accent-color);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--accent-color);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.bitwise-btn:hover {
+  background: var(--accent-color);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.bitwise-result {
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+.bitwise-result label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.result-display {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.result-value {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--accent-color);
+  font-family: 'Courier New', monospace;
+}
+
+.result-conversions {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.result-conversions small {
+  padding: 5px 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  color: var(--text-secondary);
+}
+
+.programming-actions {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.programming-actions button {
+  flex: 1;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.programming-examples {
+  margin-top: 20px;
+}
+
+.programming-examples h5 {
+  margin-bottom: 15px;
+  color: var(--text-primary);
+}
+
+.example-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+.example-buttons .btn {
+  padding: 8px 12px;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+}
+
+/* Responsive adjustments for programming mode */
+@media (max-width: 768px) {
+  .base-conversion-display {
+    grid-template-columns: 1fr;
+  }
+  
+  .operand-inputs {
+    flex-direction: column;
+  }
+  
+  .bitwise-buttons {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .programming-actions {
+    flex-direction: column;
+  }
+  
+  .result-conversions {
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .example-buttons {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
   .wrapper {

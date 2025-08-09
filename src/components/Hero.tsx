@@ -338,7 +338,15 @@ export const Hero: React.FC = () => {
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="text-4xl lg:text-6xl font-bold font-heading"
               >
-                <span className="branding-text">StrayDog Syndications</span>
+                <a 
+                  href="https://www.straydog-syndications-llc.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Visit StrayDog Syndications LLC"
+                  className="branding-text hover:text-emerald-accent transition-colors duration-300 cursor-pointer"
+                >
+                  StrayDog Syndications
+                </a>
                 <br />
                 <TypewriterText
                   text="Applied AI Solutions Engineering"

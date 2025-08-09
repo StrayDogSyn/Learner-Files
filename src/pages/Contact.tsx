@@ -737,7 +737,7 @@ const Contact: React.FC = () => {
                   alt="StrayDog Logo" 
                 />
               </a>
-              <p className="mb-1">&copy; 2025 StrayDog Syndications LLC.</p>
+              <p className="mb-1">&copy; 2025 <a href="https://www.straydog-syndications-llc.com" target="_blank" rel="noopener noreferrer" title="Visit StrayDog Syndications LLC" className="text-white text-decoration-none">StrayDog Syndications LLC</a>.</p>
               <p className="small">
                 Powered by <a href="https://thelastmile.org" className="text-white">The Last Mile&trade;</a>
               </p>
