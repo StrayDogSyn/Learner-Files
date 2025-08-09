@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import './Countdown.css';
+import { PerformanceOverlay } from '../components/portfolio/PerformanceOverlay';
+import { CaseStudyCard } from '../components/portfolio/CaseStudyCard';
+import { FeedbackCollector } from '../components/portfolio/FeedbackCollector';
+import { TechnicalChallenge } from '../components/portfolio/TechnicalChallenge';
+import { usePerformanceMetrics } from '../hooks/usePerformanceMetrics';
+import { getProjectMetrics } from '../data/projectMetrics';
+import { getArchitectureById } from '../data/architectureDiagrams';
 
 interface TimeLeft {
   total: number;
@@ -28,6 +35,17 @@ const Countdown: React.FC<CountdownProps> = ({ targetDate }) => {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const animationIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const targetDateRef = useRef<number>(0);
+  
+  // Performance tracking
+  const { metrics, startTracking, stopTracking } = usePerformanceMetrics({
+    trackingInterval: 1000,
+    enableMemoryTracking: true,
+    enableUserInteractionTracking: true
+  });
+  
+  // Project data
+  const projectData = getProjectMetrics('countdown');
+  const architectureData = getArchitectureById('countdown');
   
   // Animation refs for flip effects
   const dayRef = useRef<HTMLDivElement>(null);
@@ -197,6 +215,19 @@ const Countdown: React.FC<CountdownProps> = ({ targetDate }) => {
   }, [startAnimation]);
 
   useEffect(() => {
+    startTracking();
+    return () => {
+      stopTracking();
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+      if (animationIntervalRef.current) {
+        clearInterval(animationIntervalRef.current);
+      }
+    };
+  }, [startTracking, stopTracking]);
+  
+  useEffect(() => {
     validateAndSetTargetDate(targetDate);
     startCountdown();
     startAnimation();
@@ -244,6 +275,29 @@ const Countdown: React.FC<CountdownProps> = ({ targetDate }) => {
 
   return (
     <div className="countdown-container">
+      <PerformanceOverlay metrics={metrics} />
+      <FeedbackCollector projectName="Countdown Timer" />
+      
+      {/* Case Study Card - shown when countdown is not expired */}
+      {!isExpired && projectData && (
+        <div className="case-study-overlay" style={{ position: 'absolute', top: '20px', right: '20px', zIndex: 1000, maxWidth: '400px' }}>
+          <CaseStudyCard 
+            project={projectData}
+            className="mb-4"
+          />
+        </div>
+      )}
+      
+      {/* Technical Challenge Component - shown when countdown is not expired */}
+      {!isExpired && architectureData && (
+        <div className="case-study-overlay">
+          <TechnicalChallenge 
+            architecture={architectureData}
+            className="mb-4"
+          />
+        </div>
+      )}
+      
       <nav className="navbar navbar-expand-lg navbar-dark" role="navigation">
         <div className="container">
           <a className="navbar-brand d-flex align-items-center" href="/">

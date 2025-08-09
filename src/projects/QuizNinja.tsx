@@ -1,6 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../css/modern.css';
 import './QuizNinja.css';
+import { PerformanceOverlay } from '../components/portfolio/PerformanceOverlay';
+import { CaseStudyCard } from '../components/portfolio/CaseStudyCard';
+import { FeedbackCollector } from '../components/portfolio/FeedbackCollector';
+import { TechnicalChallenge } from '../components/portfolio/TechnicalChallenge';
+import { usePerformanceMetrics } from '../hooks/usePerformanceMetrics';
+import { getProjectMetrics } from '../data/projectMetrics';
+import { getArchitectureById } from '../data/architectureDiagrams';
 
 interface QuizQuestion {
   question: string;
@@ -23,6 +30,17 @@ const QuizNinja: React.FC = () => {
   const [options, setOptions] = useState<string[]>([]);
   const [showNavigation, setShowNavigation] = useState(false);
   
+  // Performance tracking
+  const { metrics, startTracking, stopTracking } = usePerformanceMetrics({
+    trackingInterval: 1000,
+    enableMemoryTracking: true,
+    enableUserInteractionTracking: true
+  });
+  
+  // Project data
+  const projectData = getProjectMetrics('quizninja');
+  const architectureData = getArchitectureById('quizninja');
+  
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   
   // Quiz questions data
@@ -38,6 +56,12 @@ const QuizNinja: React.FC = () => {
     { question: "What is Spider-Man's real name?", answer: "Peter Parker" },
     { question: "Who is known as the Mad Titan?", answer: "Thanos" }
   ];
+  
+  // Performance tracking lifecycle
+  useEffect(() => {
+    startTracking();
+    return () => stopTracking();
+  }, [startTracking, stopTracking]);
   
   // Load high score on component mount
   useEffect(() => {
@@ -177,6 +201,29 @@ const QuizNinja: React.FC = () => {
   
   return (
     <div className="quiz-ninja-container">
+      <PerformanceOverlay metrics={metrics} />
+      <FeedbackCollector projectName="QuizNinja" />
+      
+      {/* Case Study Card - shown when game is not active */}
+      {!isGameActive && projectData && (
+        <div className="case-study-overlay">
+          <CaseStudyCard 
+            project={projectData}
+            className="mb-4"
+          />
+        </div>
+      )}
+      
+      {/* Technical Challenge Component - shown when game is not active */}
+      {!isGameActive && architectureData && (
+        <div className="case-study-overlay">
+          <TechnicalChallenge 
+            architecture={architectureData}
+            className="mb-4"
+          />
+        </div>
+      )}
+      
       {/* Navigation Toggle */}
       <label className="top-label" htmlFor="toggle" onClick={() => setShowNavigation(!showNavigation)}>
         ❔

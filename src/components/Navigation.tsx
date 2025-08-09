@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { useBreadcrumbs, BreadcrumbItem } from '@/hooks/useBreadcrumbs';
 import BrandLogo from './BrandLogo';
+import ProjectBreadcrumbs from './navigation/ProjectBreadcrumbs';
 
 // Types
 interface NavigationItem {
@@ -73,6 +74,13 @@ const multiSiteItems: MultiSiteItem[] = [
     description: 'AI research and publications',
     icon: '📄'
   }
+];
+
+const flagshipApps: NavigationItem[] = [
+  { id: 'calculator', label: 'Calculator', href: '/calculator', icon: <Cpu className="w-4 h-4" /> },
+  { id: 'quiz-ninja', label: 'Quiz Ninja', href: '/quiz-ninja', icon: <Code className="w-4 h-4" /> },
+  { id: 'knucklebones', label: 'Knucklebones', href: '/knucklebones', icon: <Shield className="w-4 h-4" /> },
+  { id: 'countdown', label: 'Countdown', href: '/countdown', icon: <Globe className="w-4 h-4" /> },
 ];
 
 // Custom hooks
@@ -136,20 +144,34 @@ const ProgressIndicator: React.FC<{ progress: number }> = ({ progress }) => (
   />
 );
 
-const Breadcrumbs: React.FC<{ items: BreadcrumbItem[] }> = ({ items }) => (
-  <div className="flex items-center space-x-2 text-sm text-white/60">
-    {items.map((item, index) => (
-      <React.Fragment key={item.href}>
-        {index > 0 && <span className="text-white/40">/</span>}
-        <a
-          href={item.href}
-          className="hover:text-white transition-colors duration-200"
-        >
-          {item.label}
-        </a>
-      </React.Fragment>
-    ))}
-  </div>
+const QuickAccessToolbar: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => (
+  <AnimatePresence>
+    {isOpen && (
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -10 }}
+        className="absolute right-0 top-full mt-2 w-64 glass-dropdown rounded-lg z-50"
+      >
+        <div className="p-3">
+          <h3 className="text-sm font-semibold text-white mb-2">Flagship Applications</h3>
+          <div className="grid grid-cols-2 gap-2">
+            {flagshipApps.map((app) => (
+              <a
+                key={app.id}
+                href={app.href}
+                onClick={onClose}
+                className="flex items-center space-x-2 p-2 rounded-lg glass-button-hover transition-colors text-sm"
+              >
+                {app.icon}
+                <span>{app.label}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+    )}
+  </AnimatePresence>
 );
 
 const QuickSearch: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
@@ -275,6 +297,7 @@ export const Navigation: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMultiSiteOpen, setIsMultiSiteOpen] = useState(false);
+  const [isQuickAccessOpen, setIsQuickAccessOpen] = useState(false);
   const [isDark, setIsDark] = useState(true);
   
   const scrollProgress = useScrollProgress();
@@ -302,6 +325,7 @@ export const Navigation: React.FC = () => {
         setIsSearchOpen(false);
         setIsMobileMenuOpen(false);
         setIsMultiSiteOpen(false);
+        setIsQuickAccessOpen(false);
       }
     };
 
@@ -394,6 +418,25 @@ export const Navigation: React.FC = () => {
                 <Search className="w-4 h-4" />
               </motion.button>
 
+              {/* Quick Access Toolbar */}
+              <div className="relative">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setIsQuickAccessOpen(!isQuickAccessOpen)}
+                  className="glass-button p-2 rounded-lg transition-colors flex items-center space-x-1"
+                  title="Quick Access to Flagship Apps"
+                >
+                  <Cpu className="w-4 h-4" />
+                  <ChevronDown className="w-3 h-3" />
+                </motion.button>
+                
+                <QuickAccessToolbar 
+                  isOpen={isQuickAccessOpen} 
+                  onClose={() => setIsQuickAccessOpen(false)} 
+                />
+              </div>
+
               {/* Multi-site Navigation */}
               <div className="relative">
                 <motion.button
@@ -477,11 +520,11 @@ export const Navigation: React.FC = () => {
           </div>
         </div>
 
-        {/* Breadcrumbs */}
+        {/* Enhanced Breadcrumbs */}
         {breadcrumbs.length > 1 && (
           <div className="glass-breadcrumbs">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-2">
-              <Breadcrumbs items={breadcrumbs} />
+              <ProjectBreadcrumbs />
             </div>
           </div>
         )}

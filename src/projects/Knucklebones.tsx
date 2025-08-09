@@ -1,6 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import './Knucklebones.css';
+import { PerformanceOverlay } from '../components/portfolio/PerformanceOverlay';
+import { CaseStudyCard } from '../components/portfolio/CaseStudyCard';
+import { FeedbackCollector } from '../components/portfolio/FeedbackCollector';
+import { TechnicalChallenge } from '../components/portfolio/TechnicalChallenge';
+import { usePerformanceMetrics } from '../hooks/usePerformanceMetrics';
+import { getProjectMetrics } from '../data/projectMetrics';
+import { getArchitectureById } from '../data/architectureDiagrams';
 
 interface DiceGroup {
   type: number;
@@ -56,6 +63,17 @@ const Knucklebones: React.FC = () => {
   const [showSavedPools, setShowSavedPools] = useState<boolean>(false);
   const [showRollHistory, setShowRollHistory] = useState<boolean>(false);
   const [toasts, setToasts] = useState<ToastNotification[]>([]);
+  
+  // Performance tracking
+  const { metrics, startTracking, stopTracking } = usePerformanceMetrics({
+    trackingInterval: 1000,
+    enableMemoryTracking: true,
+    enableUserInteractionTracking: true
+  });
+  
+  // Project data
+  const projectData = getProjectMetrics('knucklebones');
+  const architectureData = getArchitectureById('knucklebones');
 
   // Dice rolling functions
   const rollDice = useCallback((sides: number): number => {
@@ -85,6 +103,11 @@ const Knucklebones: React.FC = () => {
     }
   }, [roll3, roll4, roll6, roll8, roll10, roll12, roll20, roll100]);
 
+  useEffect(() => {
+    startTracking();
+    return () => stopTracking();
+  }, [startTracking, stopTracking]);
+  
   // Apply dark mode effect
   useEffect(() => {
     if (isDarkMode) {
@@ -324,6 +347,29 @@ const Knucklebones: React.FC = () => {
 
   return (
     <div className="knucklebones-container">
+      <PerformanceOverlay metrics={metrics} />
+      <FeedbackCollector projectName="Knucklebones" />
+      
+      {/* Case Study Card */}
+      {projectData && (
+        <div className="container-fluid mt-4 mb-4">
+          <CaseStudyCard 
+            project={projectData}
+            className="mb-4"
+          />
+        </div>
+      )}
+      
+      {/* Technical Challenge Component */}
+      {architectureData && (
+        <div className="container-fluid mb-4">
+          <TechnicalChallenge 
+            architecture={architectureData}
+            className="mb-4"
+          />
+        </div>
+      )}
+      
       {/* Navigation */}
       <nav className="navbar navbar-expand-lg navbar-dark background">
         <div className="container-fluid">

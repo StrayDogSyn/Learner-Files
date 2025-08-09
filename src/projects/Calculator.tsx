@@ -2,6 +2,13 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import '../css/modern.css';
 import './Calculator.css';
+import { PerformanceOverlay } from '../components/portfolio/PerformanceOverlay';
+import { CaseStudyCard } from '../components/portfolio/CaseStudyCard';
+import { FeedbackCollector } from '../components/portfolio/FeedbackCollector';
+import { TechnicalChallenge } from '../components/portfolio/TechnicalChallenge';
+import { usePerformanceMetrics } from '../hooks/usePerformanceMetrics';
+import { getProjectMetrics } from '../data/projectMetrics';
+import { getArchitectureById } from '../data/architectureDiagrams';
 
 interface CalculatorState {
   runningTotal: number;
@@ -21,6 +28,17 @@ const Calculator: React.FC = () => {
     lastOperation: "",
     memory: 0,
   });
+
+  // Performance tracking
+  const { metrics, startTracking, stopTracking } = usePerformanceMetrics({
+    trackingInterval: 1000,
+    enableMemoryTracking: true,
+    enableUserInteractionTracking: true
+  });
+  
+  // Project data
+  const projectData = getProjectMetrics('calculator');
+  const architectureData = getArchitectureById('calculator');
 
   const isNumber = (value: string): boolean => {
     return !isNaN(Number(value)) && value !== " ";
@@ -522,6 +540,11 @@ const Calculator: React.FC = () => {
   };
 
   useEffect(() => {
+    startTracking();
+    return () => stopTracking();
+  }, [startTracking, stopTracking]);
+
+  useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
     
     return () => {
@@ -531,6 +554,9 @@ const Calculator: React.FC = () => {
 
   return (
     <div className="calculator-page">
+      <PerformanceOverlay metrics={metrics} />
+      <FeedbackCollector projectName="Calculator" />
+      
       <div className="container-modern py-4">
         <header className="text-center mb-5 fade-in calculator-main-header">
           <h1 className="display-4 text-white fw-bold mb-3">
@@ -539,6 +565,22 @@ const Calculator: React.FC = () => {
           </h1>
           <p className="lead text-white">A sleek, functional calculator built with React &amp; TypeScript</p>
         </header>
+        
+        {/* Case Study Card */}
+        {projectData && (
+          <CaseStudyCard 
+            project={projectData}
+            className="mb-5"
+          />
+        )}
+        
+        {/* Technical Challenge Component */}
+        {architectureData && (
+          <TechnicalChallenge 
+            architecture={architectureData}
+            className="mb-5"
+          />
+        )}
 
         <section className="section-modern">
           <div className="card box-shadow fade-in">
