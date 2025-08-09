@@ -417,8 +417,8 @@ const AccessibilityTester: React.FC<AccessibilityTesterProps> = ({
             <button
               onClick={() => setHighContrastMode(!highContrastMode)}
               className={`glass-button ${highContrastMode ? 'glass-button-active' : ''}`}
-              aria-pressed={highContrastMode}
               aria-label="Toggle high contrast mode"
+              title={`${highContrastMode ? 'Disable' : 'Enable'} high contrast mode`}
             >
               {highContrastMode ? <EyeOff size={16} /> : <Eye size={16} />}
               High Contrast
@@ -427,8 +427,8 @@ const AccessibilityTester: React.FC<AccessibilityTesterProps> = ({
             <button
               onClick={() => setReducedMotion(!reducedMotion)}
               className={`glass-button ${reducedMotion ? 'glass-button-active' : ''}`}
-              aria-pressed={reducedMotion}
               aria-label="Toggle reduced motion"
+              title={`${reducedMotion ? 'Disable' : 'Enable'} reduced motion`}
             >
               {reducedMotion ? <VolumeX size={16} /> : <Volume2 size={16} />}
               Reduced Motion
@@ -491,9 +491,8 @@ const AccessibilityTester: React.FC<AccessibilityTesterProps> = ({
                 <button
                   onClick={() => setShowDetails(showDetails === test.id ? null : test.id)}
                   className="glass-icon-button p-2"
-                  aria-expanded={showDetails === test.id}
-                  aria-controls={`details-${test.id}`}
                   aria-label={`${showDetails === test.id ? 'Hide' : 'Show'} details for ${test.name}`}
+                  aria-controls={`details-${test.id}`}
                 >
                   <AlertTriangle size={14} />
                 </button>

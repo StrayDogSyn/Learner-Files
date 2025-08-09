@@ -550,6 +550,8 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ entries, rankingSystem, timef
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as any)}
             className="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+            aria-label="Sort leaderboard by"
+            title="Sort leaderboard by"
           >
             <option value="rank">Sort by Rank</option>
             <option value="rating">Sort by Rating</option>
@@ -561,6 +563,8 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ entries, rankingSystem, timef
             value={filterType}
             onChange={(e) => setFilterType(e.target.value as any)}
             className="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+            aria-label="Filter player type"
+            title="Filter player type"
           >
             <option value="all">All Players</option>
             <option value="human">Human Only</option>

@@ -48,8 +48,8 @@
   .glass-container {
     background: rgba(0, 0, 0, 0.95) !important;
     border: 2px solid #FFFFFF !important;
-    backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
   }
   
   .glass-button,
@@ -81,8 +81,8 @@
   .branding-text {
     animation: none !important;
     background: var(--silver-steel) !important;
-    background-clip: initial !important;
     -webkit-background-clip: initial !important;
+    background-clip: initial !important;
     -webkit-text-fill-color: initial !important;
     color: var(--silver-steel) !important;
   }

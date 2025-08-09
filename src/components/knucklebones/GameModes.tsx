@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Zap,
@@ -7,14 +7,12 @@ import {
   Flame,
   Shield,
   Star,
-  Shuffle,
   TrendingUp,
   Brain,
   Gamepad2,
   Timer,
   Award,
-  Lightning,
-  Swords,
+  Bolt,
   Eye,
   Dice1,
   Dice6
@@ -23,10 +21,7 @@ import {
   GameMode,
   GameModeSettings,
   ChallengeVariant,
-  SpeedRoundSettings,
-  SurvivalModeSettings,
-  BlitzModeSettings,
-  PuzzleModeSettings
+  SpeedRoundSettings
 } from '../../types/knucklebones';
 
 interface GameModesProps {
@@ -81,7 +76,7 @@ const GAME_MODES: GameMode[] = [
     id: 'blitz',
     name: 'Blitz Mode',
     description: 'Ultra-fast games with simultaneous play',
-    icon: 'lightning',
+    icon: 'bolt',
     difficulty: 'advanced',
     estimatedDuration: 120,
     features: ['Simultaneous turns', 'Real-time action', 'Reflex-based'],
@@ -179,10 +174,10 @@ const CHALLENGE_VARIANTS: ChallengeVariant[] = [
 
 const ModeCard: React.FC<ModeCardProps> = ({ mode, isSelected, onSelect, onConfigure }) => {
   const getIcon = (iconName: string) => {
-    const iconMap: Record<string, React.ComponentType<any>> = {
+    const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
       dice: Dice1,
       zap: Zap,
-      lightning: Lightning,
+      bolt: Bolt,
       shield: Shield,
       brain: Brain,
       trophy: Award
@@ -236,7 +231,7 @@ const ModeCard: React.FC<ModeCardProps> = ({ mode, isSelected, onSelect, onConfi
           <div className={`p-2 rounded-lg ${
             isSelected ? 'bg-blue-500/30' : 'bg-white/10'
           }`}>
-            {getIcon(mode.icon)}
+            {getIcon(mode.icon || 'dice')}
           </div>
           <div>
             <h3 className="text-lg font-semibold text-white">{mode.name}</h3>
@@ -249,7 +244,7 @@ const ModeCard: React.FC<ModeCardProps> = ({ mode, isSelected, onSelect, onConfi
         <div className="text-right text-sm text-white/60">
           <div className="flex items-center gap-1">
             <Clock className="w-4 h-4" />
-            {Math.floor(mode.estimatedDuration / 60)}m
+            {Math.floor((mode.estimatedDuration || 300) / 60)}m
           </div>
         </div>
       </div>
@@ -296,7 +291,7 @@ const SpeedRoundConfig: React.FC<SpeedRoundConfigProps> = ({
   onStart,
   onCancel
 }) => {
-  const handleSettingChange = (key: keyof SpeedRoundSettings, value: any) => {
+  const handleSettingChange = (key: keyof SpeedRoundSettings, value: number | boolean) => {
     onSettingsChange({ ...settings, [key]: value });
   };
 
@@ -339,9 +334,6 @@ const SpeedRoundConfig: React.FC<SpeedRoundConfigProps> = ({
               value={settings.turnTimeLimit}
               onChange={(e) => handleSettingChange('turnTimeLimit', parseInt(e.target.value))}
               aria-label={`Set turn time limit to ${settings.turnTimeLimit} seconds`}
-              aria-valuemin={5}
-              aria-valuemax={30}
-              aria-valuenow={settings.turnTimeLimit}
               className="w-full"
             />
             <div className="flex justify-between text-xs text-white/60 mt-1">
@@ -352,7 +344,7 @@ const SpeedRoundConfig: React.FC<SpeedRoundConfigProps> = ({
 
           <div>
             <label htmlFor="speed-bonus-multiplier" className="block text-sm font-medium text-white/80 mb-2">
-              Speed Bonus Multiplier: {settings.speedBonusMultiplier}x
+              Speed Bonus Multiplier: {settings.bonusMultiplier}x
             </label>
             <input
               id="speed-bonus-multiplier"
@@ -360,12 +352,9 @@ const SpeedRoundConfig: React.FC<SpeedRoundConfigProps> = ({
               min="1"
               max="3"
               step="0.1"
-              value={settings.speedBonusMultiplier}
-              onChange={(e) => handleSettingChange('speedBonusMultiplier', parseFloat(e.target.value))}
-              aria-label={`Set speed bonus multiplier to ${settings.speedBonusMultiplier}x`}
-              aria-valuemin={1}
-              aria-valuemax={3}
-              aria-valuenow={settings.speedBonusMultiplier}
+              value={settings.bonusMultiplier}
+              onChange={(e) => handleSettingChange('bonusMultiplier', parseFloat(e.target.value))}
+              aria-label={`Set speed bonus multiplier to ${settings.bonusMultiplier}x`}
               className="w-full"
             />
             <div className="flex justify-between text-xs text-white/60 mt-1">
@@ -376,19 +365,16 @@ const SpeedRoundConfig: React.FC<SpeedRoundConfigProps> = ({
 
           <div>
             <label htmlFor="timeout-penalty" className="block text-sm font-medium text-white/80 mb-2">
-              Penalty for Timeout: -{settings.timeoutPenalty} points
+              Penalty for Timeout: -{settings.penaltyForTimeout} points
             </label>
             <input
               id="timeout-penalty"
               type="range"
               min="0"
               max="50"
-              value={settings.timeoutPenalty}
-              onChange={(e) => handleSettingChange('timeoutPenalty', parseInt(e.target.value))}
-              aria-label={`Set timeout penalty to ${settings.timeoutPenalty} points`}
-              aria-valuemin={0}
-              aria-valuemax={50}
-              aria-valuenow={settings.timeoutPenalty}
+              value={settings.penaltyForTimeout}
+              onChange={(e) => handleSettingChange('penaltyForTimeout', parseInt(e.target.value))}
+              aria-label={`Set timeout penalty to ${settings.penaltyForTimeout} points`}
               className="w-full"
             />
             <div className="flex justify-between text-xs text-white/60 mt-1">
@@ -397,39 +383,6 @@ const SpeedRoundConfig: React.FC<SpeedRoundConfigProps> = ({
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <input
-              type="checkbox"
-              id="warningEnabled"
-              checked={settings.warningEnabled}
-              onChange={(e) => handleSettingChange('warningEnabled', e.target.checked)}
-              className="w-4 h-4 text-blue-600 bg-white/10 border-white/20 rounded focus:ring-blue-500"
-            />
-            <label htmlFor="warningEnabled" className="text-sm text-white/80">
-              Enable time warnings
-            </label>
-          </div>
-
-          {settings.warningEnabled && (
-            <div className="ml-7">
-              <label htmlFor="warning-threshold" className="block text-sm font-medium text-white/80 mb-2">
-                Warning at: {settings.warningThreshold}s remaining
-              </label>
-              <input
-                id="warning-threshold"
-                type="range"
-                min="1"
-                max={settings.turnTimeLimit - 1}
-                value={settings.warningThreshold}
-                onChange={(e) => handleSettingChange('warningThreshold', parseInt(e.target.value))}
-                aria-label={`Set warning threshold to ${settings.warningThreshold} seconds remaining`}
-                aria-valuemin={1}
-                aria-valuemax={settings.turnTimeLimit - 1}
-                aria-valuenow={settings.warningThreshold}
-                className="w-full"
-              />
-            </div>
-          )}
         </div>
 
         <div className="flex gap-3 mt-6">
@@ -454,7 +407,7 @@ const SpeedRoundConfig: React.FC<SpeedRoundConfigProps> = ({
 
 const ChallengeConfig: React.FC<ChallengeConfigProps> = ({ challenge, onStart, onCancel }) => {
   const getIcon = (iconName: string) => {
-    const iconMap: Record<string, React.ComponentType<any>> = {
+    const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
       star: Star,
       'trending-up': TrendingUp,
       zap: Zap,
@@ -599,10 +552,8 @@ const GameModes: React.FC<GameModesProps> = ({
   const [selectedChallenge, setSelectedChallenge] = useState<ChallengeVariant | null>(null);
   const [speedSettings, setSpeedSettings] = useState<SpeedRoundSettings>({
     turnTimeLimit: 15,
-    speedBonusMultiplier: 1.5,
-    timeoutPenalty: 10,
-    warningEnabled: true,
-    warningThreshold: 5
+    bonusMultiplier: 1.5,
+    penaltyForTimeout: 10
   });
 
   const handleModeSelect = useCallback((mode: GameMode) => {
@@ -617,7 +568,6 @@ const GameModes: React.FC<GameModesProps> = ({
     } else {
       // For other modes, start immediately with default settings
       const defaultSettings: GameModeSettings = {
-        mode: selectedMode.id,
         difficulty: selectedMode.difficulty,
         timeLimit: selectedMode.estimatedDuration
       };
@@ -629,10 +579,9 @@ const GameModes: React.FC<GameModesProps> = ({
     if (!selectedMode) return;
     
     const settings: GameModeSettings = {
-      mode: selectedMode.id,
       difficulty: selectedMode.difficulty,
       timeLimit: selectedMode.estimatedDuration,
-      speedRoundSettings: speedSettings
+      customRules: { speedRoundSettings: speedSettings }
     };
     
     onModeSelect(selectedMode, settings);
@@ -721,7 +670,7 @@ const GameModes: React.FC<GameModesProps> = ({
                 <span className="text-sm font-medium text-white">Duration</span>
               </div>
               <p className="text-lg font-bold text-green-400">
-                ~{Math.floor(selectedMode.estimatedDuration / 60)} min
+                ~{Math.floor((selectedMode.estimatedDuration || 300) / 60)} min
               </p>
             </div>
             
@@ -845,38 +794,3 @@ const GameModes: React.FC<GameModesProps> = ({
 };
 
 export default GameModes;
-
-// Hook for game mode management
-export const useGameModes = () => {
-  const [currentMode, setCurrentMode] = useState<GameMode | null>(null);
-  const [currentSettings, setCurrentSettings] = useState<GameModeSettings | null>(null);
-  const [activeChallenge, setActiveChallenge] = useState<ChallengeVariant | null>(null);
-
-  const startMode = useCallback((mode: GameMode, settings: GameModeSettings) => {
-    setCurrentMode(mode);
-    setCurrentSettings(settings);
-  }, []);
-
-  const startChallenge = useCallback((challenge: ChallengeVariant) => {
-    setActiveChallenge(challenge);
-  }, []);
-
-  const endMode = useCallback(() => {
-    setCurrentMode(null);
-    setCurrentSettings(null);
-  }, []);
-
-  const endChallenge = useCallback(() => {
-    setActiveChallenge(null);
-  }, []);
-
-  return {
-    currentMode,
-    currentSettings,
-    activeChallenge,
-    startMode,
-    startChallenge,
-    endMode,
-    endChallenge
-  };
-};

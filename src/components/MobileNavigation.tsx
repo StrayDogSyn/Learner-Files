@@ -155,9 +155,9 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
         ref={toggleRef}
         className="mobile-nav-toggle xl:hidden"
         onClick={toggleMenu}
-        aria-expanded={isOpen}
         aria-controls="mobile-navigation-menu"
         aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
+        title={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
         type="button"
       >
         <span className="sr-only">
