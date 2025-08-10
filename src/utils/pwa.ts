@@ -196,6 +196,21 @@ class PWAManager {
     }
   }
 
+  // Setup Update Handling
+  private setupUpdateHandling(): void {
+    // Listen for update available events
+    window.addEventListener('pwa-update-available', () => {
+      this.updateAvailable = true;
+    });
+    
+    // Check for updates periodically
+    if (this.serviceWorkerRegistration) {
+      setInterval(() => {
+        this.serviceWorkerRegistration?.update();
+      }, 60000); // Check every minute
+    }
+  }
+
   // Setup App State Listeners
   private setupAppStateListeners(): void {
     // Handle visibility change
@@ -336,4 +351,101 @@ class PWAManager {
     return this.deferredPrompt !== null;
   }
 
-  public get has
+  public get hasUpdateAvailable(): boolean {
+    return this.updateAvailable;
+  }
+
+  public get isOnline(): boolean {
+    return navigator.onLine;
+  }
+}
+
+// React Hook for PWA functionality
+import { useState, useEffect, useCallback } from 'react';
+
+const pwaManager = new PWAManager();
+
+export const usePWA = () => {
+  const [isInstallable, setIsInstallable] = useState(false);
+  const [isInstalled, setIsInstalled] = useState(pwaManager.isAppInstalled);
+  const [hasUpdate, setHasUpdate] = useState(false);
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [cacheUsage, setCacheUsage] = useState({ quota: 0, usage: 0, percentage: 0 });
+
+  useEffect(() => {
+    // Listen for PWA events
+    const handleInstallable = () => setIsInstallable(true);
+    const handleUpdateAvailable = () => setHasUpdate(true);
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+
+    window.addEventListener('pwa-installable', handleInstallable);
+    window.addEventListener('pwa-update-available', handleUpdateAvailable);
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
+    // Get initial cache usage
+    pwaManager.getCacheUsage().then(setCacheUsage);
+
+    return () => {
+      window.removeEventListener('pwa-installable', handleInstallable);
+      window.removeEventListener('pwa-update-available', handleUpdateAvailable);
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
+
+  const install = useCallback(async () => {
+    const success = await pwaManager.showInstallPrompt();
+    if (success) {
+      setIsInstallable(false);
+      setIsInstalled(true);
+    }
+    return success;
+  }, []);
+
+  const applyUpdate = useCallback(async () => {
+    await pwaManager.applyUpdate();
+    setHasUpdate(false);
+  }, []);
+
+  const clearCache = useCallback(async () => {
+    await pwaManager.clearCache();
+    const newUsage = await pwaManager.getCacheUsage();
+    setCacheUsage(newUsage);
+  }, []);
+
+  const precacheUrls = useCallback(async (urls: string[]) => {
+    await pwaManager.precacheUrls(urls);
+    const newUsage = await pwaManager.getCacheUsage();
+    setCacheUsage(newUsage);
+  }, []);
+
+  const requestNotifications = useCallback(async () => {
+    return await pwaManager.requestNotificationPermission();
+  }, []);
+
+  const subscribeToPush = useCallback(async () => {
+    return await pwaManager.subscribeToPushNotifications();
+  }, []);
+
+  return {
+    isInstallable,
+    isInstalled,
+    hasUpdate,
+    isOnline,
+    cacheUsage,
+    install,
+    applyUpdate,
+    clearCache,
+    precacheUrls,
+    requestNotifications,
+    subscribeToPush
+  };
+};
+
+// PWA Install Button Component (moved to separate component file)
+// PWA Update Banner Component (moved to separate component file)
+
+export default pwaManager;
+export type { BeforeInstallPromptEvent };

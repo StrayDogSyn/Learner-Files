@@ -3,8 +3,12 @@ import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { initializeFontLoading } from "@/utils/fontLoading";
 import { initializePWA } from "@/utils/pwa";
-import { initializePerformanceMonitoring } from "@/utils/performance";
+import { performanceMonitor } from "@/utils/performance";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { initializeAnalytics, trackEvent } from "@/utils/analytics";
+import { MetaTagManager } from "@/utils/metaTags";
 import { AccessibilityProvider } from "@/components/AccessibilityProvider";
+import ChatbotWidget from "@/components/ChatbotWidget";
 import Home from "@/pages/Home";
 import Projects from "@/pages/Projects";
 import Portfolio from "@/pages/Portfolio";
@@ -37,13 +41,41 @@ export default function App() {
     // Initialize PWA functionality
     initializePWA();
     
-    // Initialize performance monitoring
-    initializePerformanceMonitoring();
+    // Initialize performance monitoring (already initialized globally)
+    // performanceMonitor is already running
+    
+    // Initialize Google Analytics
+    initializeAnalytics();
+    
+    // Initialize meta tags
+    const metaManager = new MetaTagManager();
+    metaManager.setDefaultTags({
+      title: 'SOLO Portfolio - Performance Optimized',
+      description: 'Professional portfolio showcasing advanced web development skills and interactive experiences.',
+      keywords: 'portfolio, web development, react, typescript, performance optimization',
+      author: 'SOLO Developer',
+      ogTitle: 'SOLO Portfolio - Performance Optimized',
+      ogDescription: 'Professional portfolio showcasing advanced web development skills and interactive experiences.',
+      ogImage: '/images/og-image.jpg',
+      twitterCard: 'summary_large_image',
+      twitterTitle: 'SOLO Portfolio - Performance Optimized',
+      twitterDescription: 'Professional portfolio showcasing advanced web development skills and interactive experiences.',
+      twitterImage: '/images/twitter-image.jpg'
+    });
+    
+    // Track app initialization
+    trackEvent('app_initialized', {
+      timestamp: Date.now(),
+      user_agent: navigator.userAgent,
+      screen_resolution: `${window.screen.width}x${window.screen.height}`,
+      viewport_size: `${window.innerWidth}x${window.innerHeight}`
+    });
   }, []);
 
   return (
-    <AccessibilityProvider>
-      <Router>
+    <ErrorBoundary>
+      <AccessibilityProvider>
+        <Router>
         <div className="min-h-screen glass-background-main">
           {/* Brand Banner */}
           <motion.div 
@@ -92,8 +124,12 @@ export default function App() {
             <Route path="/other" element={<div className="text-center text-xl text-white">Other Page - Coming Soon</div>} />
           </Routes>
         </main>
-      </div>
-    </Router>
-    </AccessibilityProvider>
+        
+        {/* Advanced Features */}
+        <ChatbotWidget />
+        </div>
+      </Router>
+      </AccessibilityProvider>
+    </ErrorBoundary>
   );
 }

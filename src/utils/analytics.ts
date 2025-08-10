@@ -312,6 +312,16 @@ const analytics = new GoogleAnalytics({
   cookieFlags: 'SameSite=None;Secure'
 });
 
+// Initialize analytics function
+export const initializeAnalytics = (): void => {
+  analytics.initialize();
+};
+
+// Export trackEvent function
+export const trackEvent = (eventName: string, parameters?: Record<string, any>): void => {
+  analytics.trackEvent(eventName, parameters);
+};
+
 // React hook for analytics
 import { useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';

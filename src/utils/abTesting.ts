@@ -453,43 +453,8 @@ class ABTestingFramework {
   }
 }
 
-// React hook for A/B testing
-import { useEffect, useState, useCallback } from 'react';
-
+// A/B Testing instance
 const abTesting = new ABTestingFramework();
-
-export const useABTest = (testId: string) => {
-  const [variant, setVariant] = useState<ABTestVariant | null>(null);
-  const [config, setConfig] = useState<Record<string, any> | null>(null);
-
-  useEffect(() => {
-    const testVariant = abTesting.getVariant(testId);
-    const testConfig = abTesting.getVariantConfig(testId);
-    
-    setVariant(testVariant);
-    setConfig(testConfig);
-  }, [testId]);
-
-  const trackConversion = useCallback((goalId: string, value?: number, metadata?: Record<string, any>) => {
-    abTesting.trackConversion(testId, goalId, value, metadata);
-  }, [testId]);
-
-  return {
-    variant,
-    config,
-    trackConversion,
-    isInTest: variant !== null
-  };
-};
-
-// Component wrapper for A/B testing
-export const ABTestWrapper: React.FC<{
-  testId: string;
-  children: (variant: ABTestVariant | null, config: Record<string, any> | null) => React.ReactNode;
-}> = ({ testId, children }) => {
-  const { variant, config } = useABTest(testId);
-  return <>{children(variant, config)}</>;
-};
 
 export default abTesting;
 export type { ABTestConfig, ABTestVariant, ConversionGoal, StatisticalResult };
