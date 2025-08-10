@@ -266,7 +266,7 @@ const ResponsiveCard: React.FC<ResponsiveCardProps> = ({
 
 // Styles component
 const ResponsiveCardStyles = () => (
-  <style jsx global>{`
+  <style>{`
     .responsive-card {
       position: relative;
       transition: all 0.3s var(--easing-glass);

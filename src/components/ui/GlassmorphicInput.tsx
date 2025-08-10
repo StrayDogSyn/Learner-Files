@@ -5,7 +5,7 @@ import React, { forwardRef, InputHTMLAttributes } from 'react';
 import { cn } from '../../utils/cn';
 import { Eye, EyeOff, AlertCircle, CheckCircle } from 'lucide-react';
 
-interface GlassmorphicInputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface GlassmorphicInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
   label?: string;
   error?: string;
   success?: string;
@@ -13,7 +13,7 @@ interface GlassmorphicInputProps extends InputHTMLAttributes<HTMLInputElement> {
   icon?: React.ReactNode;
   iconPosition?: 'left' | 'right';
   variant?: 'default' | 'filled' | 'minimal';
-  size?: 'sm' | 'md' | 'lg';
+  inputSize?: 'sm' | 'md' | 'lg';
   showPasswordToggle?: boolean;
 }
 
@@ -27,7 +27,7 @@ const GlassmorphicInput = forwardRef<HTMLInputElement, GlassmorphicInputProps>(
     icon,
     iconPosition = 'left',
     variant = 'default',
-    size = 'md',
+    inputSize = 'md',
     type,
     showPasswordToggle = false,
     disabled,
@@ -83,13 +83,13 @@ const GlassmorphicInput = forwardRef<HTMLInputElement, GlassmorphicInputProps>(
       ? 'border-green-400 focus:border-green-400 focus:ring-green-400/30'
       : '';
 
-    const iconSize = size === 'sm' ? 16 : size === 'md' ? 18 : 20;
+    const iconSize = inputSize === 'sm' ? 16 : inputSize === 'md' ? 18 : 20;
     const hasLeftIcon = icon && iconPosition === 'left';
     const hasRightIcon = (icon && iconPosition === 'right') || showPasswordToggle || error || success;
     
     const paddingClasses = [
-      hasLeftIcon ? (size === 'sm' ? 'pl-9' : size === 'md' ? 'pl-11' : 'pl-12') : '',
-      hasRightIcon ? (size === 'sm' ? 'pr-9' : size === 'md' ? 'pr-11' : 'pr-12') : ''
+      hasLeftIcon ? (inputSize === 'sm' ? 'pl-9' : inputSize === 'md' ? 'pl-11' : 'pl-12') : '',
+      hasRightIcon ? (inputSize === 'sm' ? 'pr-9' : inputSize === 'md' ? 'pr-11' : 'pr-12') : ''
     ].filter(Boolean).join(' ');
 
     return (
@@ -104,7 +104,7 @@ const GlassmorphicInput = forwardRef<HTMLInputElement, GlassmorphicInputProps>(
           {hasLeftIcon && (
             <div className={cn(
               'absolute left-0 top-0 h-full flex items-center justify-center',
-              size === 'sm' ? 'w-9' : size === 'md' ? 'w-11' : 'w-12',
+              inputSize === 'sm' ? 'w-9' : inputSize === 'md' ? 'w-11' : 'w-12',
               'text-metallic-400'
             )}>
               {icon}
@@ -117,7 +117,7 @@ const GlassmorphicInput = forwardRef<HTMLInputElement, GlassmorphicInputProps>(
             className={cn(
               baseClasses,
               variantClasses[variant],
-              sizeClasses[size],
+              sizeClasses[inputSize],
               stateClasses,
               paddingClasses,
               className
@@ -131,7 +131,7 @@ const GlassmorphicInput = forwardRef<HTMLInputElement, GlassmorphicInputProps>(
           {hasRightIcon && (
             <div className={cn(
               'absolute right-0 top-0 h-full flex items-center justify-center gap-1',
-              size === 'sm' ? 'w-9' : size === 'md' ? 'w-11' : 'w-12'
+              inputSize === 'sm' ? 'w-9' : inputSize === 'md' ? 'w-11' : 'w-12'
             )}>
               {error && (
                 <AlertCircle 

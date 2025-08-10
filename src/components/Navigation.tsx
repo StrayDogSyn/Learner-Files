@@ -241,7 +241,7 @@ const MobileMenu: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen
           initial={{ x: '100%' }}
           animate={{ x: 0 }}
           exit={{ x: '100%' }}
-          transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+          transition={{ type: 'spring' as const, damping: 25, stiffness: 200 }}
           className="fixed top-0 right-0 h-full w-80 max-w-[80vw] z-50 lg:hidden"
           style={{
             background: 'rgba(28, 28, 28, 0.95)',
@@ -473,7 +473,7 @@ export const Navigation: React.FC = () => {
                     <motion.div
                       layoutId="activeIndicator"
                       className="absolute inset-0 glass-button-active rounded-lg"
-                      transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                      transition={{ type: 'spring' as const, damping: 25, stiffness: 200 }}
                     />
                   )}
                 </motion.button>

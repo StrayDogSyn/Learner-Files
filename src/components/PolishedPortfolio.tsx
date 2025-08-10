@@ -315,7 +315,7 @@ export const PolishedPortfolio: React.FC<PolishedPortfolioProps> = ({ className 
                     />
                   </div>
                   <div className="text-center">
-                    <MetallicButton variant="platinum" size="lg" type="submit">
+                    <MetallicButton variant="platinum" size="lg">
                       Send Message
                     </MetallicButton>
                   </div>
@@ -331,7 +331,7 @@ export const PolishedPortfolio: React.FC<PolishedPortfolioProps> = ({ className 
                 isOpen={showModal}
                 onClose={() => setShowModal(false)}
                 title="Project Gallery"
-                size="large"
+                size="lg"
               >
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {projects.map((project) => (
@@ -345,7 +345,7 @@ export const PolishedPortfolio: React.FC<PolishedPortfolioProps> = ({ className 
                       <p className="text-gray-300 text-sm mb-3">{project.description}</p>
                       <div className="flex flex-wrap gap-1">
                         {project.tech.map((tech) => (
-                          <GlassBadge key={tech} variant="secondary" size="xs">
+                          <GlassBadge key={tech} variant="default" size="sm">
                             {tech}
                           </GlassBadge>
                         ))}

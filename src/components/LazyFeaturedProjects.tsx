@@ -1,5 +1,5 @@
 import React from 'react';
-import { SectionSkeleton } from '../utils/lazyLoading';
+import { SectionSkeleton } from '../utils/lazyLoading.tsx';
 
 // Lazy load the FeaturedProjects component
 const FeaturedProjects = React.lazy(() => import('./FeaturedProjects'));

@@ -103,7 +103,11 @@ const Knucklebones: React.FC = () => {
       consistency: 0,
       riskTaking: 0,
       adaptability: 0,
-      decisionSpeed: 0
+      decisionSpeed: 0,
+      strategy: 0,
+      speed: 0,
+      riskManagement: 0,
+      decisionMaking: 0
     },
     trends: []
   });
@@ -147,7 +151,11 @@ const Knucklebones: React.FC = () => {
         consistency: 78.9,
         riskTaking: 62.4,
         adaptability: 91.1,
-        decisionSpeed: 88.7
+        decisionSpeed: 88.7,
+        strategy: 75.3,
+        speed: 82.1,
+        riskManagement: 68.9,
+        decisionMaking: 79.4
       },
       trends: []
     };
@@ -246,12 +254,25 @@ const Knucklebones: React.FC = () => {
   };
   
   const makeAIMove = async (currentGameState: GameState) => {
-    const aiMove = await mlService.predictNextMove(currentGameState, [{
-      type: 'dice_roll',
+    // Convert GameState to MLGameState for ML service
+    const mlGameState = {
+      currentRound: currentGameState.rounds,
+      playerScore: players[0]?.score || 0,
+      opponentScore: players[1]?.score || 0,
+      remainingDice: 6,
+      turnTimeRemaining: 30,
+      riskLevel: 0.5,
+      boardAdvantage: 0,
+      streakCount: 0,
+      pressureLevel: 0.5
+    };
+    
+    const aiMove = await mlService.predictNextMove(mlGameState, [{
+      type: 'aggressive',
+      strategy: aiOpponent.strategy,
       success: true,
       riskLevel: 0.5,
       timeToDecide: 15,
-      strategy: aiOpponent.strategy,
       pressureLevel: 0.5
     }]);
     
@@ -762,7 +783,6 @@ const Knucklebones: React.FC = () => {
               <div className="space-y-6">
                 <StatsDashboard
                   gameHistory={[]}
-                  playerStats={[]}
                   isVisible={true}
                   onClose={() => {}}
                 />

@@ -63,14 +63,5 @@ export const GLASSMORPHIC_THEME = {
   }
 } as const;
 
-export default {
-  GlassmorphicCard,
-  GlassmorphicButton,
-  GlassmorphicInput,
-  GlassmorphicModal,
-  useModal,
-  ModalProvider,
-  useModalContext,
-  cn,
-  GLASSMORPHIC_THEME
-};
+// Default export removed to avoid scope issues
+// Use named imports instead

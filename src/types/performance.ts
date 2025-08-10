@@ -3,9 +3,9 @@
 declare global {
   interface Window {
     gtag?: (
-      command: 'config' | 'event',
-      targetId: string,
-      config?: Record<string, string | number | boolean>
+      command: 'config' | 'event' | 'js' | 'consent',
+      targetId: string | Date,
+      config?: Record<string, any> | string
     ) => void;
     gc?: () => void;
   }
@@ -48,13 +48,24 @@ export interface LargestContentfulPaintEntry extends PerformanceEntry {
 }
 
 export interface PerformanceMetrics {
-  LCP?: number;
-  FID?: number;
-  CLS?: number;
+  cls?: number;
+  fid?: number;
+  inp?: number;
+  fcp?: number;
+  lcp?: number;
+  ttfb?: number;
   loadTime?: number;
+  domContentLoaded?: number;
   renderTime?: number;
   memoryUsed?: number;
   memoryTotal?: number;
+  memoryUsage?: {
+    usedJSHeapSize: number;
+    totalJSHeapSize: number;
+    jsHeapSizeLimit: number;
+  };
+  resourceTiming?: PerformanceResourceTiming[];
+  navigationTiming?: PerformanceNavigationTiming | null;
 }
 
 export interface ResourceHint {

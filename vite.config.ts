@@ -39,6 +39,10 @@ export default defineConfig({
           animations: ['framer-motion'],
           // Icon libraries
           icons: ['lucide-react'],
+          // AI and ML libraries
+          ai: ['openai', '@anthropic-ai/sdk'],
+          // Markdown and syntax highlighting
+          markdown: ['react-markdown', 'rehype-highlight'],
           // Utility libraries
           utils: ['clsx', 'tailwind-merge']
         },
@@ -66,12 +70,26 @@ export default defineConfig({
     minify: 'terser',
     terserOptions: {
       compress: {
-        drop_console: true,
-        drop_debugger: true
+        drop_console: process.env.NODE_ENV === 'production',
+        drop_debugger: true,
+        pure_funcs: ['console.log', 'console.info'],
+        passes: 2
+      },
+      mangle: {
+        safari10: true
+      },
+      format: {
+        comments: false
       }
     },
+    // Target modern browsers for better optimization
+    target: 'esnext',
     // Optimize chunk size
-    chunkSizeWarningLimit: 1000
+    chunkSizeWarningLimit: 1000,
+    // Enable CSS code splitting
+    cssCodeSplit: true,
+    // Optimize asset inlining
+    assetsInlineLimit: 4096
   },
   server: {
     proxy: {

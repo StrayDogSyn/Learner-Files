@@ -252,7 +252,14 @@ const ContributionGraph: React.FC<{ contributions: ContributionDay[] }> = ({ con
   );
 };
 
-const StatsCard: React.FC<{ icon: React.ElementType; label: string; value: string | number; color: string }> = ({
+interface StatsCardProps {
+  icon: React.ComponentType<any>;
+  label: string;
+  value: string | number;
+  color: string;
+}
+
+const StatsCard: React.FC<StatsCardProps> = ({
   icon: Icon,
   label,
   value,
@@ -283,7 +290,7 @@ const StatsCard: React.FC<{ icon: React.ElementType; label: string; value: strin
     >
       <div className="flex items-center gap-3">
         <div className={`p-2 rounded-lg ${color}`}>
-          <Icon className="w-5 h-5" />
+          <Icon size={20} />
         </div>
         <div>
           <p className="text-2xl font-bold text-gray-900 dark:text-white">{value}</p>

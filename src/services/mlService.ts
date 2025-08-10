@@ -21,7 +21,7 @@ interface PatternComparison {
   direction: 'increasing' | 'decreasing';
 }
 
-interface GameState {
+interface MLGameState {
   currentRound: number;
   playerScore: number;
   opponentScore: number;
@@ -408,7 +408,7 @@ class MLService {
   }
 
   // Predictive Modeling
-  predictNextMove(gameState: GameState, playerHistory: PlayerMove[]): MLPrediction {
+  predictNextMove(gameState: MLGameState, playerHistory: PlayerMove[]): MLPrediction {
     const features = this.extractGameStateFeatures(gameState, playerHistory);
     const prediction = this.predictionNetwork.predict(features);
     
@@ -435,7 +435,7 @@ class MLService {
     };
   }
 
-  private extractGameStateFeatures(gameState: GameState, playerHistory: PlayerMove[]): number[] {
+  private extractGameStateFeatures(gameState: MLGameState, playerHistory: PlayerMove[]): number[] {
     const features = new Array(18).fill(0);
     
     // Current game state features (0-8)
@@ -488,7 +488,7 @@ class MLService {
   }
 
   private calculatePlayerPressureResponse(history: PlayerMove[]): number {
-    const pressureMoves = history.filter(h => h.pressureLevel > 0.7);
+    const pressureMoves = history.filter(h => h.pressureLevel && h.pressureLevel > 0.7);
     if (pressureMoves.length === 0) return 0.5;
     
     const successRate = pressureMoves.filter(m => m.success).length / pressureMoves.length;
@@ -619,7 +619,7 @@ class MLService {
     return output;
   }
 
-  private reconstructGameState(session: GameSession, roundIndex: number, actionIndex: number): GameState {
+  private reconstructGameState(session: GameSession, roundIndex: number, actionIndex: number): MLGameState {
     // Reconstruct game state at specific point in time
     return {
       currentRound: roundIndex + 1,
@@ -634,6 +634,26 @@ class MLService {
     };
   }
 
+  private mapActionTypeToPlayerMoveType(actionType: string): 'aggressive' | 'conservative' | 'strategic' | 'defensive' {
+    switch (actionType) {
+      case 'aggressive_roll':
+      case 'risk_taking':
+        return 'aggressive';
+      case 'conservative_roll':
+      case 'defensive_play':
+        return 'conservative';
+      case 'strategic_block':
+        return 'strategic';
+      case 'roll':
+      case 'hold':
+      case 'reroll':
+      case 'end_turn':
+      case 'random_play':
+      default:
+        return 'defensive';
+    }
+  }
+
   private getPlayerHistory(session: GameSession, playerId: string, beforeRound: number): PlayerMove[] {
     const history: PlayerMove[] = [];
     
@@ -643,7 +663,7 @@ class MLService {
       
       playerActions.forEach(action => {
         history.push({
-          type: action.actionType,
+          type: this.mapActionTypeToPlayerMoveType(action.actionType),
           success: action.outcome?.success || false,
           riskLevel: action.riskLevel || 0.5,
           timeToDecide: action.timeToDecide || 15,
@@ -738,7 +758,7 @@ class MLService {
   }
 
   // Probability calculations
-  calculateWinProbability(gameState: GameState, playerHistory: PlayerMove[]): ProbabilityDistribution {
+  calculateWinProbability(gameState: MLGameState, playerHistory: PlayerMove[]): ProbabilityDistribution {
     const features = this.extractGameStateFeatures(gameState, playerHistory);
     const prediction = this.predictionNetwork.predict(features);
     

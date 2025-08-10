@@ -10,12 +10,14 @@ interface ProjectGalleryProps {
   onProjectClick?: (project: ProjectWithStats) => void;
   showFeaturedOnly?: boolean;
   maxProjects?: number;
+  className?: string;
 }
 
 const ProjectGallery: React.FC<ProjectGalleryProps> = ({
   onProjectClick,
   showFeaturedOnly = false,
-  maxProjects
+  maxProjects,
+  className
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<CategoryFilter>('All');
   const [searchQuery, setSearchQuery] = useState('');
@@ -60,8 +62,10 @@ const ProjectGallery: React.FC<ProjectGalleryProps> = ({
           const bStars = b.githubStats?.stars || b.stars || 0;
           return bStars - aStars;
         case 'updated':
-          const aDate = new Date(a.githubStats?.lastUpdate || a.lastUpdate);
-          const bDate = new Date(b.githubStats?.lastUpdate || b.lastUpdate);
+          const aDateStr = a.githubStats?.lastUpdate || a.lastUpdate || '2020-01-01';
+          const bDateStr = b.githubStats?.lastUpdate || b.lastUpdate || '2020-01-01';
+          const aDate = new Date(aDateStr);
+          const bDate = new Date(bDateStr);
           return bDate.getTime() - aDate.getTime();
         case 'featured':
         default:
@@ -92,7 +96,7 @@ const ProjectGallery: React.FC<ProjectGalleryProps> = ({
   };
 
   return (
-    <div className="w-full">
+    <div className={`w-full ${className || ''}`}>
       {/* Header */}
       <div className="mb-8">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">

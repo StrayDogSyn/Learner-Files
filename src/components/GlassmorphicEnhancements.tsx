@@ -247,7 +247,7 @@ export const GlassModal: React.FC<GlassModalProps> = ({
   );
 };
 
-interface GlassInputProps extends HTMLAttributes<HTMLInputElement> {
+interface GlassInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
   icon?: ReactNode;

@@ -19,7 +19,6 @@ import {
 } from 'recharts';
 import {
   GameStatistics,
-  PlayerPerformance,
   StatisticsTrend,
   DiceGroupResult,
   ChartData
@@ -27,7 +26,6 @@ import {
 
 interface StatsDashboardProps {
   gameHistory: DiceGroupResult[][];
-  playerStats: PlayerPerformance[];
   isVisible: boolean;
   onClose: () => void;
 }
@@ -61,7 +59,6 @@ const CHART_COLORS = ['#8884d8', '#82ca9d', '#ffc658', '#ff7300', '#8dd1e1', '#d
 
 export const StatsDashboard: React.FC<StatsDashboardProps> = ({
   gameHistory,
-  playerStats,
   isVisible,
   onClose
 }) => {
@@ -95,19 +92,19 @@ export const StatsDashboard: React.FC<StatsDashboardProps> = ({
 
     gameHistory.forEach(round => {
       round.forEach(group => {
-        diceTypeUsage[group.type] = (diceTypeUsage[group.type] || 0) + group.count;
+        diceTypeUsage[group.group.type] = (diceTypeUsage[group.group.type] || 0) + group.group.count;
         
-        group.results.forEach(roll => {
+        group.group.results.forEach((roll: number) => {
           rollDistribution[roll] = (rollDistribution[roll] || 0) + 1;
           totalRolls++;
           totalValue += roll;
         });
 
         // Calculate probability deviations
-        const expectedMean = (group.type + 1) / 2;
-        const actualMean = group.results.reduce((sum, roll) => sum + roll, 0) / group.results.length;
+        const expectedMean = (group.group.type + 1) / 2;
+        const actualMean = group.group.results.reduce((sum: number, roll: number) => sum + roll, 0) / group.group.results.length;
         const deviation = ((actualMean - expectedMean) / expectedMean) * 100;
-        probabilityDeviations[group.type] = deviation;
+        probabilityDeviations[group.group.type] = deviation;
       });
     });
 
@@ -443,7 +440,7 @@ export const StatsDashboard: React.FC<StatsDashboardProps> = ({
                       <Tooltip content={<CustomTooltip />} />
                       <Bar 
                         dataKey="deviation" 
-                        fill={(entry: any) => entry.color}
+                        fill="#10B981"
                         radius={[4, 4, 0, 0]}
                       />
                       <Bar 

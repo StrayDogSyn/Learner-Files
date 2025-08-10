@@ -17,7 +17,8 @@ import {
   Moon,
   Sun,
   Settings,
-  Accessibility
+  Accessibility,
+  LucideIcon
 } from 'lucide-react';
 
 const queryClient = new QueryClient({
@@ -32,7 +33,7 @@ const queryClient = new QueryClient({
 interface SectionProps {
   id: string;
   title: string;
-  icon: React.ElementType;
+  icon: LucideIcon;
   children: React.ReactNode;
   className?: string;
 }

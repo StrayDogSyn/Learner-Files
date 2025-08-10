@@ -26,6 +26,39 @@ initializeCompatibility();
 // Announce page load
 announceToScreenReader('Portfolio application loaded successfully');
 
+// Register Service Worker for PWA functionality
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then((registration) => {
+        console.log('[PWA] Service Worker registered successfully:', registration.scope);
+        
+        // Check for updates
+        registration.addEventListener('updatefound', () => {
+          const newWorker = registration.installing;
+          if (newWorker) {
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                // New content is available, notify user
+                console.log('[PWA] New content available, please refresh.');
+                
+                // Optional: Show update notification
+                if (window.confirm('New version available! Refresh to update?')) {
+                  window.location.reload();
+                }
+              }
+            });
+          }
+        });
+      })
+      .catch((error) => {
+        console.error('[PWA] Service Worker registration failed:', error);
+      });
+  });
+} else {
+  console.log('[PWA] Service Worker not supported in this browser');
+}
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <App />

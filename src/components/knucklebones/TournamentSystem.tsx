@@ -798,14 +798,47 @@ const TournamentSystem: React.FC<TournamentSystemProps> = ({
     const tournament: Tournament = {
       ...settings,
       id: Date.now().toString(),
+      name: settings.name || 'New Tournament',
+      description: settings.description || '',
+      type: settings.type || 'single-elimination',
       status: 'registration',
       participants: settings.participants || [],
+      brackets: [],
       bracket: undefined,
-      prizeDistribution: {
-        first: settings.prizePool ? settings.prizePool * 0.5 : 0,
-        second: settings.prizePool ? settings.prizePool * 0.3 : 0,
-        third: settings.prizePool ? settings.prizePool * 0.2 : 0
-      }
+      prizes: [
+        {
+          position: 1,
+          title: "First Place",
+          description: "Winner",
+          value: settings.prizePool ? settings.prizePool * 0.5 : 0
+        },
+        {
+          position: 2,
+          title: "Second Place",
+          description: "Runner-up",
+          value: settings.prizePool ? settings.prizePool * 0.3 : 0
+        },
+        {
+          position: 3,
+          title: "Third Place",
+          description: "Third place",
+          value: settings.prizePool ? settings.prizePool * 0.2 : 0
+        }
+      ],
+      rules: {
+        gameMode: {
+          id: 'classic',
+          name: 'Classic',
+          description: 'Standard Knucklebones game',
+          difficulty: 'medium',
+          features: ['standard-scoring']
+        },
+        bestOf: 1,
+        timeLimit: settings.timeLimit || 300,
+        advancementCriteria: 'win'
+      },
+      startDate: settings.startTime || new Date(),
+      maxPlayers: settings.maxPlayers || 8
     };
     
     setTournaments(prev => [...prev, tournament]);
@@ -998,14 +1031,47 @@ export const useTournamentSystem = () => {
     const tournament: Tournament = {
       ...settings,
       id: Date.now().toString(),
+      name: settings.name || 'New Tournament',
+      description: settings.description || '',
+      type: settings.type || 'single-elimination',
       status: 'registration',
       participants: settings.participants || [],
+      brackets: [],
       bracket: undefined,
-      prizeDistribution: {
-        first: settings.prizePool ? settings.prizePool * 0.5 : 0,
-        second: settings.prizePool ? settings.prizePool * 0.3 : 0,
-        third: settings.prizePool ? settings.prizePool * 0.2 : 0
-      }
+      prizes: [
+        {
+          position: 1,
+          title: "First Place",
+          description: "Winner",
+          value: settings.prizePool ? settings.prizePool * 0.5 : 0
+        },
+        {
+          position: 2,
+          title: "Second Place",
+          description: "Runner-up",
+          value: settings.prizePool ? settings.prizePool * 0.3 : 0
+        },
+        {
+          position: 3,
+          title: "Third Place",
+          description: "Third place",
+          value: settings.prizePool ? settings.prizePool * 0.2 : 0
+        }
+      ],
+      rules: {
+        gameMode: {
+          id: 'classic',
+          name: 'Classic',
+          description: 'Standard Knucklebones game',
+          difficulty: 'medium',
+          features: ['standard-scoring']
+        },
+        bestOf: 1,
+        timeLimit: settings.timeLimit || 300,
+        advancementCriteria: 'win'
+      },
+      startDate: settings.startTime || new Date(),
+      maxPlayers: settings.maxPlayers || 8
     };
     
     setTournaments(prev => [...prev, tournament]);

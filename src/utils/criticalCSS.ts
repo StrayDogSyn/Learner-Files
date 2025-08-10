@@ -3,6 +3,9 @@
  * Handles inline critical CSS and deferred loading of non-critical styles
  */
 
+// Import performance types for gtag
+import '../types/performance';
+
 // Critical CSS content for inline injection
 export const criticalCSS = `
 /* Critical above-the-fold styles - minified for performance */
@@ -140,8 +143,8 @@ export function measureCoreWebVitals(): void {
       console.log('LCP:', lastEntry.startTime);
       
       // Report to analytics if available
-      if (typeof gtag !== 'undefined') {
-        gtag('event', 'web_vitals', {
+      if (typeof window.gtag !== 'undefined') {
+        window.gtag('event', 'web_vitals', {
           event_category: 'performance',
           event_label: 'LCP',
           value: Math.round(lastEntry.startTime)
@@ -158,8 +161,8 @@ export function measureCoreWebVitals(): void {
         if ('processingStart' in entry && 'startTime' in entry) {
           console.log('FID:', entry.processingStart - entry.startTime);
           
-          if (typeof gtag !== 'undefined') {
-            gtag('event', 'web_vitals', {
+          if (typeof window.gtag !== 'undefined') {
+            window.gtag('event', 'web_vitals', {
               event_category: 'performance',
               event_label: 'FID',
               value: Math.round(entry.processingStart - entry.startTime)
@@ -183,8 +186,8 @@ export function measureCoreWebVitals(): void {
       
       console.log('CLS:', clsValue);
       
-      if (typeof gtag !== 'undefined') {
-        gtag('event', 'web_vitals', {
+      if (typeof window.gtag !== 'undefined') {
+        window.gtag('event', 'web_vitals', {
           event_category: 'performance',
           event_label: 'CLS',
           value: Math.round(clsValue * 1000)

@@ -8,5 +8,5 @@
 - [x] create_archive_system: Create Archive.tsx page for old learning projects with glass panel design (priority: Medium)
 - [x] update_router_lazy_loading: Update App.tsx with new routes (/dashboard, /archive) and React Suspense lazy loading (priority: Medium)
 - [x] seo_optimization: Update index.html with meta tags, Open Graph tags, and canonical URL (priority: Medium)
-- [ ] pwa_service_worker: Create public/sw.js for offline functionality and register in main.tsx (**IN PROGRESS**) (priority: Medium)
-- [ ] build_optimization: Update vite.config.ts with code splitting, Terser minification, and modern browser targeting (priority: Low)
+- [x] pwa_service_worker: Create public/sw.js for offline functionality and register in main.tsx (priority: Medium)
+- [x] build_optimization: Update vite.config.ts with code splitting, Terser minification, and modern browser targeting (priority: Low)

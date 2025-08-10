@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { LazyImage } from '../utils/lazyLoading';
+import { useLazyImage } from '../utils/lazyLoading';
 import { 
   ExternalLink, 
   Github, 
@@ -131,11 +131,10 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
       <div className="card-feature bg-[var(--deep-black)]/90 backdrop-blur-sm border border-[var(--hunter-green)]/30 rounded-2xl overflow-hidden hover:border-[var(--electric-blue)] transition-all duration-500 hover:shadow-2xl hover:shadow-[var(--electric-blue)]/20">
         {/* Project Image */}
         <div className="relative h-48 overflow-hidden">
-          <LazyImage
+          <img
             src={project.imageUrl}
             alt={project.title}
             className="w-full h-full transition-transform duration-500 group-hover:scale-110"
-            placeholder="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMTExIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzU1NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkxvYWRpbmcuLi48L3RleHQ+PC9zdmc+"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[var(--deep-black)]/80 to-transparent" />
           

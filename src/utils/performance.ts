@@ -1,4 +1,4 @@
-import { getCLS, getFID, getFCP, getLCP, getTTFB, Metric } from 'web-vitals';
+import { onCLS, onINP, onFCP, onLCP, onTTFB, Metric } from 'web-vitals';
 import { trackEvent } from './analytics';
 
 // Performance monitoring configuration
@@ -25,6 +25,8 @@ interface PerformanceMetrics {
   fcp: number;
   lcp: number;
   ttfb: number;
+  loadTime?: number;
+  domContentLoaded?: number;
   memoryUsage?: MemoryInfo;
   resourceTiming: PerformanceResourceTiming[];
   navigationTiming: PerformanceNavigationTiming | null;
@@ -108,7 +110,11 @@ class PerformanceMonitor {
     const reportMetric = (metric: Metric) => {
       if (Math.random() > this.config.sampleRate) return;
 
-      this.metrics[metric.name.toLowerCase() as keyof PerformanceMetrics] = metric.value;
+      // Store metric value with proper typing
+      const metricName = metric.name.toLowerCase();
+      if (metricName === 'cls' || metricName === 'fid' || metricName === 'inp' || metricName === 'fcp' || metricName === 'lcp' || metricName === 'ttfb') {
+        (this.metrics as any)[metricName] = metric.value;
+      }
       
       trackEvent('performance_metric', {
         metric_name: metric.name,
@@ -121,11 +127,11 @@ class PerformanceMonitor {
       this.sendMetric(metric);
     };
 
-    getCLS(reportMetric);
-    getFID(reportMetric);
-    getFCP(reportMetric);
-    getLCP(reportMetric);
-    getTTFB(reportMetric);
+    onCLS(reportMetric);
+    onINP(reportMetric);
+    onFCP(reportMetric);
+    onLCP(reportMetric);
+    onTTFB(reportMetric);
   }
 
   private initResourceTiming(): void {
@@ -161,12 +167,19 @@ class PerformanceMonitor {
         this.metrics.navigationTiming = entries[0];
         
         const timing = entries[0];
+        
+        // Calculate custom metrics
+        this.metrics.loadTime = timing.loadEventEnd - timing.startTime;
+        this.metrics.domContentLoaded = timing.domContentLoadedEventEnd - timing.startTime;
+        
         trackEvent('navigation_timing', {
           dns_lookup: timing.domainLookupEnd - timing.domainLookupStart,
           tcp_connect: timing.connectEnd - timing.connectStart,
           request_response: timing.responseEnd - timing.requestStart,
           dom_processing: timing.domContentLoadedEventEnd - timing.responseEnd,
           load_complete: timing.loadEventEnd - timing.loadEventStart,
+          load_time: this.metrics.loadTime,
+          dom_content_loaded: this.metrics.domContentLoaded,
           session_id: this.sessionId
         });
       }
@@ -318,6 +331,50 @@ class PerformanceMonitor {
     return this.sessionId;
   }
 
+  public addResourceHints(): void {
+    // Add DNS prefetch hints for external domains
+    const domains = ['fonts.googleapis.com', 'fonts.gstatic.com'];
+    domains.forEach(domain => {
+      const link = document.createElement('link');
+      link.rel = 'dns-prefetch';
+      link.href = `//${domain}`;
+      document.head.appendChild(link);
+    });
+
+    // Add preconnect for critical resources
+    const preconnectDomains = ['fonts.googleapis.com'];
+    preconnectDomains.forEach(domain => {
+      const link = document.createElement('link');
+      link.rel = 'preconnect';
+      link.href = `https://${domain}`;
+      link.crossOrigin = 'anonymous';
+      document.head.appendChild(link);
+    });
+  }
+
+  public setupLazyLoading(): void {
+    // Setup intersection observer for lazy loading
+    if ('IntersectionObserver' in window) {
+      const imageObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const img = entry.target as HTMLImageElement;
+            if (img.dataset.src) {
+              img.src = img.dataset.src;
+              img.removeAttribute('data-src');
+              imageObserver.unobserve(img);
+            }
+          }
+        });
+      });
+
+      // Observe all images with data-src attribute
+      document.querySelectorAll('img[data-src]').forEach(img => {
+        imageObserver.observe(img);
+      });
+    }
+  }
+
   public destroy(): void {
     this.observers.forEach(observer => observer.disconnect());
     this.observers = [];
@@ -385,6 +442,7 @@ export const measureAsync = async <T>(
 // Create global performance monitor instance
 export const performanceMonitor = new PerformanceMonitor();
 
-// Export types
+// Export types and class
 export type { PerformanceConfig, PerformanceMetrics, ErrorInfo };
+export { PerformanceMonitor };
 export default PerformanceMonitor;

@@ -66,8 +66,8 @@ export const useAIOpponent = ({
 
     gameHistory.forEach(round => {
       round.forEach(group => {
-        diceTypeUsage[group.type] = (diceTypeUsage[group.type] || 0) + group.count;
-        group.results.forEach(roll => {
+        diceTypeUsage[group.group.type] = (diceTypeUsage[group.group.type] || 0) + group.group.count;
+        group.group.results.forEach((roll: number) => {
           rollFrequency[roll] = (rollFrequency[roll] || 0) + 1;
           totalRolls++;
         });
@@ -166,8 +166,8 @@ export const useAIOpponent = ({
               const recentTrend = gameHistory.slice(-3);
               const recentAverage = recentTrend.length > 0 ? 
                 recentTrend.flat().reduce((sum, group) => 
-                  sum + group.results.reduce((a, b) => a + b, 0), 0
-                ) / recentTrend.flat().reduce((sum, group) => sum + group.results.length, 0) : 0;
+                  sum + group.group.results.reduce((a: number, b: number) => a + b, 0), 0
+                ) / recentTrend.flat().reduce((sum, group) => sum + group.group.results.length, 0) : 0;
               
               if (recentAverage > probData.mean) {
                 confidence += 0.1;

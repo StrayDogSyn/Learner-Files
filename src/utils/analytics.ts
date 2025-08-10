@@ -1,4 +1,9 @@
 // Google Analytics 4 Configuration and Event Tracking
+import { useEffect, useCallback } from 'react';
+import { useLocation } from 'react-router-dom';
+// Import performance types for gtag declaration
+import '../types/performance';
+import { performanceMonitor } from './performance';
 
 // GA4 Configuration
 interface GAConfig {
@@ -84,13 +89,15 @@ class GoogleAnalytics {
         window.dataLayer.push(arguments);
       };
 
-      window.gtag('js', new Date());
-      window.gtag('config', this.measurementId, {
-        anonymize_ip: config.anonymizeIp || true,
-        cookie_flags: config.cookieFlags || 'SameSite=None;Secure',
-        debug_mode: this.debug,
-        send_page_view: true
-      });
+      if (window.gtag) {
+        window.gtag('js', new Date());
+        window.gtag('config', this.measurementId, {
+          anonymize_ip: config.anonymizeIp || true,
+          cookie_flags: config.cookieFlags || 'SameSite=None;Secure',
+          debug_mode: this.debug,
+          send_page_view: true
+        });
+      }
 
       this.isInitialized = true;
       
@@ -107,11 +114,13 @@ class GoogleAnalytics {
     if (!this.isInitialized || typeof window === 'undefined') return;
 
     try {
-      window.gtag('event', 'page_view', {
-        page_title,
-        page_location: page_location || window.location.href,
-        page_referrer: document.referrer
-      });
+      if (window.gtag) {
+        window.gtag('event', 'page_view', {
+          page_title,
+          page_location: page_location || window.location.href,
+          page_referrer: document.referrer
+        });
+      }
 
       if (this.debug) {
         console.log('Page view tracked:', { page_title, page_location });
@@ -126,10 +135,12 @@ class GoogleAnalytics {
     if (!this.isInitialized || typeof window === 'undefined') return;
 
     try {
-      window.gtag('event', eventName, {
-        ...parameters,
-        timestamp: Date.now()
-      });
+      if (window.gtag) {
+        window.gtag('event', eventName, {
+          ...parameters,
+          timestamp: Date.now()
+        });
+      }
 
       if (this.debug) {
         console.log('Event tracked:', eventName, parameters);
@@ -220,13 +231,15 @@ class GoogleAnalytics {
     if (!this.isInitialized || typeof window === 'undefined') return;
 
     try {
-      window.gtag('event', 'conversion', {
-        send_to: conversionId,
-        value: value,
-        currency: currency,
-        event_category: 'Conversion',
-        event_label: 'Goal Completion'
-      });
+      if (window.gtag) {
+        window.gtag('event', 'conversion', {
+          send_to: conversionId,
+          value: value,
+          currency: currency,
+          event_category: 'Conversion',
+          event_label: 'Goal Completion'
+        });
+      }
 
       if (this.debug) {
         console.log('Conversion tracked:', { conversionId, value, currency });
@@ -241,14 +254,16 @@ class GoogleAnalytics {
     if (!this.isInitialized || typeof window === 'undefined') return;
 
     try {
-      window.gtag('event', 'purchase', {
-        transaction_id: transactionId,
-        value: value,
-        currency: currency,
-        items: items,
-        event_category: 'Ecommerce',
-        event_label: 'Purchase'
-      });
+      if (window.gtag) {
+        window.gtag('event', 'purchase', {
+          transaction_id: transactionId,
+          value: value,
+          currency: currency,
+          items: items,
+          event_category: 'Ecommerce',
+          event_label: 'Purchase'
+        });
+      }
 
       if (this.debug) {
         console.log('Purchase tracked:', { transactionId, value, currency, items });
@@ -263,9 +278,11 @@ class GoogleAnalytics {
     if (!this.isInitialized || typeof window === 'undefined') return;
 
     try {
-      window.gtag('config', this.measurementId, {
-        custom_map: { [property]: value }
-      });
+      if (window.gtag) {
+        window.gtag('config', this.measurementId, {
+          custom_map: { [property]: value }
+        });
+      }
 
       if (this.debug) {
         console.log('User property set:', { property, value });
@@ -285,7 +302,9 @@ class GoogleAnalytics {
     if (typeof window === 'undefined') return;
 
     try {
-      window.gtag('consent', 'update', consentSettings);
+      if (window.gtag) {
+        window.gtag('consent', 'update', consentSettings);
+      }
 
       if (this.debug) {
         console.log('Consent updated:', consentSettings);
@@ -296,11 +315,10 @@ class GoogleAnalytics {
   }
 }
 
-// Global gtag interface
+// Global dataLayer interface
 declare global {
   interface Window {
     dataLayer: any[];
-    gtag: (...args: any[]) => void;
   }
 }
 
@@ -314,7 +332,8 @@ const analytics = new GoogleAnalytics({
 
 // Initialize analytics function
 export const initializeAnalytics = (): void => {
-  analytics.initialize();
+  // Analytics is already initialized in the constructor
+  // This function is kept for backward compatibility
 };
 
 // Export trackEvent function
@@ -323,8 +342,6 @@ export const trackEvent = (eventName: string, parameters?: Record<string, any>):
 };
 
 // React hook for analytics
-import { useEffect, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
 
 export const useAnalytics = () => {
   const location = useLocation();

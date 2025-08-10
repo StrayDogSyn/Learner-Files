@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FloatingActionButton } from './ui/FloatingActionButton';
+import FloatingActionButton from './ui/FloatingActionButton';
 import ThemeToggle from './ui/ThemeToggle';
 import { 
   ProjectCardSkeleton, 

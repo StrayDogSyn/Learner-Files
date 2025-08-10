@@ -233,9 +233,9 @@ const DiceFace: React.FC<{ face: number; index: number; theme: string }> = ({ fa
   const dotColor = theme === 'neon' ? '#00ffcc' : theme === 'glass' ? '#1a1a2e' : '#000000';
 
   return (
-    <group rotation={faceRotations[index]}>
+    <group rotation={[faceRotations[index][0], faceRotations[index][1], faceRotations[index][2]]}>
       {positions[face as keyof typeof positions].map((pos, dotIndex) => (
-        <mesh key={dotIndex} position={pos}>
+        <mesh key={dotIndex} position={[pos[0], pos[1], pos[2]]}>
           <sphereGeometry args={[0.08, 8, 8]} />
           <meshBasicMaterial color={dotColor} />
         </mesh>
@@ -245,17 +245,15 @@ const DiceFace: React.FC<{ face: number; index: number; theme: string }> = ({ fa
 };
 
 const DiceTable: React.FC = () => {
-  const [ref] = usePlane(() => ({
-    rotation: [-Math.PI / 2, 0, 0],
-    position: [0, -2, 0],
-    material: {
-      friction: 0.7,
-      restitution: 0.3,
-    },
-  }));
-
   return (
-    <RigidBody ref={ref} type="fixed" colliders="cuboid">
+    <RigidBody 
+      type="fixed" 
+      colliders="cuboid"
+      position={[0, -2, 0]}
+      rotation={[-Math.PI / 2, 0, 0]}
+      friction={0.7}
+      restitution={0.3}
+    >
       <mesh receiveShadow>
         <planeGeometry args={[20, 20]} />
         <meshPhysicalMaterial
@@ -295,19 +293,20 @@ const DiceScene: React.FC<{
         const results: DiceResult[] = Array.from(newMap.entries()).map(([id, value]) => ({
           id,
           value,
-          timestamp: new Date()
+          isSelected: false,
+          isHeld: false
         }));
         
         const diceGroup: DiceGroupResult = {
-          id: Date.now().toString(),
-          results,
+          group: {
+            type: 6,
+            count: results.length,
+            results: results.map(r => r.value),
+            id: Date.now().toString()
+          },
           timestamp: new Date(),
-          groupType: 'standard',
-          metadata: {
-            rollDuration: 3000, // Approximate
-            physics: true,
-            theme
-          }
+          playerId: 'player1',
+          total: results.reduce((sum, r) => sum + r.value, 0)
         };
         
         setTimeout(() => {

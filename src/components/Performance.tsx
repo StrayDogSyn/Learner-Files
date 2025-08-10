@@ -42,11 +42,17 @@ const Performance: React.FC<PerformanceProps> = ({ className = '' }) => {
     animationFrameRef.current = requestAnimationFrame(calculateFPS);
   };
 
-  // Get memory usage
+  // Get memory usage in MB
   const getMemoryUsage = (): number => {
     if ('memory' in performance) {
-      const memory = (performance as any).memory;
-      return Math.round(memory.usedJSHeapSize / 1024 / 1024); // Convert to MB
+      const memory = (performance as any).memory as {
+        usedJSHeapSize?: number;
+        totalJSHeapSize?: number;
+        jsHeapSizeLimit?: number;
+      };
+      if (memory && typeof memory.usedJSHeapSize === 'number') {
+        return Math.round(memory.usedJSHeapSize / 1024 / 1024);
+      }
     }
     return 0;
   };

@@ -157,7 +157,7 @@ const CookieConsentBanner: React.FC<CookieConsentBannerProps> = ({
     hidden: {
       opacity: 0,
       y: position === 'top' ? -100 : position === 'bottom' ? 100 : 0,
-      scale: variant === 'center' ? 0.9 : 1
+      scale: position === 'center' ? 0.9 : 1
     },
     visible: {
       opacity: 1,
@@ -165,14 +165,14 @@ const CookieConsentBanner: React.FC<CookieConsentBannerProps> = ({
       scale: 1,
       transition: {
         duration: 0.5,
-        type: 'spring',
+        type: 'spring' as const,
         stiffness: 100
       }
     },
     exit: {
       opacity: 0,
       y: position === 'top' ? -100 : position === 'bottom' ? 100 : 0,
-      scale: variant === 'center' ? 0.9 : 1,
+      scale: position === 'center' ? 0.9 : 1,
       transition: { duration: 0.3 }
     }
   };

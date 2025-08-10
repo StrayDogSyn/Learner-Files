@@ -1,6 +1,37 @@
 // Service Worker for SOLO Portfolio
 // Implements caching strategies for offline functionality and performance
 
+// Service Worker Type Declarations
+declare const self: any & {
+  skipWaiting(): Promise<void>;
+  clients: any;
+  registration: any;
+};
+
+interface ExtendableEvent extends Event {
+  waitUntil(promise: Promise<any>): void;
+}
+
+interface FetchEvent extends ExtendableEvent {
+  request: Request;
+  respondWith(response: Promise<Response> | Response): void;
+}
+
+interface NotificationEvent extends ExtendableEvent {
+  notification: Notification;
+  action?: string;
+}
+
+interface PushEvent extends ExtendableEvent {
+  data?: PushMessageData;
+}
+
+interface PushMessageData {
+  text(): string;
+  json(): any;
+  arrayBuffer(): ArrayBuffer;
+}
+
 const CACHE_NAME = 'solo-portfolio-v1';
 const STATIC_CACHE = 'solo-static-v1';
 const DYNAMIC_CACHE = 'solo-dynamic-v1';

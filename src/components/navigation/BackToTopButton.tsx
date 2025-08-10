@@ -141,7 +141,7 @@ const BackToTopButton: React.FC<BackToTopButtonProps> = ({
       scale: 1,
       y: 0,
       transition: {
-        type: 'spring',
+        type: 'spring' as const,
         stiffness: 300,
         damping: 20
       }
@@ -158,7 +158,7 @@ const BackToTopButton: React.FC<BackToTopButtonProps> = ({
       scale: 1.1,
       y: -2,
       transition: {
-        type: 'spring',
+        type: 'spring' as const,
         stiffness: 400,
         damping: 10
       }
@@ -177,7 +177,7 @@ const BackToTopButton: React.FC<BackToTopButtonProps> = ({
       y: -4,
       rotate: -5,
       transition: {
-        type: 'spring',
+        type: 'spring' as const,
         stiffness: 300
       }
     },

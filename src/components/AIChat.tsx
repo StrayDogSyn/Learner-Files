@@ -165,7 +165,7 @@ const AIChat: React.FC<AIChatProps> = ({ className = '' }) => {
                           {message.isUser ? (
                             <p>{message.content}</p>
                           ) : (
-                            <ReactMarkdown className="prose prose-sm prose-invert max-w-none">
+                            <ReactMarkdown>
                               {message.content}
                             </ReactMarkdown>
                           )}

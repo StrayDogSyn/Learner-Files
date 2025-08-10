@@ -54,38 +54,38 @@ class PerformanceTestRunner {
     const tests: PerformanceTestResult[] = [];
 
     // Test Largest Contentful Paint (LCP)
-    if (metrics.largestContentfulPaint !== undefined) {
+    if (metrics.lcp !== undefined) {
       tests.push({
         testName: 'Largest Contentful Paint (LCP)',
-        passed: metrics.largestContentfulPaint <= 2500,
-        actualValue: metrics.largestContentfulPaint,
+        passed: metrics.lcp <= 2500,
+        actualValue: metrics.lcp,
         expectedThreshold: 2500,
-        message: metrics.largestContentfulPaint <= 2500 ? 'Excellent LCP' :
-                metrics.largestContentfulPaint <= 4000 ? 'Needs improvement' : 'Poor LCP'
+        message: metrics.lcp <= 2500 ? 'Excellent LCP' :
+                metrics.lcp <= 4000 ? 'Needs improvement' : 'Poor LCP'
       });
     }
 
     // Test First Input Delay (FID)
-    if (metrics.firstInputDelay !== undefined) {
+    if (metrics.fid !== undefined) {
       tests.push({
         testName: 'First Input Delay (FID)',
-        passed: metrics.firstInputDelay <= 100,
-        actualValue: metrics.firstInputDelay,
+        passed: metrics.fid <= 100,
+        actualValue: metrics.fid,
         expectedThreshold: 100,
-        message: metrics.firstInputDelay <= 100 ? 'Excellent FID' : 
-                metrics.firstInputDelay <= 300 ? 'Needs improvement' : 'Poor FID'
+        message: metrics.fid <= 100 ? 'Excellent FID' : 
+                metrics.fid <= 300 ? 'Needs improvement' : 'Poor FID'
       });
     }
 
     // Test Cumulative Layout Shift (CLS)
-    if (metrics.cumulativeLayoutShift !== undefined) {
+    if (metrics.cls !== undefined) {
       tests.push({
         testName: 'Cumulative Layout Shift (CLS)',
-        passed: metrics.cumulativeLayoutShift <= 0.1,
-        actualValue: metrics.cumulativeLayoutShift,
+        passed: metrics.cls <= 0.1,
+        actualValue: metrics.cls,
         expectedThreshold: 0.1,
-        message: metrics.cumulativeLayoutShift <= 0.1 ? 'Excellent CLS' : 
-                metrics.cumulativeLayoutShift <= 0.25 ? 'Needs improvement' : 'Poor CLS'
+        message: metrics.cls <= 0.1 ? 'Excellent CLS' : 
+                metrics.cls <= 0.25 ? 'Needs improvement' : 'Poor CLS'
       });
     }
 

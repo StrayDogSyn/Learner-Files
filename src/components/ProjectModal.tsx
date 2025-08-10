@@ -321,7 +321,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, isOpen, onClose })
                     <div className="space-y-3">
                       {project.testimonials.map((testimonial, index) => (
                         <div key={index} className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
-                          <p className="text-gray-300 italic mb-2">&quot;{testimonial.text}&quot;</p>
+                          <p className="text-gray-300 italic mb-2">&quot;{testimonial.content}&quot;</p>
                           <div className="text-sm text-gray-400">
                             <span className="font-medium">{testimonial.author}</span>
                             {testimonial.role && <span> - {testimonial.role}</span>}

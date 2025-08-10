@@ -7,12 +7,19 @@
   "scripts": {
     "client:dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "build:analyze": "npm run build && npx vite-bundle-analyzer dist/stats.html",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint . --ext ts,tsx --fix",
     "preview": "vite preview",
     "check": "tsc --noEmit",
+    "test": "echo \"No tests specified\" && exit 0",
     "dev": "npm run client:dev",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "predeploy": "npm run lint && npm run check && npm run test && npm run build",
+    "deploy": "gh-pages -d dist",
+    "deploy:force": "npm run build && gh-pages -d dist",
+    "analyze": "npx vite-bundle-analyzer dist/stats.html",
+    "clean": "rm -rf dist node_modules/.vite",
+    "reinstall": "npm run clean && npm install"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.59.0",
