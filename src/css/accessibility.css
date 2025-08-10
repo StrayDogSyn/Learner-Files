@@ -331,7 +331,6 @@ a:focus-visible {
 /* Accessible Tables */
 .table-responsive {
   overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
 }
 
 .table {
@@ -885,6 +884,7 @@ a:focus-visible {
   .glass-container,
   .glass-button,
   .glass-button-primary {
+    /* Preserve color schemes in forced colors mode - not supported in Safari */
     forced-color-adjust: none;
   }
 }

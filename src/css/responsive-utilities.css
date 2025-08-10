@@ -559,7 +559,7 @@
   .btn-responsive {
     padding: var(--space-4) var(--space-6);
     font-size: var(--fluid-text-base);
-    min-height: auto;
+    min-height: unset;
   }
 }
 

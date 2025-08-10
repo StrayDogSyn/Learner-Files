@@ -135,8 +135,8 @@
 .animate-metallic-text {
   background: var(--metallic-gradient-1);
   background-size: 300% 300%;
-  background-clip: text;
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: metallicText 3s var(--ease-in-out-cubic) infinite;
 }
@@ -965,8 +965,8 @@
   .animate-metallic-gradient,
   .animate-metallic-text {
     background: var(--silver-steel) !important;
-    background-clip: initial !important;
     -webkit-background-clip: initial !important;
+    background-clip: initial !important;
     -webkit-text-fill-color: initial !important;
     color: var(--silver-steel) !important;
   }

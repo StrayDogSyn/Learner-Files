@@ -12,9 +12,31 @@
   height: 8px;
 }
 
-.skill-proficiency-bar {
-  width: var(--progress-width, 0%);
-  background: linear-gradient(90deg, var(--gradient-start, #007bff), var(--gradient-end, #28a745));
+/* Dynamic width classes for skill proficiency */
+.skill-proficiency-0 { width: 0%; }
+.skill-proficiency-10 { width: 10%; }
+.skill-proficiency-20 { width: 20%; }
+.skill-proficiency-30 { width: 30%; }
+.skill-proficiency-40 { width: 40%; }
+.skill-proficiency-50 { width: 50%; }
+.skill-proficiency-60 { width: 60%; }
+.skill-proficiency-70 { width: 70%; }
+.skill-proficiency-80 { width: 80%; }
+.skill-proficiency-90 { width: 90%; }
+.skill-proficiency-100 { width: 100%; }
+
+/* Category-based gradients */
+.skill-proficiency-bar[data-category="development"] {
+  background: linear-gradient(90deg, #007bff, #28a745);
+}
+.skill-proficiency-bar[data-category="database"] {
+  background: linear-gradient(90deg, #ffc107, #fd7e14);
+}
+.skill-proficiency-bar[data-category="tools"] {
+  background: linear-gradient(90deg, #6f42c1, #e83e8c);
+}
+.skill-proficiency-bar[data-category="framework"] {
+  background: linear-gradient(90deg, #17a2b8, #6610f2);
 }
 
 /* Learning Progress Bars */
@@ -22,9 +44,18 @@
   height: 6px;
 }
 
-.learning-progress-fill {
-  width: var(--progress-width, 0%);
-}
+/* Dynamic width classes for learning progress */
+.learning-progress-0 { width: 0%; }
+.learning-progress-10 { width: 10%; }
+.learning-progress-20 { width: 20%; }
+.learning-progress-30 { width: 30%; }
+.learning-progress-40 { width: 40%; }
+.learning-progress-50 { width: 50%; }
+.learning-progress-60 { width: 60%; }
+.learning-progress-70 { width: 70%; }
+.learning-progress-80 { width: 80%; }
+.learning-progress-90 { width: 90%; }
+.learning-progress-100 { width: 100%; }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {

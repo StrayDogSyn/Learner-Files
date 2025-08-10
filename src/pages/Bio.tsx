@@ -386,12 +386,8 @@ const Bio: React.FC = () => {
                     </div>
                     <div className="progress skill-progress-bar">
                       <div 
-                        className="progress-bar bg-gradient skill-proficiency-bar" 
-                        style={{ 
-                          "--progress-width": `${skill.proficiency}%`,
-                          "--gradient-start": getSkillColor(skill.category).split(' ')[1],
-                          "--gradient-end": getSkillColor(skill.category).split(' ')[3]
-                        } as React.CSSProperties}
+                        className={`progress-bar bg-gradient skill-proficiency-bar skill-proficiency-${Math.round(skill.proficiency / 10) * 10}`}
+                        data-category={skill.category}
                       ></div>
                     </div>
                   </div>
@@ -405,8 +401,7 @@ const Bio: React.FC = () => {
                       </div>
                       <div className="progress learning-progress-bar">
                         <div 
-                          className="progress-bar bg-info learning-progress-fill" 
-                          style={{ "--progress-width": `${skill.learningProgress}%` } as React.CSSProperties}
+                          className={`progress-bar bg-info learning-progress-fill learning-progress-${Math.round(skill.learningProgress / 10) * 10}`}
                         ></div>
                       </div>
                     </div>

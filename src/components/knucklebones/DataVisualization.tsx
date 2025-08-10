@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import '../../css/knucklebones.css';
 import {
   BarChart,
   Bar,
@@ -178,7 +179,8 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label, f
           <div key={index} className="chart-legend-item">
             <div 
               className="legend-color-indicator" 
-              style={{ "--legend-color": entry.color } as React.CSSProperties}
+              data-color={entry.color}
+              style={{ backgroundColor: entry.color }}
             />
             <span className="text-white/80">{name}:</span>
             <span className="text-white font-medium">{value}</span>
