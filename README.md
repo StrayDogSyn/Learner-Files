@@ -314,8 +314,7 @@ npm run deploy
 ```
 
 ### Alternative Platforms
-- **Vercel**: Connect GitHub repository for automatic deployments
-- **Netlify**: Drag and drop the `dist/` folder
+- **Netlify**: Drag and drop the `dist/` folder for quick deployment
 - **AWS S3**: Upload static files with CloudFront
 
 ## 🎨 Customization

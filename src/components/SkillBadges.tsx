@@ -34,7 +34,7 @@ const skillBadges: SkillBadge[] = [
   { name: 'Docker', icon: '🐳', color: '#2496ED', category: 'tools' },
   { name: 'Git', icon: '📝', color: '#F05032', category: 'tools' },
   { name: 'AWS', icon: '☁️', color: '#FF9900', category: 'tools' },
-  { name: 'Vercel', icon: '▲', color: '#000000', category: 'tools' },
+  { name: 'GitHub Pages', icon: '📄', color: '#24292e', category: 'tools' },
   { name: 'Supabase', icon: '⚡', color: '#3ECF8E', category: 'tools' },
 ];
 

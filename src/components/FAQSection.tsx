@@ -44,7 +44,7 @@ const faqData: FAQItem[] = [
   {
     id: '1',
     question: 'What technologies do you specialize in for web development?',
-    answer: 'I specialize in modern web technologies including React, Next.js, TypeScript, Node.js, and Python. For databases, I work with PostgreSQL, MongoDB, and Supabase. I also have extensive experience with cloud platforms like AWS, Vercel, and Docker for deployment and scaling.',
+    answer: 'I specialize in modern web technologies including React, Next.js, TypeScript, Node.js, and Python. For databases, I work with PostgreSQL, MongoDB, and Supabase. I also have extensive experience with cloud platforms like AWS, GitHub Pages, and Docker for deployment and scaling.',
     category: 'technical',
     tags: ['React', 'TypeScript', 'Node.js', 'Python', 'AWS'],
     popular: true,

@@ -7,7 +7,7 @@ import "./css/accessibility.css";
 import "./css/animations.css";
 
 // Initialize accessibility utilities
-import { accessibilityPreferences, screenReader } from "./utils/accessibility";
+import { announceToScreenReader } from "./utils/accessibility";
 import { initializeCompatibility } from './utils/crossBrowserCompatibility';
 
 // Add skip link to document
@@ -24,7 +24,7 @@ document.body.insertBefore(skipLink, document.body.firstChild);
 initializeCompatibility();
 
 // Announce page load
-screenReader.announce('Portfolio application loaded successfully');
+announceToScreenReader('Portfolio application loaded successfully');
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
