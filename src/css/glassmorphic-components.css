@@ -12,8 +12,8 @@
 
 .glass-container {
   background: var(--glass-primary);
-  backdrop-filter: var(--blur-medium);
   -webkit-backdrop-filter: var(--blur-medium);
+  backdrop-filter: var(--blur-medium);
   border: 1px solid var(--glass-border-light);
   border-radius: var(--radius-glass-lg);
   box-shadow: var(--shadow-glass-soft);
@@ -60,8 +60,8 @@
 
 .glass-card {
   background: var(--glass-primary);
-  backdrop-filter: var(--blur-medium);
   -webkit-backdrop-filter: var(--blur-medium);
+  backdrop-filter: var(--blur-medium);
   border: 1px solid var(--glass-border-light);
   border-radius: var(--radius-glass-lg);
   box-shadow: var(--shadow-glass-soft);
@@ -240,6 +240,23 @@
   top: 0;
   z-index: var(--depth-floating);
   transition: all var(--duration-normal) var(--ease-glass);
+}
+
+.glass-nav-solid {
+  background: rgba(28, 28, 28, 0.95);
+  backdrop-filter: var(--blur-heavy);
+  -webkit-backdrop-filter: var(--blur-heavy);
+  border: 1px solid var(--glass-border-medium);
+  box-shadow: var(--shadow-glass-strong);
+}
+
+.glass-container-light {
+  background: rgba(28, 28, 28, 0.25);
+  backdrop-filter: var(--blur-medium);
+  -webkit-backdrop-filter: var(--blur-medium);
+  border: 1px solid var(--glass-border-light);
+  border-radius: var(--radius-glass-md);
+  box-shadow: var(--shadow-glass-soft);
 }
 
 .glass-nav-container {

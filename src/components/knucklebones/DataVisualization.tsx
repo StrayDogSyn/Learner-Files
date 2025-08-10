@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import '../../css/knucklebones.css';
 import {
@@ -51,6 +51,7 @@ import {
 import {
   GameStatistics,
   RollDistribution,
+  RollDistributionChart,
   WinRateData,
   PerformanceMetrics,
   TimeSeriesData,
@@ -93,16 +94,6 @@ interface CustomTooltipProps {
 }
 
 // Mock data generators for demonstration
-const generateRollDistribution = (): RollDistribution[] => {
-  return Array.from({ length: 6 }, (_, i) => ({
-    value: i + 1,
-    count: Math.floor(Math.random() * 100) + 20,
-    percentage: Math.random() * 20 + 10,
-    expected: 16.67,
-    deviation: (Math.random() - 0.5) * 10
-  }));
-};
-
 const generateWinRateData = (): WinRateData[] => {
   const modes = ['Classic', 'Speed', 'Blitz', 'Survival', 'Tournament'];
   return modes.map(mode => ({
@@ -113,6 +104,19 @@ const generateWinRateData = (): WinRateData[] => {
     averageScore: Math.floor(Math.random() * 200) + 100,
     bestScore: Math.floor(Math.random() * 300) + 200
   }));
+};
+
+const generateRollDistributionChart = (): RollDistributionChart[] => {
+  const expected = 100 / 6; // Expected frequency for fair dice
+  return Array.from({ length: 6 }, (_, i) => {
+    const actual = Math.random() * 30 + 10; // Random frequency
+    const deviation = ((actual - expected) / expected) * 100;
+    return {
+      value: i + 1,
+      count: Math.floor(actual),
+      deviation: Number(deviation.toFixed(1))
+    };
+  });
 };
 
 const generateTimeSeriesData = (): TimeSeriesData[] => {
@@ -131,11 +135,14 @@ const generateTimeSeriesData = (): TimeSeriesData[] => {
 };
 
 const generatePerformanceRadar = (): PerformanceMetrics => ({
+  efficiency: Math.random() * 40 + 60,
+  consistency: Math.random() * 40 + 60,
+  riskTaking: Math.random() * 40 + 60,
+  adaptability: Math.random() * 40 + 60,
+  decisionSpeed: Math.random() * 40 + 60,
   strategy: Math.random() * 40 + 60,
   speed: Math.random() * 40 + 60,
-  consistency: Math.random() * 40 + 60,
   riskManagement: Math.random() * 40 + 60,
-  adaptability: Math.random() * 40 + 60,
   decisionMaking: Math.random() * 40 + 60
 });
 
@@ -179,8 +186,7 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label, f
           <div key={index} className="chart-legend-item">
             <div 
               className="legend-color-indicator" 
-              data-color={entry.color}
-              style={{ backgroundColor: entry.color }}
+              style={{ "--legend-bg": entry.color } as React.CSSProperties}
             />
             <span className="text-white/80">{name}:</span>
             <span className="text-white font-medium">{value}</span>
@@ -329,7 +335,7 @@ const DataVisualization: React.FC<DataVisualizationProps> = ({
   const [activeChart, setActiveChart] = useState<string>('overview');
 
   // Generate mock data (in real app, this would come from props/API)
-  const rollDistribution = useMemo(() => generateRollDistribution(), []);
+  const rollDistribution = useMemo(() => generateRollDistributionChart(), []);
   const winRateData = useMemo(() => generateWinRateData(), []);
   const timeSeriesData = useMemo(() => generateTimeSeriesData(), []);
   const performanceRadar = useMemo(() => generatePerformanceRadar(), []);

@@ -241,12 +241,22 @@ export interface RollDistribution {
   [key: number]: number; // dice value -> frequency
 }
 
+export interface RollDistributionChart {
+  value: number;
+  count: number;
+  deviation: number;
+}
+
 export interface PerformanceMetrics {
   efficiency: number;
   consistency: number;
   riskTaking: number;
   adaptability: number;
   decisionSpeed: number;
+  strategy: number;
+  speed: number;
+  riskManagement: number;
+  decisionMaking: number;
 }
 
 export interface StatisticsTrend {

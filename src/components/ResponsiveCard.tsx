@@ -211,7 +211,7 @@ const ResponsiveCard: React.FC<ResponsiveCardProps> = ({
               {tags.map((tag, index) => (
                 <span
                   key={index}
-                  className="tag-pill inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-charcoal-700/50 text-silver-steel border border-charcoal-600/30"
+                  className="tag-pill inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium glass-container-success"
                   role="listitem"
                 >
                   <Tag size={10} aria-hidden="true" />
