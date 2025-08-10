@@ -465,6 +465,23 @@ input[type="radio"] {
   margin-right: auto;
 }
 
+/* Progress Bar Dynamic Width */
+.comptia-progress-fill[data-progress] {
+  width: calc(var(--progress, 0) * 1%);
+}
+
+.comptia-progress-fill[data-progress="0"] { width: 0%; }
+.comptia-progress-fill[data-progress="10"] { width: 10%; }
+.comptia-progress-fill[data-progress="20"] { width: 20%; }
+.comptia-progress-fill[data-progress="30"] { width: 30%; }
+.comptia-progress-fill[data-progress="40"] { width: 40%; }
+.comptia-progress-fill[data-progress="50"] { width: 50%; }
+.comptia-progress-fill[data-progress="60"] { width: 60%; }
+.comptia-progress-fill[data-progress="70"] { width: 70%; }
+.comptia-progress-fill[data-progress="80"] { width: 80%; }
+.comptia-progress-fill[data-progress="90"] { width: 90%; }
+.comptia-progress-fill[data-progress="100"] { width: 100%; }
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .display-4 {

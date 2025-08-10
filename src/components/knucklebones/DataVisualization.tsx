@@ -4,8 +4,6 @@ import '../../css/knucklebones.css';
 import {
   BarChart,
   Bar,
-  LineChart,
-  Line,
   PieChart,
   Pie,
   Cell,
@@ -24,21 +22,19 @@ import {
   Scatter,
   Area,
   AreaChart,
-  ComposedChart
+  ComposedChart,
+  Line
 } from 'recharts';
 import {
   TrendingUp,
   BarChart3,
-  PieChart as PieChartIcon,
   Activity,
   Target,
   Zap,
   Brain,
-  Eye,
   Download,
   Share2,
   Filter,
-  Calendar,
   Clock,
   Award,
   Dice1,
@@ -50,18 +46,19 @@ import {
 } from 'lucide-react';
 import {
   GameStatistics,
-  RollDistribution,
   RollDistributionChart,
   WinRateData,
   PerformanceMetrics,
   TimeSeriesData,
-  HeatmapData
+  HeatmapData,
+  ShareData,
+  VisualizationFilters
 } from '../../types/knucklebones';
 
 interface DataVisualizationProps {
   statistics: GameStatistics;
   onExport?: (format: 'png' | 'svg' | 'csv') => void;
-  onShare?: (data: any) => void;
+  onShare?: (data: ShareData) => void;
   className?: string;
 }
 
@@ -79,18 +76,17 @@ interface FilterPanelProps {
   onReset: () => void;
 }
 
-interface VisualizationFilters {
-  timeRange: 'day' | 'week' | 'month' | 'year' | 'all';
-  gameMode: string[];
-  difficulty: string[];
-  dateRange: { start: Date; end: Date } | null;
+interface TooltipPayload {
+  value: number | string;
+  name?: string;
+  color?: string;
 }
 
 interface CustomTooltipProps {
   active?: boolean;
-  payload?: any[];
+  payload?: TooltipPayload[];
   label?: string;
-  formatter?: (value: any, name: string) => [string, string];
+  formatter?: (value: number | string, name: string) => [string, string];
 }
 
 // Mock data generators for demonstration
@@ -186,7 +182,7 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label, f
           <div key={index} className="chart-legend-item">
             <div 
               className="legend-color-indicator" 
-              style={{ "--legend-bg": entry.color } as React.CSSProperties}
+              data-color={entry.color}
             />
             <span className="text-white/80">{name}:</span>
             <span className="text-white font-medium">{value}</span>
@@ -226,7 +222,7 @@ const ChartCard: React.FC<ChartCardProps> = ({ title, icon, children, actions, c
 const FilterPanel: React.FC<FilterPanelProps> = ({ filters, onFiltersChange, onReset }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleFilterChange = (key: keyof VisualizationFilters, value: any) => {
+  const handleFilterChange = (key: keyof VisualizationFilters, value: string | string[] | { start: Date; end: Date } | null) => {
     onFiltersChange({ ...filters, [key]: value });
   };
 
@@ -320,7 +316,6 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ filters, onFiltersChange, onR
 };
 
 const DataVisualization: React.FC<DataVisualizationProps> = ({
-  statistics,
   onExport,
   onShare,
   className = ''
@@ -765,33 +760,3 @@ const DataVisualization: React.FC<DataVisualizationProps> = ({
 };
 
 export default DataVisualization;
-
-// Hook for data visualization management
-export const useDataVisualization = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [selectedMetrics, setSelectedMetrics] = useState<string[]>(['winRate', 'efficiency']);
-  const [exportFormat, setExportFormat] = useState<'png' | 'svg' | 'csv'>('png');
-
-  const toggleVisibility = useCallback(() => {
-    setIsVisible(prev => !prev);
-  }, []);
-
-  const updateMetrics = useCallback((metrics: string[]) => {
-    setSelectedMetrics(metrics);
-  }, []);
-
-  const exportData = useCallback((data: any, format: 'png' | 'svg' | 'csv') => {
-    // Implementation would depend on the specific export library used
-    console.log(`Exporting data as ${format}:`, data);
-  }, []);
-
-  return {
-    isVisible,
-    selectedMetrics,
-    exportFormat,
-    toggleVisibility,
-    updateMetrics,
-    setExportFormat,
-    exportData
-  };
-};

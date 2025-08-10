@@ -563,4 +563,20 @@ export interface Anomaly {
   data: any;
 }
 
+// Data Visualization Types
+export interface ShareData {
+  rollDistribution: RollDistributionChart[];
+  winRateData: WinRateData[];
+  timeSeriesData: TimeSeriesData[];
+  performanceRadar: PerformanceMetrics;
+  filters: VisualizationFilters;
+}
+
+export interface VisualizationFilters {
+  timeRange: 'day' | 'week' | 'month' | 'year' | 'all';
+  gameMode: string[];
+  difficulty: string[];
+  dateRange: { start: Date; end: Date } | null;
+}
+
 // All types are already exported above with their interface declarations

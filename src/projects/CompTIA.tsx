@@ -252,6 +252,8 @@ const CompTIA: React.FC = () => {
                 type="button" 
                 className="btn-close" 
                 onClick={() => setShowUserInput(false)}
+                aria-label="Close welcome modal"
+                title="Close welcome modal"
               ></button>
             </div>
             <div className="modal-body">
@@ -300,6 +302,8 @@ const CompTIA: React.FC = () => {
                 type="button" 
                 className="btn-close" 
                 onClick={() => setShowHint(false)}
+                aria-label="Close hint modal"
+                title="Close hint modal"
               ></button>
             </div>
             <div className="modal-body">
@@ -330,6 +334,8 @@ const CompTIA: React.FC = () => {
                 type="button" 
                 className="btn-close" 
                 onClick={() => setShowUserQuestion(false)}
+                aria-label="Close question submission modal"
+                title="Close question submission modal"
               ></button>
             </div>
             <div className="modal-body mx-auto">
@@ -386,6 +392,8 @@ const CompTIA: React.FC = () => {
                 value={correctChoice}
                 onChange={(e) => setCorrectChoice(e.target.value)}
                 className="text-white mx-auto px-2"
+                aria-label="Select correct response"
+                title="Select which response is correct"
               >
                 <option value="first" className="text-dark">First Response</option>
                 <option value="second" className="text-dark">Second Response</option>
@@ -485,7 +493,7 @@ const CompTIA: React.FC = () => {
                     Question {currentQuestion + 1} of {quizQuestions.length}
                   </div>
                   <div className="progress-bar-container">
-                    <div className="progress-bar comptia-progress-fill" style={{ width: `${progress}%` }}></div>
+                    <div className="progress-bar comptia-progress-fill" data-progress={progress}></div>
                   </div>
                 </>
               )}

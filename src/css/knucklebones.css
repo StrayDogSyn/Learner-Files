@@ -24,5 +24,14 @@
   width: 0.75rem;
   height: 0.75rem;
   border-radius: 50%;
-  background-color: var(--legend-bg, #3b82f6);
+  background-color: #3b82f6;
 }
+
+/* Dynamic color classes for legend indicators */
+.legend-color-indicator[data-color="#3B82F6"] { background-color: #3B82F6; }
+.legend-color-indicator[data-color="#8B5CF6"] { background-color: #8B5CF6; }
+.legend-color-indicator[data-color="#EC4899"] { background-color: #EC4899; }
+.legend-color-indicator[data-color="#F59E0B"] { background-color: #F59E0B; }
+.legend-color-indicator[data-color="#10B981"] { background-color: #10B981; }
+.legend-color-indicator[data-color="#06B6D4"] { background-color: #06B6D4; }
+.legend-color-indicator[data-color="#EF4444"] { background-color: #EF4444; }

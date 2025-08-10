@@ -35,6 +35,17 @@ import { getArchitectureById } from '../data/architectureDiagrams';
 
 type CalculatorMode = 'basic' | 'scientific' | 'programming' | 'matrix' | 'statistics' | 'graphing' | 'units' | 'solver';
 
+type UnitCategory = 'length' | 'weight' | 'temperature' | 'area' | 'volume' | 'time' | 'speed' | 'energy';
+
+type TemperatureConversions = {
+  [fromUnit: string]: (value: number, toUnit: string) => number;
+};
+
+type UnitConversions = {
+  temperature: TemperatureConversions;
+  [key: string]: Record<string, number> | TemperatureConversions;
+};
+
 interface CalculatorState {
   runningTotal: number;
   buffer: string;
@@ -57,7 +68,7 @@ interface CalculatorState {
   graphYMax: number;
   graphData: {x: number, y: number}[];
   // Unit conversion properties
-  unitCategory: 'length' | 'weight' | 'temperature' | 'area' | 'volume' | 'time' | 'speed' | 'energy';
+  unitCategory: UnitCategory;
   fromUnit: string;
   toUnit: string;
   conversionValue: string;
@@ -296,7 +307,7 @@ const Calculator: React.FC = () => {
     if (!conversions) return value;
     
     if (category === 'temperature') {
-      const tempConversions = conversions as any;
+      const tempConversions = conversions as TemperatureConversions;
       return tempConversions[fromUnit](value, toUnit);
     } else {
       const factors = conversions as Record<string, number>;
@@ -324,7 +335,7 @@ const Calculator: React.FC = () => {
         ...prev, 
         conversionResult: result.toFixed(8).replace(/\.?0+$/, '') // Remove trailing zeros
       }));
-    } catch (error) {
+    } catch {
       setState(prev => ({ ...prev, conversionResult: 'Error' }));
     }
   };
@@ -333,7 +344,7 @@ const Calculator: React.FC = () => {
     const units = Object.keys(getUnitsForCategory(category));
     setState(prev => ({
       ...prev,
-      unitCategory: category as any,
+      unitCategory: category as UnitCategory,
       fromUnit: units[0] || '',
       toUnit: units[1] || units[0] || '',
       conversionResult: ''
@@ -515,7 +526,7 @@ const Calculator: React.FC = () => {
   const executeScientificFunction = (func: string, value: number): number | string => {
     try {
       const angleValue = state.angleUnit === 'deg' ? (value * Math.PI / 180) : value;
-      const invAngleValue = state.angleUnit === 'deg' ? (value * 180 / Math.PI) : value;
+      // const invAngleValue = state.angleUnit === 'deg' ? (value * 180 / Math.PI) : value;
       
       switch (func) {
         // Trigonometric functions
@@ -553,7 +564,7 @@ const Calculator: React.FC = () => {
         
         default: return value;
       }
-    } catch (error) {
+    } catch {
       return "Error";
     }
   };
@@ -856,7 +867,7 @@ const Calculator: React.FC = () => {
       case "sign":
       case "floor":
       case "ceil":
-      case "round":
+      case "round": {
         const result = executeScientificFunction(symbol, currentValue);
         setState(prevState => ({
           ...prevState,
@@ -866,6 +877,7 @@ const Calculator: React.FC = () => {
         }));
         addToHistory(`${symbol}(${currentValue}) = ${result}`);
         break;
+      }
       
       // Constants
       case "π":
@@ -906,7 +918,7 @@ const Calculator: React.FC = () => {
             needsReset: true
           }));
           addToHistory(`eval(${state.buffer}) = ${evalResult}`);
-        } catch (error) {
+        } catch {
           setState(prevState => ({
             ...prevState,
             buffer: "Error",
@@ -1005,7 +1017,11 @@ const Calculator: React.FC = () => {
       target.classList.remove("pulse");
     }, 150);
     
-    isNumber(value) ? handleNumber(value) : handleSymbol(value);
+    if (isNumber(value)) {
+      handleNumber(value);
+    } else {
+      handleSymbol(value);
+    }
   };
 
   const triggerExplosion = () => {
@@ -1227,7 +1243,7 @@ const Calculator: React.FC = () => {
 
   const playExplosionSound = () => {
     try {
-      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const audioContext = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
       
       const duration = 0.5;
       const oscillator = audioContext.createOscillator();
@@ -1245,7 +1261,7 @@ const Calculator: React.FC = () => {
       
       oscillator.start(audioContext.currentTime);
       oscillator.stop(audioContext.currentTime + duration);
-    } catch (error) {
+    } catch {
       console.log('Audio not available');
     }
   };

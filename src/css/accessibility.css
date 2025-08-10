@@ -884,8 +884,15 @@ a:focus-visible {
   .glass-container,
   .glass-button,
   .glass-button-primary {
-    /* Preserve color schemes in forced colors mode - not supported in Safari */
-    forced-color-adjust: none;
+    /* Preserve color schemes in forced colors mode - not supported in Safari/iOS */
+    /* Safari fallback: Use standard color adjustments */
+    @supports not (-webkit-backdrop-filter: blur(1px)) {
+      /* Fallback for browsers that don't support backdrop-filter */
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    @supports (forced-color-adjust: none) {
+      forced-color-adjust: none;
+    }
   }
 }
 

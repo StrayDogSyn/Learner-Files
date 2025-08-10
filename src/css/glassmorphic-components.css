@@ -84,8 +84,8 @@
     var(--glass-primary) 0%,
     var(--glass-secondary) 100%
   );
-  backdrop-filter: var(--blur-heavy);
   -webkit-backdrop-filter: var(--blur-heavy);
+  backdrop-filter: var(--blur-heavy);
   border: 2px solid transparent;
   background-clip: padding-box;
   border-radius: var(--radius-glass-xl);
@@ -103,10 +103,10 @@
   padding: 2px;
   background: var(--brand-gradient-primary);
   border-radius: inherit;
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask-composite: xor;
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: xor;
 }
 
 .glass-card-premium:hover {
@@ -116,8 +116,8 @@
 
 .glass-card-minimal {
   background: var(--glass-quaternary);
-  backdrop-filter: var(--blur-subtle);
   -webkit-backdrop-filter: var(--blur-subtle);
+  backdrop-filter: var(--blur-subtle);
   border: 1px solid var(--glass-border-light);
   border-radius: var(--radius-glass-md);
   box-shadow: var(--shadow-glass-soft);
@@ -136,8 +136,8 @@
 
 .glass-btn {
   background: var(--glass-primary);
-  backdrop-filter: var(--blur-medium);
   -webkit-backdrop-filter: var(--blur-medium);
+  backdrop-filter: var(--blur-medium);
   border: 1px solid var(--glass-border-medium);
   border-radius: var(--radius-glass-md);
   color: var(--light-smoke);
@@ -233,8 +233,8 @@
 
 .glass-nav {
   background: var(--glass-primary);
-  backdrop-filter: var(--blur-heavy);
   -webkit-backdrop-filter: var(--blur-heavy);
+  backdrop-filter: var(--blur-heavy);
   border-bottom: 1px solid var(--glass-border-light);
   position: sticky;
   top: 0;
@@ -244,16 +244,16 @@
 
 .glass-nav-solid {
   background: rgba(28, 28, 28, 0.95);
-  backdrop-filter: var(--blur-heavy);
   -webkit-backdrop-filter: var(--blur-heavy);
+  backdrop-filter: var(--blur-heavy);
   border: 1px solid var(--glass-border-medium);
   box-shadow: var(--shadow-glass-strong);
 }
 
 .glass-container-light {
   background: rgba(28, 28, 28, 0.25);
-  backdrop-filter: var(--blur-medium);
   -webkit-backdrop-filter: var(--blur-medium);
+  backdrop-filter: var(--blur-medium);
   border: 1px solid var(--glass-border-light);
   border-radius: var(--radius-glass-md);
   box-shadow: var(--shadow-glass-soft);
@@ -346,8 +346,8 @@
 
 .glass-input {
   background: var(--glass-quaternary);
-  backdrop-filter: var(--blur-subtle);
   -webkit-backdrop-filter: var(--blur-subtle);
+  backdrop-filter: var(--blur-subtle);
   border: 1px solid var(--glass-border-light);
   border-radius: var(--radius-glass-md);
   color: var(--light-smoke);
@@ -371,8 +371,8 @@
 
 .glass-textarea {
   background: var(--glass-quaternary);
-  backdrop-filter: var(--blur-subtle);
   -webkit-backdrop-filter: var(--blur-subtle);
+  backdrop-filter: var(--blur-subtle);
   border: 1px solid var(--glass-border-light);
   border-radius: var(--radius-glass-md);
   color: var(--light-smoke);
