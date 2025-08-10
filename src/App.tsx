@@ -2,12 +2,12 @@ import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { initializeFontLoading } from "@/utils/fontLoading";
-import { initializePWA } from "@/utils/pwa";
-import { performanceMonitor } from "@/utils/performance";
-import { ErrorBoundary } from "@/components/ErrorBoundary";
-import { initializeAnalytics, trackEvent } from "@/utils/analytics";
-import { MetaTagManager } from "@/utils/metaTags";
-import { AccessibilityProvider } from "@/components/AccessibilityProvider";
+// import { initializePWA } from "@/utils/pwa";
+// import { performanceMonitor } from "@/utils/performance";
+// import { ErrorBoundary } from "@/components/ErrorBoundary";
+// import { initializeAnalytics, trackEvent } from "@/utils/analytics";
+// import { MetaTagManager } from "@/utils/metaTags";
+// import { AccessibilityProvider } from "@/components/AccessibilityProvider";
 import ChatbotWidget from "@/components/ChatbotWidget";
 import Home from "@/pages/Home";
 import Projects from "@/pages/Projects";
@@ -18,6 +18,7 @@ import Navigation from "@/components/Navigation";
 import BrandLogo from "@/components/BrandLogo";
 import InteractivePortfolio from "@/components/InteractivePortfolio";
 import ContentSections from "@/components/ContentSections";
+import { PolishedPortfolio } from "@/components/PolishedPortfolio";
 // Flagship Applications
 import Calculator from "@/projects/Calculator";
 import QuizNinja from "@/projects/QuizNinja";
@@ -32,6 +33,7 @@ import "./css/navigation.css";
 import "./styles/theme-transitions.css";
 import "./styles/animations.css";
 import "./styles/accessibility.css";
+import "./styles/performance-optimizations.css";
 
 export default function App() {
   useEffect(() => {
@@ -39,42 +41,42 @@ export default function App() {
     initializeFontLoading();
     
     // Initialize PWA functionality
-    initializePWA();
+    // initializePWA();
     
     // Initialize performance monitoring (already initialized globally)
     // performanceMonitor is already running
     
     // Initialize Google Analytics
-    initializeAnalytics();
+    // initializeAnalytics();
     
     // Initialize meta tags
-    const metaManager = new MetaTagManager();
-    metaManager.setDefaultTags({
-      title: 'SOLO Portfolio - Performance Optimized',
-      description: 'Professional portfolio showcasing advanced web development skills and interactive experiences.',
-      keywords: 'portfolio, web development, react, typescript, performance optimization',
-      author: 'SOLO Developer',
-      ogTitle: 'SOLO Portfolio - Performance Optimized',
-      ogDescription: 'Professional portfolio showcasing advanced web development skills and interactive experiences.',
-      ogImage: '/images/og-image.jpg',
-      twitterCard: 'summary_large_image',
-      twitterTitle: 'SOLO Portfolio - Performance Optimized',
-      twitterDescription: 'Professional portfolio showcasing advanced web development skills and interactive experiences.',
-      twitterImage: '/images/twitter-image.jpg'
-    });
+    // const metaManager = new MetaTagManager();
+    // metaManager.setDefaultTags({
+    //   title: 'SOLO Portfolio - Performance Optimized',
+    //   description: 'Professional portfolio showcasing advanced web development skills and interactive experiences.',
+    //   keywords: 'portfolio, web development, react, typescript, performance optimization',
+    //   author: 'SOLO Developer',
+    //   ogTitle: 'SOLO Portfolio - Performance Optimized',
+    //   ogDescription: 'Professional portfolio showcasing advanced web development skills and interactive experiences.',
+    //   ogImage: '/images/og-image.jpg',
+    //   twitterCard: 'summary_large_image',
+    //   twitterTitle: 'SOLO Portfolio - Performance Optimized',
+    //   twitterDescription: 'Professional portfolio showcasing advanced web development skills and interactive experiences.',
+    //   twitterImage: '/images/twitter-image.jpg'
+    // });
     
     // Track app initialization
-    trackEvent('app_initialized', {
-      timestamp: Date.now(),
-      user_agent: navigator.userAgent,
-      screen_resolution: `${window.screen.width}x${window.screen.height}`,
-      viewport_size: `${window.innerWidth}x${window.innerHeight}`
-    });
+    // trackEvent('app_initialized', {
+    //   timestamp: Date.now(),
+    //   user_agent: navigator.userAgent,
+    //   screen_resolution: `${window.screen.width}x${window.screen.height}`,
+    //   viewport_size: `${window.innerWidth}x${window.innerHeight}`
+    // });
   }, []);
 
   return (
-    <ErrorBoundary>
-      <AccessibilityProvider>
+    // <ErrorBoundary>
+    //   <AccessibilityProvider>
         <Router>
         <div className="min-h-screen glass-background-main">
           {/* Brand Banner */}
@@ -121,6 +123,7 @@ export default function App() {
             <Route path="/comptia-trainer" element={<CompTIA />} />
             <Route path="/interactive" element={<InteractivePortfolio />} />
             <Route path="/content-sections" element={<ContentSections />} />
+            <Route path="/polished" element={<PolishedPortfolio />} />
             <Route path="/other" element={<div className="text-center text-xl text-white">Other Page - Coming Soon</div>} />
           </Routes>
         </main>
@@ -129,7 +132,7 @@ export default function App() {
         <ChatbotWidget />
         </div>
       </Router>
-      </AccessibilityProvider>
-    </ErrorBoundary>
+    //   </AccessibilityProvider>
+    // </ErrorBoundary>
   );
 }

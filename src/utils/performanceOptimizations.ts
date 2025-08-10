@@ -39,7 +39,6 @@ export const requestAnimationFrame = (
 ): number => {
   return (
     window.requestAnimationFrame ||
-    window.webkitRequestAnimationFrame ||
     ((callback: FrameRequestCallback) => window.setTimeout(callback, 1000 / 60))
   )(callback);
 };
@@ -50,7 +49,6 @@ export const requestAnimationFrame = (
 export const cancelAnimationFrame = (id: number): void => {
   (
     window.cancelAnimationFrame ||
-    window.webkitCancelAnimationFrame ||
     window.clearTimeout
   )(id);
 };
