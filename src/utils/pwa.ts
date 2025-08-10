@@ -329,4 +329,11 @@ class PWAManager {
 
   // Getters
   public get isAppInstalled(): boolean {
-    return
+    return this.isInstalled;
+  }
+
+  public get canInstall(): boolean {
+    return this.deferredPrompt !== null;
+  }
+
+  public get has
