@@ -1,6 +1,6 @@
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, Suspense, lazy } from "react";
 import { initializeFontLoading } from "@/utils/fontLoading";
 // import { initializePWA } from "@/utils/pwa";
 // import { performanceMonitor } from "@/utils/performance";
@@ -9,6 +9,8 @@ import { initializeFontLoading } from "@/utils/fontLoading";
 // import { MetaTagManager } from "@/utils/metaTags";
 // import { AccessibilityProvider } from "@/components/AccessibilityProvider";
 import ChatbotWidget from "@/components/ChatbotWidget";
+import AIChat from "@/components/AIChat";
+import Performance from "@/components/Performance";
 import Home from "@/pages/Home";
 import Projects from "@/pages/Projects";
 import Portfolio from "@/pages/Portfolio";
@@ -19,6 +21,10 @@ import BrandLogo from "@/components/BrandLogo";
 import InteractivePortfolio from "@/components/InteractivePortfolio";
 import ContentSections from "@/components/ContentSections";
 import { PolishedPortfolio } from "@/components/PolishedPortfolio";
+
+// Lazy load new pages for better performance
+const Dashboard = lazy(() => import("@/pages/Dashboard"));
+const Archive = lazy(() => import("@/pages/Archive"));
 // Flagship Applications
 import Calculator from "@/projects/Calculator";
 import QuizNinja from "@/projects/QuizNinja";
@@ -124,12 +130,49 @@ export default function App() {
             <Route path="/interactive" element={<InteractivePortfolio />} />
             <Route path="/content-sections" element={<ContentSections />} />
             <Route path="/polished" element={<PolishedPortfolio />} />
+            {/* New Enhanced Routes with Lazy Loading */}
+            <Route 
+              path="/dashboard" 
+              element={
+                <Suspense fallback={
+                  <div className="min-h-screen bg-gradient-to-br from-charcoal via-charcoal to-hunter-green flex items-center justify-center">
+                    <div className="glass p-8 border border-emerald-500/20 text-center">
+                      <div className="flex items-center justify-center space-x-2 mb-4">
+                        <div className="w-6 h-6 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+                        <span className="text-xl text-emerald-400">Loading Dashboard...</span>
+                      </div>
+                    </div>
+                  </div>
+                }>
+                  <Dashboard />
+                </Suspense>
+              } 
+            />
+            <Route 
+              path="/archive" 
+              element={
+                <Suspense fallback={
+                  <div className="min-h-screen bg-gradient-to-br from-charcoal via-charcoal to-hunter-green flex items-center justify-center">
+                    <div className="glass p-8 border border-emerald-500/20 text-center">
+                      <div className="flex items-center justify-center space-x-2 mb-4">
+                        <div className="w-6 h-6 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+                        <span className="text-xl text-emerald-400">Loading Archive...</span>
+                      </div>
+                    </div>
+                  </div>
+                }>
+                  <Archive />
+                </Suspense>
+              } 
+            />
             <Route path="/other" element={<div className="text-center text-xl text-white">Other Page - Coming Soon</div>} />
           </Routes>
         </main>
         
         {/* Advanced Features */}
         <ChatbotWidget />
+        <AIChat />
+        <Performance />
         </div>
       </Router>
     //   </AccessibilityProvider>
