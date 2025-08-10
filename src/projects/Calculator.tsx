@@ -566,7 +566,7 @@ const Calculator: React.FC = () => {
     }
   };
 
-  const handleNumber = (value: string) => {
+  const handleNumber = useCallback((value: string) => {
     setState(prevState => {
       if (prevState.buffer.length >= 12 && !prevState.needsReset) {
         return prevState;
@@ -585,7 +585,7 @@ const Calculator: React.FC = () => {
         };
       }
     });
-  };
+  }, []);
 
   const reset = () => {
     setState(prevState => ({
@@ -817,7 +817,7 @@ const Calculator: React.FC = () => {
     });
   };
 
-  const handleDecimal = () => {
+  const handleDecimal = useCallback(() => {
     setState(prevState => {
       if (!prevState.buffer.includes('.') && prevState.buffer !== "Error") {
         return {
@@ -827,9 +827,9 @@ const Calculator: React.FC = () => {
       }
       return prevState;
     });
-  };
+  }, []);
 
-  const handleSymbol = (symbol: string) => {
+  const handleSymbol = useCallback((symbol: string) => {
     const currentValue = parseFloat(state.buffer);
     
     switch (symbol) {
@@ -927,9 +927,9 @@ const Calculator: React.FC = () => {
       default:
         handleOperator(symbol);
     }
-  };
+  }, [state.buffer, reset, backspace, calculate, executeScientificFunction, formatNumber, addToHistory, handleConstant, handleMemoryOperation, toggleInverse, toggleHyperbolic, toggleAngleUnit, handleOperator]);
 
-  const addKeyPressEffect = (key: string) => {
+  const addKeyPressEffect = useCallback((key: string) => {
     const buttons = document.querySelectorAll('.calc-button');
     buttons.forEach(button => {
       const buttonText = (button as HTMLElement).textContent?.trim();
@@ -961,7 +961,7 @@ const Calculator: React.FC = () => {
         }, 150);
       }
     });
-  };
+  }, []);
 
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
     const key = event.key;
@@ -1625,12 +1625,11 @@ const Calculator: React.FC = () => {
                           <div className="base-buttons" role="radiogroup" aria-label="Select number base">
                             {(['bin', 'oct', 'dec', 'hex'] as const).map(base => (
                               <button
-
                                 key={base}
                                 className={`btn base-btn ${state.numberBase === base ? 'active' : ''}`}
                                 onClick={() => setState(prev => ({ ...prev, numberBase: base }))}
                                 role="radio"
-                                aria-checked={state.numberBase === base ? "true" : "false"}
+                                aria-checked={state.numberBase === base}
                                 aria-label={`${base.toUpperCase()} - ${base === 'bin' ? 'Binary' : base === 'oct' ? 'Octal' : base === 'dec' ? 'Decimal' : 'Hexadecimal'}`}
                                 title={`Switch to ${base === 'bin' ? 'Binary' : base === 'oct' ? 'Octal' : base === 'dec' ? 'Decimal' : 'Hexadecimal'} base`}
                               >
