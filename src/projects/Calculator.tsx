@@ -41,10 +41,7 @@ type TemperatureConversions = {
   [fromUnit: string]: (value: number, toUnit: string) => number;
 };
 
-type UnitConversions = {
-  temperature: TemperatureConversions;
-  [key: string]: Record<string, number> | TemperatureConversions;
-};
+
 
 interface CalculatorState {
   runningTotal: number;
@@ -1004,7 +1001,7 @@ const Calculator: React.FC = () => {
     } else if (key === "." || key === "NumpadDecimal") {
       handleDecimal();
     }
-  }, []);
+  }, [addKeyPressEffect, handleSymbol, handleNumber, handleDecimal]);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     const target = event.target as HTMLButtonElement;
@@ -1628,6 +1625,7 @@ const Calculator: React.FC = () => {
                           <div className="base-buttons" role="radiogroup" aria-label="Select number base">
                             {(['bin', 'oct', 'dec', 'hex'] as const).map(base => (
                               <button
+
                                 key={base}
                                 className={`btn base-btn ${state.numberBase === base ? 'active' : ''}`}
                                 onClick={() => setState(prev => ({ ...prev, numberBase: base }))}

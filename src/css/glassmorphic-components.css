@@ -274,8 +274,8 @@
   font-size: var(--text-xl);
   letter-spacing: var(--tracking-display);
   background: var(--brand-gradient-primary);
-  background-clip: text;
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   text-decoration: none;
   transition: all var(--duration-normal) var(--ease-metallic);
@@ -430,8 +430,8 @@
 
 .glass-container-minimal {
   background: var(--glass-quaternary);
-  backdrop-filter: var(--blur-subtle);
   -webkit-backdrop-filter: var(--blur-subtle);
+  backdrop-filter: var(--blur-subtle);
   border: 1px solid var(--glass-border-light);
   border-radius: var(--radius-glass-md);
   box-shadow: var(--shadow-glass-soft);
@@ -439,8 +439,8 @@
 
 .glass-container-accent {
   background: rgba(59, 130, 246, 0.15);
-  backdrop-filter: var(--blur-medium);
   -webkit-backdrop-filter: var(--blur-medium);
+  backdrop-filter: var(--blur-medium);
   border: 1px solid rgba(59, 130, 246, 0.3);
   border-radius: var(--radius-glass-md);
   box-shadow: var(--shadow-glass-soft);
@@ -448,8 +448,8 @@
 
 .glass-container-success {
   background: rgba(34, 197, 94, 0.15);
-  backdrop-filter: var(--blur-medium);
   -webkit-backdrop-filter: var(--blur-medium);
+  backdrop-filter: var(--blur-medium);
   border: 1px solid rgba(34, 197, 94, 0.3);
   border-radius: var(--radius-glass-md);
   box-shadow: var(--shadow-glass-soft);
@@ -457,8 +457,8 @@
 
 .glass-container-info {
   background: rgba(6, 182, 212, 0.15);
-  backdrop-filter: var(--blur-medium);
   -webkit-backdrop-filter: var(--blur-medium);
+  backdrop-filter: var(--blur-medium);
   border: 1px solid rgba(6, 182, 212, 0.3);
   border-radius: var(--radius-glass-md);
   box-shadow: var(--shadow-glass-soft);
@@ -470,8 +470,8 @@
 
 .glass-badge {
   background: var(--glass-primary);
-  backdrop-filter: var(--blur-medium);
   -webkit-backdrop-filter: var(--blur-medium);
+  backdrop-filter: var(--blur-medium);
   border: 1px solid var(--glass-border-medium);
   border-radius: var(--radius-full);
   color: var(--light-smoke);

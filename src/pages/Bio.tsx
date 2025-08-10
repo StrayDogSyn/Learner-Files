@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import '../css/bio-enhanced.css';
 import './Bio.css';
@@ -36,12 +36,12 @@ const Bio: React.FC = () => {
 
   const [currentLearningGoal, setCurrentLearningGoal] = useState(0);
 
-  const typewriterTexts = [
+  const typewriterTexts = useMemo(() => [
     "Full-Stack Developer",
     "Problem Solver",
     "Lifelong Learner",
     "Creative Coder"
-  ];
+  ], []);
 
   const funFacts = [
     "I can solve a Rubik's cube in under 2 minutes",
@@ -166,7 +166,7 @@ const Bio: React.FC = () => {
 
       return () => clearTimeout(timeout);
     }
-  }, [isTyping, currentTextIndex]);
+  }, [isTyping, currentTextIndex, typewriterTexts]);
 
   // Rotate fun facts
   useEffect(() => {
@@ -194,6 +194,16 @@ const Bio: React.FC = () => {
       case 'languages': return 'from-orange-500 to-red-500';
       default: return 'from-gray-500 to-slate-500';
     }
+  };
+
+  const getSkillProficiencyClass = (proficiency: number) => {
+    const roundedProficiency = Math.round(proficiency / 10) * 10;
+    return `progress-bar bg-gradient skill-proficiency-bar skill-proficiency-${roundedProficiency}`;
+  };
+
+  const getLearningProgressClass = (progress: number) => {
+    const roundedProgress = Math.round(progress / 10) * 10;
+    return `progress-bar bg-info learning-progress-fill learning-progress-${roundedProgress}`;
   };
 
   return (
@@ -386,7 +396,7 @@ const Bio: React.FC = () => {
                     </div>
                     <div className="progress skill-progress-bar">
                       <div 
-                        className={`progress-bar bg-gradient skill-proficiency-bar skill-proficiency-${Math.round(skill.proficiency / 10) * 10}`}
+                        className={getSkillProficiencyClass(skill.proficiency)}
                         data-category={skill.category}
                       ></div>
                     </div>
@@ -401,7 +411,7 @@ const Bio: React.FC = () => {
                       </div>
                       <div className="progress learning-progress-bar">
                         <div 
-                          className={`progress-bar bg-info learning-progress-fill learning-progress-${Math.round(skill.learningProgress / 10) * 10}`}
+                          className={getLearningProgressClass(skill.learningProgress)}
                         ></div>
                       </div>
                     </div>
