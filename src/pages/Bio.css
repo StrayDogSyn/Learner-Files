@@ -1,0 +1,16 @@
+/* Bio Page Specific Styles */
+
+/* Profile Avatar */
+.profile-avatar {
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+}
+
+/* Skill Progress Bars */
+.skill-progress-bar {
+  height: 8px;
+}
+
+.skill-proficiency-bar {
+  /* Dynamic background is set via inline style for gradient colors
