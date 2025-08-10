@@ -369,4 +369,6 @@
   /* Remove will-change after animation completes */
 }
 
-.cleanup-after-animation.animation-complete
+.cleanup-after-animation.animation-complete {
+  will-change: auto;
+}
