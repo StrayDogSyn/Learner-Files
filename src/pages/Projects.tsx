@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Filter, Search, Star, TrendingUp } from 'lucide-react';
-import ProjectGrid from '@/components/ProjectGrid';
+import ProjectShowcase from '@/components/ProjectShowcase';
 import RelatedProjects from '@/components/navigation/RelatedProjects';
 import { TestimonialGrid, TestimonialStats } from '@/components/portfolio/UserTestimonial';
 import { projects } from '@/data/projects';
@@ -211,7 +211,7 @@ export default function Projects() {
         </div>
       </section>
 
-      {/* Projects Grid */}
+      {/* Projects Showcase */}
       <section className="pb-12">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -219,25 +219,7 @@ export default function Projects() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
           >
-            <ProjectGrid projects={filteredProjects} />
-            
-            {filteredProjects.length === 0 && (
-              <div className="text-center py-12">
-                <p className="text-charcoal opacity-60 text-lg">
-                  No projects found matching your criteria.
-                </p>
-                <button
-                  onClick={() => {
-                    setSearchQuery('');
-                    setSelectedCategory('all');
-                    trackInteraction('button', 'clear_filters');
-                  }}
-                  className="mt-4 px-6 py-2 glassmorphic-card text-hunter-green hover:bg-hunter-green hover:text-white transition-colors duration-200"
-                >
-                  Clear Filters
-                </button>
-              </div>
-            )}
+            <ProjectShowcase showHeader={false} defaultView="cards" />
           </motion.div>
         </div>
       </section>

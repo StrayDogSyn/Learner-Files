@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { usePortfolioStore } from '../store/portfolioStore';
-import FilterableProjectGrid from '../components/FilterableProjectGrid';
+import ProjectShowcase from '../components/ProjectShowcase';
 import InteractiveSkillsChart from '../components/InteractiveSkillsChart';
 import CodeShowcase from '../components/CodeShowcase';
 import ExperienceTimeline from '../components/ExperienceTimeline';
@@ -311,7 +311,7 @@ const Portfolio: React.FC = () => {
             icon={Briefcase}
             className="bg-white dark:bg-gray-800"
           >
-            <FilterableProjectGrid />
+            <ProjectShowcase showHeader={false} />
           </Section>
 
           {/* Skills Section */}

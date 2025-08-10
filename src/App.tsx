@@ -1,5 +1,10 @@
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
+import { initializeFontLoading } from "@/utils/fontLoading";
+import { initializePWA } from "@/utils/pwa";
+import { initializePerformanceMonitoring } from "@/utils/performance";
+import { AccessibilityProvider } from "@/components/AccessibilityProvider";
 import Home from "@/pages/Home";
 import Projects from "@/pages/Projects";
 import Portfolio from "@/pages/Portfolio";
@@ -7,6 +12,8 @@ import Bio from "@/pages/Bio";
 import Contact from "@/pages/Contact";
 import Navigation from "@/components/Navigation";
 import BrandLogo from "@/components/BrandLogo";
+import InteractivePortfolio from "@/components/InteractivePortfolio";
+import ContentSections from "@/components/ContentSections";
 // Flagship Applications
 import Calculator from "@/projects/Calculator";
 import QuizNinja from "@/projects/QuizNinja";
@@ -18,13 +25,28 @@ import "./css/brand-system.css";
 import "./css/hero.css";
 import "./css/projects.css";
 import "./css/navigation.css";
+import "./styles/theme-transitions.css";
+import "./styles/animations.css";
+import "./styles/accessibility.css";
 
 export default function App() {
+  useEffect(() => {
+    // Initialize optimized font loading
+    initializeFontLoading();
+    
+    // Initialize PWA functionality
+    initializePWA();
+    
+    // Initialize performance monitoring
+    initializePerformanceMonitoring();
+  }, []);
+
   return (
-    <Router>
-      <div className="min-h-screen glass-background-main">
-        {/* Brand Banner */}
-        <motion.div 
+    <AccessibilityProvider>
+      <Router>
+        <div className="min-h-screen glass-background-main">
+          {/* Brand Banner */}
+          <motion.div 
           className="glass-brand-banner"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -52,7 +74,7 @@ export default function App() {
 
         <Navigation />
         
-        <main className="pt-16 lg:pt-20">
+        <main id="main-content" className="pt-16 lg:pt-20">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/projects" element={<Projects />} />
@@ -65,10 +87,13 @@ export default function App() {
             <Route path="/countdown" element={<Countdown />} />
             <Route path="/knucklebones" element={<Knucklebones />} />
             <Route path="/comptia-trainer" element={<CompTIA />} />
+            <Route path="/interactive" element={<InteractivePortfolio />} />
+            <Route path="/content-sections" element={<ContentSections />} />
             <Route path="/other" element={<div className="text-center text-xl text-white">Other Page - Coming Soon</div>} />
           </Routes>
         </main>
       </div>
     </Router>
+    </AccessibilityProvider>
   );
 }

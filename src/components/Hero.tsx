@@ -16,7 +16,11 @@ import {
   Cpu,
   Zap
 } from 'lucide-react';
+import Particles from 'react-tsparticles';
+import { loadSlim } from 'tsparticles-slim';
+import type { Container, Engine } from 'tsparticles-engine';
 import BrandLogo from './BrandLogo';
+import SkillBadges from './SkillBadges';
 
 // Utility function for smooth scrolling to sections
 const scrollToSection = (sectionId: string) => {
@@ -26,80 +30,154 @@ const scrollToSection = (sectionId: string) => {
   }
 };
 
-// Typewriter effect component
+// Enhanced Typewriter effect component
 const TypewriterText: React.FC<{ 
   text: string; 
   speed?: number; 
   delay?: number;
   className?: string;
-}> = ({ text, speed = 100, delay = 0, className = '' }) => {
+  onComplete?: () => void;
+}> = ({ text, speed = 80, delay = 0, className = '', onComplete }) => {
   const [displayText, setDisplayText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isComplete, setIsComplete] = useState(false);
 
   useEffect(() => {
-    if (currentIndex < text.length) {
-      const timeout = setTimeout(() => {
-        setDisplayText(prev => prev + text[currentIndex]);
-        setCurrentIndex(prev => prev + 1);
-      }, speed);
-      return () => clearTimeout(timeout);
-    }
-  }, [currentIndex, text, speed]);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setCurrentIndex(0);
-      setDisplayText('');
+    const startTimeout = setTimeout(() => {
+      if (currentIndex < text.length) {
+        const timeout = setTimeout(() => {
+          setDisplayText(prev => prev + text[currentIndex]);
+          setCurrentIndex(prev => prev + 1);
+        }, speed);
+        return () => clearTimeout(timeout);
+      } else if (!isComplete) {
+        setIsComplete(true);
+        onComplete?.();
+      }
     }, delay);
-    return () => clearTimeout(timeout);
-  }, [delay]);
+    
+    return () => clearTimeout(startTimeout);
+  }, [currentIndex, text, speed, delay, isComplete, onComplete]);
 
   return (
     <span className={className}>
       {displayText}
       <motion.span
         animate={{ opacity: [1, 0] }}
-        transition={{ duration: 0.5, repeat: Infinity }}
-        className="inline-block w-0.5 h-6 bg-current ml-1"
+        transition={{ 
+          duration: 0.8, 
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+        className="inline-block w-0.5 h-6 bg-emerald-accent ml-1"
       />
     </span>
   );
 };
 
-// Particle effect component
-const ParticleSystem: React.FC = () => {
-  const particles = Array.from({ length: 50 }, (_, i) => ({
-    id: i,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    size: Math.random() * 3 + 1,
-    speed: Math.random() * 0.5 + 0.1,
-  }));
+// Enhanced Particle System with react-tsparticles
+const ParticleBackground: React.FC = () => {
+  const particlesInit = useCallback(async (engine: Engine) => {
+    await loadSlim(engine);
+  }, []);
+
+  const particlesLoaded = useCallback(async (container: Container | undefined) => {
+    // Particles loaded callback
+  }, []);
 
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {particles.map((particle) => (
-        <motion.div
-          key={particle.id}
-          className="absolute w-1 h-1 bg-white/20 rounded-full"
-          style={{
-            left: `${particle.x}%`,
-            top: `${particle.y}%`,
-            width: `${particle.size}px`,
-            height: `${particle.size}px`,
-          }}
-          animate={{
-            y: [0, -100, 0],
-            opacity: [0, 1, 0],
-          }}
-          transition={{
-            duration: 10 + particle.speed * 20,
-            repeat: Infinity,
-            delay: particle.id * 0.1,
-          }}
-        />
-      ))}
-    </div>
+    <Particles
+      id="tsparticles"
+      init={particlesInit}
+      loaded={particlesLoaded}
+      className="absolute inset-0"
+      options={{
+        background: {
+          color: {
+            value: "transparent",
+          },
+        },
+        fpsLimit: 120,
+        interactivity: {
+          events: {
+            onClick: {
+              enable: true,
+              mode: "push",
+            },
+            onHover: {
+              enable: true,
+              mode: "repulse",
+            },
+            resize: true,
+          },
+          modes: {
+            push: {
+              quantity: 4,
+            },
+            repulse: {
+              distance: 200,
+              duration: 0.4,
+            },
+          },
+        },
+        particles: {
+          color: {
+            value: ["#50C878", "#C0C0C0", "#48494B"],
+          },
+          links: {
+            color: "#50C878",
+            distance: 150,
+            enable: true,
+            opacity: 0.2,
+            width: 1,
+          },
+          collisions: {
+            enable: true,
+          },
+          move: {
+            direction: "none",
+            enable: true,
+            outModes: {
+              default: "bounce",
+            },
+            random: false,
+            speed: 1,
+            straight: false,
+          },
+          number: {
+            density: {
+              enable: true,
+              area: 800,
+            },
+            value: 80,
+          },
+          opacity: {
+            value: 0.3,
+            random: true,
+            animation: {
+              enable: true,
+              speed: 1,
+              minimumValue: 0.1,
+              sync: false,
+            },
+          },
+          shape: {
+            type: "circle",
+          },
+          size: {
+            value: { min: 1, max: 3 },
+            random: true,
+            animation: {
+              enable: true,
+              speed: 2,
+              minimumValue: 0.1,
+              sync: false,
+            },
+          },
+        },
+        detectRetina: true,
+      }}
+    />
   );
 };
 
@@ -290,8 +368,8 @@ export const Hero: React.FC = () => {
         }}
       />
 
-      {/* Particle system */}
-      <ParticleSystem />
+      {/* Enhanced Particle Background */}
+      <ParticleBackground />
 
       {/* Parallax background elements */}
       <motion.div
@@ -373,10 +451,10 @@ export const Hero: React.FC = () => {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="py-4"
             >
-              <TechStackCarousel />
+              <SkillBadges />
             </motion.div>
 
-            {/* CTA buttons */}
+            {/* Enhanced CTA buttons with ripple effects */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -387,20 +465,58 @@ export const Hero: React.FC = () => {
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => scrollToSection('projects')}
-                className="glass-button-primary group inline-flex items-center gap-2 px-8 py-4 font-bold rounded-xl transition-all duration-300"
+                className="group inline-flex items-center gap-2 px-8 py-4 font-bold rounded-xl transition-all duration-300 relative overflow-hidden"
+                aria-label="Explore AI solutions and projects"
+                role="button"
+                tabIndex={0}
+                style={{
+                  background: 'linear-gradient(135deg, rgba(53, 94, 59, 0.9), rgba(80, 200, 120, 0.9))',
+                  backdropFilter: 'blur(12px)',
+                  border: '1px solid rgba(80, 200, 120, 0.4)',
+                  boxShadow: '0 8px 32px rgba(80, 200, 120, 0.3)',
+                  color: 'white'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = '0 12px 40px rgba(80, 200, 120, 0.4)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(80, 200, 120, 0.3)';
+                }}
               >
-                Explore AI Solutions
-                <Brain className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                <span className="relative z-10">Explore AI Solutions</span>
+                <Brain className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300 relative z-10" />
+                {/* Ripple effect overlay */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
               </motion.button>
               
               <motion.button
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => scrollToSection('demonstrations')}
-                className="glass-button group inline-flex items-center gap-2 px-6 py-3 font-semibold rounded-lg transition-all duration-300"
+                className="group inline-flex items-center gap-2 px-6 py-3 font-semibold rounded-lg transition-all duration-300 relative overflow-hidden"
+                aria-label="Try interactive AI demonstrations"
+                role="button"
+                tabIndex={0}
+                style={{
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  backdropFilter: 'blur(12px)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1)',
+                  color: 'var(--light-smoke)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
+                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.15)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                  e.currentTarget.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.1)';
+                }}
               >
-                <Zap className="w-5 h-5" />
-                Try AI Demos
+                <Zap className="w-5 h-5 relative z-10" />
+                <span className="relative z-10">Try AI Demos</span>
+                {/* Ripple effect overlay */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
               </motion.button>
             </motion.div>
 
@@ -424,6 +540,9 @@ export const Hero: React.FC = () => {
                   whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.95 }}
                   className="glass-icon-button group p-3 rounded-full transition-all duration-300"
+                  aria-label={`Visit ${label} profile`}
+                  title={`Connect on ${label}`}
+                  tabIndex={0}
                 >
                   <Icon className="w-5 h-5 text-medium-grey group-hover:text-emerald-accent transition-colors duration-300" />
                 </motion.a>
@@ -475,6 +594,10 @@ export const Hero: React.FC = () => {
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
           className="glass-icon-button group p-2 rounded-full transition-all duration-300"
+          aria-label="Scroll to about section"
+          role="button"
+          tabIndex={0}
+          title="Scroll down to learn more"
         >
           <ChevronDown className="w-6 h-6 text-light-smoke group-hover:text-emerald-accent transition-colors duration-300" />
         </motion.button>

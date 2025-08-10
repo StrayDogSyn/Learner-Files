@@ -242,14 +242,31 @@ const MobileMenu: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen
           animate={{ x: 0 }}
           exit={{ x: '100%' }}
           transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-          className="fixed top-0 right-0 h-full w-80 max-w-[80vw] z-50 glass-mobile-menu lg:hidden"
+          className="fixed top-0 right-0 h-full w-80 max-w-[80vw] z-50 lg:hidden"
+          style={{
+            background: 'rgba(28, 28, 28, 0.95)',
+            backdropFilter: 'blur(20px)',
+            borderLeft: '1px solid rgba(255, 255, 255, 0.1)',
+            boxShadow: '0 0 50px rgba(0, 0, 0, 0.5)'
+          }}
+          id="mobile-menu"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="mobile-menu-title"
         >
           <div className="flex flex-col h-full">
-            <div className="flex items-center justify-between p-6 glass-mobile-header">
-              <h2 className="text-xl font-bold text-light-smoke">Menu</h2>
+            <div className="flex items-center justify-between p-6" style={{
+              background: 'rgba(255, 255, 255, 0.05)',
+              borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+            }}>
+              <h2 id="mobile-menu-title" className="text-xl font-bold text-light-smoke font-heading-primary">Menu</h2>
               <button
                 onClick={onClose}
-                className="glass-button p-2 rounded-full transition-colors"
+                className="p-2 rounded-full transition-all duration-200 hover:bg-white/10"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  backdropFilter: 'blur(8px)'
+                }}
                 aria-label="Close menu"
                 title="Close menu"
               >
@@ -257,14 +274,29 @@ const MobileMenu: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen
               </button>
             </div>
             
-            <nav className="flex-1 p-6">
-              <ul className="space-y-4">
+            <nav className="flex-1 p-6" role="navigation" aria-label="Mobile navigation">
+              <ul className="space-y-4" role="menu">
                 {navigationItems.map((item) => (
-                  <li key={item.id}>
+                  <li key={item.id} role="none">
                     <a
                       href={item.href}
                       onClick={onClose}
-                      className="flex items-center space-x-3 px-4 py-3 rounded-lg text-light-smoke hover:text-white glass-button-hover transition-all duration-200"
+                      className="flex items-center space-x-3 px-4 py-3 rounded-lg text-light-smoke hover:text-white transition-all duration-200"
+                      role="menuitem"
+                      tabIndex={0}
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.05)',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        backdropFilter: 'blur(8px)'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                        e.currentTarget.style.transform = 'translateY(0)';
+                      }}
                     >
                       {item.icon}
                       <span>{item.label}</span>
@@ -274,9 +306,26 @@ const MobileMenu: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen
               </ul>
             </nav>
             
-            <div className="p-6 glass-mobile-footer">
+            <div className="p-6" style={{
+              background: 'rgba(255, 255, 255, 0.05)',
+              borderTop: '1px solid rgba(255, 255, 255, 0.1)'
+            }}>
               <button 
-                className="w-full flex items-center justify-center space-x-2 px-4 py-3 glass-button-primary text-white rounded-lg hover:shadow-lg transition-all duration-200"
+                className="w-full flex items-center justify-center space-x-2 px-4 py-3 text-white rounded-lg transition-all duration-200"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(53, 94, 59, 0.8), rgba(80, 200, 120, 0.8))',
+                  backdropFilter: 'blur(8px)',
+                  border: '1px solid rgba(80, 200, 120, 0.3)',
+                  boxShadow: '0 4px 15px rgba(80, 200, 120, 0.2)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(80, 200, 120, 0.3)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 4px 15px rgba(80, 200, 120, 0.2)';
+                }}
                 aria-label="Open AI Assistant"
                 title="Open AI Assistant"
               >
@@ -363,10 +412,17 @@ export const Navigation: React.FC = () => {
       <nav
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
           isScrolled 
-            ? 'glass-nav-scrolled' 
-            : 'glass-nav-transparent'
+            ? 'backdrop-blur-md bg-charcoal-black/80 border-b border-white/10 shadow-glass-medium' 
+            : 'backdrop-blur-sm bg-charcoal-black/20'
         }`}
         data-theme={isDark ? 'dark' : 'light'}
+        style={{
+          background: isScrolled 
+            ? 'rgba(28, 28, 28, 0.8)' 
+            : 'rgba(28, 28, 28, 0.2)',
+          backdropFilter: isScrolled ? 'blur(12px)' : 'blur(8px)',
+          borderBottom: isScrolled ? '1px solid rgba(255, 255, 255, 0.1)' : 'none'
+        }}
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-20">
@@ -389,9 +445,28 @@ export const Navigation: React.FC = () => {
                   onClick={() => handleNavClick(item.href)}
                   className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                     activeSection === item.id
-                      ? 'text-emerald-accent glass-button-active'
-                      : 'text-light-smoke hover:text-white glass-button-hover'
+                      ? 'text-emerald-accent'
+                      : 'text-light-smoke hover:text-white'
                   }`}
+                  style={{
+                    background: activeSection === item.id 
+                      ? 'rgba(80, 200, 120, 0.2)' 
+                      : 'rgba(255, 255, 255, 0.05)',
+                    backdropFilter: 'blur(8px)',
+                    border: activeSection === item.id 
+                      ? '1px solid rgba(80, 200, 120, 0.3)' 
+                      : '1px solid rgba(255, 255, 255, 0.1)'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (activeSection !== item.id) {
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (activeSection !== item.id) {
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                    }
+                  }}
                 >
                   {item.label}
                   {activeSection === item.id && (
@@ -412,10 +487,23 @@ export const Navigation: React.FC = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setIsSearchOpen(true)}
-                className="glass-button p-2 rounded-lg transition-colors"
+                className="p-2 rounded-lg transition-all duration-200"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  backdropFilter: 'blur(8px)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                }}
                 title="Search (Ctrl/Cmd + K)"
+                aria-label="Open search dialog"
+                aria-keyshortcuts="Control+k Meta+k"
               >
-                <Search className="w-4 h-4" />
+                <Search className="w-4 h-4 text-light-smoke" />
               </motion.button>
 
               {/* Quick Access Toolbar */}
@@ -424,11 +512,25 @@ export const Navigation: React.FC = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setIsQuickAccessOpen(!isQuickAccessOpen)}
-                  className="glass-button p-2 rounded-lg transition-colors flex items-center space-x-1"
+                  className="p-2 rounded-lg transition-all duration-200 flex items-center space-x-1"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    backdropFilter: 'blur(8px)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                  }}
                   title="Quick Access to Flagship Apps"
+                  aria-label="Quick access to flagship applications"
+                  aria-expanded={isQuickAccessOpen}
+                  aria-haspopup="menu"
                 >
-                  <Cpu className="w-4 h-4" />
-                  <ChevronDown className="w-3 h-3" />
+                  <Cpu className="w-4 h-4 text-light-smoke" />
+                  <ChevronDown className="w-3 h-3 text-light-smoke" />
                 </motion.button>
                 
                 <QuickAccessToolbar 
@@ -443,10 +545,25 @@ export const Navigation: React.FC = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setIsMultiSiteOpen(!isMultiSiteOpen)}
-                  className="glass-button p-2 rounded-lg transition-colors flex items-center space-x-1"
+                  className="p-2 rounded-lg transition-all duration-200 flex items-center space-x-1"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    backdropFilter: 'blur(8px)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                  }}
+                  aria-label="Multi-site navigation menu"
+                  aria-expanded={isMultiSiteOpen}
+                  aria-haspopup="menu"
+                  title="Navigate to other sites"
                 >
-                  <Globe className="w-4 h-4" />
-                  <ChevronDown className="w-3 h-3" />
+                  <Globe className="w-4 h-4 text-light-smoke" />
+                  <ChevronDown className="w-3 h-3 text-light-smoke" />
                 </motion.button>
 
                 <AnimatePresence>
@@ -485,24 +602,51 @@ export const Navigation: React.FC = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={toggleTheme}
-                className="glass-button p-2 rounded-lg transition-colors"
+                className="p-2 rounded-lg transition-all duration-200"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  backdropFilter: 'blur(8px)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                }}
                 aria-label="Toggle theme"
               >
-                {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                {isDark ? <Sun className="w-4 h-4 text-light-smoke" /> : <Moon className="w-4 h-4 text-light-smoke" />}
               </motion.button>
 
               {/* AI Assistant */}
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="hidden sm:flex items-center space-x-2 px-4 py-2 glass-button-primary text-white rounded-lg hover:shadow-lg transition-all duration-200"
+                className="hidden sm:flex items-center space-x-2 px-4 py-2 text-white rounded-lg transition-all duration-200"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(53, 94, 59, 0.8), rgba(80, 200, 120, 0.8))',
+                  backdropFilter: 'blur(8px)',
+                  border: '1px solid rgba(80, 200, 120, 0.3)',
+                  boxShadow: '0 4px 15px rgba(80, 200, 120, 0.2)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(80, 200, 120, 0.3)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = '0 4px 15px rgba(80, 200, 120, 0.2)';
+                }}
               >
                 <MessageCircle className="w-4 h-4" />
                 <span className="text-sm font-medium">AI Assistant</span>
               </motion.button>
 
               {/* Status Indicator */}
-              <div className="hidden lg:flex items-center space-x-2 px-3 py-1 glass-status-indicator rounded-full">
+              <div className="hidden lg:flex items-center space-x-2 px-3 py-1 rounded-full" style={{
+                background: 'rgba(80, 200, 120, 0.2)',
+                backdropFilter: 'blur(8px)',
+                border: '1px solid rgba(80, 200, 120, 0.3)'
+              }}>
                 <span className="w-2 h-2 bg-emerald-accent rounded-full animate-pulse" />
                 <span className="text-xs text-emerald-accent font-medium">AI Online</span>
               </div>
@@ -512,9 +656,24 @@ export const Navigation: React.FC = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setIsMobileMenuOpen(true)}
-                className="lg:hidden glass-button p-2 rounded-lg transition-colors"
+                className="lg:hidden p-2 rounded-lg transition-all duration-200"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  backdropFilter: 'blur(8px)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                }}
+                aria-label="Open mobile navigation menu"
+                aria-expanded={isMobileMenuOpen}
+                aria-controls="mobile-menu"
+                title="Open navigation menu"
               >
-                <Menu className="w-5 h-5" />
+                <Menu className="w-5 h-5 text-light-smoke" />
               </motion.button>
             </div>
           </div>

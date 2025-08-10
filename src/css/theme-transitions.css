@@ -1,0 +1,179 @@
+/* Theme Transition Styles */
+.theme-transition,
+.theme-transition *,
+.theme-transition *:before,
+.theme-transition *:after {
+  transition: background-color 300ms ease-in-out,
+              border-color 300ms ease-in-out,
+              color 300ms ease-in-out,
+              fill 300ms ease-in-out,
+              stroke 300ms ease-in-out,
+              box-shadow 300ms ease-in-out !important;
+}
+
+/* Light Theme Variables */
+:root.light {
+  --bg-primary: #f8f9fa;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f1f3f4;
+  --text-primary: #1a1a1a;
+  --text-secondary: #4a5568;
+  --text-muted: #718096;
+  --border-color: #e2e8f0;
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Dark Theme Variables (Default) */
+:root,
+:root.dark {
+  --bg-primary: #1c1c1c;
+  --bg-secondary: #2a2a2a;
+  --bg-tertiary: #3a3a3a;
+  --text-primary: #ffffff;
+  --text-secondary: #d7d7d7;
+  --text-muted: #a0a0a0;
+  --border-color: #404040;
+  --glass-bg: rgba(43, 43, 43, 0.15);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --shadow-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Theme-aware utility classes */
+.bg-theme-primary {
+  background-color: var(--bg-primary);
+}
+
+.bg-theme-secondary {
+  background-color: var(--bg-secondary);
+}
+
+.bg-theme-tertiary {
+  background-color: var(--bg-tertiary);
+}
+
+.text-theme-primary {
+  color: var(--text-primary);
+}
+
+.text-theme-secondary {
+  color: var(--text-secondary);
+}
+
+.text-theme-muted {
+  color: var(--text-muted);
+}
+
+.border-theme {
+  border-color: var(--border-color);
+}
+
+.bg-glass-theme {
+  background-color: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.border-glass-theme {
+  border-color: var(--glass-border);
+}
+
+.shadow-theme {
+  box-shadow: 0 4px 6px var(--shadow-color);
+}
+
+/* Animation utilities */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 200ms ease-out;
+}
+
+/* Theme-specific overrides for existing components */
+:root.light .bg-charcoal {
+  background-color: var(--bg-secondary) !important;
+}
+
+:root.light .text-metallic-200,
+:root.light .text-metallic-300 {
+  color: var(--text-secondary) !important;
+}
+
+:root.light .text-metallic-400 {
+  color: var(--text-primary) !important;
+}
+
+:root.light .bg-glass-dark {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+:root.light .border-glass-border {
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Ensure proper contrast in light mode */
+:root.light .text-white {
+  color: var(--text-primary) !important;
+}
+
+:root.light .bg-gradient-to-r.from-hunter-green-500 {
+  background: linear-gradient(to right, #355E3B, #50C878) !important;
+}
+
+/* Smooth transitions for theme-aware elements */
+.theme-aware {
+  transition: all 300ms ease-in-out;
+}
+
+/* Focus states that work in both themes */
+.focus-theme:focus {
+  outline: 2px solid #50C878;
+  outline-offset: 2px;
+}
+
+/* Hover effects that adapt to theme */
+.hover-theme:hover {
+  background-color: var(--glass-bg);
+  border-color: var(--glass-border);
+}
+
+/* Media query for system theme preference */
+@media (prefers-color-scheme: light) {
+  :root:not(.dark):not(.light) {
+    --bg-primary: #f8f9fa;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #f1f3f4;
+    --text-primary: #1a1a1a;
+    --text-secondary: #4a5568;
+    --text-muted: #718096;
+    --border-color: #e2e8f0;
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --shadow-color: rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .theme-transition,
+  .theme-transition *,
+  .theme-transition *:before,
+  .theme-transition *:after {
+    transition: none !important;
+  }
+  
+  .animate-fade-in {
+    animation: none;
+  }
+}

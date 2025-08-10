@@ -15,6 +15,24 @@ export default {
         'particle': 'particle 20s linear infinite',
         'blink': 'blink 1s infinite',
       },
+      perspective: {
+        '1000': '1000px',
+        '1500': '1500px',
+        '2000': '2000px',
+      },
+      transformStyle: {
+        'preserve-3d': 'preserve-3d',
+      },
+      backfaceVisibility: {
+        'hidden': 'hidden',
+        'visible': 'visible',
+      },
+      rotate: {
+        'y-180': 'rotateY(180deg)',
+        'y-90': 'rotateY(90deg)',
+        'x-180': 'rotateX(180deg)',
+        'x-90': 'rotateX(90deg)',
+      },
       keyframes: {
         float: {
           '0%, 100%': { transform: 'translateY(0px)' },
@@ -50,5 +68,41 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function({ addUtilities }) {
+      const newUtilities = {
+        '.perspective-1000': {
+          perspective: '1000px',
+        },
+        '.perspective-1500': {
+          perspective: '1500px',
+        },
+        '.perspective-2000': {
+          perspective: '2000px',
+        },
+        '.transform-style-preserve-3d': {
+          'transform-style': 'preserve-3d',
+        },
+        '.backface-hidden': {
+          'backface-visibility': 'hidden',
+        },
+        '.backface-visible': {
+          'backface-visibility': 'visible',
+        },
+        '.rotate-y-180': {
+          transform: 'rotateY(180deg)',
+        },
+        '.rotate-y-90': {
+          transform: 'rotateY(90deg)',
+        },
+        '.rotate-x-180': {
+          transform: 'rotateX(180deg)',
+        },
+        '.rotate-x-90': {
+          transform: 'rotateX(90deg)',
+        },
+      }
+      addUtilities(newUtilities)
+    }
+  ],
 };

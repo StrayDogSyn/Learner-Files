@@ -187,11 +187,11 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
           {/* Navigation Panel */}
           <div 
             ref={menuRef}
-            className="glass-mobile-menu glass-nav-solid fixed top-0 right-0 h-full w-80 max-w-full transform transition-transform duration-300 ease-out"
+            className="glass-mobile-menu fixed top-0 right-0 h-full w-80 max-w-full transform transition-transform duration-300 ease-out"
             id="mobile-navigation-menu"
           >
             {/* Header */}
-            <div className="glass-mobile-header glass-container-minimal p-fluid-sm border-b border-opacity-20 border-silver-steel">
+            <div className="glass-mobile-header p-fluid-sm border-b border-opacity-20 border-silver-steel">
               <div className="flex items-center justify-between">
                 <h2 
                   id="mobile-nav-title"
@@ -268,7 +268,7 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
             </nav>
 
             {/* Footer */}
-            <div className="glass-mobile-footer glass-container-light absolute bottom-0 left-0 right-0 p-fluid-sm border-t border-opacity-20 border-silver-steel">
+            <div className="glass-mobile-footer absolute bottom-0 left-0 right-0 p-fluid-sm border-t border-opacity-20 border-silver-steel">
               <div className="text-center">
                 <p className="text-caption text-medium-grey">
                   Premium Portfolio Experience
@@ -285,7 +285,7 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
       )}
 
       {/* Styles */}
-      <style>{`
+      <style jsx>{`
         .mobile-nav-link {
           position: relative;
           overflow: hidden;
@@ -319,6 +319,9 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
         }
         
         .glass-mobile-menu {
+          background: rgba(28, 28, 28, 0.95);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
           border-left: 1px solid rgba(72, 73, 75, 0.3);
           box-shadow: 
             -10px 0 30px rgba(0, 0, 0, 0.3),
@@ -326,9 +329,15 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
         }
         
         .glass-mobile-header {
+          background: rgba(43, 43, 43, 0.15);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
         }
         
         .glass-mobile-footer {
+          background: rgba(28, 28, 28, 0.25);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
         }
         
         @media (prefers-reduced-motion: reduce) {

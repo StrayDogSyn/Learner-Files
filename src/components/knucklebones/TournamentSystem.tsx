@@ -20,8 +20,7 @@ import {
   Player,
   TournamentSettings,
   LeaderboardEntry,
-  RankingSystem,
-  GameMode
+  RankingSystem
 } from '../../types/knucklebones';
 
 interface TournamentSystemProps {
@@ -802,23 +801,11 @@ const TournamentSystem: React.FC<TournamentSystemProps> = ({
       status: 'registration',
       participants: settings.participants || [],
       bracket: undefined,
-      brackets: [],
-      prizes: [],
-      rules: {
-        gameMode: {
-          id: 'classic',
-          name: 'Classic',
-          description: 'Standard knucklebones rules',
-          difficulty: 'medium',
-          features: ['dice-based', 'strategy']
-        },
-        bestOf: 1,
-        timeLimit: settings.timeLimit || 300,
-        advancementCriteria: 'single-elimination'
-      },
-      startDate: new Date(),
-      endDate: undefined,
-      description: settings.description || ''
+      prizeDistribution: {
+        first: settings.prizePool ? settings.prizePool * 0.5 : 0,
+        second: settings.prizePool ? settings.prizePool * 0.3 : 0,
+        third: settings.prizePool ? settings.prizePool * 0.2 : 0
+      }
     };
     
     setTournaments(prev => [...prev, tournament]);
@@ -1014,23 +1001,11 @@ export const useTournamentSystem = () => {
       status: 'registration',
       participants: settings.participants || [],
       bracket: undefined,
-      brackets: [],
-      prizes: [],
-      rules: {
-        gameMode: {
-          id: 'classic',
-          name: 'Classic',
-          description: 'Standard knucklebones rules',
-          difficulty: 'medium',
-          features: ['dice-based', 'strategy']
-        },
-        bestOf: 1,
-        timeLimit: settings.timeLimit || 300,
-        advancementCriteria: 'single-elimination'
-      },
-      startDate: new Date(),
-      endDate: undefined,
-      description: settings.description || ''
+      prizeDistribution: {
+        first: settings.prizePool ? settings.prizePool * 0.5 : 0,
+        second: settings.prizePool ? settings.prizePool * 0.3 : 0,
+        third: settings.prizePool ? settings.prizePool * 0.2 : 0
+      }
     };
     
     setTournaments(prev => [...prev, tournament]);

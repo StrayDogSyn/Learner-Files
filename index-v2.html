@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hunter & Cortana | Applied AI Solutions Engineering</title>
+    <meta name="description" content="Elite AI Solutions Engineer specializing in Claude 4.1, GPT-4 integration, and cutting-edge web applications. Full-stack developer with expertise in neural networks and modern architectures.">
+    <meta name="keywords" content="AI engineer, Claude 4.1, GPT-4, full-stack developer, neural networks, machine learning, web development, portfolio">
+    <meta name="author" content="Hunter & Cortana">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://straydogsyn.github.io/Learner-Files/">
+    <meta property="og:title" content="Hunter & Cortana | Applied AI Solutions">
+    <meta property="og:description" content="Elite AI Solutions Engineer specializing in Claude 4.1, GPT-4 integration, and cutting-edge web applications">
+    <meta property="og:image" content="/assets/images/og-image.jpg">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Hunter & Cortana | Applied AI Solutions">
+    <meta name="twitter:description" content="Elite AI Solutions Engineer specializing in Claude 4.1, GPT-4 integration, and cutting-edge web applications">
+    <meta name="twitter:image" content="/assets/images/og-image.jpg">
+    
+    <!-- Favicons -->
+    <link rel="icon" href="/assets/logos/Header.png" type="image/png">
+    <link rel="shortcut icon" href="/assets/logos/Header.png" type="image/x-icon">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#355E3B">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Hunter & Cortana">
+    <link rel="apple-touch-icon" href="/assets/icons/icon-192x192.png">
+    
+    <!-- Performance Optimization -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Optimized Font Loading -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    </noscript>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/global-design-system.css">
+    <link rel="stylesheet" href="/assets/css/landing-page.css">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Hunter",
+      "jobTitle": "AI Solutions Engineer",
+      "url": "https://straydogsyn.github.io",
+      "sameAs": [
+        "https://github.com/StrayDogSyn",
+        "https://linkedin.com/in/hunter"
+      ],
+      "knowsAbout": ["AI", "Machine Learning", "Web Development", "Claude 4.1", "GPT-4"],
+      "description": "Elite AI Solutions Engineer specializing in Claude 4.1, GPT-4 integration, and cutting-edge web applications"
+    }
+    </script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar glass-panel">
+        <div class="container">
+            <div class="nav-brand">
+                <img src="/assets/logos/Header.png" alt="Hunter & Cortana" class="brand-logo">
+                <span class="brand-text">Hunter & Cortana</span>
+            </div>
+            
+            <div class="nav-menu" id="nav-menu">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="/about" class="nav-link">About</a>
+                <a href="/services" class="nav-link">Services</a>
+                <a href="/blog" class="nav-link">Blog</a>
+                <a href="/contact" class="nav-link">Contact</a>
+            </div>
+            
+            <div class="nav-actions">
+                <button class="btn-icon" id="theme-toggle" title="Toggle Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="btn btn-primary" id="cta-button">
+                    <i class="fas fa-rocket"></i>
+                    Get Started
+                </button>
+                <button class="btn-icon mobile-menu-toggle" id="mobile-menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-container" id="home">
+        <canvas id="particle-canvas"></canvas>
+        <div class="hero-content glass-panel-elevated">
+            <div class="hero-badge pulse">
+                <span class="status-dot"></span>
+                Available for Elite Projects
+            </div>
+            
+            <h1 class="hero-title text-gradient">
+                <span class="typewriter">Hunter & Cortana</span>
+            </h1>
+            <p class="hero-subtitle">Applied AI Solutions Engineering</p>
+            
+            <!-- Rotating Skills Display -->
+            <div class="skill-rotator">
+                <span class="skill-item">Claude 4.1 Integration</span>
+            </div>
+            
+            <p class="hero-description">
+                Transforming ideas into intelligent solutions with cutting-edge AI technology. 
+                Specializing in Claude 4.1, GPT-4 integration, and full-stack architectures.
+            </p>
+            
+            <!-- CTAs -->
+            <div class="hero-actions">
+                <button class="btn btn-primary btn-lg ripple" data-analytics="hero_cta_primary">
+                    <i class="fas fa-rocket"></i>
+                    View Flagship Projects
+                </button>
+                <button class="btn btn-glass btn-lg" data-analytics="hero_cta_secondary">
+                    <i class="fas fa-download"></i>
+                    Download Resume
+                </button>
+            </div>
+            
+            <!-- Social Links -->
+            <div class="hero-social">
+                <a href="https://github.com/StrayDogSyn" class="social-link" target="_blank" data-analytics="github_click">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://linkedin.com/in/hunter" class="social-link" target="_blank" data-analytics="linkedin_click">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="mailto:hunter@example.com" class="social-link" data-analytics="email_click">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+            <div class="scroll-arrow"></div>
+            <span>Scroll to explore</span>
+        </div>
+    </section>
+
+    <!-- Featured Projects Section -->
+    <section class="featured-projects" id="projects">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Elite Demonstrations</span>
+                <h2 class="text-gradient">Flagship Projects</h2>
+                <p class="section-description">
+                    Showcasing cutting-edge AI applications and innovative solutions
+                </p>
+            </div>
+            
+            <div class="project-showcase">
+                <!-- Featured Project 1 -->
+                <article class="project-card-featured glass-panel hover-glow animate-on-scroll">
+                    <div class="project-preview">
+                        <div class="project-image">
+                            <img src="/assets/images/projects/neural-dice.jpg" alt="Neural Dice Arena" loading="lazy">
+                            <div class="project-overlay">
+                                <div class="project-actions">
+                                    <a href="/apps/neural-dice" class="btn btn-primary btn-sm" target="_blank">
+                                        <i class="fas fa-external-link-alt"></i>
+                                        Live Demo
+                                    </a>
+                                    <a href="https://github.com/StrayDogSyn/neural-dice" class="btn btn-glass btn-sm" target="_blank">
+                                        <i class="fab fa-github"></i>
+                                        Source
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-header">
+                            <h3>Neural Dice Arena</h3>
+                            <span class="featured-badge">Featured</span>
+                        </div>
+                        <p>AI-powered strategic dice game with ML predictions and real-time multiplayer capabilities. Features advanced neural network opponents and dynamic difficulty adjustment.</p>
+                        <div class="tech-stack">
+                            <span class="tech-pill">TensorFlow</span>
+                            <span class="tech-pill">WebGL</span>
+                            <span class="tech-pill">WebRTC</span>
+                            <span class="tech-pill">Three.js</span>
+                        </div>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <i class="fas fa-star"></i>
+                                <span>4.9/5</span>
+                            </div>
+                            <div class="metric">
+                                <i class="fas fa-users"></i>
+                                <span>10k+ users</span>
+                            </div>
+                            <div class="metric">
+                                <i class="fas fa-circle text-success"></i>
+                                <span>Live</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Featured Project 2 -->
+                <article class="project-card-featured glass-panel hover-glow animate-on-scroll">
+                    <div class="project-preview">
+                        <div class="project-image">
+                            <img src="/assets/images/projects/adaptive-learn.jpg" alt="Adaptive Learning Platform" loading="lazy">
+                            <div class="project-overlay">
+                                <div class="project-actions">
+                                    <a href="/apps/adaptive-learn" class="btn btn-primary btn-sm" target="_blank">
+                                        <i class="fas fa-external-link-alt"></i>
+                                        Live Demo
+                                    </a>
+                                    <a href="https://github.com/StrayDogSyn/adaptive-learn" class="btn btn-glass btn-sm" target="_blank">
+                                        <i class="fab fa-github"></i>
+                                        Source
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-header">
+                            <h3>Adaptive Learning Platform</h3>
+                            <span class="featured-badge">Featured</span>
+                        </div>
+                        <p>Personalized learning system with AI-driven content recommendations and adaptive testing. Integrates Claude 4.1 for intelligent tutoring.</p>
+                        <div class="tech-stack">
+                            <span class="tech-pill">React</span>
+                            <span class="tech-pill">Node.js</span>
+                            <span class="tech-pill">OpenAI API</span>
+                            <span class="tech-pill">MongoDB</span>
+                        </div>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <i class="fas fa-star"></i>
+                                <span>4.8/5</span>
+                            </div>
+                            <div class="metric">
+                                <i class="fas fa-users"></i>
+                                <span>5k+ users</span>
+                            </div>
+                            <div class="metric">
+                                <i class="fas fa-circle text-success"></i>
+                                <span>Live</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Featured Project 3 -->
+                <article class="project-card-featured glass-panel hover-glow animate-on-scroll">
+                    <div class="project-preview">
+                        <div class="project-image">
+                            <img src="/assets/images/projects/quantum-calc.jpg" alt="Quantum Calculator" loading="lazy">
+                            <div class="project-overlay">
+                                <div class="project-actions">
+                                    <a href="/apps/quantum-calc" class="btn btn-primary btn-sm" target="_blank">
+                                        <i class="fas fa-external-link-alt"></i>
+                                        Live Demo
+                                    </a>
+                                    <a href="https://github.com/StrayDogSyn/quantum-calc" class="btn btn-glass btn-sm" target="_blank">
+                                        <i class="fab fa-github"></i>
+                                        Source
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-header">
+                            <h3>Quantum Calculator</h3>
+                            <span class="featured-badge">Featured</span>
+                        </div>
+                        <p>Advanced scientific calculator with quantum computing simulations and 3D visualizations. Features real-time quantum circuit simulation.</p>
+                        <div class="tech-stack">
+                            <span class="tech-pill">TypeScript</span>
+                            <span class="tech-pill">WebAssembly</span>
+                            <span class="tech-pill">Three.js</span>
+                            <span class="tech-pill">Qiskit</span>
+                        </div>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <i class="fas fa-star"></i>
+                                <span>4.7/5</span>
+                            </div>
+                            <div class="metric">
+                                <i class="fas fa-users"></i>
+                                <span>3k+ users</span>
+                            </div>
+                            <div class="metric">
+                                <i class="fas fa-circle text-success"></i>
+                                <span>Live</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            
+            <div class="section-footer">
+                <a href="/projects" class="btn btn-glass btn-lg">
+                    <i class="fas fa-th-large"></i>
+                    View All Projects
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Expertise Section -->
+    <section class="expertise-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Core Competencies</span>
+                <h2 class="text-gradient">Areas of Expertise</h2>
+                <p class="section-description">
+                    Specialized skills and technologies that drive innovative solutions
+                </p>
+            </div>
+            
+            <div class="expertise-grid">
+                <div class="expertise-card glass-panel hover-glow animate-on-scroll">
+                    <div class="expertise-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>AI Integration</h3>
+                    <p>Claude 4.1, GPT-4, Custom Neural Networks, Machine Learning Pipelines</p>
+                    <div class="expertise-tags">
+                        <span class="tag">Claude 4.1</span>
+                        <span class="tag">GPT-4</span>
+                        <span class="tag">TensorFlow</span>
+                        <span class="tag">PyTorch</span>
+                    </div>
+                </div>
+                
+                <div class="expertise-card glass-panel hover-glow animate-on-scroll">
+                    <div class="expertise-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Full-Stack Development</h3>
+                    <p>React, Node.js, TypeScript, Python, Cloud Infrastructure, Microservices</p>
+                    <div class="expertise-tags">
+                        <span class="tag">React</span>
+                        <span class="tag">Node.js</span>
+                        <span class="tag">TypeScript</span>
+                        <span class="tag">Python</span>
+                    </div>
+                </div>
+                
+                <div class="expertise-card glass-panel hover-glow animate-on-scroll">
+                    <div class="expertise-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>Innovation & Research</h3>
+                    <p>Cutting-edge solutions, Emerging Technologies, Research & Development</p>
+                    <div class="expertise-tags">
+                        <span class="tag">Quantum Computing</span>
+                        <span class="tag">WebAssembly</span>
+                        <span class="tag">WebGL</span>
+                        <span class="tag">WebRTC</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content glass-panel-elevated">
+                <h2 class="text-gradient">Ready to Build Something Amazing?</h2>
+                <p>Let's collaborate on your next AI-powered project. From concept to deployment, I'll help you bring your ideas to life.</p>
+                <div class="cta-actions">
+                    <a href="/contact" class="btn btn-primary btn-lg" data-analytics="cta_contact">
+                        <i class="fas fa-paper-plane"></i>
+                        Start a Project
+                    </a>
+                    <a href="/services" class="btn btn-glass btn-lg" data-analytics="cta_services">
+                        <i class="fas fa-info-circle"></i>
+                        View Services
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="/assets/logos/Header.png" alt="Hunter & Cortana" class="footer-logo">
+                    <p>Applied AI Solutions Engineering</p>
+                    <div class="footer-social">
+                        <a href="https://github.com/StrayDogSyn" target="_blank">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://linkedin.com/in/hunter" target="_blank">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="mailto:hunter@example.com">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h4>Projects</h4>
+                        <a href="/projects">All Projects</a>
+                        <a href="/projects/flagship">Flagship</a>
+                        <a href="/projects/experiments">Experiments</a>
+                        <a href="/archive">Archive</a>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4>Services</h4>
+                        <a href="/services">Consulting</a>
+                        <a href="/services">Development</a>
+                        <a href="/services">AI Integration</a>
+                        <a href="/services">Training</a>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4>Resources</h4>
+                        <a href="/blog">Blog</a>
+                        <a href="/docs">Documentation</a>
+                        <a href="/about">About</a>
+                        <a href="/contact">Contact</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Hunter & Cortana. All rights reserved.</p>
+                <div class="footer-legal">
+                    <a href="/privacy">Privacy Policy</a>
+                    <a href="/terms">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="back-to-top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script type="module" src="/assets/js/modules/core.js"></script>
+    <script type="module" src="/assets/js/landing-page.js"></script>
+    
+    <!-- Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+</body>
+</html>
