@@ -1,0 +1,372 @@
+/* Performance Optimizations for Animations and Effects */
+
+/* Hardware Acceleration */
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.gpu-accelerated-opacity {
+  will-change: opacity, transform;
+}
+
+.gpu-accelerated-scale {
+  will-change: transform;
+  transform: translateZ(0) scale(1);
+}
+
+/* Optimized Transitions */
+.transition-optimized {
+  transition-property: transform, opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity;
+}
+
+.transition-fast {
+  transition-duration: 150ms;
+}
+
+.transition-normal {
+  transition-duration: 300ms;
+}
+
+.transition-slow {
+  transition-duration: 500ms;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .parallax-disabled {
+    transform: none !important;
+  }
+  
+  .animation-disabled {
+    animation: none !important;
+  }
+}
+
+/* Performance-Optimized Animations */
+@keyframes optimized-fade-in {
+  from {
+    opacity: 0;
+    transform: translateZ(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateZ(0);
+  }
+}
+
+@keyframes optimized-slide-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes optimized-scale-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes optimized-pulse {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, 0, 0) scale(1.05);
+  }
+}
+
+@keyframes optimized-shimmer {
+  0% {
+    transform: translate3d(-100%, 0, 0);
+  }
+  100% {
+    transform: translate3d(100%, 0, 0);
+  }
+}
+
+/* Animation Classes */
+.animate-optimized-fade-in {
+  animation: optimized-fade-in 0.3s ease-out;
+}
+
+.animate-optimized-slide-up {
+  animation: optimized-slide-up 0.4s ease-out;
+}
+
+.animate-optimized-scale-in {
+  animation: optimized-scale-in 0.3s ease-out;
+}
+
+.animate-optimized-pulse {
+  animation: optimized-pulse 2s ease-in-out infinite;
+}
+
+.animate-optimized-shimmer {
+  animation: optimized-shimmer 2s ease-in-out infinite;
+}
+
+/* Performance Tiers */
+.performance-low {
+  /* Disable expensive effects for low-end devices */
+}
+
+.performance-low .blur-effect,
+.performance-low .backdrop-blur,
+.performance-low .parallax-element,
+.performance-low .particle-effect {
+  display: none;
+}
+
+.performance-low .animation-heavy {
+  animation: none;
+  transition: none;
+}
+
+.performance-medium {
+  /* Reduced effects for medium-performance devices */
+}
+
+.performance-medium .particle-effect {
+  opacity: 0.5;
+}
+
+.performance-medium .blur-effect {
+  filter: blur(2px) !important;
+}
+
+.performance-high {
+  /* Full effects for high-performance devices */
+}
+
+/* Optimized Hover Effects */
+.hover-optimized {
+  transition: transform 0.2s ease-out;
+  will-change: transform;
+}
+
+.hover-optimized:hover {
+  transform: translate3d(0, -2px, 0);
+}
+
+.hover-scale-optimized {
+  transition: transform 0.2s ease-out;
+  will-change: transform;
+}
+
+.hover-scale-optimized:hover {
+  transform: translate3d(0, 0, 0) scale(1.05);
+}
+
+/* Optimized Glassmorphism */
+.glass-optimized {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  will-change: backdrop-filter;
+}
+
+/* Fallback for browsers without backdrop-filter support */
+@supports not (backdrop-filter: blur(10px)) {
+  .glass-optimized {
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+
+/* Optimized Shadows */
+.shadow-optimized {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  will-change: box-shadow;
+}
+
+.shadow-optimized-hover {
+  transition: box-shadow 0.2s ease-out;
+}
+
+.shadow-optimized-hover:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Optimized Gradients */
+.gradient-optimized {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  will-change: background;
+}
+
+/* Container Queries for Performance */
+@container (max-width: 768px) {
+  .mobile-optimized {
+    animation-duration: 0.2s !important;
+    transition-duration: 0.2s !important;
+  }
+  
+  .mobile-optimized .particle-effect,
+  .mobile-optimized .parallax-element {
+    display: none;
+  }
+}
+
+/* Intersection Observer Optimizations */
+.lazy-animate {
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.lazy-animate.in-view {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Memory-Efficient Animations */
+.memory-efficient {
+  /* Use transform instead of changing layout properties */
+  transition-property: transform, opacity;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-out;
+}
+
+/* CPU-Friendly Effects */
+.cpu-friendly {
+  /* Avoid expensive filters and use simpler alternatives */
+  transition: opacity 0.3s ease-out;
+}
+
+/* Battery-Saving Mode */
+@media (prefers-reduced-motion: reduce) {
+  .battery-saving * {
+    animation-play-state: paused !important;
+    transition-duration: 0s !important;
+  }
+}
+
+/* Optimized Loading States */
+.loading-optimized {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: optimized-shimmer 1.5s infinite;
+}
+
+/* High DPI Optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .high-dpi-optimized {
+    /* Optimizations for high DPI displays */
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .touch-optimized {
+    /* Remove hover effects on touch devices */
+  }
+  
+  .touch-optimized:hover {
+    transform: none;
+  }
+}
+
+/* Print Optimizations */
+@media print {
+  .print-hidden {
+    display: none !important;
+  }
+  
+  .animation-element {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Utility Classes for Performance */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+.will-change-auto {
+  will-change: auto;
+}
+
+.contain-layout {
+  contain: layout;
+}
+
+.contain-paint {
+  contain: paint;
+}
+
+.contain-strict {
+  contain: strict;
+}
+
+/* Optimized Scrolling */
+.smooth-scroll {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smooth-scroll {
+    scroll-behavior: auto;
+  }
+}
+
+/* Performance Monitoring */
+.performance-monitor {
+  /* Add visual indicators for performance debugging */
+}
+
+.performance-monitor::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 4px;
+  background: #00ff00;
+  border-radius: 50%;
+  z-index: 9999;
+}
+
+/* Frame Rate Optimization */
+.fps-60 {
+  /* Ensure 60fps animations */
+  animation-timing-function: linear;
+}
+
+.fps-30 {
+  /* 30fps for lower-end devices */
+  animation-duration: calc(var(--duration) * 2);
+}
+
+/* Memory Cleanup */
+.cleanup-after-animation {
+  /* Remove will-change after animation completes */
+}
+
+.cleanup-after-animation.animation-complete

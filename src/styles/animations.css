@@ -381,6 +381,35 @@
   background-size: 200% 100%;
 }
 
+/* 3D Transform Utilities */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-style-preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+.rotate-x-180 {
+  transform: rotateX(180deg);
+}
+
+.rotate-y-90 {
+  transform: rotateY(90deg);
+}
+
+.scale-102 {
+  transform: scale(1.02);
+}
+
 /* Utility classes for transitions and micro-interactions */
 .transition-smooth {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
