@@ -483,7 +483,7 @@ const Calculator: React.FC = () => {
     return key;
   };
 
-  const formatNumber = (number: string): string => {
+  const formatNumber = useCallback((number: string): string => {
     if (number === "Error") return number;
     
     if (parseFloat(number) > 1e12) {
@@ -500,7 +500,7 @@ const Calculator: React.FC = () => {
     }
     
     return number;
-  };
+  }, []);
 
   const executeOperation = (a: number, b: number, operator: string): number | string => {
     switch (operator) {
@@ -520,7 +520,7 @@ const Calculator: React.FC = () => {
     }
   };
 
-  const executeScientificFunction = (func: string, value: number): number | string => {
+  const executeScientificFunction = useCallback((func: string, value: number): number | string => {
     try {
       const angleValue = state.angleUnit === 'deg' ? (value * Math.PI / 180) : value;
       // const invAngleValue = state.angleUnit === 'deg' ? (value * 180 / Math.PI) : value;
@@ -564,7 +564,7 @@ const Calculator: React.FC = () => {
     } catch {
       return "Error";
     }
-  };
+  }, [state.angleUnit, state.isInverse]);
 
   const handleNumber = useCallback((value: string) => {
     setState(prevState => {
@@ -587,7 +587,7 @@ const Calculator: React.FC = () => {
     });
   }, []);
 
-  const reset = () => {
+  const reset = useCallback(() => {
     setState(prevState => ({
       runningTotal: 0,
       buffer: "0",
@@ -623,9 +623,9 @@ const Calculator: React.FC = () => {
       hexValue: prevState.hexValue,
       bitwiseResult: prevState.bitwiseResult,
     }));
-  };
+  }, []);
 
-  const handleConstant = (constant: string) => {
+  const handleConstant = useCallback((constant: string) => {
     let value: number;
     switch (constant) {
       case 'π': value = pi; break;
@@ -640,9 +640,9 @@ const Calculator: React.FC = () => {
       buffer: formatNumber(value.toString()),
       needsReset: false
     }));
-  };
+  }, [formatNumber]);
 
-  const handleMemoryOperation = (operation: string, slot: number = 0) => {
+  const handleMemoryOperation = useCallback((operation: string, slot: number = 0) => {
     const currentValue = parseFloat(state.buffer);
     
     setState(prevState => {
@@ -674,7 +674,7 @@ const Calculator: React.FC = () => {
         memory: newMemory
       };
     });
-  };
+  }, [state.buffer, formatNumber]);
 
   const switchMode = (newMode: CalculatorMode) => {
     setState(prevState => ({
@@ -685,19 +685,19 @@ const Calculator: React.FC = () => {
     }));
   };
 
-  const toggleAngleUnit = () => {
+  const toggleAngleUnit = useCallback(() => {
     setState(prevState => ({
       ...prevState,
       angleUnit: prevState.angleUnit === 'deg' ? 'rad' : 'deg'
     }));
-  };
+  }, []);
 
-  const toggleInverse = () => {
+  const toggleInverse = useCallback(() => {
     setState(prevState => ({
       ...prevState,
       isInverse: !prevState.isInverse
     }));
-  };
+  }, []);
 
   const toggleHyperbolic = () => {
     setState(prevState => ({
@@ -1629,7 +1629,7 @@ const Calculator: React.FC = () => {
                                 className={`btn base-btn ${state.numberBase === base ? 'active' : ''}`}
                                 onClick={() => setState(prev => ({ ...prev, numberBase: base }))}
                                 role="radio"
-                                aria-checked={state.numberBase === base}
+                                aria-checked={state.numberBase === base ? "true" : "false"}
                                 aria-label={`${base.toUpperCase()} - ${base === 'bin' ? 'Binary' : base === 'oct' ? 'Octal' : base === 'dec' ? 'Decimal' : 'Hexadecimal'}`}
                                 title={`Switch to ${base === 'bin' ? 'Binary' : base === 'oct' ? 'Octal' : base === 'dec' ? 'Decimal' : 'Hexadecimal'} base`}
                               >
