@@ -384,6 +384,11 @@ body.dark-mode .text-muted {
   color: #aaa !important;
 }
 
+/* Toast Notifications */
+.toast-container {
+  z-index: 1050;
+}
+
 /* Sound toggle animation */
 .fa-volume-up, .fa-volume-mute {
   transition: transform 0.3s ease;

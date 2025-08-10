@@ -408,6 +408,46 @@
 }
 
 /* ===================================================================
+   GLASS CONTAINER VARIANTS
+   =================================================================== */
+
+.glass-container-minimal {
+  background: var(--glass-quaternary);
+  backdrop-filter: var(--blur-subtle);
+  -webkit-backdrop-filter: var(--blur-subtle);
+  border: 1px solid var(--glass-border-light);
+  border-radius: var(--radius-glass-md);
+  box-shadow: var(--shadow-glass-soft);
+}
+
+.glass-container-accent {
+  background: rgba(59, 130, 246, 0.15);
+  backdrop-filter: var(--blur-medium);
+  -webkit-backdrop-filter: var(--blur-medium);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: var(--radius-glass-md);
+  box-shadow: var(--shadow-glass-soft);
+}
+
+.glass-container-success {
+  background: rgba(34, 197, 94, 0.15);
+  backdrop-filter: var(--blur-medium);
+  -webkit-backdrop-filter: var(--blur-medium);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: var(--radius-glass-md);
+  box-shadow: var(--shadow-glass-soft);
+}
+
+.glass-container-info {
+  background: rgba(6, 182, 212, 0.15);
+  backdrop-filter: var(--blur-medium);
+  -webkit-backdrop-filter: var(--blur-medium);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  border-radius: var(--radius-glass-md);
+  box-shadow: var(--shadow-glass-soft);
+}
+
+/* ===================================================================
    GLASS BADGES & TAGS
    =================================================================== */
 

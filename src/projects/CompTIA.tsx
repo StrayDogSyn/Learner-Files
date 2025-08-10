@@ -485,7 +485,7 @@ const CompTIA: React.FC = () => {
                     Question {currentQuestion + 1} of {quizQuestions.length}
                   </div>
                   <div className="progress-bar-container">
-                    <div className="progress-bar" style={{ width: `${progress}%` }}></div>
+                    <div className="progress-bar comptia-progress-fill" style={{ width: `${progress}%` }}></div>
                   </div>
                 </>
               )}

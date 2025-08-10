@@ -175,10 +175,10 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label, f
       {payload.map((entry, index) => {
         const [value, name] = formatter ? formatter(entry.value, entry.name || '') : [entry.value, entry.name];
         return (
-          <div key={index} className="flex items-center gap-2 text-sm">
+          <div key={index} className="chart-legend-item">
             <div 
-              className="w-3 h-3 rounded-full" 
-              style={{ backgroundColor: entry.color }}
+              className="legend-color-indicator" 
+              style={{ "--legend-color": entry.color } as React.CSSProperties}
             />
             <span className="text-white/80">{name}:</span>
             <span className="text-white font-medium">{value}</span>
@@ -698,10 +698,7 @@ const DataVisualization: React.FC<DataVisualizationProps> = ({
                     {Array.from({ length: 5 }, (_, i) => (
                       <div
                         key={i}
-                        className="w-4 h-4 rounded"
-                        style={{
-                          backgroundColor: `rgba(59, 130, 246, ${(i + 1) * 0.2})`
-                        }}
+                        className={`heatmap-cell intensity-${i + 1}`}
                       />
                     ))}
                   </div>

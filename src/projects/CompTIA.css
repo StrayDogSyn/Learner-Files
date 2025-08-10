@@ -589,6 +589,11 @@ select {
   align-items: center;
 }
 
+/* Progress Bar Styles */
+.comptia-progress-fill {
+  /* Width is set dynamically via inline style */
+}
+
 /* User Name Input */
 #user-name {
   max-width: fit-content;

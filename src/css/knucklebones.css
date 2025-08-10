@@ -1,0 +1,28 @@
+/* Knucklebones Game Styles */
+
+/* Data Visualization Styles */
+.tooltip-indicator {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+}
+
+.heatmap-cell {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 0.25rem;
+}
+
+/* Color intensity classes for heatmap */
+.intensity-1 { background-color: rgba(59, 130, 246, 0.2); }
+.intensity-2 { background-color: rgba(59, 130, 246, 0.4); }
+.intensity-3 { background-color: rgba(59, 130, 246, 0.6); }
+.intensity-4 { background-color: rgba(59, 130, 246, 0.8); }
+.intensity-5 { background-color: rgba(59, 130, 246, 1.0); }
+
+.legend-color-indicator {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background-color: var(--legend-color, #3b82f6);
+}

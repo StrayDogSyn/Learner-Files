@@ -13,4 +13,30 @@
 }
 
 .skill-proficiency-bar {
-  /* Dynamic background is set via inline style for gradient colors
+  width: var(--progress-width, 0%);
+  background: linear-gradient(90deg, var(--gradient-start, #007bff), var(--gradient-end, #28a745));
+}
+
+/* Learning Progress Bars */
+.learning-progress-bar {
+  height: 6px;
+}
+
+.learning-progress-fill {
+  width: var(--progress-width, 0%);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .profile-avatar {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+@media (max-width: 576px) {
+  .profile-avatar {
+    width: 150px;
+    height: 150px;
+  }
+}

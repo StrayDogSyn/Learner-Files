@@ -804,7 +804,7 @@ const Knucklebones: React.FC = () => {
       </main>
 
       {/* Toast Notifications */}
-      <div className="position-fixed bottom-0 end-0 p-3" style={{ zIndex: 1050 }}>
+      <div className="position-fixed bottom-0 end-0 p-3 toast-container">
         {toasts.map(toast => (
           <div 
             key={toast.id}

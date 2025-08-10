@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../css/bio-enhanced.css';
+import './Bio.css';
 
 interface Experience {
   year: string;
@@ -293,7 +294,7 @@ const Bio: React.FC = () => {
                 </p>
                 
                 {/* Fun Fact Rotator */}
-                <div className="fun-fact-container bg-dark bg-opacity-50 rounded-pill px-4 py-2 mb-4">
+                <div className="fun-fact-container glass-container-minimal rounded-pill px-4 py-2 mb-4">
                   <p className="text-warning mb-0">
                     <i className="fa fa-lightbulb me-2"></i>
                     {funFacts[funFactIndex]}
@@ -301,7 +302,7 @@ const Bio: React.FC = () => {
                 </div>
 
                 {/* Current Learning Goal */}
-                <div className="learning-goal-container bg-primary bg-opacity-25 rounded-pill px-4 py-2">
+                <div className="learning-goal-container glass-container-accent rounded-pill px-4 py-2">
                   <p className="text-info mb-0">
                     <i className="fa fa-graduation-cap me-2"></i>
                     Currently learning: {learningGoals[currentLearningGoal]}
@@ -330,7 +331,7 @@ const Bio: React.FC = () => {
                     </div>
                   </div>
                   <div className="col-md-8">
-                    <div className="timeline-content bg-dark bg-opacity-75 text-white p-4 rounded-3 box-shadow">
+                    <div className="timeline-content glass-container text-white p-4 rounded-3 box-shadow">
                       <h3 className="h5 text-primary mb-2">{exp.title}</h3>
                       {exp.company && (
                         <p className="text-muted mb-2">
@@ -342,7 +343,7 @@ const Bio: React.FC = () => {
                       <p className="mb-3">{exp.description}</p>
                       <div className="achievements">
                         {exp.achievements.map((achievement, idx) => (
-                          <span key={idx} className="achievement-badge bg-success bg-opacity-25 text-success px-3 py-1 rounded-pill me-2 mb-2 d-inline-block">
+                          <span key={idx} className="achievement-badge glass-badge text-success px-3 py-1 rounded-pill me-2 mb-2 d-inline-block">
                             <i className="fa fa-trophy me-1"></i>
                             {achievement}
                           </span>
@@ -368,7 +369,7 @@ const Bio: React.FC = () => {
             {skills.map((skill, index) => (
               <div key={index} className="col-lg-6 mb-4">
                 <div 
-                  className="skill-card bg-dark bg-opacity-75 p-4 rounded-3 box-shadow h-100"
+                  className="skill-card glass-container p-4 rounded-3 box-shadow h-100"
                 >
                   <div className="d-flex justify-content-between align-items-center mb-3">
                     <h3 className="h5 text-white mb-0">{skill.name}</h3>
@@ -387,9 +388,10 @@ const Bio: React.FC = () => {
                       <div 
                         className="progress-bar bg-gradient skill-proficiency-bar" 
                         style={{ 
-                          width: `${skill.proficiency}%`,
-                          background: `linear-gradient(90deg, ${getSkillColor(skill.category).split(' ')[1]}, ${getSkillColor(skill.category).split(' ')[3]})`
-                        }}
+                          "--progress-width": `${skill.proficiency}%`,
+                          "--gradient-start": getSkillColor(skill.category).split(' ')[1],
+                          "--gradient-end": getSkillColor(skill.category).split(' ')[3]
+                        } as React.CSSProperties}
                       ></div>
                     </div>
                   </div>
@@ -404,7 +406,7 @@ const Bio: React.FC = () => {
                       <div className="progress learning-progress-bar">
                         <div 
                           className="progress-bar bg-info learning-progress-fill" 
-                          style={{ width: `${skill.learningProgress}%` }}
+                          style={{ "--progress-width": `${skill.learningProgress}%` } as React.CSSProperties}
                         ></div>
                       </div>
                     </div>
@@ -415,7 +417,7 @@ const Bio: React.FC = () => {
                     <h6 className="text-light mb-2">Related Projects:</h6>
                     <div className="d-flex flex-wrap gap-1">
                       {skill.projects.map((project, idx) => (
-                        <span key={idx} className="badge bg-secondary bg-opacity-50">
+                        <span key={idx} className="badge glass-badge">
                           {project}
                         </span>
                       ))}
@@ -448,7 +450,7 @@ const Bio: React.FC = () => {
         <div className="container-modern">
           <div className="row justify-content-center">
             <div className="col-lg-8">
-              <div className="card bg-dark bg-opacity-75 text-white box-shadow">
+              <div className="card glass-container text-white box-shadow">
                 <div className="card-body text-center">
                   <h3 className="card-title h4 mb-4">
                     <i className="fa fa-trophy me-2 text-warning"></i>
@@ -456,19 +458,19 @@ const Bio: React.FC = () => {
                   </h3>
                   <div className="stats-grid row mb-4">
                     <div className="col-md-4 mb-3">
-                      <div className="stat-item bg-primary bg-opacity-25 p-3 rounded-3">
+                      <div className="stat-item glass-container-accent p-3 rounded-3">
                         <h4 className="h5 text-primary mb-1">Rank</h4>
                         <p className="h3 mb-0 text-white">{codewarsStats.rank}</p>
                       </div>
                     </div>
                     <div className="col-md-4 mb-3">
-                      <div className="stat-item bg-success bg-opacity-25 p-3 rounded-3">
+                      <div className="stat-item glass-container-success p-3 rounded-3">
                         <h4 className="h5 text-success mb-1">Honor</h4>
                         <p className="h3 mb-0 text-white">{codewarsStats.honor}</p>
                       </div>
                     </div>
                     <div className="col-md-4 mb-3">
-                      <div className="stat-item bg-info bg-opacity-25 p-3 rounded-3">
+                      <div className="stat-item glass-container-info p-3 rounded-3">
                         <h4 className="h5 text-info mb-1">Completed</h4>
                         <p className="h3 mb-0 text-white">{codewarsStats.completed}</p>
                       </div>
@@ -478,7 +480,7 @@ const Bio: React.FC = () => {
                     <h5 className="mb-3">Recent Challenges</h5>
                     <div className="d-flex flex-wrap justify-content-center gap-2">
                       {codewarsStats.recentKatas.map((kata, index) => (
-                        <span key={index} className="badge bg-secondary bg-opacity-50 px-3 py-2">
+                        <span key={index} className="badge glass-badge px-3 py-2">
                           {kata}
                         </span>
                       ))}
@@ -501,7 +503,7 @@ const Bio: React.FC = () => {
           <div className="row">
             {favoriteTools.map((tool, index) => (
               <div key={index} className="col-md-4 col-lg-2 mb-4">
-                <div className="tool-card text-center bg-dark bg-opacity-75 p-4 rounded-3 box-shadow h-100">
+                <div className="tool-card text-center glass-container p-4 rounded-3 box-shadow h-100">
                   <div className="tool-icon mb-3">
                     <span className="display-6">{tool.icon}</span>
                   </div>
@@ -517,7 +519,7 @@ const Bio: React.FC = () => {
       {/* Call to Action */}
       <section className="cta-section py-5 mb-5">
         <div className="container-modern text-center">
-          <div className="bg-dark bg-opacity-75 p-5 rounded-3 box-shadow">
+          <div className="glass-container p-5 rounded-3 box-shadow">
             <h2 className="text-white mb-4">Ready to Work Together?</h2>
             <p className="lead text-light mb-4">
               Let's build something amazing together. I'm always excited to take on new challenges 
