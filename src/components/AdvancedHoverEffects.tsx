@@ -176,4 +176,211 @@ export const MetallicButton: React.FC<MetallicButtonProps> = ({
     gold: 'bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 hover:from-yellow-500 hover:via-yellow-600 hover:to-yellow-700 shadow-yellow-500/25',
     silver: 'bg-gradient-to-r from-gray-300 via-gray-400 to-gray-500 hover:from-gray-400 hover:via-gray-500 hover:to-gray-600 shadow-gray-400/25',
     copper: 'bg-gradient-to-r from-orange-400 via-red-400 to-orange-500 hover:from-orange-500 hover:via-red-500 hover:to-orange-600 shadow-orange-500/25',
-    platinum: 'bg-gradient-to-r from-gray-200 via-gray-300 to-gray
+    platinum: 'bg-gradient-to-r from-gray-200 via-gray-300 to-gray-400 hover:from-gray-300 hover:via-gray-400 hover:to-gray-500 shadow-gray-300/25'
+  };
+
+  const sizes = {
+    sm: 'px-4 py-2 text-sm',
+    md: 'px-6 py-3 text-base',
+    lg: 'px-8 py-4 text-lg'
+  };
+
+  return (
+    <button
+      className={cn(
+        'relative overflow-hidden rounded-lg font-semibold text-white',
+        'transition-all duration-300 transform-gpu',
+        'hover:scale-105 hover:shadow-xl active:scale-95',
+        'disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100',
+        'before:absolute before:inset-0 before:bg-gradient-to-r before:from-white/0 before:via-white/20 before:to-white/0',
+        'before:translate-x-[-100%] hover:before:translate-x-[100%] before:transition-transform before:duration-700',
+        variants[variant],
+        sizes[size],
+        className
+      )}
+      disabled={disabled || loading}
+      {...props}
+    >
+      <span className="relative z-10 flex items-center justify-center gap-2">
+        {loading && (
+          <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+        )}
+        {children}
+      </span>
+    </button>
+  );
+};
+
+interface FloatingCardProps extends HTMLAttributes<HTMLDivElement> {
+  children: ReactNode;
+  depth?: 'shallow' | 'medium' | 'deep';
+  tiltIntensity?: number;
+}
+
+export const FloatingCard: React.FC<FloatingCardProps> = ({
+  children,
+  depth = 'medium',
+  tiltIntensity = 10,
+  className,
+  ...props
+}) => {
+  const [transform, setTransform] = useState('');
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    
+    const card = cardRef.current;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const rotateX = (y - centerY) / centerY * tiltIntensity;
+    const rotateY = (centerX - x) / centerX * tiltIntensity;
+    
+    setTransform(`perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`);
+  };
+
+  const handleMouseLeave = () => {
+    setTransform('perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)');
+  };
+
+  const depthClasses = {
+    shallow: 'shadow-lg hover:shadow-xl',
+    medium: 'shadow-xl hover:shadow-2xl',
+    deep: 'shadow-2xl hover:shadow-3xl'
+  };
+
+  return (
+    <div
+      ref={cardRef}
+      className={cn(
+        'transition-all duration-300 ease-out transform-gpu',
+        'bg-white/10 backdrop-blur-md border border-white/20 rounded-xl',
+        depthClasses[depth],
+        className
+      )}
+      style={{ transform }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+};
+
+interface NeonGlowProps extends HTMLAttributes<HTMLDivElement> {
+  children: ReactNode;
+  color?: 'blue' | 'purple' | 'pink' | 'green' | 'orange';
+  intensity?: 'low' | 'medium' | 'high';
+  animated?: boolean;
+}
+
+export const NeonGlow: React.FC<NeonGlowProps> = ({
+  children,
+  color = 'blue',
+  intensity = 'medium',
+  animated = false,
+  className,
+  ...props
+}) => {
+  const colors = {
+    blue: 'shadow-blue-500 border-blue-500',
+    purple: 'shadow-purple-500 border-purple-500',
+    pink: 'shadow-pink-500 border-pink-500',
+    green: 'shadow-green-500 border-green-500',
+    orange: 'shadow-orange-500 border-orange-500'
+  };
+
+  const intensities = {
+    low: 'shadow-lg',
+    medium: 'shadow-xl',
+    high: 'shadow-2xl'
+  };
+
+  return (
+    <div
+      className={cn(
+        'relative border-2 rounded-lg',
+        'transition-all duration-300',
+        'hover:shadow-2xl',
+        colors[color],
+        intensities[intensity],
+        animated && 'animate-pulse',
+        className
+      )}
+      {...props}
+    >
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-current to-transparent opacity-20 rounded-lg" />
+      <div className="relative z-10">
+        {children}
+      </div>
+    </div>
+  );
+};
+
+interface ParticleHoverProps extends HTMLAttributes<HTMLDivElement> {
+  children: ReactNode;
+  particleCount?: number;
+  particleColor?: string;
+}
+
+export const ParticleHover: React.FC<ParticleHoverProps> = ({
+  children,
+  particleCount = 20,
+  particleColor = '#ffffff',
+  className,
+  ...props
+}) => {
+  const [particles, setParticles] = useState<Array<{ id: number; x: number; y: number; delay: number }>>([]);
+  const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    if (isHovered) {
+      const newParticles = Array.from({ length: particleCount }, (_, i) => ({
+        id: i,
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        delay: Math.random() * 2
+      }));
+      setParticles(newParticles);
+    } else {
+      setParticles([]);
+    }
+  }, [isHovered, particleCount]);
+
+  return (
+    <div
+      className={cn('relative overflow-hidden', className)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      {...props}
+    >
+      {particles.map((particle) => (
+        <div
+          key={particle.id}
+          className="absolute w-1 h-1 rounded-full animate-ping"
+          style={{
+            left: `${particle.x}%`,
+            top: `${particle.y}%`,
+            backgroundColor: particleColor,
+            animationDelay: `${particle.delay}s`
+          }}
+        />
+      ))}
+      {children}
+    </div>
+  );
+};
+
+export default {
+  AdvancedHover,
+  MetallicButton,
+  FloatingCard,
+  NeonGlow,
+  ParticleHover
+};

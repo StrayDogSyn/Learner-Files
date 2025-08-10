@@ -7,6 +7,7 @@ This document outlines the implementation of the comprehensive portfolio develop
 ## Architecture Overview
 
 ### File Structure
+
 ```
 /
 ├── index-v2.html              # New landing page
@@ -37,20 +38,24 @@ This document outlines the implementation of the comprehensive portfolio develop
 The design system is built around a comprehensive set of design tokens defined in `assets/css/global-design-system.css`:
 
 #### Colors
+
 - **Primary Palette**: Hunter Green system (#355E3B, #50C878)
 - **Metallics**: Light, medium, and dark metallic tones
 - **Glassmorphism**: Semi-transparent overlays with blur effects
 
 #### Typography
+
 - **Primary Font**: Orbitron (for headings)
 - **Body Font**: Inter (for body text)
 - **Monospace**: Fira Code (for code elements)
 
 #### Spacing
+
 - **Scale**: XS (0.25rem) to 3XL (8rem)
 - **Consistent**: 8px base unit system
 
 #### Animations
+
 - **Smooth**: 0.3s cubic-bezier transitions
 - **Bounce**: 0.6s spring animations
 - **Spring**: 0.8s elastic animations
@@ -58,6 +63,7 @@ The design system is built around a comprehensive set of design tokens defined i
 ### Component Classes
 
 #### Glass Panels
+
 ```css
 .glass-panel {
   background: var(--glass-dark-15);
@@ -68,6 +74,7 @@ The design system is built around a comprehensive set of design tokens defined i
 ```
 
 #### Buttons
+
 ```css
 .btn-primary {
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
@@ -77,6 +84,7 @@ The design system is built around a comprehensive set of design tokens defined i
 ```
 
 #### Text Gradients
+
 ```css
 .text-gradient {
   background: linear-gradient(135deg, var(--color-metal) 0%, var(--color-primary) 50%, var(--color-metal-dark) 100%);
@@ -92,6 +100,7 @@ The design system is built around a comprehensive set of design tokens defined i
 The core module provides shared functionality across all pages:
 
 #### Features
+
 - **Theme Management**: Dark/light theme switching with localStorage persistence
 - **Scroll Animations**: Intersection Observer-based animations
 - **Navigation**: Smooth scrolling and mobile menu management
@@ -101,6 +110,7 @@ The core module provides shared functionality across all pages:
 - **Performance Monitoring**: Core Web Vitals tracking
 
 #### Usage
+
 ```javascript
 // Initialize core functionality
 window.portfolioCore = new PortfolioCore();
@@ -111,6 +121,7 @@ window.portfolioCore = new PortfolioCore();
 Advanced project filtering and display system:
 
 #### Features
+
 - **Dynamic Filtering**: Category, technology, year, and search filters
 - **Pagination**: Configurable projects per page
 - **Search**: Real-time search with debouncing
@@ -118,6 +129,7 @@ Advanced project filtering and display system:
 - **Responsive Grid**: Auto-adjusting project cards
 
 #### Usage
+
 ```javascript
 // Initialize project gallery
 window.projectGallery = new ProjectGallery();
@@ -128,6 +140,7 @@ window.projectGallery = new ProjectGallery();
 ### Landing Page (`index-v2.html`)
 
 #### Structure
+
 1. **Navigation**: Fixed glassmorphic navbar with theme toggle
 2. **Hero Section**: Particle background with typewriter effect
 3. **Featured Projects**: Showcase of top 3 projects
@@ -136,6 +149,7 @@ window.projectGallery = new ProjectGallery();
 6. **Footer**: Comprehensive site navigation
 
 #### Key Features
+
 - Particle canvas background
 - Rotating skill display
 - Smooth scroll animations
@@ -145,6 +159,7 @@ window.projectGallery = new ProjectGallery();
 ### Projects Page (`projects/index.html`)
 
 #### Structure
+
 1. **Page Header**: Statistics and overview
 2. **Filter Bar**: Advanced filtering controls
 3. **Projects Grid**: Dynamic project display
@@ -152,6 +167,7 @@ window.projectGallery = new ProjectGallery();
 5. **Pagination**: Page navigation
 
 #### Key Features
+
 - Advanced filtering system
 - Real-time search
 - Category-based navigation
@@ -165,6 +181,7 @@ window.projectGallery = new ProjectGallery();
 Provides consistent functionality across portfolio applications:
 
 #### Features
+
 - **Header**: App branding and navigation
 - **Sidebar**: Feature navigation and settings
 - **Theme System**: App-specific theme management
@@ -174,6 +191,7 @@ Provides consistent functionality across portfolio applications:
 - **Session Timer**: Usage tracking
 
 #### Usage
+
 ```javascript
 const appConfig = {
   name: 'Neural Dice Arena',
@@ -216,17 +234,20 @@ Structured project data with comprehensive metadata:
 ## Performance Optimization
 
 ### Loading Strategy
+
 - **Font Loading**: Preload with fallback
 - **CSS Loading**: Critical CSS inline, non-critical deferred
 - **JavaScript**: ES6 modules with dynamic imports
 - **Images**: Lazy loading with Intersection Observer
 
 ### Performance Monitoring
+
 - **Core Web Vitals**: LCP, FID, CLS tracking
 - **Analytics**: Google Analytics 4 integration
 - **Error Tracking**: Console logging and monitoring
 
 ### Caching Strategy
+
 - **Service Worker**: Offline support and caching
 - **Browser Caching**: Static assets with long TTL
 - **CDN**: External resources from CDN
@@ -234,12 +255,14 @@ Structured project data with comprehensive metadata:
 ## SEO & Accessibility
 
 ### SEO Features
+
 - **Structured Data**: JSON-LD schema markup
 - **Meta Tags**: Comprehensive Open Graph and Twitter Card support
 - **Semantic HTML**: Proper heading hierarchy and landmarks
 - **Sitemap**: XML sitemap generation
 
 ### Accessibility
+
 - **WCAG 2.1 AA**: Full compliance
 - **Keyboard Navigation**: Complete keyboard support
 - **Screen Reader**: ARIA labels and semantic markup
@@ -249,12 +272,14 @@ Structured project data with comprehensive metadata:
 ## Browser Support
 
 ### Supported Browsers
+
 - **Chrome**: 90+
 - **Firefox**: 88+
 - **Safari**: 14+
 - **Edge**: 90+
 
 ### Fallbacks
+
 - **CSS Grid**: Flexbox fallbacks
 - **CSS Custom Properties**: Static values
 - **ES6 Modules**: Traditional script loading
@@ -263,12 +288,14 @@ Structured project data with comprehensive metadata:
 ## Deployment
 
 ### Build Process
+
 1. **CSS Optimization**: Minification and purging
 2. **JavaScript Bundling**: Module bundling and tree shaking
 3. **Image Optimization**: WebP conversion and compression
 4. **Asset Hashing**: Cache busting for static assets
 
 ### Deployment Checklist
+
 - [ ] Minify CSS and JavaScript
 - [ ] Optimize images and convert to WebP
 - [ ] Generate sitemap.xml
@@ -281,6 +308,7 @@ Structured project data with comprehensive metadata:
 ## Development Workflow
 
 ### Local Development
+
 ```bash
 # Start development server
 npm run dev
@@ -296,6 +324,7 @@ npm run audit
 ```
 
 ### Code Quality
+
 - **ESLint**: JavaScript linting
 - **Prettier**: Code formatting
 - **Husky**: Git hooks for quality checks
@@ -304,16 +333,19 @@ npm run audit
 ## Customization
 
 ### Adding New Projects
+
 1. Add project data to `data/projects.json`
 2. Add project thumbnail to `assets/images/projects/`
 3. Update project gallery filters if needed
 
 ### Modifying Design System
+
 1. Update design tokens in `assets/css/global-design-system.css`
 2. Test changes across all pages
 3. Update documentation
 
 ### Adding New Pages
+
 1. Create HTML file with proper structure
 2. Add page-specific CSS
 3. Create page-specific JavaScript module
@@ -324,28 +356,34 @@ npm run audit
 ### Common Issues
 
 #### Module Loading Errors
+
 - Ensure all JavaScript files use ES6 module syntax
 - Check import/export paths
 - Verify server supports ES6 modules
 
 #### CSS Not Loading
+
 - Check file paths in HTML
 - Verify CSS file exists
 - Check for syntax errors
 
 #### Performance Issues
+
 - Optimize images
 - Minify CSS and JavaScript
 - Enable gzip compression
 - Use CDN for external resources
 
 ### Debug Mode
+
 Enable debug mode by setting:
+
 ```javascript
 localStorage.setItem('debug', 'true');
 ```
 
 This will enable:
+
 - Console logging
 - Performance monitoring
 - Error tracking
@@ -354,6 +392,7 @@ This will enable:
 ## Future Enhancements
 
 ### Planned Features
+
 - **Blog System**: Technical articles and tutorials
 - **Contact Form**: Advanced contact system with validation
 - **Analytics Dashboard**: Real-time portfolio analytics
@@ -361,6 +400,7 @@ This will enable:
 - **PWA Features**: Offline support and app-like experience
 
 ### Technical Improvements
+
 - **TypeScript**: Full TypeScript migration
 - **React Integration**: Component-based architecture
 - **API Integration**: Dynamic content loading
