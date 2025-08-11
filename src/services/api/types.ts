@@ -94,9 +94,12 @@ export interface ClaudeConfig extends APIConfig {
   stop_sequences: string[];
   systemPrompt?: string;
   stream?: boolean;
+  version?: string;
+  retryDelay: number;
   safetySettings?: {
     enableContentFiltering: boolean;
     filterLevel: 'low' | 'medium' | 'high';
+    harmBlockThreshold?: string;
   };
 }
 
@@ -156,6 +159,8 @@ export interface ClaudeStreamResponse {
   delta?: {
     type: 'text_delta';
     text: string;
+    stop_reason?: 'end_turn' | 'max_tokens' | 'stop_sequence';
+    stop_sequence?: string;
   };
   usage?: {
     input_tokens: number;
@@ -175,7 +180,7 @@ export interface ClaudeUsage {
 }
 
 export interface ClaudeError extends APIError {
-  type: 'authentication_error' | 'permission_error' | 'not_found_error' | 'rate_limit_error' | 'api_error' | 'overloaded_error';
+  type: 'authentication_error' | 'permission_error' | 'not_found_error' | 'rate_limit_error' | 'api_error' | 'overloaded_error' | 'invalid_request_error';
   param?: string;
 }
 
@@ -334,6 +339,9 @@ export interface GitHubContent {
 // Analytics Service
 export interface AnalyticsConfig extends APIConfig {
   trackingId: string;
+  projectId?: string;
+  apiKey?: string;
+  endpoint?: string;
   ga4MeasurementId?: string;
   userId?: string;
   sessionId?: string;
@@ -354,6 +362,7 @@ export interface AnalyticsConfig extends APIConfig {
   enableOfflineSupport?: boolean;
   batchSize?: number;
   debugMode?: boolean;
+  flushInterval?: number;
 }
 
 // Enhanced Analytics Configuration
@@ -384,6 +393,9 @@ export interface AnalyticsEvent {
   timestamp?: number;
   userId?: string;
   sessionId?: string;
+  userAgent?: string;
+  url?: string;
+  referrer?: string;
 }
 
 export interface AnalyticsPageView {
@@ -401,6 +413,8 @@ export interface AnalyticsUser {
   properties: Record<string, any>;
   traits?: Record<string, any>;
   timestamp?: number;
+  firstSeen?: number;
+  lastSeen?: number;
 }
 
 export interface AnalyticsSession {
@@ -412,6 +426,7 @@ export interface AnalyticsSession {
   pageViews: number;
   events: number;
   properties?: Record<string, any>;
+  lastActivity?: number;
 }
 
 // Email Service
@@ -432,6 +447,7 @@ export interface EmailConfig extends APIConfig {
   enableOpenTracking?: boolean;
   enableClickTracking?: boolean;
   enableUnsubscribeTracking?: boolean;
+  enableSpamChecking?: boolean;
 }
 
 export interface EmailRecipient {
@@ -446,6 +462,9 @@ export interface EmailAttachment {
   type?: string;
   disposition?: 'attachment' | 'inline';
   contentId?: string;
+  size?: number;
+  url?: string;
+  contentType?: string;
 }
 
 export interface EmailTemplate {
@@ -455,6 +474,29 @@ export interface EmailTemplate {
   html?: string;
   text?: string;
   variables?: Record<string, any>;
+}
+
+export interface EmailMessage {
+  to: EmailRecipient[];
+  cc?: EmailRecipient[];
+  bcc?: EmailRecipient[];
+  from?: EmailRecipient;
+  subject?: string;
+  htmlContent?: string;
+  textContent?: string;
+  templateId?: string;
+  templateData?: Record<string, any>;
+  attachments?: EmailAttachment[];
+  headers?: Record<string, string>;
+  tags?: string[];
+  metadata?: Record<string, any>;
+  scheduledAt?: Date;
+  priority?: 'low' | 'normal' | 'high';
+  tracking?: {
+    openTracking?: boolean;
+    clickTracking?: boolean;
+    unsubscribeTracking?: boolean;
+  };
 }
 
 export interface EmailRequest {

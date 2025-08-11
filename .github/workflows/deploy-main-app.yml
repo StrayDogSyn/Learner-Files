@@ -29,7 +29,17 @@ jobs:
           cache: 'npm'
 
       - name: 📥 Install Dependencies
-        run: npm ci
+        run: npm ci --legacy-peer-deps
+
+      - name: 🔍 Verify Build Requirements
+        run: |
+          echo "📋 Checking package.json dependencies..."
+          cat package.json | grep -A 5 -B 5 "react"
+          echo "📊 Environment info:"
+          echo "Node version: $(node --version)"
+          echo "NPM version: $(npm --version)"
+          echo "📦 Installed packages:"
+          npm list --depth=0 || true
 
       - name: 🔨 Build React Application
         run: npm run build
@@ -41,13 +51,20 @@ jobs:
           # Create .nojekyll file to bypass Jekyll processing
           touch dist/.nojekyll
           
+          # Verify build output
+          echo "📂 Build directory contents:"
+          ls -la dist/
+          
           # Ensure proper file structure for GitHub Pages
           if [ ! -f "dist/index.html" ]; then
             echo "❌ No index.html found in build output"
+            echo "📂 Available files:"
+            find dist/ -type f -name "*.html" || echo "No HTML files found"
             exit 1
           fi
           
           echo "✅ Build output verified successfully"
+          echo "📄 index.html size: $(wc -c < dist/index.html) bytes"
 
       - name: 📤 Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4

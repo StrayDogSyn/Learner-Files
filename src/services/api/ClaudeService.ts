@@ -37,6 +37,7 @@ export class ClaudeService extends BaseAPIClient {
       },
       timeout: config.timeout || 60000,
       retries: config.retries || 3,
+      retryDelay: config.retryDelay || 1000,
       rateLimit: {
         requests: config.rateLimit?.requests || 50,
         window: config.rateLimit?.window || 60000
@@ -53,7 +54,8 @@ export class ClaudeService extends BaseAPIClient {
       stream: false,
       safetySettings: {
         harmBlockThreshold: 'BLOCK_MEDIUM_AND_ABOVE',
-        enableContentFiltering: true
+        enableContentFiltering: true,
+        filterLevel: 'medium'
       },
       ...config
     };
@@ -305,17 +307,21 @@ export class ClaudeService extends BaseAPIClient {
     }
 
     const totalUsage: ClaudeUsage = {
-      input_tokens: 0,
-      output_tokens: 0,
-      total_tokens: 0
+      inputTokens: 0,
+      outputTokens: 0,
+      totalTokens: 0,
+      cost: 0,
+      timestamp: new Date(),
+      requestId: '',
+      model: this.claudeConfig.model
     };
 
     for (const [timestamp, usage] of this.usageTracking.entries()) {
       const time = parseInt(timestamp);
       if (time >= cutoff) {
-        totalUsage.input_tokens += usage.input_tokens;
-        totalUsage.output_tokens += usage.output_tokens;
-        totalUsage.total_tokens += usage.total_tokens;
+        totalUsage.inputTokens += usage.inputTokens;
+        totalUsage.outputTokens += usage.outputTokens;
+        totalUsage.totalTokens += usage.totalTokens;
       }
     }
 
