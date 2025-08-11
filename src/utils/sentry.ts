@@ -1,6 +1,4 @@
 import * as Sentry from '@sentry/react';
-import { Replay } from '@sentry/replay';
-import { BrowserTracing } from '@sentry/tracing';
 import { getUnifiedAPI } from '@/services/api';
 
 /**
@@ -65,7 +63,7 @@ export const initSentry = (config: Partial<SentryConfig> = {}) => {
       // Integrations
       integrations: [
         // Browser tracing for performance monitoring
-        new BrowserTracing({
+        Sentry.browserTracingIntegration({
           // Track specific interactions
           tracePropagationTargets: [
             'localhost',
@@ -76,10 +74,10 @@ export const initSentry = (config: Partial<SentryConfig> = {}) => {
         
         // Session replay (production only)
         ...(finalConfig.enableSessionReplay ? [
-          new Replay({
+          Sentry.replayIntegration({
             maskAllText: true,
             blockAllMedia: true,
-            sampleRate: 0.1,
+            sessionSampleRate: 0.1,
             errorSampleRate: 1.0
           })
         ] : []),
@@ -97,10 +95,10 @@ export const initSentry = (config: Partial<SentryConfig> = {}) => {
                 // Aggregate metrics from all services
                 const aggregatedMetrics = Object.values(allMetrics).reduce(
                   (acc, serviceMetrics) => ({
-                    total_requests: acc.total_requests + serviceMetrics.totalRequests,
-                    failed_requests: acc.failed_requests + serviceMetrics.failedRequests,
-                    average_response_time: (acc.average_response_time + serviceMetrics.averageResponseTime) / 2,
-                    rate_limit_hits: acc.rate_limit_hits + serviceMetrics.rateLimitHits
+                    total_requests: acc.total_requests + serviceMetrics.requests.total,
+                    failed_requests: acc.failed_requests + serviceMetrics.requests.failed,
+                    average_response_time: (acc.average_response_time + serviceMetrics.latency.average) / 2,
+                    rate_limit_hits: acc.rate_limit_hits + serviceMetrics.rateLimit.hits
                   }),
                   { total_requests: 0, failed_requests: 0, average_response_time: 0, rate_limit_hits: 0 }
                 );
