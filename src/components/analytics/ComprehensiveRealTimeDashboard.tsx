@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/Badge';
+import GlassProgress from '@/components/ui/GlassProgress';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs';
 // Alert component replaced with div structure
 import { LineChart, Line, AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Users, Eye, Clock, TrendingUp, Download, MousePointer, Target, AlertTriangle, Activity, Globe } from 'lucide-react';
@@ -651,7 +651,7 @@ const ComprehensiveRealTimeDashboard: React.FC = () => {
                       <span className="font-medium">{step.step}</span>
                       <span className="text-sm text-slate-600">{step.users} users ({step.rate}%)</span>
                     </div>
-                    <Progress value={step.rate} className="h-2" />
+                    <GlassProgress value={step.rate} className="h-2" />
                   </div>
                 ))}
               </div>
@@ -894,7 +894,7 @@ const ComprehensiveRealTimeDashboard: React.FC = () => {
                         <span>{goal.current} / {goal.target}</span>
                         <span>{((goal.current / goal.target) * 100).toFixed(1)}%</span>
                       </div>
-                      <Progress value={(goal.current / goal.target) * 100} className="h-2" />
+                      <GlassProgress value={(goal.current / goal.target) * 100} className="h-2" />
                     </div>
                   ))
                 )}

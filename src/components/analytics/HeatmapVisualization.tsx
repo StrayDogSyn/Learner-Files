@@ -13,7 +13,16 @@ import {
 import GlassCard from '../ui/GlassCard';
 import GlassButton from '../ui/GlassButton';
 import GlassDropdown from '../ui/GlassDropdown';
-import { HeatmapData } from '../../services/api/EnhancedAnalyticsService';
+// Define HeatmapData interface locally since it's not exported from EnhancedAnalyticsService
+export interface HeatmapData {
+  x: number;
+  y: number;
+  timestamp: number;
+  type: 'click' | 'move' | 'scroll';
+  page: string;
+  sessionId?: string;
+  userId?: string;
+}
 
 export interface HeatmapVisualizationProps {
   data: HeatmapData[];
