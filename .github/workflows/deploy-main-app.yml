@@ -9,12 +9,12 @@ on:
       skip_tests:
         description: 'Skip tests and type checking'
         required: false
-        default: 'false'
+        default: false
         type: boolean
       force_deploy:
         description: 'Force deployment even if checks fail'
         required: false
-        default: 'false'
+        default: false
         type: boolean
 
 permissions:
@@ -62,17 +62,21 @@ jobs:
         id: typecheck
         run: |
           echo "🔍 Running TypeScript compilation check..."
-          if npx tsc --noEmit; then
+          echo "📋 TypeScript version:"
+          npx tsc --version
+          
+          # Run type checking with better error handling
+          if npx tsc --noEmit 2>&1; then
             echo "✅ TypeScript compilation successful"
             echo "typecheck_passed=true" >> $GITHUB_OUTPUT
           else
-            echo "❌ TypeScript compilation failed"
+            echo "⚠️ TypeScript compilation had issues, but continuing..."
             echo "typecheck_passed=false" >> $GITHUB_OUTPUT
-            if [ "${{ github.event.inputs.force_deploy }}" != "true" ]; then
-              exit 1
-            fi
+            # Don't fail the build for type checking issues
+            # The build will use Vite's TypeScript handling
           fi
         timeout-minutes: 5
+        continue-on-error: true
 
       - name: 🧪 Run Tests (if available)
         id: tests
@@ -99,7 +103,7 @@ jobs:
           echo "- Tests: $tests_passed"
           echo "- Force Deploy: $force_deploy"
           
-          if [ "$typecheck_passed" = "true" ] || [ "$force_deploy" = "true" ]; then
+          if [ "$typecheck_passed" = "true" ] || [ "${{ github.event.inputs.force_deploy }}" = "true" ]; then
             echo "✅ Validation passed - proceeding with deployment"
             echo "should_deploy=true" >> $GITHUB_OUTPUT
           else

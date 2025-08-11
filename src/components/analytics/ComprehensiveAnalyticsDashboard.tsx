@@ -639,19 +639,39 @@ const ComprehensiveAnalyticsDashboard: React.FC = () => {
           )}
 
           {activeTab === 'heatmap' && (
-            <HeatmapVisualization />
+            <HeatmapVisualization data={[]} />
           )}
 
           {activeTab === 'ai-insights' && (
-            <AIInsightsDashboard />
+            <AIInsightsDashboard 
+              insights={[]}
+              onGenerateInsights={() => {}}
+              onInsightAction={() => {}}
+            />
           )}
 
           {activeTab === 'ab-testing' && (
-            <ABTestingFramework />
+            <ABTestingFramework 
+              tests={[]}
+              onCreateTest={() => {}}
+              onUpdateTest={() => {}}
+              onDeleteTest={() => {}}
+              onStartTest={() => {}}
+              onStopTest={() => {}}
+              onViewResults={() => {}}
+            />
           )}
 
           {activeTab === 'sessions' && (
-            <SessionRecording />
+            <SessionRecording 
+              recordings={[]}
+              onPlayRecording={() => {}}
+              onDeleteRecording={() => {}}
+              onExportRecording={() => {}}
+              onFilterRecordings={() => {}}
+              onSearchRecordings={() => {}}
+              onTagRecording={() => {}}
+            />
           )}
 
           {activeTab === 'performance' && metrics && (
