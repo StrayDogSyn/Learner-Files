@@ -37,6 +37,18 @@ export interface LeaderboardEntry {
   timeToComplete: number;
 }
 
+export interface GameStats {
+  totalSessions: number;
+  totalPlayTime: number;
+  completedSessions: number;
+  bestScore: number;
+  averageScore: number;
+  achievements: string[];
+  customStats: any;
+  category: string;
+  difficulty: string;
+}
+
 export interface GameState {
   // User Progress
   level: number;
@@ -63,6 +75,10 @@ export interface GameState {
   username: string;
   showNotifications: boolean;
   
+  // Game States and Stats
+  gameStates: Record<string, any>;
+  gameStats: Record<string, GameStats>;
+  
   // Actions
   addXP: (amount: number) => void;
   addAchievement: (achievement: Omit<Achievement, 'unlockedAt'>) => void;
@@ -76,6 +92,12 @@ export interface GameState {
   getAchievementsByRarity: (rarity: Achievement['rarity']) => Achievement[];
   getRecentAchievements: (limit?: number) => Achievement[];
   calculateLevel: (xp: number) => { level: number; xpToNext: number };
+  
+  // Game State Management
+  updateGameState: (gameId: string, state: any) => void;
+  getGameState: (gameId: string) => any;
+  updateGameStats: (gameId: string, stats: GameStats) => void;
+  getGameStats: (gameId: string) => GameStats | null;
 }
 
 const INITIAL_ACHIEVEMENTS: Achievement[] = [
@@ -167,6 +189,10 @@ export const useGameStore = create<GameState>()(
       sharedAchievements: [],
       username: '',
       showNotifications: true,
+      
+      // Game States and Stats
+      gameStates: {},
+      gameStats: {},
 
       // Actions
       addXP: (amount: number) => {
@@ -383,7 +409,9 @@ export const useGameStore = create<GameState>()(
           userRank: 0,
           sharedAchievements: [],
           username: '',
-          showNotifications: true
+          showNotifications: true,
+          gameStates: {},
+          gameStats: {}
         }));
       },
 
@@ -406,7 +434,38 @@ export const useGameStore = create<GameState>()(
           .slice(0, limit);
       },
 
-      calculateLevel: calculateLevelFromXP
+      calculateLevel: calculateLevelFromXP,
+      
+      // Game State Management
+      updateGameState: (gameId: string, state: any) => {
+        set((currentState) => ({
+          ...currentState,
+          gameStates: {
+            ...currentState.gameStates,
+            [gameId]: state
+          }
+        }));
+      },
+      
+      getGameState: (gameId: string) => {
+        const state = get();
+        return state.gameStates[gameId] || null;
+      },
+      
+      updateGameStats: (gameId: string, stats: GameStats) => {
+        set((currentState) => ({
+          ...currentState,
+          gameStats: {
+            ...currentState.gameStats,
+            [gameId]: stats
+          }
+        }));
+      },
+      
+      getGameStats: (gameId: string) => {
+        const state = get();
+        return state.gameStats[gameId] || null;
+      }
     }),
     {
       name: 'game-store',

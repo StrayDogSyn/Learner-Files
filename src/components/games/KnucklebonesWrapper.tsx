@@ -96,6 +96,7 @@ const KnucklebonesWrapper: React.FC<KnucklebonesWrapperProps> = ({ className }) 
       // Update store with comprehensive stats
       updateGameStats('knucklebones', {
         totalSessions: newStats.gamesPlayed,
+        totalPlayTime: newStats.gamesPlayed * 300, // Estimate 5 minutes per game
         completedSessions: newStats.gamesPlayed,
         bestScore: newStats.bestScore,
         averageScore: newStats.gamesPlayed > 0 ? newStats.totalScore / newStats.gamesPlayed : 0,
@@ -164,7 +165,6 @@ const KnucklebonesWrapper: React.FC<KnucklebonesWrapperProps> = ({ className }) 
           }
         }}
         className="text-yellow-400 hover:text-yellow-300"
-        title={`Difficulty: ${gameState?.difficulty || 'medium'}`}
       />
       
       <GlassButton
@@ -176,7 +176,6 @@ const KnucklebonesWrapper: React.FC<KnucklebonesWrapperProps> = ({ className }) 
           console.log('Achievements:', getAchievements(gameStats));
         }}
         className="text-green-400 hover:text-green-300"
-        title="View Achievements"
       />
     </>
   );

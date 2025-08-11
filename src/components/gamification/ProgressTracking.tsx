@@ -376,7 +376,7 @@ export const ProgressTracking: React.FC = () => {
             
             if (!section.completed) {
               // Award XP and unlock achievements
-              addXP(section.xpReward, `Completed ${section.title}`);
+              addXP(section.xpReward);
               
               // Check for achievements
               const completedCount = path.sections.filter(s => s.completed).length + 1;

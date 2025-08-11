@@ -205,11 +205,13 @@ export const RewardSystem: React.FC = () => {
     setRewards(rewardsList);
   }, [portfolioSections.length]);
 
+  // Get totalXP from game store
+  const { totalXP } = useGameStore();
+  
   // Check for completed sections and unlock rewards
   useEffect(() => {
     const completedSections = portfolioSections.filter(s => s.completed).length;
-    const totalXP = userProgress.totalXP;
-    const unlockedAchievements = achievements.filter(a => a.unlocked).length;
+    const unlockedAchievements = achievements.filter(a => a.unlockedAt).length;
 
     setRewards(prev => prev.map(reward => {
       if (reward.unlocked) return reward;
@@ -234,7 +236,7 @@ export const RewardSystem: React.FC = () => {
 
       return reward;
     }));
-  }, [portfolioSections, userProgress.totalXP, achievements]);
+  }, [portfolioSections, totalXP, achievements]);
 
   const completeSection = (sectionId: string) => {
     setPortfolioSections(prev => prev.map(section => {

@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
+import GitHubPagesAnalyticsService from '../services/api/GitHubPagesAnalyticsService';
 
 export interface AnalyticsEvent {
   id: string;
@@ -46,19 +47,24 @@ const STORAGE_KEYS = {
   EVENTS: 'portfolio_analytics_events',
   SESSION: 'portfolio_analytics_session',
   USER_PREFERENCES: 'portfolio_user_preferences',
-  PERFORMANCE: 'portfolio_performance_metrics'
+  PERFORMANCE: 'portfolio_performance_metrics',
+  GITHUB_PAGES_METRICS: 'github_pages_analytics_metrics'
 };
 
 const MAX_EVENTS = 1000; // Limit stored events for performance
 const SESSION_TIMEOUT = 30 * 60 * 1000; // 30 minutes
+const REAL_TIME_UPDATE_INTERVAL = 30000; // 30 seconds
 
 export const useAnalytics = () => {
   const location = useLocation();
   const [sessionData, setSessionData] = useState<SessionData | null>(null);
   const [events, setEvents] = useState<AnalyticsEvent[]>([]);
   const [isTracking, setIsTracking] = useState(true);
+  const [isRealTimeEnabled, setIsRealTimeEnabled] = useState(true);
+  const [githubPagesService] = useState(() => new GitHubPagesAnalyticsService());
   const sessionTimeoutRef = useRef<NodeJS.Timeout>();
   const performanceObserverRef = useRef<PerformanceObserver>();
+  const realTimeIntervalRef = useRef<NodeJS.Timeout>();
 
   // Generate unique IDs
   const generateId = useCallback(() => {
@@ -147,6 +153,9 @@ export const useAnalytics = () => {
       timestamp: Date.now()
     });
 
+    // Track with GitHub Pages service
+    githubPagesService.trackPageView(path, title || document.title);
+
     if (sessionData) {
       const updatedSession = {
         ...sessionData,
@@ -155,7 +164,7 @@ export const useAnalytics = () => {
       setSessionData(updatedSession);
       localStorage.setItem(STORAGE_KEYS.SESSION, JSON.stringify(updatedSession));
     }
-  }, [trackEvent, sessionData]);
+  }, [trackEvent, sessionData, githubPagesService]);
 
   // Track user interactions
   const trackInteraction = useCallback((element: string, action: string, metadata?: Record<string, any>) => {
@@ -175,6 +184,20 @@ export const useAnalytics = () => {
       userAgent: navigator.userAgent
     });
 
+    // Track with GitHub Pages service
+    if (metrics.largestContentfulPaint) {
+      githubPagesService.trackPerformanceMetric('lcp', metrics.largestContentfulPaint);
+    }
+    if (metrics.firstInputDelay) {
+      githubPagesService.trackPerformanceMetric('fid', metrics.firstInputDelay);
+    }
+    if (metrics.cumulativeLayoutShift) {
+      githubPagesService.trackPerformanceMetric('cls', metrics.cumulativeLayoutShift);
+    }
+    if (metrics.firstContentfulPaint) {
+      githubPagesService.trackPerformanceMetric('fcp', metrics.firstContentfulPaint);
+    }
+
     // Store latest performance metrics
     const existingMetrics = localStorage.getItem(STORAGE_KEYS.PERFORMANCE);
     const allMetrics = existingMetrics ? JSON.parse(existingMetrics) : [];
@@ -187,7 +210,7 @@ export const useAnalytics = () => {
     // Keep only last 50 performance entries
     const limitedMetrics = allMetrics.slice(-50);
     localStorage.setItem(STORAGE_KEYS.PERFORMANCE, JSON.stringify(limitedMetrics));
-  }, [trackEvent, location.pathname]);
+  }, [trackEvent, location.pathname, githubPagesService]);
 
   // Track errors
   const trackError = useCallback((error: Error, context?: string) => {
@@ -200,6 +223,58 @@ export const useAnalytics = () => {
     });
   }, [trackEvent, location.pathname]);
 
+  // Portfolio-specific tracking methods
+  const trackProjectView = useCallback((projectId: string, projectName: string) => {
+    trackEvent('custom', {
+      action: 'project_view',
+      projectId,
+      projectName,
+      path: location.pathname
+    });
+    githubPagesService.trackProjectView(projectId, projectName);
+  }, [trackEvent, location.pathname, githubPagesService]);
+
+  const trackGameCompletion = useCallback((gameId: string, completed: boolean, timeSpent: number, score?: number) => {
+    trackEvent('custom', {
+      action: 'game_completion',
+      gameId,
+      completed,
+      timeSpent,
+      score,
+      path: location.pathname
+    });
+    githubPagesService.trackGameCompletion(gameId, completed, timeSpent, score);
+  }, [trackEvent, location.pathname, githubPagesService]);
+
+  const trackContactFormInteraction = useCallback((action: 'view' | 'start' | 'submit', data?: any) => {
+    trackEvent('custom', {
+      action: 'contact_form_interaction',
+      formAction: action,
+      data,
+      path: location.pathname
+    });
+    githubPagesService.trackContactFormInteraction(action, data);
+  }, [trackEvent, location.pathname, githubPagesService]);
+
+  const trackResumeDownload = useCallback((source: string) => {
+    trackEvent('custom', {
+      action: 'resume_download',
+      source,
+      path: location.pathname
+    });
+    githubPagesService.trackResumeDownload(source);
+  }, [trackEvent, location.pathname, githubPagesService]);
+
+  const trackSocialMediaClick = useCallback((platform: string, url: string) => {
+    trackEvent('custom', {
+      action: 'social_media_click',
+      platform,
+      url,
+      path: location.pathname
+    });
+    githubPagesService.trackSocialMediaClick(platform, url);
+  }, [trackEvent, location.pathname, githubPagesService]);
+
   // Get analytics data
   const getAnalyticsData = useCallback(() => {
     return {
@@ -209,9 +284,30 @@ export const useAnalytics = () => {
       eventsByType: events.reduce((acc, event) => {
         acc[event.type] = (acc[event.type] || 0) + 1;
         return acc;
-      }, {} as Record<string, number>)
+      }, {} as Record<string, number>),
+      githubPagesMetrics: githubPagesService.getMetrics()
     };
-  }, [sessionData, events]);
+  }, [sessionData, events, githubPagesService]);
+
+  // Get real-time metrics
+  const getRealTimeMetrics = useCallback(() => {
+    return githubPagesService.getMetrics();
+  }, [githubPagesService]);
+
+  // Get heatmap data
+  const getHeatmapData = useCallback(() => {
+    return githubPagesService.getHeatmapData();
+  }, [githubPagesService]);
+
+  // Export analytics data
+  const exportAnalyticsData = useCallback((format: 'json' | 'csv') => {
+    return githubPagesService.exportData(format);
+  }, [githubPagesService]);
+
+  // Generate weekly report
+  const generateWeeklyReport = useCallback(() => {
+    return githubPagesService.generateWeeklyReport();
+  }, [githubPagesService]);
 
   // Clear analytics data
   const clearAnalyticsData = useCallback(() => {
@@ -228,6 +324,12 @@ export const useAnalytics = () => {
     localStorage.setItem('analytics_enabled', enabled.toString());
   }, []);
 
+  // Toggle real-time updates
+  const toggleRealTime = useCallback((enabled: boolean) => {
+    setIsRealTimeEnabled(enabled);
+    localStorage.setItem('realtime_enabled', enabled.toString());
+  }, []);
+
   // Initialize analytics
   useEffect(() => {
     // Check if analytics is enabled
@@ -236,6 +338,15 @@ export const useAnalytics = () => {
       setIsTracking(false);
       return;
     }
+
+    // Check if real-time is enabled
+    const realTimeEnabled = localStorage.getItem('realtime_enabled');
+    if (realTimeEnabled === 'false') {
+      setIsRealTimeEnabled(false);
+    }
+
+    // Initialize GitHub Pages analytics service
+    githubPagesService.initialize().catch(console.error);
 
     // Load existing events
     const storedEvents = localStorage.getItem(STORAGE_KEYS.EVENTS);
@@ -284,8 +395,41 @@ export const useAnalytics = () => {
       if (performanceObserverRef.current) {
         performanceObserverRef.current.disconnect();
       }
+      githubPagesService.destroy();
     };
-  }, [initializeSession, trackPerformance]);
+  }, [initializeSession, trackPerformance, githubPagesService]);
+
+  // Set up real-time updates
+  useEffect(() => {
+    if (!isRealTimeEnabled) {
+      if (realTimeIntervalRef.current) {
+        clearInterval(realTimeIntervalRef.current);
+      }
+      return;
+    }
+
+    realTimeIntervalRef.current = setInterval(() => {
+      // Update session duration
+      if (sessionData) {
+        const updatedSession = {
+          ...sessionData,
+          duration: Date.now() - sessionData.startTime
+        };
+        setSessionData(updatedSession);
+        localStorage.setItem(STORAGE_KEYS.SESSION, JSON.stringify(updatedSession));
+      }
+
+      // Sync with GitHub Pages service
+      const currentMetrics = githubPagesService.getMetrics();
+      localStorage.setItem(STORAGE_KEYS.GITHUB_PAGES_METRICS, JSON.stringify(currentMetrics));
+    }, REAL_TIME_UPDATE_INTERVAL);
+
+    return () => {
+      if (realTimeIntervalRef.current) {
+        clearInterval(realTimeIntervalRef.current);
+      }
+    };
+  }, [isRealTimeEnabled, sessionData, githubPagesService]);
 
   // Track page changes
   useEffect(() => {
@@ -320,18 +464,33 @@ export const useAnalytics = () => {
     sessionData,
     events,
     isTracking,
+    isRealTimeEnabled,
     
-    // Actions
+    // Basic tracking
     trackEvent,
     trackPageView,
     trackInteraction,
     trackPerformance,
     trackError,
     
-    // Utilities
+    // Portfolio-specific tracking
+    trackProjectView,
+    trackGameCompletion,
+    trackContactFormInteraction,
+    trackResumeDownload,
+    trackSocialMediaClick,
+    
+    // Data access
     getAnalyticsData,
+    getRealTimeMetrics,
+    getHeatmapData,
+    exportAnalyticsData,
+    generateWeeklyReport,
+    
+    // Utilities
     clearAnalyticsData,
-    toggleTracking
+    toggleTracking,
+    toggleRealTime
   };
 };
 

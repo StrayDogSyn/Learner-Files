@@ -465,7 +465,6 @@ const RockPaperScissorsWrapper: React.FC<RockPaperScissorsWrapperProps> = ({ cla
         icon={Brain}
         onClick={changeAIDifficulty}
         className="text-purple-400 hover:text-purple-300"
-        title={`AI: ${gameState?.aiDifficulty || 'medium'}`}
       />
       
       <GlassButton
@@ -474,7 +473,6 @@ const RockPaperScissorsWrapper: React.FC<RockPaperScissorsWrapperProps> = ({ cla
         icon={Target}
         onClick={changeGameMode}
         className="text-blue-400 hover:text-blue-300"
-        title={`Mode: ${gameState?.currentGame.gameMode || 'classic'}`}
       />
       
       <GlassButton
@@ -485,7 +483,6 @@ const RockPaperScissorsWrapper: React.FC<RockPaperScissorsWrapperProps> = ({ cla
           console.log('Player Patterns:', gameState?.patterns || {});
         }}
         className="text-yellow-400 hover:text-yellow-300"
-        title="AI Prediction"
       />
       
       <GlassButton
@@ -496,7 +493,6 @@ const RockPaperScissorsWrapper: React.FC<RockPaperScissorsWrapperProps> = ({ cla
           console.log('Achievements:', gameStats.achievements);
         }}
         className="text-green-400 hover:text-green-300"
-        title="Achievements"
       />
       
       <GlassButton
@@ -507,7 +503,6 @@ const RockPaperScissorsWrapper: React.FC<RockPaperScissorsWrapperProps> = ({ cla
           console.log('Game Statistics:', gameStats);
         }}
         className="text-cyan-400 hover:text-cyan-300"
-        title="Statistics"
       />
     </>
   );
@@ -518,7 +513,7 @@ const RockPaperScissorsWrapper: React.FC<RockPaperScissorsWrapperProps> = ({ cla
       title="Rock Paper Scissors"
       description="Classic strategy game with AI opponents and pattern recognition!"
       category="strategy"
-      difficulty={gameState?.aiDifficulty || 'medium'}
+      difficulty={gameState?.aiDifficulty === 'adaptive' ? 'expert' : (gameState?.aiDifficulty || 'medium')}
       className={className}
       enableAnalytics={true}
       enablePerformanceTracking={true}
@@ -527,7 +522,12 @@ const RockPaperScissorsWrapper: React.FC<RockPaperScissorsWrapperProps> = ({ cla
       enableAudio={true}
       customControls={customControls}
       onGameStart={handleGameStart}
-      onGameEnd={handleGameEnd}
+      onGameEnd={(score, stats) => {
+        // Adapter to convert GameWrapper's signature to our handleGameEnd signature
+        if (gameState) {
+          handleGameEnd({ player: gameState.score.player, computer: gameState.score.computer });
+        }
+      }}
       onGameReset={handleGameReset}
     >
       <div className="w-full h-full min-h-[600px] p-4">

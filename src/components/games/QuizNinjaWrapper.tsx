@@ -348,7 +348,7 @@ const QuizNinjaWrapper: React.FC<QuizNinjaWrapperProps> = ({ className }) => {
           }
         }}
         className="text-purple-400 hover:text-purple-300"
-        title={`Difficulty: ${gameState?.difficulty || 'medium'}`}
+
       />
       
       <GlassButton
@@ -370,7 +370,6 @@ const QuizNinjaWrapper: React.FC<QuizNinjaWrapperProps> = ({ className }) => {
           }
         }}
         className="text-blue-400 hover:text-blue-300"
-        title={`Mode: ${gameState?.gameMode || 'timed'}`}
       />
       
       <GlassButton
@@ -381,7 +380,6 @@ const QuizNinjaWrapper: React.FC<QuizNinjaWrapperProps> = ({ className }) => {
           console.log('Power-ups:', gameState?.powerUps || {});
         }}
         className="text-yellow-400 hover:text-yellow-300"
-        title="Power-ups"
       />
       
       <GlassButton
@@ -392,7 +390,6 @@ const QuizNinjaWrapper: React.FC<QuizNinjaWrapperProps> = ({ className }) => {
           console.log('Achievements:', getAchievements(quizStats));
         }}
         className="text-green-400 hover:text-green-300"
-        title="Achievements"
       />
     </>
   );

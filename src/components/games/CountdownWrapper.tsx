@@ -286,7 +286,7 @@ const CountdownWrapper: React.FC<CountdownWrapperProps> = ({ className }) => {
         averageScore: newStats.averageDuration,
         achievements: newStats.achievements,
         customStats: newStats,
-        category: 'productivity',
+        category: 'utility',
         difficulty: 'easy'
       });
     }
@@ -453,7 +453,7 @@ const CountdownWrapper: React.FC<CountdownWrapperProps> = ({ className }) => {
       gameId="countdown"
       title="Countdown Timer"
       description="Focus timer with presets for productivity, meditation, and breaks!"
-      category="productivity"
+      category="utility"
       difficulty="easy"
       className={className}
       enableAnalytics={true}
@@ -501,7 +501,7 @@ const CountdownWrapper: React.FC<CountdownWrapperProps> = ({ className }) => {
               {gameState.presets.map((preset) => (
                 <GlassButton
                   key={preset.id}
-                  variant="outline"
+                  variant="secondary"
                   size="sm"
                   onClick={() => setPresetTimer(preset)}
                   className="text-xs"
