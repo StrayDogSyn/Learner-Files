@@ -1,6 +1,7 @@
 import { ClaudeService } from './ClaudeService';
 import { AnalyticsService } from './AnalyticsService';
 import { EnhancedAnalyticsService } from './EnhancedAnalyticsService';
+import type { EnhancedAnalyticsConfig } from './types';
 
 export interface UserBehaviorData {
   userId?: string;
@@ -194,9 +195,27 @@ class RecommendationEngine {
   private mlModels: Map<string, any> = new Map();
 
   constructor() {
-    this.claudeService = new ClaudeService();
+    this.claudeService = new ClaudeService({
+      baseURL: 'https://api.anthropic.com',
+      timeout: 30000,
+      retries: 3,
+      retryDelay: 1000,
+      rateLimit: { requests: 100, window: 60000 },
+      apiKey: process.env.CLAUDE_API_KEY || 'default-key',
+      model: 'claude-3-5-sonnet-20241022',
+      maxTokens: 4000,
+      temperature: 0.7,
+      topP: 0.9,
+      topK: 40,
+      stop_sequences: []
+    });
     this.analyticsService = new AnalyticsService({
       trackingId: 'default',
+      baseURL: 'https://analytics.example.com',
+      timeout: 30000,
+      retries: 3,
+      retryDelay: 1000,
+      rateLimit: { requests: 100, window: 60000 },
       enableAutoTracking: true,
       enablePerformanceTracking: true,
       enableErrorTracking: true,
@@ -211,8 +230,16 @@ class RecommendationEngine {
       respectDoNotTrack: true
     });
     this.enhancedAnalyticsService = new EnhancedAnalyticsService({
+      baseURL: 'https://api.analytics.com',
+      timeout: 30000,
+      retries: 3,
+      retryDelay: 1000,
+      rateLimit: {
+        requests: 100,
+        window: 60000
+      },
+      trackingId: 'UA-XXXXXXXXX-1',
       ga4MeasurementId: 'G-XXXXXXXXXX',
-      mixpanelToken: 'your-mixpanel-token',
       enableHeatmaps: true,
       enableSessionRecording: true,
       enableAIInsights: true,
@@ -299,14 +326,15 @@ class RecommendationEngine {
         context
       );
       
-      const response = await this.claudeService.generateCompletion([{ role: 'user', content: prompt }], {
-        prompt,
+      const response = await this.claudeService.sendMessage([{ role: 'user', content: prompt }], {
+        // prompt removed from options
         model: 'claude-3-sonnet-20240229',
-        maxTokens: 4000,
+        max_tokens: 4000,
         temperature: 0.4
       });
 
-      return this.parseRecommendationsFromResponse(response.content);
+      const responseText = response.content.map(c => c.type === 'text' ? c.text : '').join('');
+      return this.parseRecommendationsFromResponse(responseText);
     } catch (error) {
       console.error('Error generating AI recommendations:', error);
       return [];
@@ -886,10 +914,4 @@ const recommendationEngine = new RecommendationEngine();
 export default recommendationEngine;
 
 // Export types
-export type {
-  UserBehaviorData,
-  ContentItem,
-  Recommendation,
-  RecommendationContext,
-  PersonalizationRule
-};
+// Types are already exported above

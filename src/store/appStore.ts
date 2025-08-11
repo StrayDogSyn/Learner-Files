@@ -245,11 +245,11 @@ export interface AppState {
   
   // Games state
   games: {
-    metadata: Record<GameId, GameMetadata>;
+    metadata: Partial<Record<GameId, GameMetadata>>;
     favorites: GameId[];
     recentlyPlayed: GameId[];
-    statistics: Record<GameId, any>;
-    achievements: Record<GameId, Achievement[]>;
+    statistics: Partial<Record<GameId, any>>;
+    achievements: Partial<Record<GameId, Achievement[]>>;
   };
   
   // Session state
@@ -390,11 +390,11 @@ const defaultUser: User = {
       lastPlayDate: 0
     },
     skillLevels: {
-      puzzle: 1,
       strategy: 1,
-      action: 1,
       educational: 1,
-      utility: 1
+      productivity: 1,
+      utility: 1,
+      entertainment: 1
     }
   },
   achievements: [],
@@ -750,10 +750,27 @@ export const useAppStore = create<AppState & AppActions>()
         // Game actions
         updateGameMetadata: (gameId, metadata) => {
           set((state) => {
-            state.games.metadata[gameId] = {
-              ...state.games.metadata[gameId],
-              ...metadata
-            };
+            if (!state.games.metadata[gameId]) {
+              // Initialize with default metadata if it doesn't exist
+              state.games.metadata[gameId] = {
+                id: gameId,
+                title: metadata.title || '',
+                description: metadata.description || '',
+                category: metadata.category || 'utility',
+                defaultDifficulty: metadata.defaultDifficulty || 'medium',
+                features: metadata.features ? [...metadata.features] : [],
+                tags: metadata.tags ? [...metadata.tags] : []
+              };
+            } else {
+              // Update existing metadata
+              const current = state.games.metadata[gameId];
+              state.games.metadata[gameId] = {
+                ...current,
+                ...metadata,
+                features: metadata.features ? [...metadata.features] : current.features,
+                tags: metadata.tags ? [...metadata.tags] : current.tags
+              };
+            }
           });
         },
         

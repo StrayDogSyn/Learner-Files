@@ -130,8 +130,19 @@ export const searchGames = (query: string) => {
     .map(([gameId]) => gameId as keyof typeof GAME_METADATA);
 };
 
+// Interface definitions
+export interface GameMetadataInterface {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  defaultDifficulty: string;
+  features: string[];
+  tags: string[];
+}
+
 // Type exports
 export type GameId = keyof typeof GAME_METADATA;
 export type GameCategory = typeof GAME_CATEGORIES[keyof typeof GAME_CATEGORIES];
 export type GameDifficulty = typeof GAME_DIFFICULTIES[keyof typeof GAME_DIFFICULTIES];
-export type GameMetadata = typeof GAME_METADATA[keyof typeof GAME_METADATA];
+export type GameMetadata = GameMetadataInterface;

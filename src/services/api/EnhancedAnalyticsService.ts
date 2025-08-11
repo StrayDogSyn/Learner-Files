@@ -11,6 +11,19 @@ import {
 } from './types';
 
 export interface EnhancedAnalyticsConfig extends AnalyticsConfig {
+  mixpanelToken?: string;
+  amplitudeApiKey?: string;
+  segmentWriteKey?: string;
+  hotjarId?: string;
+  fullstoryOrgId?: string;
+  enableHeatmaps?: boolean;
+  enableSessionRecording?: boolean;
+  enableFunnelAnalysis?: boolean;
+  enableCohortAnalysis?: boolean;
+  enableABTesting?: boolean;
+  enableAIInsights?: boolean;
+  consentRequired?: boolean;
+  dataRetentionDays?: number;
   googleAnalytics?: {
     measurementId: string;
     enabled: boolean;
@@ -567,6 +580,5 @@ Format the response as JSON with an array of insights.
 declare global {
   interface Window {
     dataLayer: any[];
-    gtag: (...args: any[]) => void;
   }
 }

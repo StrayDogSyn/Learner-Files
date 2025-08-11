@@ -184,6 +184,7 @@ export interface GitHubConfig extends APIConfig {
   token: string;
   owner: string;
   repo: string;
+  userAgent?: string;
 }
 
 export interface GitHubUser {
@@ -209,6 +210,7 @@ export interface GitHubRepository {
   ssh_url: string;
   language: string;
   stargazers_count: number;
+  watchers_count: number;
   forks_count: number;
   size: number;
   created_at: string;
@@ -259,12 +261,47 @@ export interface GitHubIssue {
 // Analytics Service
 export interface AnalyticsConfig extends APIConfig {
   trackingId: string;
+  ga4MeasurementId?: string;
   userId?: string;
   sessionId?: string;
   enableDebug?: boolean;
+  enableAutoTracking?: boolean;
+  enablePerformanceTracking?: boolean;
+  enableErrorTracking?: boolean;
+  enableUserTracking?: boolean;
+  enableConversionTracking?: boolean;
+  enableHeatmapTracking?: boolean;
+  enableSessionRecording?: boolean;
+  privacyCompliant?: boolean;
+  cookieConsent?: boolean;
+  dataRetentionDays?: number;
+  anonymizeIPs?: boolean;
+  respectDoNotTrack?: boolean;
+  privacyMode?: boolean;
+  enableOfflineSupport?: boolean;
+  batchSize?: number;
+  debugMode?: boolean;
+}
+
+// Enhanced Analytics Configuration
+export interface EnhancedAnalyticsConfig extends AnalyticsConfig {
+  mixpanelToken?: string;
+  amplitudeApiKey?: string;
+  segmentWriteKey?: string;
+  hotjarId?: string;
+  fullstoryOrgId?: string;
+  enableHeatmaps?: boolean;
+  enableSessionRecording?: boolean;
+  enableFunnelAnalysis?: boolean;
+  enableCohortAnalysis?: boolean;
+  enableABTesting?: boolean;
+  enableAIInsights?: boolean;
+  consentRequired?: boolean;
+  dataRetentionDays?: number;
 }
 
 export interface AnalyticsEvent {
+  id?: string;
   name: string;
   category: string;
   action: string;
@@ -471,6 +508,30 @@ export interface ServiceStatus {
   lastCheck: number;
   metrics: APIMetrics;
   health: HealthCheck;
+}
+
+// Unified API Configuration
+export interface UnifiedAPIConfig {
+  enableHealthChecks?: boolean;
+  enableMetrics?: boolean;
+  enableLogging?: boolean;
+  enableFailover?: boolean;
+  retryAttempts?: number;
+  retryDelay?: number;
+  metricsInterval?: number;
+  healthCheckInterval?: number;
+  claude?: ClaudeConfig;
+  github?: GitHubConfig;
+  analytics?: AnalyticsConfig;
+  email?: EmailConfig;
+}
+
+// Service Registry
+export interface ServiceRegistry {
+  claude?: any;
+  github?: any;
+  analytics?: any;
+  email?: any;
 }
 
 // Export all types

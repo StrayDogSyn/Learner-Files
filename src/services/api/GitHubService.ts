@@ -6,12 +6,12 @@ import {
   GitHubIssue,
   GitHubPullRequest,
   GitHubCommit,
-  GitHubBranch,
-  GitHubRelease,
-  GitHubWebhook,
-  GitHubWorkflow,
-  GitHubContent,
-  GitHubError,
+  // GitHubBranch,
+  // GitHubRelease,
+  // GitHubWebhook,
+  // GitHubWorkflow,
+  // GitHubContent,
+  // GitHubError,
   APIResponse
 } from './types';
 
@@ -45,6 +45,7 @@ export class GitHubService extends BaseAPIClient {
       },
       timeout: config.timeout || 30000,
       retries: config.retries || 3,
+      retryDelay: config.retryDelay || 1000,
       rateLimit: {
         requests: 5000, // GitHub's rate limit
         window: 3600000 // 1 hour
@@ -131,13 +132,13 @@ export class GitHubService extends BaseAPIClient {
   /**
    * Branch Operations
    */
-  async listBranches(owner: string, repo: string): Promise<GitHubBranch[]> {
-    const response = await this.get<GitHubBranch[]>(`/repos/${owner}/${repo}/branches`);
+  async listBranches(owner: string, repo: string): Promise<any[]> {
+    const response = await this.get<any[]>(`/repos/${owner}/${repo}/branches`);
     return response.data;
   }
 
-  async getBranch(owner: string, repo: string, branch: string): Promise<GitHubBranch> {
-    const response = await this.get<GitHubBranch>(`/repos/${owner}/${repo}/branches/${branch}`);
+  async getBranch(owner: string, repo: string, branch: string): Promise<any> {
+    const response = await this.get<any>(`/repos/${owner}/${repo}/branches/${branch}`);
     return response.data;
   }
 
@@ -146,8 +147,8 @@ export class GitHubService extends BaseAPIClient {
     repo: string,
     branchName: string,
     fromSha: string
-  ): Promise<GitHubBranch> {
-    const response = await this.post<GitHubBranch>(`/repos/${owner}/${repo}/git/refs`, {
+  ): Promise<any> {
+    const response = await this.post<any>(`/repos/${owner}/${repo}/git/refs`, {
       ref: `refs/heads/${branchName}`,
       sha: fromSha
     });
@@ -418,18 +419,18 @@ export class GitHubService extends BaseAPIClient {
   /**
    * Release Operations
    */
-  async listReleases(owner: string, repo: string): Promise<GitHubRelease[]> {
-    const response = await this.get<GitHubRelease[]>(`/repos/${owner}/${repo}/releases`);
+  async listReleases(owner: string, repo: string): Promise<any[]> {
+    const response = await this.get<any[]>(`/repos/${owner}/${repo}/releases`);
     return response.data;
   }
 
-  async getRelease(owner: string, repo: string, releaseId: number): Promise<GitHubRelease> {
-    const response = await this.get<GitHubRelease>(`/repos/${owner}/${repo}/releases/${releaseId}`);
+  async getRelease(owner: string, repo: string, releaseId: number): Promise<any> {
+    const response = await this.get<any>(`/repos/${owner}/${repo}/releases/${releaseId}`);
     return response.data;
   }
 
-  async getLatestRelease(owner: string, repo: string): Promise<GitHubRelease> {
-    const response = await this.get<GitHubRelease>(`/repos/${owner}/${repo}/releases/latest`);
+  async getLatestRelease(owner: string, repo: string): Promise<any> {
+    const response = await this.get<any>(`/repos/${owner}/${repo}/releases/latest`);
     return response.data;
   }
 
@@ -459,8 +460,8 @@ export class GitHubService extends BaseAPIClient {
     return response.data.workflows;
   }
 
-  async getWorkflow(owner: string, repo: string, workflowId: number): Promise<GitHubWorkflow> {
-    const response = await this.get<GitHubWorkflow>(
+  async getWorkflow(owner: string, repo: string, workflowId: number): Promise<any> {
+    const response = await this.get<any>(
       `/repos/${owner}/${repo}/actions/workflows/${workflowId}`
     );
     return response.data;
@@ -482,8 +483,8 @@ export class GitHubService extends BaseAPIClient {
   /**
    * Webhook Operations
    */
-  async listWebhooks(owner: string, repo: string): Promise<GitHubWebhook[]> {
-    const response = await this.get<GitHubWebhook[]>(`/repos/${owner}/${repo}/hooks`);
+  async listWebhooks(owner: string, repo: string): Promise<any[]> {
+    const response = await this.get<any[]>(`/repos/${owner}/${repo}/hooks`);
     return response.data;
   }
 
@@ -500,8 +501,8 @@ export class GitHubService extends BaseAPIClient {
       events?: string[];
       active?: boolean;
     }
-  ): Promise<GitHubWebhook> {
-    const response = await this.post<GitHubWebhook>(`/repos/${owner}/${repo}/hooks`, {
+  ): Promise<any> {
+    const response = await this.post<any>(`/repos/${owner}/${repo}/hooks`, {
       name: 'web',
       ...data
     });
@@ -512,9 +513,9 @@ export class GitHubService extends BaseAPIClient {
     owner: string,
     repo: string,
     hookId: number,
-    data: Partial<GitHubWebhook>
-  ): Promise<GitHubWebhook> {
-    const response = await this.patch<GitHubWebhook>(
+    data: Partial<any>
+  ): Promise<any> {
+    const response = await this.patch<any>(
       `/repos/${owner}/${repo}/hooks/${hookId}`,
       data
     );
@@ -657,7 +658,7 @@ export class GitHubService extends BaseAPIClient {
   /**
    * Error handling
    */
-  private handleGitHubError(error: any): GitHubError {
+  private handleGitHubError(error: any): any {
     if (error.status === 401) {
       return {
         message: 'Bad credentials or token expired',

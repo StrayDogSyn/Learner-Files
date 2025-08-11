@@ -40,15 +40,14 @@
  * ```
  */
 
-// Export all types
-export type {
-  // Base types
+// Import types and services
+import {
   APIConfig,
   APIRequest,
   APIResponse,
   APIError,
-  RateLimitConfig,
-  RetryConfig,
+  // RateLimitConfig,
+  // RetryConfig,
   CacheConfig,
   RequestInterceptor,
   ResponseInterceptor,
@@ -60,42 +59,42 @@ export type {
   ClaudeResponse,
   ClaudeStreamResponse,
   ClaudeUsage,
-  ClaudeConversation,
-  ClaudeSafetySettings,
+  // ClaudeConversation,
+  // ClaudeSafetySettings,
   
   GitHubConfig,
   GitHubRepository,
-  GitHubBranch,
+  // GitHubBranch,
   GitHubCommit,
   GitHubIssue,
-  GitHubPullRequest,
-  GitHubContent,
-  GitHubRelease,
-  GitHubWorkflow,
-  GitHubWebhook,
+  // GitHubPullRequest,
+  // GitHubContent,
+  // GitHubRelease,
+  // GitHubWorkflow,
+  // GitHubWebhook,
   GitHubUser,
-  GitHubSearchResult,
+  // GitHubSearchResult,
   
   AnalyticsConfig,
   AnalyticsEvent,
   AnalyticsUser,
   AnalyticsSession,
-  AnalyticsMetric,
-  AnalyticsReport,
-  AnalyticsFilter,
-  AnalyticsExport,
+  // AnalyticsMetric,
+  // AnalyticsReport,
+  // AnalyticsFilter,
+  // AnalyticsExport,
   
   EmailConfig,
-  EmailMessage,
+  // EmailMessage,
   EmailTemplate,
   EmailCampaign,
-  EmailContact,
-  EmailList,
-  EmailTracking,
-  EmailBounce,
-  EmailComplaint,
-  EmailSuppression,
-  EmailABTest,
+  // EmailContact,
+  // EmailList,
+  // EmailTracking,
+  // EmailBounce,
+  // EmailComplaint,
+  // EmailSuppression,
+  // EmailABTest,
   
   // Unified types
   UnifiedAPIConfig,
@@ -106,9 +105,96 @@ export type {
   
   // Webhook types
   WebhookConfig,
-  WebhookEvent,
-  WebhookPayload,
-  WebhookSignature
+  // WebhookEvent,
+  WebhookPayload
+  // WebhookRetry
+  // WebhookSignature
+} from './types';
+
+// Import service classes
+import { BaseAPIClient } from './BaseAPIClient';
+import { ClaudeService } from './ClaudeService';
+import { GitHubService } from './GitHubService';
+import { AnalyticsService } from './AnalyticsService';
+import { EmailService } from './EmailService';
+
+// Import unified service
+import {
+  UnifiedAPIService,
+  createUnifiedAPI,
+  getUnifiedAPI,
+  destroyUnifiedAPI
+} from './UnifiedAPIService';
+
+// Export all types
+export type {
+  // Base types
+  APIConfig,
+  APIRequest,
+  APIResponse,
+  APIError,
+  // RateLimitConfig,
+  // RetryConfig,
+  CacheConfig,
+  RequestInterceptor,
+  ResponseInterceptor,
+  
+  // Service-specific types
+  ClaudeConfig,
+  ClaudeMessage,
+  ClaudeResponse,
+  ClaudeStreamResponse,
+  ClaudeUsage,
+  // ClaudeConversation,
+  // ClaudeSafetySettings,
+  
+  GitHubConfig,
+  GitHubRepository,
+  // GitHubBranch,
+  GitHubCommit,
+  GitHubIssue,
+  // GitHubPullRequest,
+  // GitHubContent,
+  // GitHubRelease,
+  // GitHubWorkflow,
+  // GitHubWebhook,
+  GitHubUser,
+  // GitHubSearchResult,
+  
+  AnalyticsConfig,
+  AnalyticsEvent,
+  AnalyticsUser,
+  AnalyticsSession,
+  // AnalyticsMetric,
+  // AnalyticsReport,
+  // AnalyticsFilter,
+  // AnalyticsExport,
+  
+  EmailConfig,
+  // EmailMessage,
+  EmailTemplate,
+  EmailCampaign,
+  // EmailContact,
+  // EmailList,
+  // EmailTracking,
+  // EmailBounce,
+  // EmailComplaint,
+  // EmailSuppression,
+  // EmailABTest,
+  
+  // Unified types
+  UnifiedAPIConfig,
+  ServiceStatus,
+  HealthCheck,
+  APIMetrics,
+  ServiceRegistry,
+  
+  // Webhook types
+  WebhookConfig,
+  // WebhookEvent,
+  WebhookPayload
+  // WebhookRetry
+  // WebhookSignature
 } from './types';
 
 // Export individual service classes
@@ -263,10 +349,11 @@ export const APIUtils = {
   formatResponse<T>(data: T, metadata?: Record<string, any>): APIResponse<T> {
     return {
       data,
-      success: true,
-      timestamp: Date.now(),
-      requestId: this.generateRequestId(),
-      metadata
+      status: 200,
+      statusText: 'OK',
+      headers: {},
+      config: {} as APIRequest,
+      timestamp: Date.now()
     };
   },
   
@@ -359,35 +446,53 @@ export const createDefaultConfig = (): Partial<UnifiedAPIConfig> => {
     // Service-specific defaults
     claude: {
       apiKey: process.env.VITE_CLAUDE_API_KEY || '',
-      model: 'claude-3-sonnet-20240229',
+      model: 'claude-3-5-sonnet-20241022',
       maxTokens: 4096,
       temperature: 0.7,
+      topP: 0.9,
+      topK: 40,
+      stop_sequences: [],
+      baseURL: 'https://api.anthropic.com',
       timeout: 30000,
-      required: false
+      retries: 3,
+      retryDelay: 1000,
+      rateLimit: { requests: 100, window: 60000 }
     },
     
     github: {
       token: process.env.VITE_GITHUB_TOKEN || '',
+      owner: 'default-owner',
+      repo: 'default-repo',
       baseURL: 'https://api.github.com',
       timeout: 10000,
-      required: false
+      retries: 3,
+      retryDelay: 1000,
+      rateLimit: { requests: 100, window: 60000 }
     },
     
     analytics: {
+      baseURL: 'https://api.analytics.com',
+      timeout: 30000,
+      retries: 3,
+      retryDelay: 1000,
+      rateLimit: { requests: 100, window: 60000 },
       trackingId: process.env.VITE_ANALYTICS_ID || '',
       enableAutoTracking: true,
       enablePerformanceTracking: true,
       enableErrorTracking: true,
-      batchSize: 10,
-      flushInterval: 5000,
-      required: false
+      batchSize: 10
     },
     
     email: {
       apiKey: process.env.VITE_EMAIL_API_KEY || '',
+      fromEmail: 'noreply@example.com',
+      fromName: 'Portfolio App',
       provider: 'sendgrid',
+      baseURL: 'https://api.sendgrid.com',
       timeout: 15000,
-      required: false
+      retries: 3,
+      retryDelay: 1000,
+      rateLimit: { requests: 100, window: 60000 }
     }
   };
 };
@@ -433,7 +538,7 @@ export const quickSetup = {
     // Only include requested services
     services.forEach(service => {
       if (baseConfig[service]) {
-        config[service] = baseConfig[service];
+        (config as any)[service] = baseConfig[service];
       }
     });
     
@@ -455,11 +560,17 @@ export const quickSetup = {
       // Mock configurations for testing
       claude: {
         apiKey: 'test-key',
-        model: 'claude-3-sonnet-20240229',
+        model: 'claude-3-5-sonnet-20241022',
         maxTokens: 1000,
         temperature: 0,
+        topP: 0.9,
+        topK: 40,
+        stop_sequences: [],
+        baseURL: 'https://api.anthropic.com',
         timeout: 5000,
-        required: false
+        retries: 1,
+        retryDelay: 500,
+        rateLimit: { requests: 10, window: 60000 }
       }
     };
     
@@ -470,6 +581,8 @@ export const quickSetup = {
 
 // Export default configuration
 export { createDefaultConfig as defaultConfig };
+
+// Export unified API functions (already imported above)
 
 // Version information
 export const VERSION = '1.0.0';

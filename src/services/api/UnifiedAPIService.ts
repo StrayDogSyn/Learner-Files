@@ -74,7 +74,7 @@ export class UnifiedAPIService {
           console.log('✅ Claude service initialized');
         } catch (error) {
           console.error('❌ Failed to initialize Claude service:', error);
-          if (this.config.claude.required) {
+          if (this.config.claude) {
             throw error;
           }
         }
@@ -87,7 +87,7 @@ export class UnifiedAPIService {
           console.log('✅ GitHub service initialized');
         } catch (error) {
           console.error('❌ Failed to initialize GitHub service:', error);
-          if (this.config.github.required) {
+          if (this.config.github) {
             throw error;
           }
         }
@@ -100,7 +100,7 @@ export class UnifiedAPIService {
           console.log('✅ Analytics service initialized');
         } catch (error) {
           console.error('❌ Failed to initialize Analytics service:', error);
-          if (this.config.analytics.required) {
+          if (this.config.analytics) {
             throw error;
           }
         }
@@ -113,7 +113,7 @@ export class UnifiedAPIService {
           console.log('✅ Email service initialized');
         } catch (error) {
           console.error('❌ Failed to initialize Email service:', error);
-          if (this.config.email.required) {
+          if (this.config.email) {
             throw error;
           }
         }
@@ -191,9 +191,22 @@ export class UnifiedAPIService {
       } else {
         statuses[name] = {
           name,
-          status: 'disabled',
+          status: 'maintenance',
+          uptime: 0,
           lastCheck: Date.now(),
-          responseTime: 0
+          metrics: {
+            requests: { total: 0, successful: 0, failed: 0, retried: 0 },
+            latency: { average: 0, p50: 0, p95: 0, p99: 0 },
+            errors: { total: 0, byStatus: {}, byEndpoint: {} },
+            rateLimit: { hits: 0, blocks: 0 },
+            cache: { hits: 0, misses: 0, size: 0 }
+          },
+          health: {
+            service: name,
+            status: 'unhealthy',
+            latency: 0,
+            timestamp: Date.now()
+          }
         };
       }
     }
@@ -206,10 +219,23 @@ export class UnifiedAPIService {
     
     if (!service) {
       return {
-        name: serviceName,
-        status: 'disabled',
+        name: String(serviceName),
+        status: 'maintenance',
+        uptime: 0,
         lastCheck: Date.now(),
-        responseTime: 0
+        metrics: {
+          requests: { total: 0, successful: 0, failed: 0, retried: 0 },
+          latency: { average: 0, p50: 0, p95: 0, p99: 0 },
+          errors: { total: 0, byStatus: {}, byEndpoint: {} },
+          rateLimit: { hits: 0, blocks: 0 },
+          cache: { hits: 0, misses: 0, size: 0 }
+        },
+        health: {
+          service: String(serviceName),
+          status: 'unhealthy',
+          latency: 0,
+          timestamp: Date.now()
+        }
       };
     }
 
@@ -219,24 +245,44 @@ export class UnifiedAPIService {
       const responseTime = Date.now() - startTime;
 
       const status: ServiceStatus = {
-        name: serviceName,
-        status: healthCheck.status === 'healthy' ? 'healthy' : 'unhealthy',
-        lastCheck: Date.now(),
-        responseTime,
-        error: healthCheck.status === 'unhealthy' ? healthCheck.details?.error : undefined
-      };
+          name: String(serviceName),
+          status: healthCheck.status === 'healthy' ? 'online' : 'offline',
+          uptime: responseTime,
+          lastCheck: Date.now(),
+          metrics: {
+            requests: { total: 1, successful: healthCheck.status === 'healthy' ? 1 : 0, failed: healthCheck.status === 'healthy' ? 0 : 1, retried: 0 },
+            latency: { average: responseTime, p50: responseTime, p95: responseTime, p99: responseTime },
+            errors: { total: healthCheck.status === 'healthy' ? 0 : 1, byStatus: {}, byEndpoint: {} },
+            rateLimit: { hits: 0, blocks: 0 },
+            cache: { hits: 0, misses: 0, size: 0 }
+          },
+          health: healthCheck
+        };
 
-      this.healthChecks.set(serviceName, healthCheck);
+      this.healthChecks.set(String(serviceName), healthCheck);
       return status;
 
     } catch (error) {
-      return {
-        name: serviceName,
-        status: 'error',
-        lastCheck: Date.now(),
-        responseTime: 0,
-        error: error instanceof Error ? error.message : 'Unknown error'
-      };
+        return {
+          name: String(serviceName),
+          status: 'offline',
+          uptime: 0,
+          lastCheck: Date.now(),
+          metrics: {
+            requests: { total: 1, successful: 0, failed: 1, retried: 0 },
+            latency: { average: 0, p50: 0, p95: 0, p99: 0 },
+            errors: { total: 1, byStatus: {}, byEndpoint: {} },
+            rateLimit: { hits: 0, blocks: 0 },
+            cache: { hits: 0, misses: 0, size: 0 }
+          },
+          health: {
+            service: String(serviceName),
+            status: 'unhealthy',
+            latency: 0,
+            timestamp: Date.now(),
+            details: { error: error instanceof Error ? error.message : 'Unknown error' }
+          }
+        };
     }
   }
 
@@ -260,7 +306,7 @@ export class UnifiedAPIService {
         .map(async ([name, service]) => {
           const startTime = Date.now();
           try {
-            const healthCheck = await service!.healthCheck();
+            const healthCheck = await (service as any).healthCheck();
             const responseTime = Date.now() - startTime;
             
             this.healthChecks.set(name, {
@@ -312,7 +358,7 @@ export class UnifiedAPIService {
 
   private async collectMetrics(): Promise<void> {
     for (const [name, service] of Object.entries(this.services)) {
-      if (service && 'getMetrics' in service) {
+      if (service && typeof service === 'object' && 'getMetrics' in service) {
         try {
           const metrics = await (service as any).getMetrics();
           this.metrics.set(name, {

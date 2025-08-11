@@ -492,7 +492,7 @@ class WebSocketService {
   /**
    * Get session ID
    */
-  private getSessionId(): string {
+  public getSessionId(): string {
     // Get session ID from localStorage or generate new one
     let sessionId = localStorage.getItem('analytics_session_id');
     if (!sessionId) {
@@ -519,13 +519,7 @@ const webSocketService = new WebSocketService();
 
 export default webSocketService;
 
-// Export types
-export type {
-  WebSocketEvent,
-  AnalyticsUpdate,
-  DashboardUpdate,
-  ConnectionStatus
-};
+// Types are already exported above
 
 // Utility functions for common operations
 export const WebSocketUtils = {
