@@ -1,0 +1,133 @@
+{
+  "name": "solo-portfolio-cli",
+  "version": "1.0.0",
+  "description": "Command-line interface for SOLO Portfolio ecosystem - Developer tools and portfolio management",
+  "main": "index.js",
+  "bin": {
+    "solo": "./bin/solo.js",
+    "solo-portfolio": "./bin/solo.js"
+  },
+  "scripts": {
+    "start": "node bin/solo.js",
+    "dev": "nodemon bin/solo.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint . --ext .js",
+    "lint:fix": "eslint . --ext .js --fix",
+    "build": "pkg . --out-path dist",
+    "publish:npm": "npm publish",
+    "link": "npm link",
+    "unlink": "npm unlink"
+  },
+  "keywords": [
+    "portfolio",
+    "cli",
+    "developer-tools",
+    "analytics",
+    "cross-platform",
+    "showcase",
+    "management"
+  ],
+  "author": {
+    "name": "SOLO Developer",
+    "email": "contact@soloportfolio.dev",
+    "url": "https://soloportfolio.dev"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/solo-portfolio-cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/solo-portfolio-cli/issues"
+  },
+  "homepage": "https://github.com/yourusername/solo-portfolio-cli#readme",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "dependencies": {
+    "commander": "^11.1.0",
+    "inquirer": "^9.2.12",
+    "chalk": "^5.3.0",
+    "ora": "^7.0.1",
+    "axios": "^1.6.2",
+    "fs-extra": "^11.2.0",
+    "moment": "^2.29.4",
+    "table": "^6.8.1",
+    "figlet": "^1.7.0",
+    "boxen": "^7.1.1",
+    "update-notifier": "^7.0.0",
+    "conf": "^11.0.2",
+    "open": "^9.1.0",
+    "qrcode-terminal": "^0.12.0",
+    "node-fetch": "^3.3.2",
+    "dotenv": "^16.3.1",
+    "semver": "^7.5.4",
+    "cli-progress": "^3.12.0",
+    "cli-table3": "^0.6.3",
+    "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "eslint": "^8.55.0",
+    "nodemon": "^3.0.2",
+    "pkg": "^5.8.1",
+    "@types/node": "^20.10.4"
+  },
+  "files": [
+    "bin/",
+    "lib/",
+    "commands/",
+    "utils/",
+    "templates/",
+    "README.md",
+    "LICENSE"
+  ],
+  "preferGlobal": true,
+  "pkg": {
+    "scripts": [
+      "bin/**/*.js",
+      "lib/**/*.js",
+      "commands/**/*.js",
+      "utils/**/*.js"
+    ],
+    "assets": [
+      "templates/**/*"
+    ],
+    "targets": [
+      "node16-win-x64",
+      "node16-macos-x64",
+      "node16-linux-x64"
+    ]
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "lib/**/*.js",
+      "commands/**/*.js",
+      "utils/**/*.js"
+    ],
+    "coverageDirectory": "coverage",
+    "coverageReporters": [
+      "text",
+      "lcov",
+      "html"
+    ]
+  },
+  "eslintConfig": {
+    "env": {
+      "node": true,
+      "es2021": true
+    },
+    "extends": "eslint:recommended",
+    "parserOptions": {
+      "ecmaVersion": 12,
+      "sourceType": "module"
+    },
+    "rules": {
+      "no-console": "off",
+      "no-unused-vars": "warn"
+    }
+  }
+}

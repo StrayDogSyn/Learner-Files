@@ -308,4 +308,231 @@ export const LeaderboardSystem: React.FC = () => {
                     key={option.value}
                     onClick={() => setSelectedTimeframe(option.value)}
                     className={`w-full text-left p-2 rounded-lg transition-colors flex items-center gap-2 ${
-                      selectedTimeframe === option.value ? 'bg-blue
+                      selectedTimeframe === option.value ? 'bg-blue-500 text-white' : 'text-gray-300 hover:bg-white/10'
+                    }`}
+                  >
+                    {option.icon}
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Category Filter */}
+            <div className="mb-6">
+              <h3 className="text-white font-medium mb-3">Category</h3>
+              <div className="space-y-2">
+                {CATEGORY_OPTIONS.map(option => (
+                  <button
+                    key={option.value}
+                    onClick={() => setSelectedCategory(option.value)}
+                    className={`w-full text-left p-2 rounded-lg transition-colors flex items-center gap-2 ${
+                      selectedCategory === option.value ? 'bg-blue-500 text-white' : 'text-gray-300 hover:bg-white/10'
+                    }`}
+                  >
+                    {option.icon}
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* View Toggle */}
+            <div>
+              <h3 className="text-white font-medium mb-3">View</h3>
+              <div className="space-y-2">
+                <button
+                  onClick={() => setShowChallengeLeaderboards(false)}
+                  className={`w-full text-left p-2 rounded-lg transition-colors ${
+                    !showChallengeLeaderboards ? 'bg-blue-500 text-white' : 'text-gray-300 hover:bg-white/10'
+                  }`}
+                >
+                  Global Leaderboard
+                </button>
+                <button
+                  onClick={() => setShowChallengeLeaderboards(true)}
+                  className={`w-full text-left p-2 rounded-lg transition-colors ${
+                    showChallengeLeaderboards ? 'bg-blue-500 text-white' : 'text-gray-300 hover:bg-white/10'
+                  }`}
+                >
+                  Challenge Leaderboards
+                </button>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Leaderboard Content */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="lg:col-span-3"
+          >
+            {!showChallengeLeaderboards ? (
+              /* Global Leaderboard */
+              <div className="bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20 overflow-hidden">
+                <div className="p-6 border-b border-white/20">
+                  <h2 className="text-white text-2xl font-bold flex items-center gap-2">
+                    <Trophy className="text-yellow-400" />
+                    {selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)} Leaderboard
+                    <span className="text-sm font-normal text-gray-400">({selectedTimeframe})</span>
+                  </h2>
+                </div>
+                
+                <div className="divide-y divide-white/10">
+                  <AnimatePresence>
+                    {leaderboardData.map((entry, index) => {
+                      const isCurrentUser = entry.id === 'current';
+                      const activity = getActivityStatus(entry.lastActive);
+                      
+                      return (
+                        <motion.div
+                          key={entry.id}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.05 }}
+                          className={`p-6 hover:bg-white/5 transition-colors ${
+                            isCurrentUser ? 'bg-purple-500/10 border-l-4 border-purple-500' : ''
+                          }`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                              {/* Rank */}
+                              <div className="flex items-center gap-2 min-w-[60px]">
+                                {getRankIcon(entry.rank)}
+                                {getRankChangeIcon(entry.rankChange)}
+                              </div>
+                              
+                              {/* User Info */}
+                              <div className="flex items-center gap-3">
+                                <div className="relative">
+                                  <div className="text-2xl">{entry.avatar}</div>
+                                  <div className={`absolute -bottom-1 -right-1 w-3 h-3 rounded-full ${activity.color}`} />
+                                </div>
+                                <div>
+                                  <div className="flex items-center gap-2">
+                                    <h3 className={`font-bold ${
+                                      isCurrentUser ? 'text-purple-300' : 'text-white'
+                                    }`}>
+                                      {entry.username}
+                                    </h3>
+                                    {entry.specialTitle && (
+                                      <span className="text-xs bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-2 py-1 rounded-full">
+                                        {entry.specialTitle}
+                                      </span>
+                                    )}
+                                  </div>
+                                  <p className="text-gray-400 text-sm">
+                                    Level {entry.level} • {activity.text}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                            
+                            {/* Stats */}
+                            <div className="flex items-center gap-6 text-sm">
+                              <div className="text-center">
+                                <div className="text-white font-bold">{entry.totalXP.toLocaleString()}</div>
+                                <div className="text-gray-400">XP</div>
+                              </div>
+                              <div className="text-center">
+                                <div className="text-white font-bold">{entry.achievements}</div>
+                                <div className="text-gray-400">Achievements</div>
+                              </div>
+                              <div className="text-center">
+                                <div className="text-white font-bold">{entry.challengesSolved}</div>
+                                <div className="text-gray-400">Solved</div>
+                              </div>
+                              {selectedCategory === 'speed' && (
+                                <div className="text-center">
+                                  <div className="text-white font-bold">{entry.averageTime}s</div>
+                                  <div className="text-gray-400">Avg Time</div>
+                                </div>
+                              )}
+                              <div className="text-center">
+                                <div className="text-white font-bold">{entry.streak}</div>
+                                <div className="text-gray-400">Streak</div>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          {/* Badges */}
+                          {entry.badges.length > 0 && (
+                            <div className="flex items-center gap-2 mt-3">
+                              <span className="text-gray-400 text-xs">Badges:</span>
+                              {entry.badges.slice(0, 3).map(badge => (
+                                <span
+                                  key={badge}
+                                  className="text-xs bg-blue-500/20 text-blue-300 px-2 py-1 rounded-full"
+                                >
+                                  {badge.replace('-', ' ')}
+                                </span>
+                              ))}
+                              {entry.badges.length > 3 && (
+                                <span className="text-xs text-gray-400">+{entry.badges.length - 3} more</span>
+                              )}
+                            </div>
+                          )}
+                        </motion.div>
+                      );
+                    })}
+                  </AnimatePresence>
+                </div>
+              </div>
+            ) : (
+              /* Challenge Leaderboards */
+              <div className="space-y-6">
+                {MOCK_CHALLENGE_LEADERBOARDS.map((challenge, challengeIndex) => (
+                  <motion.div
+                    key={challenge.challengeId}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: challengeIndex * 0.1 }}
+                    className="bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20 overflow-hidden"
+                  >
+                    <div className="p-4 border-b border-white/20">
+                      <h3 className="text-white text-lg font-bold">{challenge.challengeName}</h3>
+                    </div>
+                    
+                    <div className="divide-y divide-white/10">
+                      {challenge.entries.map((entry, index) => (
+                        <div key={index} className="p-4 flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-2 min-w-[40px]">
+                              {getRankIcon(index + 1)}
+                            </div>
+                            <div>
+                              <h4 className="text-white font-medium">{entry.username}</h4>
+                              <p className="text-gray-400 text-sm">{entry.language}</p>
+                            </div>
+                          </div>
+                          
+                          <div className="flex items-center gap-4 text-sm">
+                            <div className="text-center">
+                              <div className="text-white font-bold">{entry.time}s</div>
+                              <div className="text-gray-400">Time</div>
+                            </div>
+                            <div className="text-center">
+                              <div className="text-white font-bold">{entry.score}</div>
+                              <div className="text-gray-400">Score</div>
+                            </div>
+                            <div className="text-center">
+                              <div className="text-white font-bold">{entry.codeLength}</div>
+                              <div className="text-gray-400">Lines</div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            )}
+          </motion.div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default LeaderboardSystem;

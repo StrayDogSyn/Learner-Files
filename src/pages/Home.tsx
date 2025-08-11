@@ -3,7 +3,7 @@ import LazyFeaturedProjects from "@/components/LazyFeaturedProjects";
 import { motion } from 'framer-motion';
 import { TrendingUp, Users, Code, Award, Zap, Target } from 'lucide-react';
 
-export default function Home() {
+function Home() {
   return (
     <div className="min-h-screen glass-background-main">
       {/* Interactive Hero Section */}
@@ -247,3 +247,6 @@ export default function Home() {
     </div>
   );
 }
+
+export { Home };
+export default Home;

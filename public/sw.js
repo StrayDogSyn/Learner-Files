@@ -1,12 +1,31 @@
 /**
- * Service Worker for SOLO Developer Portfolio
- * Provides offline functionality, caching, and PWA features
+ * Advanced Service Worker for SOLO Multi-Platform Portfolio Ecosystem
+ * Provides offline functionality, caching, background sync, push notifications,
+ * and cross-platform data synchronization
  */
 
-const CACHE_NAME = 'solo-portfolio-v1.0.0';
-const STATIC_CACHE_NAME = 'solo-static-v1.0.0';
-const DYNAMIC_CACHE_NAME = 'solo-dynamic-v1.0.0';
-const API_CACHE_NAME = 'solo-api-v1.0.0';
+const CACHE_VERSION = '2.0.0';
+const CACHE_NAME = `solo-portfolio-v${CACHE_VERSION}`;
+const STATIC_CACHE_NAME = `solo-static-v${CACHE_VERSION}`;
+const DYNAMIC_CACHE_NAME = `solo-dynamic-v${CACHE_VERSION}`;
+const API_CACHE_NAME = `solo-api-v${CACHE_VERSION}`;
+const SYNC_CACHE_NAME = `solo-sync-v${CACHE_VERSION}`;
+
+// Background sync tags
+const SYNC_TAGS = {
+  PORTFOLIO_UPDATE: 'portfolio-update',
+  ANALYTICS_SYNC: 'analytics-sync',
+  USER_PREFERENCES: 'user-preferences',
+  ACHIEVEMENT_SYNC: 'achievement-sync'
+};
+
+// Push notification types
+const NOTIFICATION_TYPES = {
+  PORTFOLIO_UPDATE: 'portfolio-update',
+  NEW_PROJECT: 'new-project',
+  ACHIEVEMENT_UNLOCKED: 'achievement-unlocked',
+  SYSTEM_UPDATE: 'system-update'
+};
 
 // Assets to cache immediately
 const STATIC_ASSETS = [
@@ -331,12 +350,28 @@ async function handleOffline(request) {
   );
 }
 
-// Background sync for failed requests
+// Enhanced background sync for multi-platform ecosystem
 self.addEventListener('sync', (event) => {
   console.log('[SW] Background sync triggered:', event.tag);
   
-  if (event.tag === 'background-sync') {
-    event.waitUntil(doBackgroundSync());
+  switch (event.tag) {
+    case SYNC_TAGS.PORTFOLIO_UPDATE:
+      event.waitUntil(syncPortfolioData());
+      break;
+    case SYNC_TAGS.ANALYTICS_SYNC:
+      event.waitUntil(syncAnalyticsData());
+      break;
+    case SYNC_TAGS.USER_PREFERENCES:
+      event.waitUntil(syncUserPreferences());
+      break;
+    case SYNC_TAGS.ACHIEVEMENT_SYNC:
+      event.waitUntil(syncAchievements());
+      break;
+    case 'background-sync':
+      event.waitUntil(doBackgroundSync());
+      break;
+    default:
+      console.log('[SW] Unknown sync tag:', event.tag);
   }
 });
 
@@ -359,6 +394,90 @@ async function doBackgroundSync() {
   }
 }
 
+// Sync portfolio data across platforms
+async function syncPortfolioData() {
+  try {
+    console.log('[SW] Syncing portfolio data...');
+    const response = await fetch('/api/portfolio/sync', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ timestamp: Date.now() })
+    });
+    
+    if (response.ok) {
+      const data = await response.json();
+      await broadcastToClients({ type: 'PORTFOLIO_SYNCED', data });
+    }
+  } catch (error) {
+    console.error('[SW] Portfolio sync failed:', error);
+  }
+}
+
+// Sync analytics data
+async function syncAnalyticsData() {
+  try {
+    console.log('[SW] Syncing analytics data...');
+    const pendingAnalytics = await getPendingAnalytics();
+    
+    if (pendingAnalytics.length > 0) {
+      const response = await fetch('/api/analytics/batch', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ events: pendingAnalytics })
+      });
+      
+      if (response.ok) {
+        await clearPendingAnalytics();
+      }
+    }
+  } catch (error) {
+    console.error('[SW] Analytics sync failed:', error);
+  }
+}
+
+// Sync user preferences
+async function syncUserPreferences() {
+  try {
+    console.log('[SW] Syncing user preferences...');
+    const preferences = await getUserPreferences();
+    
+    const response = await fetch('/api/user/preferences', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(preferences)
+    });
+    
+    if (response.ok) {
+      await broadcastToClients({ type: 'PREFERENCES_SYNCED' });
+    }
+  } catch (error) {
+    console.error('[SW] Preferences sync failed:', error);
+  }
+}
+
+// Sync achievements
+async function syncAchievements() {
+  try {
+    console.log('[SW] Syncing achievements...');
+    const achievements = await getPendingAchievements();
+    
+    if (achievements.length > 0) {
+      const response = await fetch('/api/achievements/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ achievements })
+      });
+      
+      if (response.ok) {
+        await clearPendingAchievements();
+        await broadcastToClients({ type: 'ACHIEVEMENTS_SYNCED' });
+      }
+    }
+  } catch (error) {
+    console.error('[SW] Achievements sync failed:', error);
+  }
+}
+
 // Store failed requests for background sync
 async function storeFailedRequest(request) {
   // Implementation would store failed requests in IndexedDB
@@ -377,56 +496,152 @@ async function removeFailedRequest(request) {
   console.log('[SW] Removing failed request from storage:', request.url);
 }
 
-// Push notification handling
+// Enhanced push notification handling for multi-platform ecosystem
 self.addEventListener('push', (event) => {
   console.log('[SW] Push notification received');
   
-  const options = {
-    body: 'New content available on SOLO Portfolio',
+  let notificationData = {
+    type: NOTIFICATION_TYPES.SYSTEM_UPDATE,
+    title: 'SOLO Portfolio',
+    body: 'New content available',
+    url: '/'
+  };
+  
+  if (event.data) {
+    try {
+      notificationData = { ...notificationData, ...event.data.json() };
+    } catch (error) {
+      console.error('[SW] Failed to parse notification data:', error);
+    }
+  }
+  
+  const options = createNotificationOptions(notificationData);
+  
+  event.waitUntil(
+    self.registration.showNotification(notificationData.title, options)
+  );
+});
+
+// Create notification options based on type
+function createNotificationOptions(data) {
+  const baseOptions = {
     icon: '/icons/icon-192x192.png',
     badge: '/icons/badge-72x72.png',
     vibrate: [100, 50, 100],
     data: {
       dateOfArrival: Date.now(),
-      primaryKey: 1
+      url: data.url || '/',
+      type: data.type
     },
-    actions: [
-      {
-        action: 'explore',
-        title: 'Explore',
-        icon: '/icons/action-explore.png'
-      },
-      {
-        action: 'close',
-        title: 'Close',
-        icon: '/icons/action-close.png'
-      }
-    ]
+    requireInteraction: false,
+    silent: false
   };
   
-  if (event.data) {
-    const data = event.data.json();
-    options.body = data.body || options.body;
-    options.data = { ...options.data, ...data };
+  switch (data.type) {
+    case NOTIFICATION_TYPES.NEW_PROJECT:
+      return {
+        ...baseOptions,
+        body: data.body || 'Check out my latest project!',
+        icon: '/icons/notification-project.png',
+        actions: [
+          { action: 'view-project', title: 'View Project', icon: '/icons/action-view.png' },
+          { action: 'dismiss', title: 'Dismiss', icon: '/icons/action-close.png' }
+        ]
+      };
+      
+    case NOTIFICATION_TYPES.ACHIEVEMENT_UNLOCKED:
+      return {
+        ...baseOptions,
+        body: data.body || 'New achievement unlocked!',
+        icon: '/icons/notification-achievement.png',
+        vibrate: [200, 100, 200],
+        actions: [
+          { action: 'view-achievements', title: 'View Achievements', icon: '/icons/action-trophy.png' },
+          { action: 'share', title: 'Share', icon: '/icons/action-share.png' }
+        ]
+      };
+      
+    case NOTIFICATION_TYPES.PORTFOLIO_UPDATE:
+      return {
+        ...baseOptions,
+        body: data.body || 'Portfolio has been updated with new content',
+        actions: [
+          { action: 'explore', title: 'Explore', icon: '/icons/action-explore.png' },
+          { action: 'dismiss', title: 'Later', icon: '/icons/action-close.png' }
+        ]
+      };
+      
+    default:
+      return {
+        ...baseOptions,
+        body: data.body || 'New content available on SOLO Portfolio',
+        actions: [
+          { action: 'open', title: 'Open', icon: '/icons/action-open.png' },
+          { action: 'dismiss', title: 'Dismiss', icon: '/icons/action-close.png' }
+        ]
+      };
   }
-  
-  event.waitUntil(
-    self.registration.showNotification('SOLO Portfolio', options)
-  );
-});
+}
 
-// Notification click handling
+// Enhanced notification click handling
 self.addEventListener('notificationclick', (event) => {
   console.log('[SW] Notification clicked:', event.action);
   
   event.notification.close();
   
-  if (event.action === 'explore') {
-    event.waitUntil(
-      clients.openWindow('/')
-    );
+  const data = event.notification.data;
+  let targetUrl = data.url || '/';
+  
+  switch (event.action) {
+    case 'view-project':
+      targetUrl = data.projectUrl || '/portfolio';
+      break;
+    case 'view-achievements':
+      targetUrl = '/games/achievements';
+      break;
+    case 'explore':
+      targetUrl = '/';
+      break;
+    case 'share':
+      event.waitUntil(handleNotificationShare(data));
+      return;
+    case 'dismiss':
+      return;
+    default:
+      targetUrl = data.url || '/';
   }
+  
+  event.waitUntil(
+    clients.matchAll({ type: 'window' }).then((clientList) => {
+      // Try to focus existing window
+      for (const client of clientList) {
+        if (client.url.includes(targetUrl) && 'focus' in client) {
+          return client.focus();
+        }
+      }
+      // Open new window if no existing window found
+      if (clients.openWindow) {
+        return clients.openWindow(targetUrl);
+      }
+    })
+  );
 });
+
+// Handle notification sharing
+async function handleNotificationShare(data) {
+  try {
+    const shareData = {
+      title: 'SOLO Portfolio Achievement',
+      text: data.shareText || 'Check out this achievement!',
+      url: data.url || '/'
+    };
+    
+    // Broadcast to clients for sharing
+    await broadcastToClients({ type: 'SHARE_REQUEST', data: shareData });
+  } catch (error) {
+    console.error('[SW] Share handling failed:', error);
+  }
+}
 
 // Message handling from main thread
 self.addEventListener('message', (event) => {
@@ -441,4 +656,124 @@ self.addEventListener('message', (event) => {
   }
 });
 
-console.log('[SW] Service worker loaded successfully');
+// Helper functions for data management
+async function getPendingAnalytics() {
+  // In a real implementation, this would use IndexedDB
+  try {
+    const cache = await caches.open(SYNC_CACHE_NAME);
+    const response = await cache.match('/pending-analytics');
+    if (response) {
+      return await response.json();
+    }
+  } catch (error) {
+    console.error('[SW] Failed to get pending analytics:', error);
+  }
+  return [];
+}
+
+async function clearPendingAnalytics() {
+  try {
+    const cache = await caches.open(SYNC_CACHE_NAME);
+    await cache.delete('/pending-analytics');
+  } catch (error) {
+    console.error('[SW] Failed to clear pending analytics:', error);
+  }
+}
+
+async function getUserPreferences() {
+  try {
+    const cache = await caches.open(SYNC_CACHE_NAME);
+    const response = await cache.match('/user-preferences');
+    if (response) {
+      return await response.json();
+    }
+  } catch (error) {
+    console.error('[SW] Failed to get user preferences:', error);
+  }
+  return {};
+}
+
+async function getPendingAchievements() {
+  try {
+    const cache = await caches.open(SYNC_CACHE_NAME);
+    const response = await cache.match('/pending-achievements');
+    if (response) {
+      return await response.json();
+    }
+  } catch (error) {
+    console.error('[SW] Failed to get pending achievements:', error);
+  }
+  return [];
+}
+
+async function clearPendingAchievements() {
+  try {
+    const cache = await caches.open(SYNC_CACHE_NAME);
+    await cache.delete('/pending-achievements');
+  } catch (error) {
+    console.error('[SW] Failed to clear pending achievements:', error);
+  }
+}
+
+// Broadcast messages to all clients
+async function broadcastToClients(message) {
+  try {
+    const clients = await self.clients.matchAll({ includeUncontrolled: true });
+    clients.forEach(client => {
+      client.postMessage(message);
+    });
+  } catch (error) {
+    console.error('[SW] Failed to broadcast to clients:', error);
+  }
+}
+
+// Store data for offline sync
+async function storeForSync(key, data) {
+  try {
+    const cache = await caches.open(SYNC_CACHE_NAME);
+    const response = new Response(JSON.stringify(data), {
+      headers: { 'Content-Type': 'application/json' }
+    });
+    await cache.put(key, response);
+  } catch (error) {
+    console.error('[SW] Failed to store sync data:', error);
+  }
+}
+
+// Cross-platform data synchronization
+async function initCrossPlatformSync() {
+  try {
+    // Register for background sync
+    if ('serviceWorker' in navigator && 'sync' in window.ServiceWorkerRegistration.prototype) {
+      const registration = await navigator.serviceWorker.ready;
+      
+      // Register sync events
+      await registration.sync.register(SYNC_TAGS.PORTFOLIO_UPDATE);
+      await registration.sync.register(SYNC_TAGS.ANALYTICS_SYNC);
+      await registration.sync.register(SYNC_TAGS.USER_PREFERENCES);
+      await registration.sync.register(SYNC_TAGS.ACHIEVEMENT_SYNC);
+    }
+  } catch (error) {
+    console.error('[SW] Failed to initialize cross-platform sync:', error);
+  }
+}
+
+// Platform detection and optimization
+function getPlatformInfo() {
+  const userAgent = navigator.userAgent || '';
+  const platform = {
+    isMobile: /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent),
+    isDesktop: !(/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)),
+    isElectron: userAgent.includes('Electron'),
+    isPWA: window.matchMedia('(display-mode: standalone)').matches,
+    supportsNotifications: 'Notification' in window,
+    supportsBackgroundSync: 'serviceWorker' in navigator && 'sync' in window.ServiceWorkerRegistration.prototype
+  };
+  
+  return platform;
+}
+
+console.log('[SW] Advanced multi-platform service worker loaded successfully');
+console.log('[SW] Cache version:', CACHE_VERSION);
+console.log('[SW] Sync tags:', Object.values(SYNC_TAGS));
+console.log('[SW] Notification types:', Object.values(NOTIFICATION_TYPES));

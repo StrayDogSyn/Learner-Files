@@ -18,7 +18,8 @@ import {
   Mail,
   ExternalLink,
   Cpu,
-  Shield
+  Shield,
+  Gamepad2
 } from 'lucide-react';
 import { useBreadcrumbs, BreadcrumbItem } from '@/hooks/useBreadcrumbs';
 import BrandLogo from './BrandLogo';
@@ -45,6 +46,7 @@ const navigationItems: NavigationItem[] = [
   { id: 'home', label: 'Home', href: '/', icon: <Home className="w-4 h-4" /> },
   { id: 'projects', label: 'Projects', href: '/projects', icon: <FolderOpen className="w-4 h-4" /> },
   { id: 'portfolio', label: 'Portfolio', href: '/portfolio', icon: <Briefcase className="w-4 h-4" /> },
+  { id: 'gamification', label: 'Gamification', href: '/gamification', icon: <Gamepad2 className="w-4 h-4" /> },
   { id: 'bio', label: 'Bio', href: '/bio', icon: <FileText className="w-4 h-4" /> },
   { id: 'contact', label: 'Contact', href: '/contact', icon: <Mail className="w-4 h-4" /> },
 ];

@@ -1,0 +1,180 @@
+{
+  "name": "solo-portfolio-desktop",
+  "version": "1.0.0",
+  "description": "SOLO Portfolio Desktop Application - Multi-platform portfolio ecosystem",
+  "main": "main.js",
+  "homepage": "./",
+  "author": {
+    "name": "SOLO Developer",
+    "email": "contact@soloportfolio.dev"
+  },
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "electron": "electron .",
+    "electron-dev": "cross-env NODE_ENV=development electron .",
+    "electron-pack": "electron-builder",
+    "preelectron-pack": "npm run build",
+    "build": "npm run build:web && npm run copy-assets",
+    "build:web": "cd .. && npm run build",
+    "copy-assets": "copyfiles -u 1 ../dist/**/* ./dist/",
+    "dist": "npm run build && electron-builder --publish=never",
+    "dist:all": "npm run build && electron-builder -mwl --publish=never",
+    "dist:mac": "npm run build && electron-builder --mac --publish=never",
+    "dist:win": "npm run build && electron-builder --win --publish=never",
+    "dist:linux": "npm run build && electron-builder --linux --publish=never",
+    "publish": "npm run build && electron-builder --publish=always",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "dependencies": {
+    "electron-updater": "^6.1.7",
+    "electron-window-state": "^5.0.3",
+    "electron-store": "^8.1.0",
+    "electron-log": "^5.0.1"
+  },
+  "devDependencies": {
+    "electron": "^28.1.0",
+    "electron-builder": "^24.9.1",
+    "electron-reload": "^2.0.0-alpha.1",
+    "cross-env": "^7.0.3",
+    "copyfiles": "^2.4.1"
+  },
+  "build": {
+    "appId": "com.soloportfolio.desktop",
+    "productName": "SOLO Portfolio",
+    "copyright": "Copyright © 2024 SOLO Developer",
+    "directories": {
+      "output": "release",
+      "buildResources": "assets"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "splash.html",
+      "dist/**/*",
+      "assets/**/*",
+      "node_modules/**/*",
+      "!node_modules/.cache/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "../public",
+        "to": "public",
+        "filter": ["**/*"]
+      }
+    ],
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["x64", "arm64"]
+        },
+        {
+          "target": "zip",
+          "arch": ["x64", "arm64"]
+        }
+      ],
+      "icon": "assets/icon.icns",
+      "darkModeSupport": true,
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "assets/entitlements.mac.plist",
+      "entitlementsInherit": "assets/entitlements.mac.plist"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64", "ia32"]
+        },
+        {
+          "target": "portable",
+          "arch": ["x64", "ia32"]
+        }
+      ],
+      "icon": "assets/icon.ico",
+      "publisherName": "SOLO Developer",
+      "verifyUpdateCodeSignature": false
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": ["x64"]
+        },
+        {
+          "target": "deb",
+          "arch": ["x64"]
+        },
+        {
+          "target": "rpm",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "assets/icon.png",
+      "category": "Development",
+      "desktop": {
+        "Name": "SOLO Portfolio",
+        "Comment": "Multi-platform portfolio ecosystem",
+        "Keywords": "portfolio;development;showcase;"
+      }
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "SOLO Portfolio",
+      "include": "assets/installer.nsh"
+    },
+    "dmg": {
+      "title": "SOLO Portfolio ${version}",
+      "icon": "assets/icon.icns",
+      "iconSize": 100,
+      "contents": [
+        {
+          "x": 380,
+          "y": 280,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 110,
+          "y": 280,
+          "type": "file"
+        }
+      ],
+      "window": {
+        "width": 540,
+        "height": 380
+      }
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "yourusername",
+      "repo": "portfolio-desktop",
+      "private": false
+    },
+    "afterSign": "scripts/notarize.js",
+    "compression": "maximum",
+    "removePackageScripts": true,
+    "nodeGypRebuild": false,
+    "buildDependenciesFromSource": false
+  },
+  "keywords": [
+    "portfolio",
+    "desktop",
+    "electron",
+    "cross-platform",
+    "showcase",
+    "development"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/portfolio-desktop.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/portfolio-desktop/issues"
+  }
+}

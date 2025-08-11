@@ -29,6 +29,7 @@ const GamesPage = lazy(() => import('@/pages/games/GamesPage'));
 const GameDetailsPage = lazy(() => import('@/pages/games/GameDetailsPage'));
 const LeaderboardPage = lazy(() => import('@/pages/games/LeaderboardPage'));
 const AchievementsPage = lazy(() => import('@/pages/games/AchievementsPage'));
+const GamificationHub = lazy(() => import('@/pages/GamificationHub'));
 
 // Individual Game Components (wrapped)
 const KnucklebonesGame = lazy(() => import('@/components/games/KnucklebonesWrapper'));
@@ -216,6 +217,12 @@ export const routeConfig = {
       element: <GamesPage />,
       title: 'Games',
       description: 'Explore our collection of educational games'
+    },
+    {
+      path: '/gamification',
+      element: <GamificationHub />,
+      title: 'Gamification Hub',
+      description: 'Interactive coding challenges and skill demonstrations'
     },
     {
       path: '/games/:gameId',
