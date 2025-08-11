@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { TrendingUp, Target, Clock, Star, Award, BookOpen, Code, Gamepad2, Trophy, CheckCircle, Circle, Lock } from 'lucide-react';
+import { TrendingUp, Target, Star, BookOpen, Code, Gamepad2, Trophy, CheckCircle, Circle, Lock } from 'lucide-react';
 import { useGameStore } from '../../store/gameStore';
+import styles from './ProgressTracking.module.css';
 
 interface LearningPath {
   id: string;
@@ -322,7 +323,7 @@ export const ProgressTracking: React.FC = () => {
   });
   const [showCelebration, setShowCelebration] = useState(false);
   
-  const { addXP, unlockAchievement, level, totalXP } = useGameStore();
+  const { addXP, unlockAchievement, level } = useGameStore();
 
   // Calculate progress statistics
   useEffect(() => {
@@ -561,8 +562,8 @@ export const ProgressTracking: React.FC = () => {
                     </div>
                     <div className="w-full bg-gray-700 rounded-full h-2">
                       <div 
-                        className={`bg-gradient-to-r ${path.color} h-2 rounded-full transition-all duration-500`}
-                        style={{ width: `${progress.percentage}%` }}
+                        className={`${styles.progressBar} bg-gradient-to-r ${path.color} h-2 rounded-full transition-all duration-500`}
+                        style={{ '--progress-width': `${progress.percentage}%` } as React.CSSProperties}
                       />
                     </div>
                   </div>
@@ -636,8 +637,8 @@ export const ProgressTracking: React.FC = () => {
               
               <div className="w-full bg-gray-700 rounded-full h-3 mb-4">
                 <div 
-                  className={`bg-gradient-to-r ${selectedPath.color} h-3 rounded-full transition-all duration-500`}
-                  style={{ width: `${getPathProgress(selectedPath).percentage}%` }}
+                  className={`${styles.progressBar} bg-gradient-to-r ${selectedPath.color} h-3 rounded-full transition-all duration-500`}
+                  style={{ '--progress-width': `${getPathProgress(selectedPath).percentage}%` } as React.CSSProperties}
                 />
               </div>
             </div>

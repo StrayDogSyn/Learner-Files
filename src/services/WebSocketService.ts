@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 
 export interface WebSocketMessage {
-  type: 'visitor_update' | 'performance_alert' | 'goal_completion' | 'error_report' | 'system_status';
+  type: 'visitor_update' | 'performance_alert' | 'goal_completion' | 'error_report' | 'system_status' | 'form_submission' | 'resume_download' | 'social_media_click';
   data: any;
   timestamp: number;
   id: string;

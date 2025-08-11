@@ -1,0 +1,11 @@
+/* CSS for ProgressTracking component */
+
+/* Progress bar with custom width property */
+.progressBar {
+  width: var(--progress-width, 0%);
+}
+
+/* Ensure proper width application on gradient progress bars */
+.bg-gradient-to-r {
+  width: var(--progress-width, 0%);
+}

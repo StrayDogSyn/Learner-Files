@@ -425,7 +425,9 @@ class ProfessionalMetricsService {
           formId,
           timestamp: Date.now(),
           conversionRate: metrics.conversionRate
-        }
+        },
+        timestamp: Date.now(),
+        id: `form-submission-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
       });
     }
   }
@@ -524,7 +526,9 @@ class ProfessionalMetricsService {
         source,
         timestamp: Date.now(),
         totalDownloads: this.resumeMetrics.totalDownloads
-      }
+      },
+      timestamp: Date.now(),
+      id: `resume-download-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
     });
   }
 
@@ -558,7 +562,9 @@ class ProfessionalMetricsService {
           url,
           timestamp: Date.now(),
           totalClicks: metrics.clicks
-        }
+        },
+        timestamp: Date.now(),
+        id: `social-click-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
       });
     }
   }
@@ -601,4 +607,252 @@ class ProfessionalMetricsService {
       data: {
         goalId: goal.id,
         goalName: goal.name,
-        target
+        target: goal.target,
+        timestamp: Date.now()
+      },
+      timestamp: Date.now(),
+      id: `goal-completion-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+    });
+  }
+
+  // Conversion Funnel Tracking
+  createConversionFunnel(funnel: Omit<ConversionFunnel, 'id'>): string {
+    const id = `funnel-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    const newFunnel: ConversionFunnel = {
+      ...funnel,
+      id
+    };
+    
+    this.conversionFunnels.set(id, newFunnel);
+    this.saveConversionFunnels();
+    
+    return id;
+  }
+
+  trackFunnelStep(funnelId: string, stepIndex: number): void {
+    const funnel = this.conversionFunnels.get(funnelId);
+    if (funnel && funnel.steps[stepIndex]) {
+      funnel.steps[stepIndex].users++;
+      
+      // Recalculate conversion rates
+      for (let i = 0; i < funnel.steps.length; i++) {
+        const step = funnel.steps[i];
+        if (i === 0) {
+          step.conversionRate = 100; // First step is always 100%
+          funnel.totalUsers = step.users;
+        } else {
+          const previousStep = funnel.steps[i - 1];
+          step.conversionRate = previousStep.users > 0 ? (step.users / previousStep.users) * 100 : 0;
+        }
+      }
+      
+      // Calculate overall completion rate
+      const lastStep = funnel.steps[funnel.steps.length - 1];
+      funnel.completionRate = funnel.totalUsers > 0 ? (lastStep.users / funnel.totalUsers) * 100 : 0;
+      
+      this.saveConversionFunnels();
+    }
+  }
+
+  // Utility Methods
+  private extractPlatformFromUrl(url: string): string | null {
+    const platforms = {
+      'linkedin.com': 'linkedin',
+      'github.com': 'github',
+      'twitter.com': 'twitter',
+      'instagram.com': 'instagram',
+      'facebook.com': 'facebook',
+      'youtube.com': 'youtube'
+    };
+    
+    for (const [domain, platform] of Object.entries(platforms)) {
+      if (url.includes(domain)) {
+        return platform;
+      }
+    }
+    
+    return null;
+  }
+
+  private getDeviceType(): string {
+    const userAgent = navigator.userAgent;
+    
+    if (/tablet|ipad|playbook|silk/i.test(userAgent)) {
+      return 'tablet';
+    }
+    if (/mobile|iphone|ipod|android|blackberry|opera|mini|windows\sce|palm|smartphone|iemobile/i.test(userAgent)) {
+      return 'mobile';
+    }
+    return 'desktop';
+  }
+
+  // Data Access Methods
+  getContactFormMetrics(formId?: string): ContactFormMetrics[] {
+    if (formId) {
+      const metrics = this.contactForms.get(formId);
+      return metrics ? [metrics] : [];
+    }
+    return Array.from(this.contactForms.values());
+  }
+
+  getResumeMetrics(): ResumeDownloadMetrics {
+    return { ...this.resumeMetrics };
+  }
+
+  getSocialMediaMetrics(platform?: string): SocialMediaMetrics[] {
+    if (platform) {
+      const metrics = this.socialMetrics.get(platform);
+      return metrics ? [metrics] : [];
+    }
+    return Array.from(this.socialMetrics.values());
+  }
+
+  getGoals(): ProfessionalGoal[] {
+    return Array.from(this.goals.values());
+  }
+
+  getConversionFunnels(): ConversionFunnel[] {
+    return Array.from(this.conversionFunnels.values());
+  }
+
+  getLeadMetrics(): LeadQualityMetrics {
+    return { ...this.leadMetrics };
+  }
+
+  // Data Persistence
+  private updateFormMetrics(formId: string, metrics: ContactFormMetrics): void {
+    this.contactForms.set(formId, metrics);
+    this.saveContactFormMetrics();
+  }
+
+  private updateSocialMetrics(platform: string, metrics: SocialMediaMetrics): void {
+    this.socialMetrics.set(platform, metrics);
+    this.saveSocialMetrics();
+  }
+
+  private updateResumeMetrics(): void {
+    this.saveResumeMetrics();
+  }
+
+  private updateLeadMetrics(): void {
+    this.saveLeadMetrics();
+  }
+
+  private saveContactFormMetrics(): void {
+    const data: Record<string, ContactFormMetrics> = {};
+    this.contactForms.forEach((metrics, id) => {
+      data[id] = metrics;
+    });
+    localStorage.setItem('professional_metrics_forms', JSON.stringify(data));
+  }
+
+  private saveResumeMetrics(): void {
+    localStorage.setItem('professional_metrics_resume', JSON.stringify(this.resumeMetrics));
+  }
+
+  private saveSocialMetrics(): void {
+    const data: Record<string, SocialMediaMetrics> = {};
+    this.socialMetrics.forEach((metrics, platform) => {
+      data[platform] = metrics;
+    });
+    localStorage.setItem('professional_metrics_social', JSON.stringify(data));
+  }
+
+  private saveGoals(): void {
+    const data: Record<string, ProfessionalGoal> = {};
+    this.goals.forEach((goal, id) => {
+      data[id] = goal;
+    });
+    localStorage.setItem('professional_metrics_goals', JSON.stringify(data));
+  }
+
+  private saveConversionFunnels(): void {
+    const data: Record<string, ConversionFunnel> = {};
+    this.conversionFunnels.forEach((funnel, id) => {
+      data[id] = funnel;
+    });
+    localStorage.setItem('professional_metrics_funnels', JSON.stringify(data));
+  }
+
+  private saveLeadMetrics(): void {
+    localStorage.setItem('professional_metrics_leads', JSON.stringify(this.leadMetrics));
+  }
+
+  // Export Methods
+  exportProfessionalMetrics(format: 'json' | 'csv'): string {
+    const data = {
+      contactForms: Array.from(this.contactForms.values()),
+      resumeMetrics: this.resumeMetrics,
+      socialMetrics: Array.from(this.socialMetrics.values()),
+      goals: Array.from(this.goals.values()),
+      conversionFunnels: Array.from(this.conversionFunnels.values()),
+      leadMetrics: this.leadMetrics
+    };
+    
+    if (format === 'json') {
+      return JSON.stringify(data, null, 2);
+    }
+    
+    // CSV format (simplified)
+    const headers = ['metric_type', 'name', 'value', 'timestamp'];
+    const rows: string[][] = [];
+    
+    // Add contact form data
+    data.contactForms.forEach(form => {
+      rows.push(['contact_form', form.formName, form.submissions.toString(), new Date().toISOString()]);
+    });
+    
+    // Add resume data
+    rows.push(['resume_downloads', 'Total Downloads', data.resumeMetrics.totalDownloads.toString(), new Date().toISOString()]);
+    
+    // Add social media data
+    data.socialMetrics.forEach(social => {
+      rows.push(['social_media', social.platform, social.clicks.toString(), new Date().toISOString()]);
+    });
+    
+    return [headers.join(','), ...rows.map(row => row.join(','))].join('\n');
+  }
+
+  clearData(): void {
+    this.contactForms.clear();
+    this.socialMetrics.clear();
+    this.goals.clear();
+    this.conversionFunnels.clear();
+    
+    this.resumeMetrics = {
+      totalDownloads: 0,
+      uniqueDownloads: 0,
+      downloadsBySource: [],
+      downloadsByDevice: [],
+      downloadsByLocation: [],
+      downloadTrends: []
+    };
+    
+    this.leadMetrics = {
+      totalLeads: 0,
+      qualifiedLeads: 0,
+      leadSources: [],
+      responseTime: { average: 0, median: 0 },
+      followUpRate: 0
+    };
+    
+    localStorage.removeItem('professional_metrics_forms');
+    localStorage.removeItem('professional_metrics_resume');
+    localStorage.removeItem('professional_metrics_social');
+    localStorage.removeItem('professional_metrics_goals');
+    localStorage.removeItem('professional_metrics_funnels');
+    localStorage.removeItem('professional_metrics_leads');
+  }
+
+  destroy(): void {
+    this.isTracking = false;
+    
+    // Remove event listeners
+    this.eventListeners.forEach(removeListener => removeListener());
+    this.eventListeners = [];
+    
+    console.log('Professional metrics tracking destroyed');
+  }
+}
+
+export default ProfessionalMetricsService;

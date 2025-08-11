@@ -1,0 +1,46 @@
+/* CSS for GitHubPagesAnalyticsDashboard component */
+
+.progressBar {
+  width: 100%;
+  background-color: #e5e7eb;
+  border-radius: 9999px;
+  height: 0.5rem;
+}
+
+.progressBarFill {
+  width: var(--completion-width, 0%);
+  background-color: #10b981;
+  height: 0.5rem;
+  border-radius: 9999px;
+  transition: all 0.3s ease;
+}
+
+.heatmapDot {
+  position: absolute;
+  left: var(--heatmap-left, 0%);
+  top: var(--heatmap-top, 0%);
+  opacity: var(--heatmap-opacity, 0.7);
+  width: 1rem;
+  height: 1rem;
+  border-radius: 9999px;
+  background-color: #ef4444;
+  transform: translate(-0.5rem, -0.5rem);
+}
+
+.refreshBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  background-color: #3b82f6;
+  color: white;
+  border-radius: 0.375rem;
+  border: none;
+  font-size: 0.875rem;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.refreshBtn:hover {
+  background-color: #2563eb;
+}
