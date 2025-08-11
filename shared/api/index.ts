@@ -176,4 +176,47 @@ export class APIClient {
     if (!this.config.enableOffline) return;
 
     const request: QueuedRequest = {
-      id: Math.random().toString(
+      id: Math.random().toString(36).substr(2, 9),
+      url,
+      options,
+      timestamp: Date.now(),
+      retries: 0
+    };
+    this.requestQueue.push(request);
+  }
+
+  private async processRequestQueue(): Promise<void> {
+    if (!this.isOnline || this.requestQueue.length === 0) return;
+
+    const requests = [...this.requestQueue];
+    this.requestQueue = [];
+
+    for (const request of requests) {
+      try {
+        await this.makeRequest(request.url, request.options);
+        this.emit('queue:success', request);
+      } catch (error) {
+        if (request.retries < this.config.retries) {
+          request.retries++;
+          this.requestQueue.push(request);
+        } else {
+          this.emit('queue:failed', { request, error });
+        }
+      }
+    }
+  }
+
+  // Core Request Method
+  private async makeRequest<T>(
+    url: string, 
+    options: RequestInit = {},
+    useCache: boolean = true
+  ): Promise<APIResponse<T>> {
+    const fullUrl = url.startsWith('http') ? url : `${this.config.baseURL}/${url.replace(/^\//,'')}`;
+    
+    // Check cache first
+    if (useCache && options.method === 'GET') {
+      const cacheKey = this.getCacheKey(fullUrl);
+      const cached = this.getFromCache(cacheKey);
+      if (cached) {
+        return cache
