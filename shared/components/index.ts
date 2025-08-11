@@ -2,6 +2,13 @@
 // This library provides consistent components across all platforms
 // (Web, Mobile, Desktop, CLI)
 
+// Re-export shared libraries
+export * from '../types';
+export * from '../api';
+export * from '../store';
+export * from '../theme';
+export * from '../utils';
+
 // Base Components
 export { default as Button } from './base/Button';
 export { default as Input } from './base/Input';
