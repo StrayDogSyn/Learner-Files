@@ -254,13 +254,14 @@ export const usePerformanceMetrics = (config: Partial<PerformanceConfig> = {}) =
     if (finalConfig.enableErrorTracking) {
       errorCountRef.current++;
       
-      setAlerts(prev => [...prev, {
+      const newAlert: PerformanceAlert = {
         type: 'error',
         message: `Error: ${error.message}`,
         timestamp: new Date(),
         value: errorCountRef.current,
         threshold: 0
-      }].slice(-10));
+      };
+      setAlerts(prev => [...prev, newAlert].slice(-10));
     }
   }, [finalConfig.enableErrorTracking]);
   

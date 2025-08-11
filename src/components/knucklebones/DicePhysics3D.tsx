@@ -143,15 +143,17 @@ const DicePhysics3D: React.FC<DicePhysics3DProps> = ({
       
       // Check if all dice have settled
       if (newResults.size === diceCount) {
-        const results: DiceGroupResult[] = [{
-          groupId: 'main',
-          dice: Array.from(newResults.entries()).map(([diceId, diceValue]) => ({
-            id: diceId,
-            value: diceValue,
-            position: { x: 0, y: 0, z: 0 },
-            rotation: { x: 0, y: 0, z: 0 }
-          } as DiceResult))
-        }];
+          const results: DiceGroupResult[] = [{
+            group: {
+              id: 'main',
+              type: 6, // d6 dice
+              count: diceCount,
+              results: Array.from(newResults.values())
+            },
+            timestamp: new Date(),
+            playerId: 'player1',
+            total: Array.from(newResults.values()).reduce((sum, val) => sum + val, 0)
+          }];
         
         setTimeout(() => {
           setShowResults(true);

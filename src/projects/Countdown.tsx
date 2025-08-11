@@ -35,6 +35,7 @@ const Countdown: React.FC<CountdownProps> = ({ targetDate }) => {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const animationIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const targetDateRef = useRef<number>(0);
+  const startTime = useRef<number>(Date.now());
   
   // Performance tracking
   const { metrics, startTracking, stopTracking } = usePerformanceMetrics({
@@ -273,9 +274,21 @@ const Countdown: React.FC<CountdownProps> = ({ targetDate }) => {
     );
   };
 
+  // Map metrics to expected format for PerformanceOverlay
+  const mappedMetrics = {
+    renderTime: metrics.renderTime,
+    memoryUsage: metrics.memory,
+    cpuUsage: metrics.cpu,
+    errorCount: metrics.errorCount,
+    successRate: Math.max(0, 100 - (metrics.errorCount + metrics.warningCount)),
+    responseTime: metrics.loadTime,
+    userInteractions: metrics.userInteractions,
+    sessionDuration: startTime.current ? (Date.now() - startTime.current) / 1000 : 0
+  };
+
   return (
     <div className="countdown-container">
-      <PerformanceOverlay metrics={metrics} />
+      <PerformanceOverlay metrics={mappedMetrics} />
       <FeedbackCollector projectName="Countdown Timer" />
       
       {/* Case Study Card - shown when countdown is not expired */}

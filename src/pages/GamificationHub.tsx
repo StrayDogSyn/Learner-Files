@@ -44,7 +44,7 @@ interface FeatureCard {
 const GamificationHub: React.FC = () => {
   const [activeFeature, setActiveFeature] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const { userProgress, achievements, addXP } = useGameStore();
+  const { userProgress, achievements, addXP, level, totalXP, unlockedAchievements } = useGameStore();
 
   const features: FeatureCard[] = [
     {
@@ -207,15 +207,15 @@ const GamificationHub: React.FC = () => {
           {/* User Stats */}
           <div className="flex justify-center gap-6 mb-8">
             <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20">
-              <div className="text-2xl font-bold text-yellow-400">{userProgress.totalXP}</div>
+              <div className="text-2xl font-bold text-yellow-400">{totalXP}</div>
               <div className="text-sm text-gray-300">Total XP</div>
             </div>
             <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20">
-              <div className="text-2xl font-bold text-purple-400">{userProgress.level}</div>
+              <div className="text-2xl font-bold text-purple-400">{level}</div>
               <div className="text-sm text-gray-300">Level</div>
             </div>
             <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20">
-              <div className="text-2xl font-bold text-green-400">{achievements.filter(a => a.unlocked).length}</div>
+              <div className="text-2xl font-bold text-green-400">{unlockedAchievements.length}</div>
               <div className="text-sm text-gray-300">Achievements</div>
             </div>
             <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20">
@@ -324,13 +324,13 @@ const GamificationHub: React.FC = () => {
               <h3 className="text-lg font-bold text-white">Recent Achievements</h3>
             </div>
             <div className="space-y-2">
-              {achievements.filter(a => a.unlocked).slice(-3).map((achievement) => (
+              {achievements.filter(a => unlockedAchievements.includes(a.id)).slice(-3).map((achievement) => (
                 <div key={achievement.id} className="flex items-center gap-2 text-sm">
                   <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
                   <span className="text-gray-300">{achievement.title}</span>
                 </div>
               ))}
-              {achievements.filter(a => a.unlocked).length === 0 && (
+              {unlockedAchievements.length === 0 && (
                 <p className="text-gray-400 text-sm">Complete challenges to earn achievements!</p>
               )}
             </div>
@@ -345,17 +345,17 @@ const GamificationHub: React.FC = () => {
               <div>
                 <div className="flex justify-between text-sm mb-1">
                   <span className="text-gray-300">Level Progress</span>
-                  <span className="text-white">{userProgress.level}</span>
+                  <span className="text-white">{level}</span>
                 </div>
                 <div className="w-full bg-gray-700 rounded-full h-2">
                   <div 
                     className="bg-gradient-to-r from-purple-500 to-blue-500 h-2 rounded-full transition-all duration-500"
-                    style={{ width: `${(userProgress.totalXP % 1000) / 10}%` }}
+                    style={{ width: `${(totalXP % 1000) / 10}%` }}
                   ></div>
                 </div>
               </div>
               <div className="text-xs text-gray-400">
-                {1000 - (userProgress.totalXP % 1000)} XP to next level
+                {1000 - (totalXP % 1000)} XP to next level
               </div>
             </div>
           </div>

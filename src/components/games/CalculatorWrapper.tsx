@@ -254,7 +254,6 @@ const CalculatorWrapper: React.FC<CalculatorWrapperProps> = ({ className }) => {
           console.log('Calculation History:', gameState?.calculationHistory || []);
         }}
         className="text-blue-400 hover:text-blue-300"
-        title="View History"
       />
       
       <GlassButton
@@ -277,7 +276,7 @@ const CalculatorWrapper: React.FC<CalculatorWrapperProps> = ({ className }) => {
           }
         }}
         className="text-purple-400 hover:text-purple-300"
-        title={`Mode: ${gameState?.currentMode || 'basic'}`}
+
       />
       
       <GlassButton
@@ -297,7 +296,7 @@ const CalculatorWrapper: React.FC<CalculatorWrapperProps> = ({ className }) => {
           }
         }}
         className="text-yellow-400 hover:text-yellow-300"
-        title={`Angle: ${gameState?.preferences.angleUnit || 'degrees'}`}
+
       />
     </>
   );

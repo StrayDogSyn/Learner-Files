@@ -10,9 +10,9 @@ import {
   Pause,
   RotateCcw
 } from 'lucide-react';
-import { GlassCard } from '../ui/GlassCard';
-import { GlassButton } from '../ui/GlassButton';
-import { GlassDropdown } from '../ui/GlassDropdown';
+import GlassCard from '../ui/GlassCard';
+import GlassButton from '../ui/GlassButton';
+import GlassDropdown from '../ui/GlassDropdown';
 import { HeatmapData } from '../../services/api/EnhancedAnalyticsService';
 
 export interface HeatmapVisualizationProps {

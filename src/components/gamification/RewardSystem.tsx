@@ -245,9 +245,7 @@ export const RewardSystem: React.FC = () => {
           title: section.name,
           description: section.description,
           icon: '🎯',
-          rarity: 'common',
-          unlockedAt: new Date(),
-          unlocked: true
+          rarity: 'common'
         });
         return { ...section, completed: true };
       }

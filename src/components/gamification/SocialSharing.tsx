@@ -103,7 +103,7 @@ export const SocialSharing: React.FC<SocialSharingProps> = ({ content, onClose, 
     if (shareContent.achievement) {
       shareAchievement(shareContent.achievement.id);
     }
-    addXP(25, 'Shared content on social media');
+    addXP(25);
     
     // Open share URL
     const shareUrl = platform.shareUrl(shareContent);
@@ -119,7 +119,7 @@ export const SocialSharing: React.FC<SocialSharingProps> = ({ content, onClose, 
       
       await navigator.clipboard.writeText(fullText);
       setCopied(true);
-      addXP(10, 'Copied share link');
+      addXP(10);
       
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
@@ -139,7 +139,7 @@ export const SocialSharing: React.FC<SocialSharingProps> = ({ content, onClose, 
         if (shareContent.achievement) {
           shareAchievement(shareContent.achievement.id);
         }
-        addXP(25, 'Shared via native sharing');
+        addXP(25);
       } catch (err) {
         console.log('Share cancelled or failed:', err);
       }
@@ -193,7 +193,7 @@ export const SocialSharing: React.FC<SocialSharingProps> = ({ content, onClose, 
     link.href = canvas.toDataURL();
     link.click();
     
-    addXP(15, 'Generated share image');
+    addXP(15);
   };
 
   const getTypeIcon = () => {
@@ -422,9 +422,9 @@ export const useSharing = () => {
       icon: achievement.icon,
       achievement,
       stats: [
-        { label: 'XP Earned', value: achievement.xpReward },
-        { label: 'Rarity', value: achievement.rarity.charAt(0).toUpperCase() + achievement.rarity.slice(1) }
-      ]
+          { label: 'Achievement', value: achievement.title },
+          { label: 'Rarity', value: achievement.rarity.charAt(0).toUpperCase() + achievement.rarity.slice(1) }
+        ]
     };
     
     return content;

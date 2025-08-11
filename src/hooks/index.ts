@@ -17,6 +17,9 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { useAppStore, useAppActions } from '@/store/appStore';
 import { getUnifiedAPI } from '@/services/api';
+import { useGameAnalytics } from './useGameAnalytics';
+import { useGameState } from './useGameState';
+import { usePerformanceMetrics } from './usePerformanceMetrics';
 
 // Re-export existing hooks
 export { useGameAnalytics } from './useGameAnalytics';
@@ -792,7 +795,7 @@ export function useFormValidation<T extends Record<string, any>>(
     setErrors(prev => ({ ...prev, [field]: error || undefined }));
   }, [validationRules]);
 
-  const setTouched = useCallback((field: keyof T) => {
+  const setFieldTouched = useCallback((field: keyof T) => {
     setTouched(prev => ({ ...prev, [field]: true }));
   }, []);
 
@@ -823,7 +826,7 @@ export function useFormValidation<T extends Record<string, any>>(
     errors,
     touched,
     setValue,
-    setTouched,
+    setTouched: setFieldTouched,
     validate,
     reset,
     isValid: Object.keys(errors).length === 0
@@ -904,7 +907,8 @@ export function useAPIService() {
       addAPIError({
         service: 'unified',
         message: error instanceof Error ? error.message : 'Health check failed',
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        resolved: false
       });
     }
   }, [getService, updateAPIStatus, addAPIError]);

@@ -1276,9 +1276,21 @@ const Calculator: React.FC = () => {
     };
   }, [handleKeyDown]);
 
+  // Map metrics to expected format for PerformanceOverlay
+  const mappedMetrics = {
+    renderTime: metrics.renderTime,
+    memoryUsage: metrics.memory,
+    cpuUsage: metrics.cpu,
+    errorCount: metrics.errorCount,
+    successRate: Math.max(0, 100 - (metrics.errorCount + metrics.warningCount)),
+    responseTime: metrics.loadTime,
+    userInteractions: metrics.userInteractions,
+    sessionDuration: 0 // Simple session duration placeholder
+  };
+
   return (
     <div className="calculator-page">
-      <PerformanceOverlay metrics={metrics} />
+      <PerformanceOverlay metrics={mappedMetrics} />
       <FeedbackCollector projectName="Calculator" />
       
       <div className="container-modern py-4">

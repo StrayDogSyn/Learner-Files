@@ -20,9 +20,9 @@ import {
   Code,
   Lightbulb
 } from 'lucide-react';
-import { GlassCard } from '../ui/GlassCard';
-import { GlassButton } from '../ui/GlassButton';
-import { GlassInput } from '../ui/GlassInput';
+import GlassCard from '../ui/GlassCard';
+import GlassButton from '../ui/GlassButton';
+import GlassInput from '../ui/GlassInput';
 import { usePerformanceTracking } from '../../utils/performanceMonitor';
 
 interface BlogPost {

@@ -17,7 +17,7 @@ import {
   Bluetooth,
   Camera,
   Mic,
-  Location,
+  MapPin,
   Lock,
   Eye,
   EyeOff,
@@ -172,7 +172,7 @@ const defaultSettings: SettingItem[] = [
         id: 'location',
         label: 'Location Access',
         description: 'Allow app to access your location',
-        icon: <Location size={18} />,
+        icon: <MapPin size={18} />,
         type: 'toggle',
         value: false
       },

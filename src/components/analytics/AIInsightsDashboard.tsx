@@ -16,10 +16,10 @@ import {
   Share,
   Filter
 } from 'lucide-react';
-import { GlassCard } from '../ui/GlassCard';
-import { GlassButton } from '../ui/GlassButton';
-import { GlassDropdown } from '../ui/GlassDropdown';
-import { GlassBadge } from '../ui/GlassBadge';
+import GlassCard from '../ui/GlassCard';
+import GlassButton from '../ui/GlassButton';
+import GlassDropdown from '../ui/GlassDropdown';
+import GlassBadge from '../ui/GlassBadge';
 import { AIInsight } from '../../services/api/EnhancedAnalyticsService';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 

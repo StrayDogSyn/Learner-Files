@@ -26,11 +26,11 @@ import {
   Keyboard,
   Settings
 } from 'lucide-react';
-import { GlassCard } from '../ui/GlassCard';
-import { GlassButton } from '../ui/GlassButton';
-import { GlassInput } from '../ui/GlassInput';
-import { GlassModal } from '../ui/GlassModal';
-import { GlassBadge } from '../ui/GlassBadge';
+import GlassCard from '../ui/GlassCard';
+import GlassButton from '../ui/GlassButton';
+import GlassInput from '../ui/GlassInput';
+import GlassModal from '../ui/GlassModal';
+import GlassBadge from '../ui/GlassBadge';
 
 export interface SessionEvent {
   id: string;

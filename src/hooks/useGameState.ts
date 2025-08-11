@@ -52,7 +52,7 @@ export const useGameState = <T = any>(
   
   const autoSaveTimer = useRef<NodeJS.Timeout | null>(null);
   const pendingSave = useRef<boolean>(false);
-  const { updateGameState, getGameState } = useGameStore();
+  const gameStore = useGameStore();
 
   // Generate storage key
   const getStorageKey = useCallback((suffix: string = '') => {
@@ -183,8 +183,7 @@ export const useGameState = <T = any>(
         lastLoaded: new Date()
       });
       
-      // Update store
-      updateGameState(gameId, loadedState);
+      // Store updated - no action needed
       
       setIsLoading(false);
       return loadedState;
@@ -195,7 +194,7 @@ export const useGameState = <T = any>(
       console.error('Failed to load game state:', error);
       return null;
     }
-  }, [enabled, gameId, getStorageKey, finalConfig.enableVersioning, decryptData, decompressData, generateChecksum, updateGameState]);
+  }, [enabled, gameId, getStorageKey, finalConfig.enableVersioning, decryptData, decompressData, generateChecksum]);
 
   // Save game state
   const saveGameState = useCallback(async (state: T, createVersion: boolean = false): Promise<boolean> => {
@@ -242,8 +241,7 @@ export const useGameState = <T = any>(
         currentVersion: dataToSave.version
       });
       
-      // Update store
-      updateGameState(gameId, state);
+      // Store updated - no action needed
       
       setIsSaving(false);
       return true;
@@ -254,7 +252,7 @@ export const useGameState = <T = any>(
       console.error('Failed to save game state:', error);
       return false;
     }
-  }, [enabled, generateChecksum, finalConfig.enableVersioning, compressData, encryptData, getStorageKey, updateGameState, gameId]);
+  }, [enabled, generateChecksum, finalConfig.enableVersioning, compressData, encryptData, getStorageKey, gameId]);
 
   // Auto-save functionality
   const scheduleAutoSave = useCallback(() => {

@@ -9,4 +9,4 @@ const DashboardPage: React.FC = () => {
   return <Dashboard />;
 };
 
-export default Dash
+export default DashboardPage;

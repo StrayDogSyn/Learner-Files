@@ -11,7 +11,7 @@ interface Question {
   question: string;
   code?: string;
   options?: string[];
-  correctAnswer: string | number;
+  correctAnswer: string | number | boolean;
   explanation: string;
   points: number;
 }

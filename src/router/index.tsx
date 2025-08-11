@@ -437,7 +437,7 @@ export const router = createHashRouter([
       ...routeConfig.games.map(route => ({
         path: route.path,
         element: route.path.startsWith('/play/') ? (
-          <GameGuard>
+          <GameGuard gameId={route.path.split('/').pop() as any}>
             <SuspenseWrapper fallback={<PageLoader message={`Loading ${route.title}...`} />}>
               {route.element}
             </SuspenseWrapper>

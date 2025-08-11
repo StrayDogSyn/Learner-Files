@@ -199,9 +199,21 @@ const QuizNinja: React.FC = () => {
     checkAnswer(option);
   };
   
+  // Map metrics to expected format for PerformanceOverlay
+  const mappedMetrics = {
+    renderTime: metrics.renderTime,
+    memoryUsage: metrics.memory,
+    cpuUsage: metrics.cpu,
+    errorCount: metrics.errorCount,
+    successRate: Math.max(0, 100 - (metrics.errorCount + metrics.warningCount)),
+    responseTime: metrics.loadTime,
+    userInteractions: metrics.userInteractions,
+    sessionDuration: isGameActive ? (240 - timeRemaining) : 0
+  };
+
   return (
     <div className="quiz-ninja-container">
-      <PerformanceOverlay metrics={metrics} />
+      <PerformanceOverlay metrics={mappedMetrics} />
       <FeedbackCollector projectName="QuizNinja" />
       
       {/* Case Study Card - shown when game is not active */}

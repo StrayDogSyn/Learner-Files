@@ -29,6 +29,7 @@ import {
   BarChart,
   Bar,
   PieChart as RechartsPieChart,
+  Pie,
   Cell,
   XAxis,
   YAxis,
@@ -318,7 +319,7 @@ const MobileAnalyticsDashboard: React.FC<MobileAnalyticsDashboardProps> = ({
               onClick={() => setSelectedChart(type)}
             >
               {type === 'line' && <Activity size={16} />}
-              {type === 'area' && <AreaChart size={16} />}
+              {type === 'area' && <Activity size={16} />}
               {type === 'bar' && <BarChart3 size={16} />}
               {type.charAt(0).toUpperCase() + type.slice(1)}
             </button>
@@ -328,7 +329,7 @@ const MobileAnalyticsDashboard: React.FC<MobileAnalyticsDashboardProps> = ({
       
       <div className="chart-container">
         <ResponsiveContainer width="100%" height={250}>
-          {selectedChart === 'line' && (
+          {selectedChart === 'line' ? (
             <LineChart data={data.traffic}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.1)" />
               <XAxis 
@@ -358,9 +359,7 @@ const MobileAnalyticsDashboard: React.FC<MobileAnalyticsDashboardProps> = ({
                 activeDot={{ r: 6, stroke: '#10b981', strokeWidth: 2 }}
               />
             </LineChart>
-          )}
-          
-          {selectedChart === 'area' && (
+          ) : selectedChart === 'area' ? (
             <AreaChart data={data.traffic}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.1)" />
               <XAxis 
@@ -388,9 +387,7 @@ const MobileAnalyticsDashboard: React.FC<MobileAnalyticsDashboardProps> = ({
                 fill="rgba(16, 185, 129, 0.3)"
               />
             </AreaChart>
-          )}
-          
-          {selectedChart === 'bar' && (
+          ) : (
             <BarChart data={data.traffic}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.1)" />
               <XAxis 

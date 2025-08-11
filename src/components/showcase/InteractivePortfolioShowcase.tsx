@@ -23,11 +23,12 @@ import {
   Smartphone,
   Tablet
 } from 'lucide-react';
-import { GlassCard } from '../ui/GlassCard';
-import { GlassButton } from '../ui/GlassButton';
-import { GlassBadge } from '../ui/GlassBadge';
-import { GlassInput } from '../ui/GlassInput';
-import { GlassModal } from '../ui/GlassModal';
+import GlassTabs from '../ui/GlassTabs';
+import GlassCard from '../ui/GlassCard';
+import GlassButton from '../ui/GlassButton';
+import GlassBadge from '../ui/GlassBadge';
+import GlassInput from '../ui/GlassInput';
+import GlassModal from '../ui/GlassModal';
 import { usePerformanceTracking } from '../../utils/performanceMonitor';
 
 interface ComponentExample {
@@ -442,7 +443,7 @@ export function InteractivePortfolioShowcase({ className = '' }: InteractivePort
             placeholder="Search components..."
             value={filters.search || ''}
             onChange={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
-            icon={<Code className="w-4 h-4" />}
+            icon={Code}
           />
           
           <select

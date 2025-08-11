@@ -4,7 +4,7 @@ import { cn } from '../../lib/utils';
 import { LucideIcon } from 'lucide-react';
 
 interface GlassButtonProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
   variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'danger';
   size?: 'sm' | 'md' | 'lg' | 'xl';

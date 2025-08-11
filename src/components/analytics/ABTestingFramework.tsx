@@ -18,11 +18,11 @@ import {
   CheckCircle,
   AlertCircle
 } from 'lucide-react';
-import { GlassCard } from '../ui/GlassCard';
-import { GlassButton } from '../ui/GlassButton';
-import { GlassInput } from '../ui/GlassInput';
-import { GlassModal } from '../ui/GlassModal';
-import { GlassBadge } from '../ui/GlassBadge';
+import GlassCard from '../ui/GlassCard';
+import GlassButton from '../ui/GlassButton';
+import GlassInput from '../ui/GlassInput';
+import GlassModal from '../ui/GlassModal';
+import GlassBadge from '../ui/GlassBadge';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 
 export interface ABTestVariant {

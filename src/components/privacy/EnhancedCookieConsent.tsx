@@ -11,10 +11,10 @@ import {
   BarChart3,
   Target
 } from 'lucide-react';
-import { GlassCard } from '../ui/GlassCard';
-import { GlassButton } from '../ui/GlassButton';
-import { GlassToggle } from '../ui/GlassToggle';
-import { GlassModal } from '../ui/GlassModal';
+import GlassCard from '../ui/GlassCard';
+import GlassButton from '../ui/GlassButton';
+import GlassToggle from '../ui/GlassToggle';
+import GlassModal from '../ui/GlassModal';
 
 export interface ConsentPreferences {
   necessary: boolean;
@@ -232,7 +232,7 @@ export const EnhancedCookieConsent: React.FC<CookieConsentProps> = ({
                     <GlassButton
                       onClick={handleRejectAll}
                       disabled={isLoading}
-                      variant="outline"
+                      variant="ghost"
                     >
                       <X className="w-4 h-4 mr-2" />
                       Reject All
@@ -241,7 +241,7 @@ export const EnhancedCookieConsent: React.FC<CookieConsentProps> = ({
                     <GlassButton
                       onClick={handleCustomize}
                       disabled={isLoading}
-                      variant="outline"
+                      variant="ghost"
                     >
                       <Settings className="w-4 h-4 mr-2" />
                       Customize
@@ -352,7 +352,7 @@ export const EnhancedCookieConsent: React.FC<CookieConsentProps> = ({
             <div className="flex gap-3">
               <GlassButton
                 onClick={() => setShowSettings(false)}
-                variant="outline"
+                variant="ghost"
                 size="sm"
               >
                 Cancel

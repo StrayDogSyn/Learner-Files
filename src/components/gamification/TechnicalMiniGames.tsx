@@ -633,7 +633,7 @@ export const TechnicalMiniGames: React.FC = () => {
     const difficultyMultiplier = selectedGame.difficulty === 'hard' ? 2 : selectedGame.difficulty === 'medium' ? 1.5 : 1;
     const totalXP = Math.floor(baseXP * difficultyMultiplier);
     
-    addXP(totalXP, `Completed ${selectedGame.title}`);
+    addXP(totalXP);
     
     // Check for achievements
     if (score > 100) {

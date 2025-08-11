@@ -66,6 +66,7 @@ export interface GameState {
   // Actions
   addXP: (amount: number) => void;
   addAchievement: (achievement: Omit<Achievement, 'unlockedAt'>) => void;
+  unlockAchievement: (achievementId: string) => void;
   addBadge: (badge: Omit<Badge, 'earnedAt'>) => void;
   updateProgress: (section: string) => void;
   completeChallenge: (challengeId: string, score: number, timeToComplete: number) => void;
@@ -232,6 +233,38 @@ export const useGameStore = create<GameState>()(
               a.id === achievement.id ? newAchievement : a
             ),
             unlockedAchievements: [...state.unlockedAchievements, achievement.id],
+            xp: state.xp + xpReward,
+            totalXP: state.totalXP + xpReward
+          };
+        });
+      },
+
+      unlockAchievement: (achievementId: string) => {
+        set((state) => {
+          // Check if achievement already unlocked
+          if (state.unlockedAchievements.includes(achievementId)) {
+            return state;
+          }
+          
+          const achievement = state.achievements.find(a => a.id === achievementId);
+          if (!achievement) {
+            return state;
+          }
+          
+          // Award XP based on rarity
+          const xpReward = {
+            common: 25,
+            rare: 50,
+            epic: 100,
+            legendary: 200
+          }[achievement.rarity];
+          
+          return {
+            ...state,
+            achievements: state.achievements.map(a => 
+              a.id === achievementId ? { ...a, unlockedAt: new Date() } : a
+            ),
+            unlockedAchievements: [...state.unlockedAchievements, achievementId],
             xp: state.xp + xpReward,
             totalXP: state.totalXP + xpReward
           };

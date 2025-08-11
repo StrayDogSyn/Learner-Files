@@ -6,11 +6,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Code, Play, Copy, Download, Eye, EyeOff, Palette, Settings } from 'lucide-react';
-import { GlassCard } from '../ui/GlassCard';
-import { GlassButton } from '../ui/GlassButton';
-import { GlassInput } from '../ui/GlassInput';
-import { GlassModal } from '../ui/GlassModal';
-import { GlassTabs } from '../ui/GlassTabs';
+import GlassCard from '../ui/GlassCard';
+import GlassButton from '../ui/GlassButton';
+import GlassInput from '../ui/GlassInput';
+import GlassModal from '../ui/GlassModal';
+import GlassTabs from '../ui/GlassTabs';
 import { usePerformanceTracking } from '../../utils/performanceMonitor';
 
 interface ComponentDemo {
@@ -232,7 +232,7 @@ export function ComponentShowcase({ className = '' }: ComponentShowcaseProps) {
   const [selectedDemo, setSelectedDemo] = useState<ComponentDemo>(componentDemos[0]);
   const [currentProps, setCurrentProps] = useState<Record<string, any>>(componentDemos[0].defaultProps);
   const [showCode, setShowCode] = useState(false);
-  const [activeTab, setActiveTab] = useState('preview');
+
   const [theme, setTheme] = useState<'light' | 'dark'>('dark');
   
   useEffect(() => {
@@ -419,71 +419,56 @@ export function ComponentShowcase({ className = '' }: ComponentShowcaseProps) {
               
               <GlassTabs
                 tabs={[
-                  { id: 'preview', label: 'Preview', icon: <Eye className="w-4 h-4" /> },
-                  { id: 'code', label: 'Code', icon: <Code className="w-4 h-4" /> },
-                  { id: 'examples', label: 'Examples', icon: <Play className="w-4 h-4" /> }
-                ]}
-                activeTab={activeTab}
-                onTabChange={setActiveTab}
-              />
-              
-              <div className="mt-6">
-                <AnimatePresence mode="wait">
-                  {activeTab === 'preview' && (
-                    <motion.div
-                      key="preview"
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: 20 }}
-                      className="p-8 bg-gradient-to-br from-white/5 to-white/10 rounded-lg border border-white/20 min-h-[200px] flex items-center justify-center"
-                    >
-                      <DemoComponent {...currentProps} />
-                    </motion.div>
-                  )}
-                  
-                  {activeTab === 'code' && (
-                    <motion.div
-                      key="code"
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: 20 }}
-                    >
+                  { 
+                    id: 'preview', 
+                    label: 'Preview', 
+                    icon: Eye,
+                    content: (
+                      <div className="p-8 bg-gradient-to-br from-white/5 to-white/10 rounded-lg border border-white/20 min-h-[200px] flex items-center justify-center">
+                        <DemoComponent {...currentProps} />
+                      </div>
+                    )
+                  },
+                  { 
+                    id: 'code', 
+                    label: 'Code', 
+                    icon: Code,
+                    content: (
                       <pre className="bg-gray-900/50 p-4 rounded-lg overflow-x-auto text-sm">
                         <code className="text-green-400">{generatedCode}</code>
                       </pre>
-                    </motion.div>
-                  )}
-                  
-                  {activeTab === 'examples' && (
-                    <motion.div
-                      key="examples"
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: 20 }}
-                      className="space-y-4"
-                    >
-                      {selectedDemo.examples.map((example, index) => (
-                        <div key={index} className="p-4 bg-white/5 rounded-lg border border-white/10">
-                          <div className="flex items-center justify-between mb-2">
-                            <h4 className="font-semibold text-white">{example.name}</h4>
-                            <GlassButton
-                              size="sm"
-                              variant="ghost"
-                              onClick={() => setCurrentProps({ ...selectedDemo.defaultProps, ...example.props })}
-                            >
-                              Apply
-                            </GlassButton>
+                    )
+                  },
+                  { 
+                    id: 'examples', 
+                    label: 'Examples', 
+                    icon: Play,
+                    content: (
+                      <div className="space-y-4">
+                        {selectedDemo.examples.map((example, index) => (
+                          <div key={index} className="p-4 bg-white/5 rounded-lg border border-white/10">
+                            <div className="flex items-center justify-between mb-2">
+                              <h4 className="font-semibold text-white">{example.name}</h4>
+                              <GlassButton
+                                size="sm"
+                                variant="ghost"
+                                onClick={() => setCurrentProps({ ...selectedDemo.defaultProps, ...example.props })}
+                              >
+                                Apply
+                              </GlassButton>
+                            </div>
+                            <p className="text-white/60 text-sm mb-3">{example.description}</p>
+                            <div className="flex items-center justify-center p-4 bg-white/5 rounded border border-white/10">
+                              <DemoComponent {...selectedDemo.defaultProps} {...example.props} />
+                            </div>
                           </div>
-                          <p className="text-white/60 text-sm mb-3">{example.description}</p>
-                          <div className="flex items-center justify-center p-4 bg-white/5 rounded border border-white/10">
-                            <DemoComponent {...selectedDemo.defaultProps} {...example.props} />
-                          </div>
-                        </div>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+                        ))}
+                      </div>
+                    )
+                  }
+                ]}
+                defaultTab="preview"
+              />
             </GlassCard>
           </div>
           
