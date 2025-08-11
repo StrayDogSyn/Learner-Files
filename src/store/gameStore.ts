@@ -127,7 +127,7 @@ const defaultGameStats: GameStats = {
   achievements: []
 };
 
-export const useGameStore = create<GameStore>()()
+export const useGameStore = create<GameStore>()
   (persist(
     immer((set, get) => ({
       // Initial state

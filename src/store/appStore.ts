@@ -441,7 +441,7 @@ const defaultSession: Session = {
 };
 
 // Create the store
-export const useAppStore = create<AppState & AppActions>()()
+export const useAppStore = create<AppState & AppActions>()
   (subscribeWithSelector(
     persist(
       immer((set, get) => ({

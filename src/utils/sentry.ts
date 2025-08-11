@@ -63,22 +63,13 @@ export const initSentry = (config: Partial<SentryConfig> = {}) => {
       // Integrations
       integrations: [
         // Browser tracing for performance monitoring
-        Sentry.browserTracingIntegration({
-          // Track specific interactions
-          tracePropagationTargets: [
-            'localhost',
-            /^https:\/\/api\./,
-            /^https:\/\/.*\.vercel\.app/
-          ]
-        }),
+        Sentry.browserTracingIntegration(),
         
         // Session replay (production only)
         ...(finalConfig.enableSessionReplay ? [
           Sentry.replayIntegration({
             maskAllText: true,
-            blockAllMedia: true,
-            sessionSampleRate: 0.1,
-            errorSampleRate: 1.0
+            blockAllMedia: true
           })
         ] : []),
         
