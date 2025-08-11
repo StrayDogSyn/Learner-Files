@@ -626,7 +626,7 @@ const GamesTab: React.FC<{
                   <div className="progressBar">
                     <div 
                       className="progressBarFill"
-                      data-completion-rate={completionRate}
+                      data-completion-rate={Math.round(completionRate / 10) * 10}
                     />
                   </div>
                 </div>
@@ -751,6 +751,19 @@ const PerformanceTab: React.FC<{
 const HeatmapTab: React.FC<{
   heatmapData: HeatmapData[];
 }> = ({ heatmapData }) => {
+  useEffect(() => {
+    // Apply positioning to heatmap dots using JavaScript to avoid inline styles
+    const heatmapDots = document.querySelectorAll('.heatmapDot');
+    heatmapDots.forEach((dot, index) => {
+      const point = heatmapData[index];
+      if (point && dot instanceof HTMLElement) {
+        dot.style.left = `${(point.x / window.innerWidth) * 100}%`;
+        dot.style.top = `${(point.y / window.innerHeight) * 100}%`;
+        dot.style.opacity = Math.min(point.clicks / 10, 1).toString();
+      }
+    });
+  }, [heatmapData]);
+
   return (
     <div className="space-y-6">
       <Glass className="p-6">
@@ -760,11 +773,9 @@ const HeatmapTab: React.FC<{
             <div
               key={index}
               className="heatmapDot"
-              style={{
-                '--heatmap-left': `${(point.x / window.innerWidth) * 100}%`,
-                '--heatmap-top': `${(point.y / window.innerHeight) * 100}%`,
-                '--heatmap-opacity': Math.min(point.clicks / 10, 1)
-              } as React.CSSProperties}
+              data-x={point.x}
+              data-y={point.y}
+              data-clicks={Math.min(point.clicks, 10)}
               title={`${point.clicks} clicks on ${point.elementId}`}
             ></div>
           ))}

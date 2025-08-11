@@ -563,7 +563,7 @@ export const ProgressTracking: React.FC = () => {
                     <div className="w-full bg-gray-700 rounded-full h-2">
                       <div 
                         className={`${styles.progressBar} bg-gradient-to-r ${path.color} h-2 rounded-full transition-all duration-500`}
-                        style={{ '--progress-width': `${progress.percentage}%` } as React.CSSProperties}
+                        data-progress-percentage={Math.round(progress.percentage / 10) * 10}
                       />
                     </div>
                   </div>
@@ -638,7 +638,7 @@ export const ProgressTracking: React.FC = () => {
               <div className="w-full bg-gray-700 rounded-full h-3 mb-4">
                 <div 
                   className={`${styles.progressBar} bg-gradient-to-r ${selectedPath.color} h-3 rounded-full transition-all duration-500`}
-                  style={{ '--progress-width': `${getPathProgress(selectedPath).percentage}%` } as React.CSSProperties}
+                  data-progress-percentage={Math.round(getPathProgress(selectedPath).percentage / 10) * 10}
                 />
               </div>
             </div>
