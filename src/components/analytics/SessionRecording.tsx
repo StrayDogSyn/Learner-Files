@@ -430,7 +430,7 @@ export const SessionRecording: React.FC<SessionRecordingProps> = ({
             <GlassButton
               onClick={() => setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc')}
               size="sm"
-              variant="outline"
+              variant="ghost"
             >
               {sortOrder === 'asc' ? '↑' : '↓'}
             </GlassButton>
@@ -460,11 +460,11 @@ export const SessionRecording: React.FC<SessionRecordingProps> = ({
                         </span>
                       </div>
                       
-                      <GlassBadge variant="outline">
+                      <GlassBadge variant="default">
                         {formatDuration(recording.duration)}
                       </GlassBadge>
                       
-                      <GlassBadge variant="outline">
+                      <GlassBadge variant="default">
                         {recording.events.length} events
                       </GlassBadge>
                       
@@ -551,7 +551,7 @@ export const SessionRecording: React.FC<SessionRecordingProps> = ({
                     <GlassButton
                       onClick={() => onExportRecording(recording.id, 'json')}
                       size="sm"
-                      variant="outline"
+                      variant="ghost"
                     >
                       <Download className="w-4 h-4" />
                     </GlassButton>
@@ -559,7 +559,7 @@ export const SessionRecording: React.FC<SessionRecordingProps> = ({
                     <GlassButton
                       onClick={() => onDeleteRecording(recording.id)}
                       size="sm"
-                      variant="outline"
+                      variant="ghost"
                       className="text-red-500 hover:text-red-600"
                     >
                       <Square className="w-4 h-4" />
@@ -701,7 +701,7 @@ const SessionPlayer: React.FC<{
               <GlassButton
                 onClick={() => setShowEvents(!showEvents)}
                 size="sm"
-                variant={showEvents ? 'default' : 'outline'}
+                variant={showEvents ? 'primary' : 'ghost'}
               >
                 Events
               </GlassButton>

@@ -1,10 +1,12 @@
 // Game Wrapper Components
-export { default as KnucklebonesWrapper } from './KnucklebonesWrapper';
-export { default as CalculatorWrapper } from './CalculatorWrapper';
-export { default as QuizNinjaWrapper } from './QuizNinjaWrapper';
-export { default as CountdownWrapper } from './CountdownWrapper';
-export { default as RockPaperScissorsWrapper } from './RockPaperScissorsWrapper';
-export { default as CompTIAWrapper } from './CompTIAWrapper';
+import KnucklebonesWrapper from './KnucklebonesWrapper';
+import CalculatorWrapper from './CalculatorWrapper';
+import QuizNinjaWrapper from './QuizNinjaWrapper';
+import CountdownWrapper from './CountdownWrapper';
+import RockPaperScissorsWrapper from './RockPaperScissorsWrapper';
+import CompTIAWrapper from './CompTIAWrapper';
+
+export { KnucklebonesWrapper, CalculatorWrapper, QuizNinjaWrapper, CountdownWrapper, RockPaperScissorsWrapper, CompTIAWrapper };
 
 // Game Wrapper Types
 export interface GameWrapperProps {

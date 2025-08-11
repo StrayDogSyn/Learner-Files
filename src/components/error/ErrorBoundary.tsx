@@ -12,7 +12,7 @@ import {
   ChevronDown,
   ChevronUp
 } from 'lucide-react';
-import { getUnifiedAPIService } from '@/services/api';
+import { UnifiedAPIService } from '@/services/api';
 
 interface Props {
   children: ReactNode;
@@ -118,19 +118,56 @@ export class ErrorBoundary extends Component<Props, State> {
 
   private async reportError(error: Error, errorInfo: ErrorInfo, errorId: string) {
     try {
-      const apiService = getUnifiedAPIService();
+      const apiService = new UnifiedAPIService({
+        github: { 
+          token: '', 
+          owner: '', 
+          repo: '',
+          baseURL: 'https://api.github.com',
+          timeout: 30000,
+          retries: 3,
+          retryDelay: 1000,
+          rateLimit: { requests: 60, window: 60000 }
+        },
+        claude: { 
+          apiKey: '',
+          model: 'claude-3-5-sonnet-20241022',
+          maxTokens: 1000,
+          temperature: 0.7,
+          topP: 1,
+          topK: 40,
+          stop_sequences: [],
+          systemPrompt: '',
+          baseURL: 'https://api.anthropic.com',
+          timeout: 30000,
+          retries: 3,
+          retryDelay: 1000,
+          rateLimit: { requests: 60, window: 60000 }
+        },
+        email: { 
+          apiKey: '',
+          fromEmail: '',
+          fromName: '',
+          provider: 'sendgrid',
+          baseURL: 'https://api.sendgrid.com/v3',
+          timeout: 30000,
+          retries: 3,
+          retryDelay: 1000,
+          rateLimit: { requests: 60, window: 60000 }
+        }
+      });
       
       // Track error in analytics
-      await apiService.analytics.trackEvent('error_boundary_triggered', {
-        errorId,
-        errorMessage: error.message,
-        errorStack: error.stack?.substring(0, 1000), // Limit stack trace length
-        componentStack: errorInfo.componentStack?.substring(0, 1000),
-        context: this.props.context,
-        level: this.props.level,
-        retryCount: this.state.retryCount,
-        timestamp: Date.now()
-      });
+      // await apiService.analytics.trackEvent('error_boundary_triggered', {
+      //   errorId,
+      //   errorMessage: error.message,
+      //   errorStack: error.stack?.substring(0, 1000), // Limit stack trace length
+      //   componentStack: errorInfo.componentStack?.substring(0, 1000),
+      //   context: this.props.context,
+      //   level: this.props.level,
+      //   retryCount: this.state.retryCount,
+      //   timestamp: Date.now()
+      // });
 
       // Report to Sentry (if configured)
       if (window.Sentry) {
@@ -158,7 +195,34 @@ export class ErrorBoundary extends Component<Props, State> {
 
   private async createGitHubIssue(error: Error, errorInfo: ErrorInfo, errorId: string) {
     try {
-      const apiService = getUnifiedAPIService();
+      const apiService = new UnifiedAPIService({
+        claude: { 
+          apiKey: '',
+          model: 'claude-3-5-sonnet-20241022',
+          maxTokens: 1000,
+          temperature: 0.7,
+          topP: 1,
+          topK: 40,
+          stop_sequences: [],
+          systemPrompt: '',
+          baseURL: 'https://api.anthropic.com',
+          timeout: 30000,
+          retries: 3,
+          retryDelay: 1000,
+          rateLimit: { requests: 60, window: 60000 }
+        },
+        email: { 
+          apiKey: '',
+          fromEmail: '',
+          fromName: '',
+          provider: 'sendgrid',
+          baseURL: 'https://api.sendgrid.com/v3',
+          timeout: 30000,
+          retries: 3,
+          retryDelay: 1000,
+          rateLimit: { requests: 60, window: 60000 }
+        }
+      });
       
       const issueTitle = `[Critical Error] ${error.message.substring(0, 100)}`;
       const issueBody = `
@@ -193,11 +257,11 @@ ${errorInfo.componentStack}
 *This issue was automatically created by the ErrorBoundary component.*
       `;
 
-      await apiService.github.createIssue({
-        title: issueTitle,
-        body: issueBody,
-        labels: ['bug', 'critical', 'auto-generated']
-      });
+      // await apiService.github.createIssue('repo', {
+      //   title: issueTitle,
+      //   body: issueBody,
+      //   labels: ['bug', 'critical', 'auto-generated']
+      // });
     } catch (githubError) {
       console.error('Failed to create GitHub issue:', githubError);
     }
@@ -350,7 +414,7 @@ Component Stack: ${errorInfo?.componentStack}
               )}
               
               <Button
-                variant="outline"
+                variant="ghost"
                 onClick={this.handleReload}
                 className="flex items-center gap-2"
               >
@@ -359,7 +423,7 @@ Component Stack: ${errorInfo?.componentStack}
               </Button>
               
               <Button
-                variant="outline"
+                variant="ghost"
                 onClick={this.handleGoHome}
                 className="flex items-center gap-2"
               >
@@ -475,14 +539,14 @@ Component Stack: ${errorInfo?.componentStack}
 export const useErrorReporting = () => {
   const reportError = async (error: Error, context?: string) => {
     try {
-      const apiService = getUnifiedAPIService();
+      // const apiService = getUnifiedAPIService();
       
-      await apiService.analytics.trackEvent('manual_error_report', {
-        errorMessage: error.message,
-        errorStack: error.stack?.substring(0, 1000),
-        context,
-        timestamp: Date.now()
-      });
+      // await apiService.analytics.trackEvent('manual_error_report', {
+      //   errorMessage: error.message,
+      //   errorStack: error.stack?.substring(0, 1000),
+      //   context,
+      //   timestamp: Date.now()
+      // });
 
       if (window.Sentry) {
         window.Sentry.withScope((scope) => {

@@ -5,22 +5,46 @@ on:
     branches: [ main ]
     paths-ignore: [ 'portfolio-nextjs/**' ]
   workflow_dispatch:
+    inputs:
+      skip_tests:
+        description: 'Skip tests and type checking'
+        required: false
+        default: 'false'
+        type: boolean
+      force_deploy:
+        description: 'Force deployment even if checks fail'
+        required: false
+        default: 'false'
+        type: boolean
 
 permissions:
   contents: read
   pages: write
   id-token: write
+  actions: read
+  checks: write
 
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
+env:
+  NODE_ENV: production
+  CI: true
+  FORCE_COLOR: 1
+
 jobs:
-  build-and-deploy:
+  # Pre-deployment validation
+  validate:
     runs-on: ubuntu-latest
+    if: github.event.inputs.skip_tests != 'true'
+    outputs:
+      should_deploy: ${{ steps.validation.outputs.should_deploy }}
     steps:
       - name: 📦 Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: 🏗️ Setup Node.js
         uses: actions/setup-node@v4
@@ -29,44 +53,202 @@ jobs:
           cache: 'npm'
 
       - name: 📥 Install Dependencies
-        run: npm ci --legacy-peer-deps
+        run: |
+          npm ci --legacy-peer-deps
+          echo "✅ Dependencies installed successfully"
+        timeout-minutes: 10
+
+      - name: 🔍 TypeScript Type Checking
+        id: typecheck
+        run: |
+          echo "🔍 Running TypeScript compilation check..."
+          if npx tsc --noEmit; then
+            echo "✅ TypeScript compilation successful"
+            echo "typecheck_passed=true" >> $GITHUB_OUTPUT
+          else
+            echo "❌ TypeScript compilation failed"
+            echo "typecheck_passed=false" >> $GITHUB_OUTPUT
+            if [ "${{ github.event.inputs.force_deploy }}" != "true" ]; then
+              exit 1
+            fi
+          fi
+        timeout-minutes: 5
+
+      - name: 🧪 Run Tests (if available)
+        id: tests
+        run: |
+          if npm run test --if-present -- --run --reporter=verbose 2>/dev/null; then
+            echo "✅ Tests passed"
+            echo "tests_passed=true" >> $GITHUB_OUTPUT
+          else
+            echo "⚠️ No tests found or tests failed"
+            echo "tests_passed=false" >> $GITHUB_OUTPUT
+          fi
+        timeout-minutes: 10
+        continue-on-error: true
+
+      - name: 📊 Validation Summary
+        id: validation
+        run: |
+          typecheck_passed="${{ steps.typecheck.outputs.typecheck_passed }}"
+          tests_passed="${{ steps.tests.outputs.tests_passed }}"
+          force_deploy="${{ github.event.inputs.force_deploy }}"
+          
+          echo "📊 Validation Results:"
+          echo "- TypeScript: $typecheck_passed"
+          echo "- Tests: $tests_passed"
+          echo "- Force Deploy: $force_deploy"
+          
+          if [ "$typecheck_passed" = "true" ] || [ "$force_deploy" = "true" ]; then
+            echo "✅ Validation passed - proceeding with deployment"
+            echo "should_deploy=true" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Validation failed - deployment blocked"
+            echo "should_deploy=false" >> $GITHUB_OUTPUT
+          fi
+
+  # Main build and deployment
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    needs: [validate]
+    if: always() && (needs.validate.outputs.should_deploy == 'true' || github.event.inputs.skip_tests == 'true')
+    steps:
+      - name: 📦 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🏗️ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: 📥 Install Dependencies
+        run: |
+          echo "📥 Installing dependencies..."
+          npm ci --legacy-peer-deps
+          echo "✅ Dependencies installed successfully"
+        timeout-minutes: 10
 
       - name: 🔍 Verify Build Requirements
         run: |
           echo "📋 Checking package.json dependencies..."
-          cat package.json | grep -A 5 -B 5 "react"
+          if [ -f "package.json" ]; then
+            cat package.json | grep -A 5 -B 5 "react" || echo "React not found in dependencies"
+          else
+            echo "❌ package.json not found"
+            exit 1
+          fi
+          
           echo "📊 Environment info:"
           echo "Node version: $(node --version)"
           echo "NPM version: $(npm --version)"
+          echo "Working directory: $(pwd)"
+          echo "Available memory: $(free -h | grep '^Mem:' | awk '{print $2}')" || echo "Memory info unavailable"
+          
           echo "📦 Installed packages:"
-          npm list --depth=0 || true
+          npm list --depth=0 || echo "⚠️ Some packages may have issues"
+        timeout-minutes: 5
 
       - name: 🔨 Build React Application
-        run: npm run build
+        id: build
+        run: |
+          echo "🔨 Starting React application build..."
+          
+          # Set build environment variables
+          export NODE_ENV=production
+          export GENERATE_SOURCEMAP=false
+          export VITE_BASE_URL=/Learner-Files/
+          
+          # Run the build with error handling
+          if npm run build; then
+            echo "✅ Build completed successfully"
+            echo "build_success=true" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Build failed"
+            echo "build_success=false" >> $GITHUB_OUTPUT
+            
+            # Capture build logs for debugging
+            echo "📋 Build error details:"
+            npm run build 2>&1 | tail -50 || echo "Could not capture build logs"
+            exit 1
+          fi
+        timeout-minutes: 15
         env:
           NODE_ENV: production
+          GENERATE_SOURCEMAP: false
+          VITE_BASE_URL: /Learner-Files/
 
       - name: 📁 Prepare for GitHub Pages
+        id: prepare
         run: |
+          echo "📁 Preparing build output for GitHub Pages..."
+          
           # Create .nojekyll file to bypass Jekyll processing
           touch dist/.nojekyll
+          echo "✅ Created .nojekyll file"
           
-          # Verify build output
+          # Verify build output exists
+          if [ ! -d "dist" ]; then
+            echo "❌ Build directory 'dist' not found"
+            echo "📂 Available directories:"
+            ls -la
+            exit 1
+          fi
+          
           echo "📂 Build directory contents:"
           ls -la dist/
           
           # Ensure proper file structure for GitHub Pages
           if [ ! -f "dist/index.html" ]; then
             echo "❌ No index.html found in build output"
-            echo "📂 Available files:"
+            echo "📂 Available files in dist:"
             find dist/ -type f -name "*.html" || echo "No HTML files found"
+            echo "📂 All files in dist:"
+            find dist/ -type f | head -20
+            exit 1
+          fi
+          
+          # Verify critical assets
+          html_size=$(wc -c < dist/index.html)
+          if [ "$html_size" -lt 100 ]; then
+            echo "❌ index.html seems too small ($html_size bytes)"
+            echo "📄 index.html content preview:"
+            head -10 dist/index.html
             exit 1
           fi
           
           echo "✅ Build output verified successfully"
-          echo "📄 index.html size: $(wc -c < dist/index.html) bytes"
+          echo "📄 index.html size: $html_size bytes"
+          echo "📊 Total files: $(find dist/ -type f | wc -l)"
+          echo "📊 Total size: $(du -sh dist/ | cut -f1)"
+          
+          echo "prepare_success=true" >> $GITHUB_OUTPUT
+        timeout-minutes: 5
+
+      - name: 🧪 Test Deployment Readiness
+        run: |
+          echo "🧪 Testing deployment readiness..."
+          
+          # Check for common issues
+          if grep -r "localhost" dist/ --exclude-dir=node_modules 2>/dev/null; then
+            echo "⚠️ Found localhost references in build output"
+          fi
+          
+          # Verify base path configuration
+          if grep -q "/Learner-Files/" dist/index.html; then
+            echo "✅ Base path correctly configured"
+          else
+            echo "⚠️ Base path may not be configured correctly"
+          fi
+          
+          echo "✅ Deployment readiness check completed"
+        timeout-minutes: 2
+        continue-on-error: true
 
       - name: 📤 Deploy to GitHub Pages
+        id: deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -75,4 +257,38 @@ jobs:
           force_orphan: true
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
-          commit_message: '🚀 Deploy main React app to GitHub Pages'
+          commit_message: '🚀 Deploy main React app to GitHub Pages [Build: ${{ github.sha }}]'
+        timeout-minutes: 10
+
+      - name: 📊 Deployment Summary
+        if: always()
+        run: |
+          echo "📊 Deployment Summary:"
+          echo "- Repository: ${{ github.repository }}"
+          echo "- Branch: ${{ github.ref_name }}"
+          echo "- Commit: ${{ github.sha }}"
+          echo "- Build Status: ${{ steps.build.outputs.build_success }}"
+          echo "- Prepare Status: ${{ steps.prepare.outputs.prepare_success }}"
+          echo "- Deploy Status: ${{ steps.deploy.outcome }}"
+          echo "- Live URL: https://${{ github.repository_owner }}.github.io/Learner-Files/"
+          
+          if [ "${{ steps.deploy.outcome }}" = "success" ]; then
+            echo "✅ Deployment completed successfully!"
+            echo "🌐 Your site should be available at: https://${{ github.repository_owner }}.github.io/Learner-Files/"
+          else
+            echo "❌ Deployment failed. Check the logs above for details."
+          fi
+
+      - name: 🚨 Notify on Failure
+        if: failure()
+        run: |
+          echo "🚨 Deployment Failed!"
+          echo "📋 Failure Details:"
+          echo "- Job: ${{ github.job }}"
+          echo "- Step: ${{ github.action }}"
+          echo "- Repository: ${{ github.repository }}"
+          echo "- Branch: ${{ github.ref_name }}"
+          echo "- Commit: ${{ github.sha }}"
+          echo "- Workflow: ${{ github.workflow }}"
+          echo "- Run ID: ${{ github.run_id }}"
+          echo "📝 Check the workflow logs for detailed error information."

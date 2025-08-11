@@ -235,7 +235,7 @@ export const HeatmapVisualization: React.FC<HeatmapVisualizationProps> = ({
           <GlassButton
             onClick={exportHeatmap}
             size="sm"
-            variant="outline"
+            variant="ghost"
           >
             <Download className="w-4 h-4" />
           </GlassButton>
@@ -289,7 +289,7 @@ export const HeatmapVisualization: React.FC<HeatmapVisualizationProps> = ({
         <GlassButton
           onClick={isPlaying ? pauseReplay : startReplay}
           size="sm"
-          variant="outline"
+          variant="ghost"
         >
           {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
         </GlassButton>
@@ -297,7 +297,7 @@ export const HeatmapVisualization: React.FC<HeatmapVisualizationProps> = ({
         <GlassButton
           onClick={resetReplay}
           size="sm"
-          variant="outline"
+          variant="ghost"
         >
           <RotateCcw className="w-4 h-4" />
         </GlassButton>

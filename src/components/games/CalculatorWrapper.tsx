@@ -3,7 +3,7 @@ import GameWrapper from '../GameWrapper';
 import Calculator from '../../projects/Calculator';
 import { useGameStore } from '../../store/gameStore';
 import { GlassButton } from '../ui';
-import { Calculator as CalculatorIcon, History, Function, Zap } from 'lucide-react';
+import { Calculator as CalculatorIcon, History, Zap, Settings } from 'lucide-react';
 
 interface CalculatorWrapperProps {
   className?: string;
@@ -259,7 +259,7 @@ const CalculatorWrapper: React.FC<CalculatorWrapperProps> = ({ className }) => {
       <GlassButton
         variant="ghost"
         size="sm"
-        icon={Function}
+        icon={Settings}
         onClick={() => {
           // Cycle through modes
           if (gameState) {

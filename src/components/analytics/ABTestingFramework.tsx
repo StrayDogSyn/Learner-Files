@@ -303,7 +303,7 @@ export const ABTestingFramework: React.FC<ABTestingFrameworkProps> = ({
                           {test.status}
                         </GlassBadge>
                         {test.status === 'running' && daysRemaining !== null && (
-                          <GlassBadge variant="outline">
+                          <GlassBadge variant="default">
                             {daysRemaining} days left
                           </GlassBadge>
                         )}
@@ -399,7 +399,7 @@ export const ABTestingFramework: React.FC<ABTestingFrameworkProps> = ({
                           <GlassButton
                             onClick={() => onPauseTest(test.id)}
                             size="sm"
-                            variant="outline"
+                            variant="ghost"
                           >
                             <Pause className="w-4 h-4" />
                           </GlassButton>
@@ -429,7 +429,7 @@ export const ABTestingFramework: React.FC<ABTestingFrameworkProps> = ({
                           setShowDetailsModal(true);
                         }}
                         size="sm"
-                        variant="outline"
+                        variant="ghost"
                       >
                         <BarChart3 className="w-4 h-4" />
                       </GlassButton>
@@ -437,7 +437,7 @@ export const ABTestingFramework: React.FC<ABTestingFrameworkProps> = ({
                       <GlassButton
                         onClick={() => onDeleteTest(test.id)}
                         size="sm"
-                        variant="outline"
+                        variant="ghost"
                         className="text-red-500 hover:text-red-600"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -664,7 +664,7 @@ const CreateTestModal: React.FC<{
           <GlassButton
             type="button"
             onClick={onClose}
-            variant="outline"
+            variant="ghost"
           >
             Cancel
           </GlassButton>

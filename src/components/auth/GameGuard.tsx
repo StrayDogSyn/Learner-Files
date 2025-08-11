@@ -42,8 +42,7 @@ export const GameGuard: React.FC<GameGuardProps> = ({
     user, 
     isAuthenticated, 
     initialized,
-    games,
-    settings 
+    games
   } = useAppStore();
 
   const gameMetadata = GAME_METADATA[gameId];
@@ -117,7 +116,7 @@ export const GameGuard: React.FC<GameGuardProps> = ({
           </div>
           
           <Button
-            variant="outline"
+            variant="ghost"
             onClick={() => window.location.href = '/games'}
             className="flex items-center gap-2"
           >
@@ -146,7 +145,7 @@ export const GameGuard: React.FC<GameGuardProps> = ({
   }
 
   // Check premium requirement
-  if (requiresPremium && (!user?.subscription || user.subscription.plan === 'free')) {
+  if (requiresPremium && (!user?.role || user.role !== 'admin')) {
     return (
       <div className="flex items-center justify-center min-h-screen p-4">
         <Card className="max-w-md w-full text-center space-y-6 p-8">
@@ -188,7 +187,7 @@ export const GameGuard: React.FC<GameGuardProps> = ({
               </Button>
               
               <Button
-                variant="outline"
+                variant="ghost"
                 onClick={() => window.location.href = '/games'}
                 className="flex items-center gap-2"
               >
@@ -203,7 +202,7 @@ export const GameGuard: React.FC<GameGuardProps> = ({
   }
 
   // Check level requirement
-  if (minLevel > 0 && user && (user.level || 0) < minLevel) {
+  if (minLevel > 0 && user && (user.stats?.skillLevels?.strategy || 0) < minLevel) {
     return (
       <div className="flex items-center justify-center min-h-screen p-4">
         <Card className="max-w-md w-full text-center space-y-6 p-8">
@@ -228,7 +227,7 @@ export const GameGuard: React.FC<GameGuardProps> = ({
                 Current Level:
               </span>
               <Badge variant="secondary">
-                Level {user.level || 0}
+                Level {user.stats?.skillLevels?.strategy || 0}
               </Badge>
             </div>
             
@@ -278,7 +277,7 @@ export const GameGuard: React.FC<GameGuardProps> = ({
           </div>
           
           <Button
-            variant="outline"
+            variant="ghost"
             onClick={() => window.location.href = '/games'}
             className="flex items-center gap-2"
           >
@@ -347,8 +346,8 @@ export const useGameAccess = (gameId: GameId) => {
       if (!gameMetadata) return false;
       if (gameState?.maintenance) return false;
       if (requiresAuth && !isAuthenticated) return false;
-      if (requiresPremium && (!user?.subscription || user.subscription.plan === 'free')) return false;
-      if (minLevel > 0 && user && (user.level || 0) < minLevel) return false;
+      if (requiresPremium && (!user?.role || user.role !== 'admin')) return false;
+      if (minLevel > 0 && user && (user.stats?.skillLevels?.strategy || 0) < minLevel) return false;
       if (gameState?.timeRestriction && !canPlayAtCurrentTime(gameState.timeRestriction)) return false;
       
       return true;

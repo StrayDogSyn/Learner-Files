@@ -205,7 +205,7 @@ export const AIInsightsDashboard: React.FC<AIInsightsDashboardProps> = ({
 
             <GlassButton
               onClick={exportInsights}
-              variant="outline"
+              variant="ghost"
               size="sm"
             >
               <Download className="w-4 h-4" />
@@ -358,7 +358,7 @@ export const AIInsightsDashboard: React.FC<AIInsightsDashboardProps> = ({
                           <GlassBadge variant={getConfidenceBadgeVariant(insight.confidence)}>
                             {Math.round(insight.confidence * 100)}% confidence
                           </GlassBadge>
-                          <GlassBadge variant="outline">
+                          <GlassBadge variant="default">
                             {typeConfig.label}
                           </GlassBadge>
                         </div>
@@ -416,7 +416,7 @@ export const AIInsightsDashboard: React.FC<AIInsightsDashboardProps> = ({
                             <GlassButton
                               onClick={() => toggleInsightExpansion(insight.id)}
                               size="sm"
-                              variant="outline"
+                              variant="ghost"
                             >
                               {isExpanded ? 'Show Less' : 'Show More'}
                             </GlassButton>
@@ -432,7 +432,7 @@ export const AIInsightsDashboard: React.FC<AIInsightsDashboardProps> = ({
                             <GlassButton
                               onClick={() => onInsightAction(insight, 'dismiss')}
                               size="sm"
-                              variant="outline"
+                              variant="ghost"
                             >
                               Dismiss
                             </GlassButton>

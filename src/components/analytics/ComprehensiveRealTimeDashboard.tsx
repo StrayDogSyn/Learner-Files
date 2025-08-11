@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+// Alert component replaced with div structure
 import { LineChart, Line, AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Users, Eye, Clock, TrendingUp, Download, MousePointer, Target, AlertTriangle, Activity, Globe } from 'lucide-react';
 import GitHubPagesAnalyticsService from '@/services/api/GitHubPagesAnalyticsService';
@@ -131,7 +131,7 @@ const ComprehensiveRealTimeDashboard: React.FC = () => {
     }, 5000);
 
     // Setup WebSocket listeners
-    webSocketService.current.onMessage((message) => {
+    webSocketService.current.on('message', (message) => {
       handleWebSocketMessage(message);
     });
   };
@@ -143,7 +143,7 @@ const ComprehensiveRealTimeDashboard: React.FC = () => {
       updateMetricsFromAnalytics(metrics);
 
       // Load performance data
-      const perfMetrics = performanceService.current.getPerformanceMetrics();
+      const perfMetrics = performanceService.current.getMetrics();
       setPerformanceMetrics(formatPerformanceData(perfMetrics));
 
       // Load behavior data
@@ -421,17 +421,17 @@ const ComprehensiveRealTimeDashboard: React.FC = () => {
         </div>
         <div className="flex gap-2">
           <Button
-            variant={isRealTimeEnabled ? "default" : "outline"}
+            variant={isRealTimeEnabled ? "primary" : "ghost"}
             onClick={() => setIsRealTimeEnabled(!isRealTimeEnabled)}
             className="flex items-center gap-2"
           >
             <Activity className="w-4 h-4" />
             {isRealTimeEnabled ? 'Live' : 'Paused'}
           </Button>
-          <Button variant="outline" onClick={() => exportData('json')}>
+          <Button variant="ghost" onClick={() => exportData('json')}>
             Export JSON
           </Button>
-          <Button variant="outline" onClick={() => exportData('csv')}>
+          <Button variant="ghost" onClick={() => exportData('csv')}>
             Export CSV
           </Button>
         </div>
@@ -494,20 +494,22 @@ const ComprehensiveRealTimeDashboard: React.FC = () => {
           <h3 className="text-lg font-semibold text-slate-900">Active Alerts</h3>
           <div className="grid gap-2">
             {alerts.filter(alert => !alert.resolved).slice(0, 3).map(alert => (
-              <Alert key={alert.id} className="border-l-4 border-l-red-500">
-                <AlertTriangle className="w-4 h-4" />
-                <AlertDescription className="flex justify-between items-center">
-                  <span>{alert.message}</span>
-                  <div className="flex items-center gap-2">
-                    <Badge variant={getSeverityColor(alert.severity) as any}>
-                      {alert.severity}
-                    </Badge>
-                    <Button size="sm" variant="outline" onClick={() => resolveAlert(alert.id)}>
-                      Resolve
-                    </Button>
+              <div key={alert.id} className="border-l-4 border-l-red-500 bg-red-50 dark:bg-red-900/20 p-4 rounded">
+                <div className="flex items-start gap-3">
+                  <AlertTriangle className="w-4 h-4 text-red-500 mt-0.5" />
+                  <div className="flex justify-between items-center w-full">
+                    <span>{alert.message}</span>
+                    <div className="flex items-center gap-2">
+                      <Badge variant={getSeverityColor(alert.severity) as any}>
+                        {alert.severity}
+                      </Badge>
+                      <Button size="sm" variant="ghost" onClick={() => resolveAlert(alert.id)}>
+                        Resolve
+                      </Button>
+                    </div>
                   </div>
-                </AlertDescription>
-              </Alert>
+                </div>
+              </div>
             ))}
           </div>
         </div>
@@ -582,7 +584,7 @@ const ComprehensiveRealTimeDashboard: React.FC = () => {
                 {topPages.map((page, index) => (
                   <div key={page.page} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
                     <div className="flex items-center gap-3">
-                      <Badge variant="outline">{index + 1}</Badge>
+                      <Badge variant="secondary">{index + 1}</Badge>
                       <div>
                         <p className="font-medium">{page.page}</p>
                         <p className="text-sm text-slate-600">{page.views} views • {page.uniqueViews} unique</p>
@@ -748,7 +750,7 @@ const ComprehensiveRealTimeDashboard: React.FC = () => {
                         <p className="text-sm text-slate-600">Duration: {Math.floor(Math.random() * 300) + 60}s</p>
                       </div>
                     </div>
-                    <Button size="sm" variant="outline">
+                    <Button size="sm" variant="ghost">
                       View Recording
                     </Button>
                   </div>

@@ -404,7 +404,6 @@ const CountdownWrapper: React.FC<CountdownWrapperProps> = ({ className }) => {
           }
         }}
         className="text-green-400 hover:text-green-300"
-        title={gameState?.currentTimer.isRunning ? 'Pause' : 'Start'}
       />
       
       <GlassButton
@@ -413,7 +412,6 @@ const CountdownWrapper: React.FC<CountdownWrapperProps> = ({ className }) => {
         icon={RotateCcw}
         onClick={handleTimerReset}
         className="text-blue-400 hover:text-blue-300"
-        title="Reset Timer"
       />
       
       <GlassButton
@@ -432,7 +430,6 @@ const CountdownWrapper: React.FC<CountdownWrapperProps> = ({ className }) => {
           }
         }}
         className={`${gameState?.settings.soundEnabled ? 'text-yellow-400 hover:text-yellow-300' : 'text-gray-400 hover:text-gray-300'}`}
-        title={`Sound: ${gameState?.settings.soundEnabled ? 'On' : 'Off'}`}
       />
       
       <GlassButton
@@ -443,7 +440,6 @@ const CountdownWrapper: React.FC<CountdownWrapperProps> = ({ className }) => {
           console.log('Timer Settings:', gameState?.settings || {});
         }}
         className="text-purple-400 hover:text-purple-300"
-        title="Settings"
       />
     </>
   );
@@ -504,8 +500,7 @@ const CountdownWrapper: React.FC<CountdownWrapperProps> = ({ className }) => {
                   variant="secondary"
                   size="sm"
                   onClick={() => setPresetTimer(preset)}
-                  className="text-xs"
-                  style={{ borderColor: preset.color, color: preset.color }}
+                  className={`text-xs`}
                 >
                   {preset.name} ({formatTime(preset.duration)})
                 </GlassButton>

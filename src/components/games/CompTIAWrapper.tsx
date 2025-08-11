@@ -100,6 +100,17 @@ const CompTIAWrapper: React.FC<CompTIAWrapperProps> = ({ className }) => {
   
   const { updateGameState, getGameState, updateGameStats, getGameStats } = useGameStore();
   
+  // Map CompTIA difficulty to GameWrapper difficulty
+  const mapDifficultyToGameWrapper = (difficulty: string): 'easy' | 'medium' | 'hard' | 'expert' => {
+    switch (difficulty) {
+      case 'beginner': return 'easy';
+      case 'intermediate': return 'medium';
+      case 'advanced': return 'hard';
+      case 'adaptive': return 'expert';
+      default: return 'medium';
+    }
+  };
+  
   // CompTIA exam types and domains
   const examTypes = {
     'A+': ['Hardware', 'Networking', 'Mobile Devices', 'Operating Systems', 'Security', 'Troubleshooting'],
@@ -289,7 +300,7 @@ const CompTIAWrapper: React.FC<CompTIAWrapperProps> = ({ className }) => {
           correctAnswers: gameState.studyProgress.correctAnswers + correctAnswers,
           weakDomains: updateWeakDomains(gameState.studyProgress.weakDomains, examResult.domains),
           strongDomains: updateStrongDomains(gameState.studyProgress.strongDomains, examResult.domains),
-          completedCertifications: passed && gameState.settings.examMode === 'certification' ? 
+          completedCertifications: passed && gameState.settings.examMode === 'simulation' ? 
             [...gameState.studyProgress.completedCertifications, gameState.currentExam.examType] : 
             gameState.studyProgress.completedCertifications
         },
@@ -538,7 +549,6 @@ const CompTIAWrapper: React.FC<CompTIAWrapperProps> = ({ className }) => {
         icon={BookOpen}
         onClick={changeExamType}
         className="text-blue-400 hover:text-blue-300"
-        title={`Exam: ${gameState?.currentExam.examType || 'A+'}`}
       />
       
       <GlassButton
@@ -547,7 +557,6 @@ const CompTIAWrapper: React.FC<CompTIAWrapperProps> = ({ className }) => {
         icon={Clock}
         onClick={changeExamMode}
         className="text-green-400 hover:text-green-300"
-        title={`Mode: ${gameState?.settings.examMode || 'practice'}`}
       />
       
       <GlassButton
@@ -571,7 +580,6 @@ const CompTIAWrapper: React.FC<CompTIAWrapperProps> = ({ className }) => {
           }
         }}
         className="text-purple-400 hover:text-purple-300"
-        title={`Difficulty: ${gameState?.settings.difficulty || 'adaptive'}`}
       />
       
       <GlassButton
@@ -582,7 +590,6 @@ const CompTIAWrapper: React.FC<CompTIAWrapperProps> = ({ className }) => {
           console.log('Study Progress:', gameState?.studyProgress || {});
         }}
         className="text-yellow-400 hover:text-yellow-300"
-        title="Study Progress"
       />
       
       <GlassButton
@@ -593,7 +600,6 @@ const CompTIAWrapper: React.FC<CompTIAWrapperProps> = ({ className }) => {
           console.log('Achievements:', studyStats.achievements);
         }}
         className="text-orange-400 hover:text-orange-300"
-        title="Achievements"
       />
       
       <GlassButton
@@ -604,7 +610,6 @@ const CompTIAWrapper: React.FC<CompTIAWrapperProps> = ({ className }) => {
           console.log('Performance Stats:', studyStats);
         }}
         className="text-cyan-400 hover:text-cyan-300"
-        title="Performance"
       />
     </>
   );
@@ -615,7 +620,7 @@ const CompTIAWrapper: React.FC<CompTIAWrapperProps> = ({ className }) => {
       title="CompTIA Study Center"
       description="Comprehensive CompTIA certification exam preparation and practice!"
       category="educational"
-      difficulty={gameState?.settings.difficulty || 'adaptive'}
+      difficulty={mapDifficultyToGameWrapper(gameState?.settings.difficulty || 'adaptive')}
       className={className}
       enableAnalytics={true}
       enablePerformanceTracking={true}

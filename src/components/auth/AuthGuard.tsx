@@ -91,7 +91,7 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
           
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Button
-              variant="outline"
+              variant="ghost"
               onClick={() => window.history.back()}
               className="flex items-center gap-2"
             >

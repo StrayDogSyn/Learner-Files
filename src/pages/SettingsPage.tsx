@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Switch } from '@/components/ui/Switch';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Settings, User, Bell, Shield, Palette, Database } from 'lucide-react';
 
 interface SettingsState {

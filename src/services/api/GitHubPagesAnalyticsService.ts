@@ -402,6 +402,37 @@ export class GitHubPagesAnalyticsService {
     this.saveMetricsToStorage();
   }
   
+  public trackPerformanceMetric(metric: string, value: number): void {
+    switch (metric) {
+      case 'lcp':
+        this.metrics.coreWebVitals.lcp = value;
+        break;
+      case 'fid':
+        this.metrics.coreWebVitals.fid = value;
+        break;
+      case 'cls':
+        this.metrics.coreWebVitals.cls = value;
+        break;
+      case 'fcp':
+        this.metrics.coreWebVitals.fcp = value;
+        break;
+      case 'ttfb':
+        this.metrics.coreWebVitals.ttfb = value;
+        break;
+      default:
+        console.warn(`Unknown performance metric: ${metric}`);
+        return;
+    }
+    
+    this.trackEvent('performance_metric', {
+      metric,
+      value,
+      timestamp: Date.now()
+    });
+    
+    this.saveMetricsToStorage();
+  }
+  
   public trackContactFormInteraction(action: 'view' | 'start' | 'submit', formData?: any): void {
     const conversions = this.metrics.contactFormConversions;
     
@@ -507,9 +538,11 @@ export class GitHubPagesAnalyticsService {
   private trackEvent(type: string, data: any): void {
     const event: AnalyticsEvent = {
       id: this.generateSessionId(),
-      type: type as any,
+      name: type,
+      category: 'user_interaction',
+      action: type,
+      properties: data,
       timestamp: Date.now(),
-      data,
       sessionId: this.sessionId,
       userId: this.userId
     };
@@ -531,9 +564,13 @@ export class GitHubPagesAnalyticsService {
       id: this.sessionId,
       userId: this.userId,
       startTime: Date.now(),
-      userAgent: navigator.userAgent,
-      referrer: document.referrer,
-      initialPage: window.location.pathname
+      pageViews: 0,
+      events: 0,
+      properties: {
+        userAgent: navigator.userAgent,
+        referrer: document.referrer,
+        initialPage: window.location.pathname
+      }
     };
     
     localStorage.setItem('gh-pages-current-session', JSON.stringify(session));

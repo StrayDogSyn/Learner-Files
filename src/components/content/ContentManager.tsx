@@ -511,7 +511,7 @@ export function ContentManager({ type, className = '' }: ContentManagerProps) {
             placeholder="Search..."
             value={filters.search || ''}
             onChange={(e) => handleFilterChange('search', e.target.value)}
-            icon={<Search className="w-4 h-4" />}
+            icon={Search}
           />
           
           <select

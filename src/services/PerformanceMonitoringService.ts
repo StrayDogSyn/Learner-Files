@@ -191,7 +191,7 @@ class PerformanceMonitoringService {
         const ttfb = navEntry.responseStart - navEntry.requestStart;
         
         this.metrics.ttfb = ttfb;
-        this.metrics.tti = navEntry.domInteractive - navEntry.navigationStart;
+        this.metrics.tti = navEntry.domInteractive - navEntry.fetchStart;
         
         this.checkPerformanceBudget('ttfb', ttfb);
       });
