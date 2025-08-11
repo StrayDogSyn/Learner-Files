@@ -2,6 +2,8 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tsconfigPaths from "vite-tsconfig-paths";
 import { traeBadgePlugin } from 'vite-plugin-trae-solo-badge';
+// import { visualizer } from 'rollup-plugin-visualizer';
+import { splitVendorChunkPlugin } from 'vite';
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -24,27 +26,66 @@ export default defineConfig({
       autoThemeTarget: '#root'
     }), 
     tsconfigPaths(),
-  ],
+    splitVendorChunkPlugin()
+    // Bundle analyzer - only in production build with ANALYZE=true
+    // process.env.ANALYZE && visualizer({
+    //   filename: 'dist/stats.html',
+    //   open: true,
+    //   gzipSize: true,
+    //   brotliSize: true,
+    //   template: 'treemap'
+    // })
+  ].filter(Boolean),
   build: {
     outDir: 'dist',
     sourcemap: false,
     rollupOptions: {
       output: {
-        manualChunks: {
+        manualChunks: (id) => {
           // Core React libraries
-          vendor: ['react', 'react-dom'],
+          if (id.includes('react') || id.includes('react-dom')) {
+            return 'vendor-react';
+          }
           // Router and navigation
-          router: ['react-router-dom'],
+          if (id.includes('react-router')) {
+            return 'vendor-router';
+          }
           // Animation libraries
-          animations: ['framer-motion'],
+          if (id.includes('framer-motion') || id.includes('three')) {
+            return 'vendor-animations';
+          }
           // Icon libraries
-          icons: ['lucide-react'],
+          if (id.includes('lucide-react')) {
+            return 'vendor-icons';
+          }
           // AI and ML libraries
-          ai: ['openai', '@anthropic-ai/sdk'],
+          if (id.includes('openai') || id.includes('@anthropic-ai/sdk')) {
+            return 'vendor-ai';
+          }
+          // Chart and visualization
+          if (id.includes('recharts') || id.includes('chart.js')) {
+            return 'vendor-charts';
+          }
           // Markdown and syntax highlighting
-          markdown: ['react-markdown', 'rehype-highlight'],
+          if (id.includes('react-markdown') || id.includes('rehype') || id.includes('shiki')) {
+            return 'vendor-markdown';
+          }
+          // State management
+          if (id.includes('zustand') || id.includes('@tanstack/react-query')) {
+            return 'vendor-state';
+          }
           // Utility libraries
-          utils: ['clsx', 'tailwind-merge']
+          if (id.includes('clsx') || id.includes('tailwind-merge') || id.includes('zod')) {
+            return 'vendor-utils';
+          }
+          // Game-specific libraries
+          if (id.includes('mathjs') || id.includes('typed.js')) {
+            return 'vendor-games';
+          }
+          // Large node_modules
+          if (id.includes('node_modules')) {
+            return 'vendor-misc';
+          }
         },
         // Optimize chunk naming
         chunkFileNames: (chunkInfo) => {

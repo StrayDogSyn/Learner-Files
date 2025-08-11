@@ -1,16 +1,32 @@
 {
-  "name": "SOLO Portfolio - Performance Optimized",
+  "name": "SOLO Developer Portfolio",
   "short_name": "SOLO Portfolio",
-  "description": "High-performance portfolio website with glassmorphic design and advanced optimization features",
+  "description": "Interactive portfolio showcasing modern web development skills, glassmorphic design, and AI-powered features",
   "start_url": "/",
   "display": "standalone",
+  "background_color": "#0f0f23",
+  "theme_color": "#3b82f6",
   "orientation": "portrait-primary",
-  "theme_color": "#1C1C1C",
-  "background_color": "#1C1C1C",
   "scope": "/",
   "lang": "en",
   "dir": "ltr",
-  "categories": ["portfolio", "business", "productivity"],
+  "categories": ["productivity", "business", "developer"],
+  "screenshots": [
+    {
+      "src": "/images/screenshot-wide.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Portfolio Dashboard"
+    },
+    {
+      "src": "/images/screenshot-narrow.png",
+      "sizes": "640x1136",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Mobile Portfolio View"
+    }
+  ],
   "icons": [
     {
       "src": "/icons/icon-72x72.png",
@@ -61,31 +77,27 @@
       "purpose": "maskable any"
     }
   ],
-  "screenshots": [
-    {
-      "src": "/screenshots/desktop-home.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "platform": "wide",
-      "label": "Desktop Home Page"
-    },
-    {
-      "src": "/screenshots/mobile-home.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "platform": "narrow",
-      "label": "Mobile Home Page"
-    }
-  ],
   "shortcuts": [
     {
       "name": "Portfolio",
       "short_name": "Portfolio",
-      "description": "View my work and projects",
+      "description": "View my project portfolio",
       "url": "/portfolio",
       "icons": [
         {
           "src": "/icons/shortcut-portfolio.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Blog",
+      "short_name": "Blog",
+      "description": "Read my latest blog posts",
+      "url": "/blog",
+      "icons": [
+        {
+          "src": "/icons/shortcut-blog.png",
           "sizes": "96x96"
         }
       ]
@@ -103,13 +115,13 @@
       ]
     },
     {
-      "name": "About",
-      "short_name": "About",
-      "description": "Learn more about me",
-      "url": "/about",
+      "name": "Games",
+      "short_name": "Games",
+      "description": "Play interactive games",
+      "url": "/games",
       "icons": [
         {
-          "src": "/icons/shortcut-about.png",
+          "src": "/icons/shortcut-games.png",
           "sizes": "96x96"
         }
       ]
@@ -124,32 +136,5 @@
     "client_mode": "navigate-existing"
   },
   "handle_links": "preferred",
-  "capture_links": "existing-client-navigate",
-  "protocol_handlers": [],
-  "file_handlers": [],
-  "share_target": {
-    "action": "/share",
-    "method": "POST",
-    "enctype": "multipart/form-data",
-    "params": {
-      "title": "title",
-      "text": "text",
-      "url": "url",
-      "files": [
-        {
-          "name": "file",
-          "accept": ["image/*", "text/*"]
-        }
-      ]
-    }
-  },
-  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
-  "iarc_rating_id": "",
-  "permissions": [
-    "notifications",
-    "background-sync"
-  ],
-  "features": [
-    "cross-origin-isolated"
-  ]
+  "capture_links": "existing-client-navigate"
 }

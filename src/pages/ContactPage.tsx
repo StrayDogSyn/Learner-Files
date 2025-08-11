@@ -32,4 +32,4 @@ const ContactPage: React.FC = () => {
   );
 };
 
-export
+export default ContactPage;
