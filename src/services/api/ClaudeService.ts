@@ -49,7 +49,7 @@ export class ClaudeService extends BaseAPIClient {
       temperature: 0.7,
       topP: 1,
       topK: -1,
-      stopSequences: [],
+      stop_sequences: [],
       stream: false,
       safetySettings: {
         harmBlockThreshold: 'BLOCK_MEDIUM_AND_ABOVE',
@@ -75,6 +75,7 @@ export class ClaudeService extends BaseAPIClient {
       },
       onRequestError: async (error) => {
         console.error('Claude request error:', error);
+        return error;
       }
     });
 
@@ -103,11 +104,11 @@ export class ClaudeService extends BaseAPIClient {
     const request: ClaudeRequest = {
       model: options?.model || this.claudeConfig.model,
       messages: this.formatMessages(messages),
-      max_tokens: options?.maxTokens || this.claudeConfig.maxTokens,
+      max_tokens: options?.max_tokens || this.claudeConfig.maxTokens,
       temperature: options?.temperature ?? this.claudeConfig.temperature,
-      top_p: options?.topP ?? this.claudeConfig.topP,
-      top_k: options?.topK ?? this.claudeConfig.topK,
-      stop_sequences: options?.stopSequences || this.claudeConfig.stopSequences,
+      top_p: options?.top_p ?? this.claudeConfig.topP,
+      top_k: options?.top_k ?? this.claudeConfig.topK,
+      stop_sequences: options?.stop_sequences || this.claudeConfig.stop_sequences,
       stream: options?.stream ?? this.claudeConfig.stream,
       system: options?.systemPrompt || this.claudeConfig.systemPrompt,
       metadata: {
@@ -146,11 +147,11 @@ export class ClaudeService extends BaseAPIClient {
     const request: ClaudeRequest = {
       model: options?.model || this.claudeConfig.model,
       messages: this.formatMessages(messages),
-      max_tokens: options?.maxTokens || this.claudeConfig.maxTokens,
+      max_tokens: options?.max_tokens || this.claudeConfig.maxTokens,
       temperature: options?.temperature ?? this.claudeConfig.temperature,
-      top_p: options?.topP ?? this.claudeConfig.topP,
-      top_k: options?.topK ?? this.claudeConfig.topK,
-      stop_sequences: options?.stopSequences || this.claudeConfig.stopSequences,
+      top_p: options?.top_p ?? this.claudeConfig.topP,
+      top_k: options?.top_k ?? this.claudeConfig.topK,
+      stop_sequences: options?.stop_sequences || this.claudeConfig.stop_sequences,
       stream: true,
       system: options?.systemPrompt || this.claudeConfig.systemPrompt,
       metadata: {

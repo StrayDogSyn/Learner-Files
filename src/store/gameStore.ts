@@ -1,465 +1,383 @@
 import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
-import { immer } from 'zustand/middleware/immer';
+import { persist } from 'zustand/middleware';
 
-interface GameEvent {
-  type: 'start' | 'end' | 'pause' | 'resume' | 'reset' | 'achievement' | 'audio_toggle' | 'custom';
-  gameId: string;
-  timestamp: Date;
-  data?: any;
+export interface Achievement {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  rarity: 'common' | 'rare' | 'epic' | 'legendary';
+  unlockedAt?: Date;
+  progress?: number;
+  maxProgress?: number;
 }
 
-interface GameStats {
-  totalSessions: number;
-  totalPlayTime: number; // in seconds
-  completedSessions: number;
-  averageScore: number;
-  bestScore: number;
-  achievements: string[];
-  lastPlayed?: Date;
-  difficulty?: 'easy' | 'medium' | 'hard' | 'expert';
-  category?: 'puzzle' | 'strategy' | 'arcade' | 'educational' | 'utility';
-  customStats?: Record<string, any>;
+export interface Badge {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  category: string;
+  earnedAt: Date;
 }
 
-interface GameState {
-  [gameId: string]: any;
+export interface UserProgress {
+  sectionsVisited: string[];
+  challengesCompleted: string[];
+  timeSpent: number;
+  lastVisit: Date;
 }
 
-interface UserPreferences {
-  theme: 'light' | 'dark' | 'auto';
-  soundEnabled: boolean;
-  animationsEnabled: boolean;
-  autoSave: boolean;
-  language: string;
-  difficulty: 'easy' | 'medium' | 'hard' | 'expert';
-  notifications: boolean;
-  analytics: boolean;
-  performance: boolean;
+export interface LeaderboardEntry {
+  id: string;
+  username: string;
+  score: number;
+  challenge: string;
+  completedAt: Date;
+  timeToComplete: number;
 }
 
-interface GameStoreState {
-  // Game states
-  gameStates: GameState;
+export interface GameState {
+  // User Progress
+  level: number;
+  xp: number;
+  xpToNextLevel: number;
+  totalXP: number;
   
-  // Game statistics
-  gameStats: Record<string, GameStats>;
+  // Achievements & Badges
+  achievements: Achievement[];
+  unlockedAchievements: string[];
+  badges: Badge[];
   
-  // Analytics events
-  analyticsEvents: GameEvent[];
+  // Progress Tracking
+  userProgress: UserProgress;
   
-  // User preferences
-  preferences: UserPreferences;
+  // Leaderboard
+  leaderboard: LeaderboardEntry[];
+  userRank: number;
   
-  // Current session info
-  currentSession: {
-    gameId: string | null;
-    startTime: Date | null;
-    isPlaying: boolean;
-    isPaused: boolean;
-  };
+  // Social Features
+  sharedAchievements: string[];
   
-  // Global stats
-  globalStats: {
-    totalGamesPlayed: number;
-    totalPlayTime: number;
-    favoriteGame: string | null;
-    achievementCount: number;
-    lastActivity: Date | null;
-  };
+  // Settings
+  username: string;
+  showNotifications: boolean;
+  
+  // Actions
+  addXP: (amount: number) => void;
+  addAchievement: (achievement: Omit<Achievement, 'unlockedAt'>) => void;
+  addBadge: (badge: Omit<Badge, 'earnedAt'>) => void;
+  updateProgress: (section: string) => void;
+  completeChallenge: (challengeId: string, score: number, timeToComplete: number) => void;
+  shareAchievement: (achievementId: string) => void;
+  setUsername: (username: string) => void;
+  resetProgress: () => void;
+  getAchievementsByRarity: (rarity: Achievement['rarity']) => Achievement[];
+  getRecentAchievements: (limit?: number) => Achievement[];
+  calculateLevel: (xp: number) => { level: number; xpToNext: number };
 }
 
-interface GameStoreActions {
-  // Game state actions
-  updateGameState: (gameId: string, state: any) => void;
-  getGameState: (gameId: string) => any;
-  deleteGameState: (gameId: string) => void;
-  
-  // Game stats actions
-  updateGameStats: (gameId: string, stats: Partial<GameStats>) => void;
-  getGameStats: (gameId: string) => GameStats;
-  resetGameStats: (gameId: string) => void;
-  
-  // Analytics actions
-  addAnalyticsEvent: (event: GameEvent) => void;
-  getAnalyticsEvents: (gameId?: string) => GameEvent[];
-  clearAnalyticsEvents: (gameId?: string) => void;
-  
-  // Preferences actions
-  updatePreferences: (preferences: Partial<UserPreferences>) => void;
-  resetPreferences: () => void;
-  
-  // Session actions
-  startSession: (gameId: string) => void;
-  endSession: () => void;
-  pauseSession: () => void;
-  resumeSession: () => void;
-  
-  // Global stats actions
-  updateGlobalStats: () => void;
-  
-  // Utility actions
-  exportData: () => string;
-  importData: (data: string) => boolean;
-  clearAllData: () => void;
-}
+const INITIAL_ACHIEVEMENTS: Achievement[] = [
+  {
+    id: 'welcome',
+    title: 'Welcome Explorer',
+    description: 'Welcome to the interactive portfolio!',
+    icon: '👋',
+    rarity: 'common',
+    progress: 0,
+    maxProgress: 1
+  },
+  {
+    id: 'first-visit',
+    title: 'First Steps',
+    description: 'Visited your first portfolio section',
+    icon: '🚀',
+    rarity: 'common',
+    progress: 0,
+    maxProgress: 1
+  },
+  {
+    id: 'section-explorer',
+    title: 'Section Explorer',
+    description: 'Visited 5 different portfolio sections',
+    icon: '🗺️',
+    rarity: 'rare',
+    progress: 0,
+    maxProgress: 5
+  },
+  {
+    id: 'time-traveler',
+    title: 'Time Traveler',
+    description: 'Spent 10 minutes exploring the portfolio',
+    icon: '⏰',
+    rarity: 'rare',
+    progress: 0,
+    maxProgress: 600 // 10 minutes in seconds
+  },
+  {
+    id: 'challenge-master',
+    title: 'Challenge Master',
+    description: 'Completed 10 coding challenges',
+    icon: '🏆',
+    rarity: 'epic',
+    progress: 0,
+    maxProgress: 10
+  },
+  {
+    id: 'algorithm-expert',
+    title: 'Algorithm Expert',
+    description: 'Mastered all algorithm visualizations',
+    icon: '🧠',
+    rarity: 'legendary',
+    progress: 0,
+    maxProgress: 5
+  }
+];
 
-type GameStore = GameStoreState & GameStoreActions;
-
-const defaultPreferences: UserPreferences = {
-  theme: 'dark',
-  soundEnabled: true,
-  animationsEnabled: true,
-  autoSave: true,
-  language: 'en',
-  difficulty: 'medium',
-  notifications: true,
-  analytics: true,
-  performance: true
+const calculateLevelFromXP = (xp: number) => {
+  // Level formula: level = floor(sqrt(xp / 100))
+  const level = Math.floor(Math.sqrt(xp / 100)) + 1;
+  const xpForCurrentLevel = Math.pow(level - 1, 2) * 100;
+  const xpForNextLevel = Math.pow(level, 2) * 100;
+  const xpToNext = xpForNextLevel - xp;
+  
+  return { level, xpToNext };
 };
 
-const defaultGameStats: GameStats = {
-  totalSessions: 0,
-  totalPlayTime: 0,
-  completedSessions: 0,
-  averageScore: 0,
-  bestScore: 0,
-  achievements: []
-};
+export const useGameStore = create<GameState>()(
+  persist(
+    (set, get) => ({
+      // Initial State
+      level: 1,
+      xp: 0,
+      xpToNextLevel: 100,
+      totalXP: 0,
+      achievements: INITIAL_ACHIEVEMENTS,
+      unlockedAchievements: [],
+      badges: [],
+      userProgress: {
+        sectionsVisited: [],
+        challengesCompleted: [],
+        timeSpent: 0,
+        lastVisit: new Date()
+      },
+      leaderboard: [],
+      userRank: 0,
+      sharedAchievements: [],
+      username: '',
+      showNotifications: true,
 
-export const useGameStore = create<GameStore>()
-  (persist(
-    immer((set, get) => ({
-      // Initial state
-      gameStates: {},
-      gameStats: {},
-      analyticsEvents: [],
-      preferences: defaultPreferences,
-      currentSession: {
-        gameId: null,
-        startTime: null,
-        isPlaying: false,
-        isPaused: false
-      },
-      globalStats: {
-        totalGamesPlayed: 0,
-        totalPlayTime: 0,
-        favoriteGame: null,
-        achievementCount: 0,
-        lastActivity: null
-      },
-      
-      // Game state actions
-      updateGameState: (gameId: string, state: any) => {
-        set((draft) => {
-          draft.gameStates[gameId] = state;
-        });
-      },
-      
-      getGameState: (gameId: string) => {
-        return get().gameStates[gameId] || null;
-      },
-      
-      deleteGameState: (gameId: string) => {
-        set((draft) => {
-          delete draft.gameStates[gameId];
-        });
-      },
-      
-      // Game stats actions
-      updateGameStats: (gameId: string, stats: Partial<GameStats>) => {
-        set((draft) => {
-          if (!draft.gameStats[gameId]) {
-            draft.gameStats[gameId] = { ...defaultGameStats };
-          }
-          Object.assign(draft.gameStats[gameId], stats);
-        });
-        
-        // Update global stats
-        get().updateGlobalStats();
-      },
-      
-      getGameStats: (gameId: string) => {
-        return get().gameStats[gameId] || { ...defaultGameStats };
-      },
-      
-      resetGameStats: (gameId: string) => {
-        set((draft) => {
-          draft.gameStats[gameId] = { ...defaultGameStats };
-        });
-      },
-      
-      // Analytics actions
-      addAnalyticsEvent: (event: GameEvent) => {
-        set((draft) => {
-          draft.analyticsEvents.push({
-            ...event,
-            timestamp: new Date(event.timestamp)
-          });
+      // Actions
+      addXP: (amount: number) => {
+        set((state) => {
+          const newTotalXP = state.totalXP + amount;
+          const { level, xpToNext } = calculateLevelFromXP(newTotalXP);
           
-          // Keep only last 1000 events
-          if (draft.analyticsEvents.length > 1000) {
-            draft.analyticsEvents = draft.analyticsEvents.slice(-1000);
+          // Check for level up achievements
+          if (level > state.level) {
+            // Level up achievement
+            const levelUpAchievement: Achievement = {
+              id: `level-${level}`,
+              title: `Level ${level} Reached!`,
+              description: `Congratulations on reaching level ${level}!`,
+              icon: '⭐',
+              rarity: level >= 10 ? 'legendary' : level >= 5 ? 'epic' : 'rare',
+              unlockedAt: new Date()
+            };
+            
+            return {
+              ...state,
+              xp: newTotalXP,
+              totalXP: newTotalXP,
+              level,
+              xpToNextLevel: xpToNext,
+              achievements: [...state.achievements, levelUpAchievement],
+              unlockedAchievements: [...state.unlockedAchievements, levelUpAchievement.id]
+            };
           }
-        });
-      },
-      
-      getAnalyticsEvents: (gameId?: string) => {
-        const events = get().analyticsEvents;
-        return gameId ? events.filter(event => event.gameId === gameId) : events;
-      },
-      
-      clearAnalyticsEvents: (gameId?: string) => {
-        set((draft) => {
-          if (gameId) {
-            draft.analyticsEvents = draft.analyticsEvents.filter(
-              event => event.gameId !== gameId
-            );
-          } else {
-            draft.analyticsEvents = [];
-          }
-        });
-      },
-      
-      // Preferences actions
-      updatePreferences: (preferences: Partial<UserPreferences>) => {
-        set((draft) => {
-          Object.assign(draft.preferences, preferences);
-        });
-      },
-      
-      resetPreferences: () => {
-        set((draft) => {
-          draft.preferences = { ...defaultPreferences };
-        });
-      },
-      
-      // Session actions
-      startSession: (gameId: string) => {
-        set((draft) => {
-          draft.currentSession = {
-            gameId,
-            startTime: new Date(),
-            isPlaying: true,
-            isPaused: false
-          };
-          draft.globalStats.lastActivity = new Date();
-        });
-      },
-      
-      endSession: () => {
-        const session = get().currentSession;
-        if (session.gameId && session.startTime) {
-          const duration = Math.floor(
-            (new Date().getTime() - session.startTime.getTime()) / 1000
-          );
           
-          // Update game stats
-          const currentStats = get().getGameStats(session.gameId);
-          get().updateGameStats(session.gameId, {
-            ...currentStats,
-            totalPlayTime: currentStats.totalPlayTime + duration,
-            completedSessions: currentStats.completedSessions + 1
-          });
-        }
-        
-        set((draft) => {
-          draft.currentSession = {
-            gameId: null,
-            startTime: null,
-            isPlaying: false,
-            isPaused: false
+          return {
+            ...state,
+            xp: newTotalXP,
+            totalXP: newTotalXP,
+            level,
+            xpToNextLevel: xpToNext
           };
         });
       },
-      
-      pauseSession: () => {
-        set((draft) => {
-          draft.currentSession.isPaused = true;
+
+      addAchievement: (achievement: Omit<Achievement, 'unlockedAt'>) => {
+        set((state) => {
+          // Check if achievement already unlocked
+          if (state.unlockedAchievements.includes(achievement.id)) {
+            return state;
+          }
+          
+          const newAchievement: Achievement = {
+            ...achievement,
+            unlockedAt: new Date()
+          };
+          
+          // Award XP based on rarity
+          const xpReward = {
+            common: 25,
+            rare: 50,
+            epic: 100,
+            legendary: 200
+          }[achievement.rarity];
+          
+          return {
+            ...state,
+            achievements: state.achievements.map(a => 
+              a.id === achievement.id ? newAchievement : a
+            ),
+            unlockedAchievements: [...state.unlockedAchievements, achievement.id],
+            xp: state.xp + xpReward,
+            totalXP: state.totalXP + xpReward
+          };
         });
       },
-      
-      resumeSession: () => {
-        set((draft) => {
-          draft.currentSession.isPaused = false;
-        });
+
+      addBadge: (badge: Omit<Badge, 'earnedAt'>) => {
+        set((state) => ({
+          ...state,
+          badges: [...state.badges, { ...badge, earnedAt: new Date() }]
+        }));
       },
-      
-      // Global stats actions
-      updateGlobalStats: () => {
-        set((draft) => {
-          const allStats = Object.values(draft.gameStats);
+
+      updateProgress: (section: string) => {
+        set((state) => {
+          const sectionsVisited = state.userProgress.sectionsVisited.includes(section)
+            ? state.userProgress.sectionsVisited
+            : [...state.userProgress.sectionsVisited, section];
           
-          draft.globalStats.totalGamesPlayed = Object.keys(draft.gameStats).length;
-          draft.globalStats.totalPlayTime = allStats.reduce(
-            (sum, stats) => sum + stats.totalPlayTime, 0
-          );
-          draft.globalStats.achievementCount = allStats.reduce(
-            (sum, stats) => sum + stats.achievements.length, 0
-          );
-          
-          // Find favorite game (most played)
-          let favoriteGame = null;
-          let maxPlayTime = 0;
-          
-          Object.entries(draft.gameStats).forEach(([gameId, stats]) => {
-            if (stats.totalPlayTime > maxPlayTime) {
-              maxPlayTime = stats.totalPlayTime;
-              favoriteGame = gameId;
+          const newState = {
+            ...state,
+            userProgress: {
+              ...state.userProgress,
+              sectionsVisited,
+              lastVisit: new Date()
             }
-          });
+          };
           
-          draft.globalStats.favoriteGame = favoriteGame;
+          // Check for section exploration achievements
+          if (sectionsVisited.length === 1 && !state.unlockedAchievements.includes('first-visit')) {
+            get().addAchievement({
+              id: 'first-visit',
+              title: 'First Steps',
+              description: 'Visited your first portfolio section',
+              icon: '🚀',
+              rarity: 'common'
+            });
+          }
+          
+          if (sectionsVisited.length >= 5 && !state.unlockedAchievements.includes('section-explorer')) {
+            get().addAchievement({
+              id: 'section-explorer',
+              title: 'Section Explorer',
+              description: 'Visited 5 different portfolio sections',
+              icon: '🗺️',
+              rarity: 'rare'
+            });
+          }
+          
+          return newState;
         });
       },
-      
-      // Utility actions
-      exportData: () => {
+
+      completeChallenge: (challengeId: string, score: number, timeToComplete: number) => {
+        set((state) => {
+          const challengesCompleted = state.userProgress.challengesCompleted.includes(challengeId)
+            ? state.userProgress.challengesCompleted
+            : [...state.userProgress.challengesCompleted, challengeId];
+          
+          const leaderboardEntry: LeaderboardEntry = {
+            id: Date.now().toString(),
+            username: state.username || 'Anonymous',
+            score,
+            challenge: challengeId,
+            completedAt: new Date(),
+            timeToComplete
+          };
+          
+          const newLeaderboard = [...state.leaderboard, leaderboardEntry]
+            .sort((a, b) => b.score - a.score)
+            .slice(0, 100); // Keep top 100
+          
+          const userRank = newLeaderboard.findIndex(entry => 
+            entry.username === (state.username || 'Anonymous')
+          ) + 1;
+          
+          return {
+            ...state,
+            userProgress: {
+              ...state.userProgress,
+              challengesCompleted
+            },
+            leaderboard: newLeaderboard,
+            userRank
+          };
+        });
+      },
+
+      shareAchievement: (achievementId: string) => {
+        set((state) => ({
+          ...state,
+          sharedAchievements: [...state.sharedAchievements, achievementId]
+        }));
+      },
+
+      setUsername: (username: string) => {
+        set((state) => ({ ...state, username }));
+      },
+
+      resetProgress: () => {
+        set(() => ({
+          level: 1,
+          xp: 0,
+          xpToNextLevel: 100,
+          totalXP: 0,
+          achievements: INITIAL_ACHIEVEMENTS,
+          unlockedAchievements: [],
+          badges: [],
+          userProgress: {
+            sectionsVisited: [],
+            challengesCompleted: [],
+            timeSpent: 0,
+            lastVisit: new Date()
+          },
+          leaderboard: [],
+          userRank: 0,
+          sharedAchievements: [],
+          username: '',
+          showNotifications: true
+        }));
+      },
+
+      getAchievementsByRarity: (rarity: Achievement['rarity']) => {
         const state = get();
-        return JSON.stringify({
-          gameStates: state.gameStates,
-          gameStats: state.gameStats,
-          analyticsEvents: state.analyticsEvents,
-          preferences: state.preferences,
-          globalStats: state.globalStats,
-          exportedAt: new Date().toISOString(),
-          version: '1.0.0'
-        }, null, 2);
+        return state.achievements.filter(achievement => 
+          achievement.rarity === rarity && 
+          state.unlockedAchievements.includes(achievement.id)
+        );
       },
-      
-      importData: (data: string) => {
-        try {
-          const importedData = JSON.parse(data);
-          
-          set((draft) => {
-            if (importedData.gameStates) {
-              draft.gameStates = importedData.gameStates;
-            }
-            if (importedData.gameStats) {
-              draft.gameStats = importedData.gameStats;
-            }
-            if (importedData.analyticsEvents) {
-              draft.analyticsEvents = importedData.analyticsEvents.map((event: any) => ({
-                ...event,
-                timestamp: new Date(event.timestamp)
-              }));
-            }
-            if (importedData.preferences) {
-              draft.preferences = { ...defaultPreferences, ...importedData.preferences };
-            }
-            if (importedData.globalStats) {
-              draft.globalStats = importedData.globalStats;
-            }
-          });
-          
-          return true;
-        } catch (error) {
-          console.error('Failed to import data:', error);
-          return false;
-        }
+
+      getRecentAchievements: (limit = 5) => {
+        const state = get();
+        return state.achievements
+          .filter(achievement => state.unlockedAchievements.includes(achievement.id))
+          .sort((a, b) => {
+            if (!a.unlockedAt || !b.unlockedAt) return 0;
+            return new Date(b.unlockedAt).getTime() - new Date(a.unlockedAt).getTime();
+          })
+          .slice(0, limit);
       },
-      
-      clearAllData: () => {
-        set((draft) => {
-          draft.gameStates = {};
-          draft.gameStats = {};
-          draft.analyticsEvents = [];
-          draft.preferences = { ...defaultPreferences };
-          draft.currentSession = {
-            gameId: null,
-            startTime: null,
-            isPlaying: false,
-            isPaused: false
-          };
-          draft.globalStats = {
-            totalGamesPlayed: 0,
-            totalPlayTime: 0,
-            favoriteGame: null,
-            achievementCount: 0,
-            lastActivity: null
-          };
-        });
-      }
-    })),
+
+      calculateLevel: calculateLevelFromXP
+    }),
     {
       name: 'game-store',
-      storage: createJSONStorage(() => localStorage),
-      partialize: (state) => ({
-        gameStates: state.gameStates,
-        gameStats: state.gameStats,
-        analyticsEvents: state.analyticsEvents.slice(-100), // Only persist last 100 events
-        preferences: state.preferences,
-        globalStats: state.globalStats
-        // Don't persist currentSession as it's runtime state
-      }),
-      version: 1,
-      migrate: (persistedState: any, version: number) => {
-        // Handle migrations between versions
-        if (version === 0) {
-          // Migration from version 0 to 1
-          return {
-            ...persistedState,
-            preferences: { ...defaultPreferences, ...persistedState.preferences },
-            globalStats: persistedState.globalStats || {
-              totalGamesPlayed: 0,
-              totalPlayTime: 0,
-              favoriteGame: null,
-              achievementCount: 0,
-              lastActivity: null
-            }
-          };
-        }
-        return persistedState;
-      }
+      version: 1
     }
-  ));
-
-// Selectors for better performance
-export const useGameStates = () => useGameStore(state => state.gameStates);
-export const useGameStats = () => useGameStore(state => state.gameStats);
-export const useAnalyticsEvents = () => useGameStore(state => state.analyticsEvents);
-export const usePreferences = () => useGameStore(state => state.preferences);
-export const useCurrentSession = () => useGameStore(state => state.currentSession);
-export const useGlobalStats = () => useGameStore(state => state.globalStats);
-
-// Specific game selectors
-export const useGameState = (gameId: string) => 
-  useGameStore(state => state.gameStates[gameId]);
-
-export const useGameStatistics = (gameId: string) => 
-  useGameStore(state => state.gameStats[gameId] || defaultGameStats);
-
-export const useGameAnalytics = (gameId: string) => 
-  useGameStore(state => state.analyticsEvents.filter(event => event.gameId === gameId));
-
-// Action selectors
-export const useGameActions = () => useGameStore(state => ({
-  updateGameState: state.updateGameState,
-  getGameState: state.getGameState,
-  deleteGameState: state.deleteGameState,
-  updateGameStats: state.updateGameStats,
-  getGameStats: state.getGameStats,
-  resetGameStats: state.resetGameStats,
-  addAnalyticsEvent: state.addAnalyticsEvent,
-  getAnalyticsEvents: state.getAnalyticsEvents,
-  clearAnalyticsEvents: state.clearAnalyticsEvents,
-  updatePreferences: state.updatePreferences,
-  resetPreferences: state.resetPreferences,
-  startSession: state.startSession,
-  endSession: state.endSession,
-  pauseSession: state.pauseSession,
-  resumeSession: state.resumeSession,
-  updateGlobalStats: state.updateGlobalStats,
-  exportData: state.exportData,
-  importData: state.importData,
-  clearAllData: state.clearAllData
-}));
-
-export type { 
-  GameEvent, 
-  GameStats, 
-  GameState, 
-  UserPreferences, 
-  GameStoreState, 
-  GameStoreActions 
-};
+  )
+);

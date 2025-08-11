@@ -397,4 +397,87 @@ export const AIInsightsDashboard: React.FC<AIInsightsDashboardProps> = ({
                                   Supporting Data
                                 </h4>
                                 <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-3">
-                                  <pre className="text-xs
+                                  <pre className="text-xs text-gray-600 dark:text-gray-300 overflow-x-auto">
+                                    {JSON.stringify(insight.data, null, 2)}
+                                  </pre>
+                                </div>
+                              </div>
+                            )}
+                          </motion.div>
+                        )}
+
+                        <div className="flex items-center justify-between mt-4">
+                          <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+                            <Clock className="w-3 h-3" />
+                            {new Date(insight.generatedAt).toLocaleString()}
+                          </div>
+
+                          <div className="flex items-center gap-2">
+                            <GlassButton
+                              onClick={() => toggleInsightExpansion(insight.id)}
+                              size="sm"
+                              variant="outline"
+                            >
+                              {isExpanded ? 'Show Less' : 'Show More'}
+                            </GlassButton>
+
+                            <GlassButton
+                              onClick={() => onInsightAction(insight, 'implement')}
+                              size="sm"
+                              className="bg-blue-500 hover:bg-blue-600 text-white"
+                            >
+                              Implement
+                            </GlassButton>
+
+                            <GlassButton
+                              onClick={() => onInsightAction(insight, 'dismiss')}
+                              size="sm"
+                              variant="outline"
+                            >
+                              Dismiss
+                            </GlassButton>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </GlassCard>
+              </motion.div>
+            );
+          })}
+        </AnimatePresence>
+
+        {filteredInsights.length === 0 && (
+          <GlassCard className="p-12 text-center">
+            <Brain className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+              No insights available
+            </h3>
+            <p className="text-gray-600 dark:text-gray-300 mb-4">
+              Generate AI insights to get personalized recommendations for your portfolio.
+            </p>
+            <GlassButton
+              onClick={onGenerateInsights}
+              disabled={isGenerating}
+              className="bg-purple-500 hover:bg-purple-600 text-white"
+            >
+              {isGenerating ? (
+                <>
+                  <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                  Generating...
+                </>
+              ) : (
+                <>
+                  <Brain className="w-4 h-4 mr-2" />
+                  Generate First Insights
+                </>
+              )}
+            </GlassButton>
+          </GlassCard>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default AIInsightsDashboard;

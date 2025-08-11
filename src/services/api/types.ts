@@ -91,6 +91,13 @@ export interface ClaudeConfig extends APIConfig {
   temperature: number;
   topP: number;
   topK: number;
+  stop_sequences: string[];
+  systemPrompt?: string;
+  stream?: boolean;
+  safetySettings?: {
+    enableContentFiltering: boolean;
+    filterLevel: 'low' | 'medium' | 'high';
+  };
 }
 
 export interface ClaudeMessage {
@@ -116,6 +123,13 @@ export interface ClaudeRequest {
   stop_sequences?: string[];
   stream?: boolean;
   system?: string;
+  metadata?: {
+    user_id?: string;
+    conversation_id?: string;
+  };
+  userId?: string;
+  conversationId?: string;
+  systemPrompt?: string;
 }
 
 export interface ClaudeResponse {
@@ -133,6 +147,36 @@ export interface ClaudeResponse {
     input_tokens: number;
     output_tokens: number;
   };
+}
+
+export interface ClaudeStreamResponse {
+  type: 'message_start' | 'content_block_start' | 'content_block_delta' | 'content_block_stop' | 'message_delta' | 'message_stop';
+  message?: ClaudeResponse;
+  index?: number;
+  delta?: {
+    type: 'text_delta';
+    text: string;
+  };
+  usage?: {
+    input_tokens: number;
+    output_tokens: number;
+  };
+}
+
+export interface ClaudeUsage {
+  inputTokens: number;
+  outputTokens: number;
+  totalTokens: number;
+  cost: number;
+  timestamp: Date;
+  requestId: string;
+  model: string;
+  error?: string;
+}
+
+export interface ClaudeError extends APIError {
+  type: 'authentication_error' | 'permission_error' | 'not_found_error' | 'rate_limit_error' | 'api_error' | 'overloaded_error';
+  param?: string;
 }
 
 // GitHub Service
