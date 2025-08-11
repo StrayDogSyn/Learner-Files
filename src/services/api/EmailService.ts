@@ -40,6 +40,7 @@ export class EmailService extends BaseAPIClient {
       },
       timeout: config.timeout || 30000,
       retries: config.retries || 3,
+      retryDelay: config.retryDelay || 1000,
       rateLimit: {
         requests: config.rateLimit?.requests || 100,
         window: config.rateLimit?.window || 60000
@@ -56,7 +57,7 @@ export class EmailService extends BaseAPIClient {
       enableClickTracking: true,
       enableOpenTracking: true,
       enableUnsubscribeTracking: true,
-      enableBounceHandling: true,
+
       enableSpamChecking: true,
       maxAttachmentSize: 25 * 1024 * 1024, // 25MB
       allowedAttachmentTypes: [
@@ -76,7 +77,10 @@ export class EmailService extends BaseAPIClient {
       clicked: 0,
       bounced: 0,
       complained: 0,
-      unsubscribed: 0
+      unsubscribed: 0,
+      openRate: 0,
+      clickRate: 0,
+      bounceRate: 0
     };
 
     // Add email-specific interceptors
@@ -95,6 +99,7 @@ export class EmailService extends BaseAPIClient {
       },
       onRequestError: async (error) => {
         console.error('Email request error:', error);
+        return error;
       }
     });
 
@@ -661,7 +666,8 @@ export class EmailService extends BaseAPIClient {
         details: error.details,
         timestamp: Date.now(),
         retryCount: error.retryCount || 0,
-        isRetryable: false
+        isRetryable: false,
+        retryable: false
       };
     }
 
@@ -674,7 +680,8 @@ export class EmailService extends BaseAPIClient {
         details: error.details,
         timestamp: Date.now(),
         retryCount: error.retryCount || 0,
-        isRetryable: false
+        isRetryable: false,
+        retryable: false
       };
     }
 
@@ -687,7 +694,8 @@ export class EmailService extends BaseAPIClient {
         details: error.details,
         timestamp: Date.now(),
         retryCount: error.retryCount || 0,
-        isRetryable: true
+        isRetryable: true,
+        retryable: true
       };
     }
 
@@ -700,7 +708,8 @@ export class EmailService extends BaseAPIClient {
         details: error.details,
         timestamp: Date.now(),
         retryCount: error.retryCount || 0,
-        isRetryable: false
+        isRetryable: false,
+        retryable: false
       };
     }
 
@@ -712,7 +721,8 @@ export class EmailService extends BaseAPIClient {
       details: error.details,
       timestamp: Date.now(),
       retryCount: error.retryCount || 0,
-      isRetryable: error.isRetryable || false
+      isRetryable: error.isRetryable || false,
+      retryable: error.isRetryable || false
     };
   }
 

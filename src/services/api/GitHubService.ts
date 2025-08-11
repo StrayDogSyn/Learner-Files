@@ -6,11 +6,11 @@ import {
   GitHubIssue,
   GitHubPullRequest,
   GitHubCommit,
+  GitHubRelease,
+  GitHubWorkflow,
+  GitHubContent,
   // GitHubBranch,
-  // GitHubRelease,
   // GitHubWebhook,
-  // GitHubWorkflow,
-  // GitHubContent,
   // GitHubError,
   APIResponse
 } from './types';

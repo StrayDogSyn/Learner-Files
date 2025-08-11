@@ -258,6 +258,79 @@ export interface GitHubIssue {
   html_url: string;
 }
 
+export interface GitHubRelease {
+  id: number;
+  tag_name: string;
+  target_commitish: string;
+  name: string;
+  body: string;
+  draft: boolean;
+  prerelease: boolean;
+  created_at: string;
+  published_at: string;
+  author: GitHubUser;
+  assets: Array<{
+    id: number;
+    name: string;
+    label: string;
+    content_type: string;
+    size: number;
+    download_count: number;
+    created_at: string;
+    updated_at: string;
+    browser_download_url: string;
+  }>;
+  html_url: string;
+  upload_url: string;
+}
+
+export interface GitHubWorkflow {
+  id: number;
+  name: string;
+  path: string;
+  state: 'active' | 'deleted';
+  created_at: string;
+  updated_at: string;
+  url: string;
+  html_url: string;
+  badge_url: string;
+}
+
+export interface GitHubPullRequest {
+  id: number;
+  number: number;
+  title: string;
+  body: string;
+  state: 'open' | 'closed' | 'merged';
+  user: GitHubUser;
+  created_at: string;
+  updated_at: string;
+  merged_at?: string;
+  head: {
+    ref: string;
+    sha: string;
+  };
+  base: {
+    ref: string;
+    sha: string;
+  };
+  html_url: string;
+}
+
+export interface GitHubContent {
+  name: string;
+  path: string;
+  sha: string;
+  size: number;
+  url: string;
+  html_url: string;
+  git_url: string;
+  download_url?: string;
+  type: 'file' | 'dir';
+  content?: string;
+  encoding?: string;
+}
+
 // Analytics Service
 export interface AnalyticsConfig extends APIConfig {
   trackingId: string;
@@ -354,6 +427,11 @@ export interface EmailConfig extends APIConfig {
   };
   retryDelay: number;
   enableTracking?: boolean;
+  maxAttachmentSize?: number;
+  allowedAttachmentTypes?: string[];
+  enableOpenTracking?: boolean;
+  enableClickTracking?: boolean;
+  enableUnsubscribeTracking?: boolean;
 }
 
 export interface EmailRecipient {
@@ -444,6 +522,7 @@ export interface EmailError extends APIError {
   recipient?: string;
   provider?: string;
   retryable: boolean;
+  type?: string;
 }
 
 // Webhook Types

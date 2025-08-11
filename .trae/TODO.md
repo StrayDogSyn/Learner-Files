@@ -1,8 +1,8 @@
 # TODO:
 
-- [x] disable_conflicting_workflows: Disable/delete conflicting workflows: deploy-static-site.yml and deploy-portfolio.yml (priority: High)
-- [x] add_gh_pages_dependency: Add missing gh-pages dependency to package.json devDependencies (priority: High)
-- [x] update_deployment_scripts: Update package.json scripts for proper GitHub Pages deployment (priority: High)
-- [x] test_build_and_deploy: Test build process and deploy to verify React app shows on live site (priority: High)
-- [x] check_router_config: Check router configuration and switch to HashRouter if needed for GitHub Pages (priority: Medium)
-- [x] verify_vite_config: Verify vite.config.ts is properly configured for GitHub Pages with correct base path (priority: Medium)
+- [ ] github_pages_visitor_analytics: Implement GitHub Pages visitor analytics with project engagement tracking, game completion rates, and conversion path analysis (**IN PROGRESS**) (priority: High)
+- [ ] performance_monitoring_system: Build real-time performance monitoring with Lighthouse scores, Core Web Vitals tracking, and error monitoring (priority: High)
+- [ ] user_behavior_insights: Enhance user behavior tracking with heatmap integration, session recording, and A/B testing framework (priority: High)
+- [ ] professional_metrics_tracking: Implement professional metrics for contact form conversions, resume downloads, and social media click-through rates (priority: High)
+- [ ] realtime_dashboard_features: Build real-time dashboard with live visitor feed, weekly reports, alerts, and data export capabilities (priority: Medium)
+- [ ] analytics_integration_testing: Test analytics integration with GitHub Pages deployment and verify all tracking functionality (priority: Medium)

@@ -25,9 +25,8 @@
     "@anthropic-ai/sdk": "^0.59.0",
     "@hookform/resolvers": "^5.2.1",
     "@octokit/rest": "^22.0.0",
-    "@react-three/drei": "^10.6.1",
-    "@react-three/fiber": "^9.3.0",
-    "@react-three/rapier": "^2.1.0",
+    "@react-three/drei": "^9.108.3",
+    "@react-three/fiber": "^8.15.19",
     "@sentry/react": "^10.3.0",
     "@sentry/replay": "^7.116.0",
     "@sentry/tracing": "^7.120.4",
@@ -70,7 +69,7 @@
     "web-vitals": "^5.1.0",
     "workbox-webpack-plugin": "^7.3.0",
     "workbox-window": "^7.3.0",
-    "zod": "^4.0.15",
+    "zod": "^3.23.8",
     "zustand": "^5.0.7"
   },
   "devDependencies": {
