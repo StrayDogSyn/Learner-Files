@@ -1,36 +1,18 @@
-import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
-import { useEffect, Suspense, lazy } from "react";
 import { initializeFontLoading } from "@/utils/fontLoading";
-// import { initializePWA } from "@/utils/pwa";
-// import { performanceMonitor } from "@/utils/performance";
-// import { ErrorBoundary } from "@/components/ErrorBoundary";
-// import { initializeAnalytics, trackEvent } from "@/utils/analytics";
-// import { MetaTagManager } from "@/utils/metaTags";
-// import { AccessibilityProvider } from "@/components/AccessibilityProvider";
+import { initSentryWithEnvironment } from "@/utils/sentry";
+import { ErrorBoundary } from "@/components/error/ErrorBoundary";
+import { AppRouter } from "@/router";
+import { useAppStore } from "@/store/appStore";
+import { getUnifiedAPIService } from "@/services/api";
 import ChatbotWidget from "@/components/ChatbotWidget";
 import AIChat from "@/components/AIChat";
 import Performance from "@/components/Performance";
-import Home from "@/pages/Home";
-import Projects from "@/pages/Projects";
-import Portfolio from "@/pages/Portfolio";
-import Bio from "@/pages/Bio";
-import Contact from "@/pages/Contact";
 import Navigation from "@/components/Navigation";
 import BrandLogo from "@/components/BrandLogo";
-import InteractivePortfolio from "@/components/InteractivePortfolio";
-import ContentSections from "@/components/ContentSections";
-import { PolishedPortfolio } from "@/components/PolishedPortfolio";
 
-// Lazy load new pages for better performance
-const Dashboard = lazy(() => import("@/pages/Dashboard"));
-const Archive = lazy(() => import("@/pages/Archive"));
-// Flagship Applications
-import Calculator from "@/projects/Calculator";
-import QuizNinja from "@/projects/QuizNinja";
-import Countdown from "@/projects/Countdown";
-import Knucklebones from "@/projects/Knucklebones";
-import CompTIA from "@/projects/CompTIA";
+// Import CSS files
 import "./css/glassmorphic-design-system.css";
 import "./css/brand-system.css";
 import "./css/hero.css";
@@ -42,51 +24,73 @@ import "./styles/accessibility.css";
 import "./styles/performance-optimizations.css";
 
 export default function App() {
+  const { initializeApp, initialized } = useAppStore();
+
   useEffect(() => {
-    // Initialize optimized font loading
-    initializeFontLoading();
+    const initializeApplication = async () => {
+      try {
+        // Initialize Sentry for error monitoring
+        initSentryWithEnvironment();
+        
+        // Initialize optimized font loading
+        initializeFontLoading();
+        
+        // Initialize the unified API service
+        const apiService = getUnifiedAPIService();
+        await apiService.initialize();
+        
+        // Initialize the app store
+        await initializeApp();
+        
+        // Track app initialization
+        await apiService.analytics.trackEvent('app_initialized', {
+          timestamp: Date.now(),
+          user_agent: navigator.userAgent,
+          screen_resolution: `${window.screen.width}x${window.screen.height}`,
+          viewport_size: `${window.innerWidth}x${window.innerHeight}`,
+          environment: import.meta.env.VITE_ENVIRONMENT || 'development'
+        });
+        
+        console.log('Application initialized successfully');
+      } catch (error) {
+        console.error('Failed to initialize application:', error);
+        
+        // Report initialization error
+        if (window.Sentry) {
+          window.Sentry.captureException(error);
+        }
+      }
+    };
     
-    // Initialize PWA functionality
-    // initializePWA();
-    
-    // Initialize performance monitoring (already initialized globally)
-    // performanceMonitor is already running
-    
-    // Initialize Google Analytics
-    // initializeAnalytics();
-    
-    // Initialize meta tags
-    // const metaManager = new MetaTagManager();
-    // metaManager.setDefaultTags({
-    //   title: 'SOLO Portfolio - Performance Optimized',
-    //   description: 'Professional portfolio showcasing advanced web development skills and interactive experiences.',
-    //   keywords: 'portfolio, web development, react, typescript, performance optimization',
-    //   author: 'SOLO Developer',
-    //   ogTitle: 'SOLO Portfolio - Performance Optimized',
-    //   ogDescription: 'Professional portfolio showcasing advanced web development skills and interactive experiences.',
-    //   ogImage: '/images/og-image.jpg',
-    //   twitterCard: 'summary_large_image',
-    //   twitterTitle: 'SOLO Portfolio - Performance Optimized',
-    //   twitterDescription: 'Professional portfolio showcasing advanced web development skills and interactive experiences.',
-    //   twitterImage: '/images/twitter-image.jpg'
-    // });
-    
-    // Track app initialization
-    // trackEvent('app_initialized', {
-    //   timestamp: Date.now(),
-    //   user_agent: navigator.userAgent,
-    //   screen_resolution: `${window.screen.width}x${window.screen.height}`,
-    //   viewport_size: `${window.innerWidth}x${window.innerHeight}`
-    // });
-  }, []);
+    initializeApplication();
+  }, [initializeApp]);
+  
+  // Show loading screen while app is initializing
+  if (!initialized) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-charcoal via-charcoal to-hunter-green flex items-center justify-center">
+        <div className="glass p-8 border border-emerald-500/20 text-center">
+          <div className="flex items-center justify-center space-x-2 mb-4">
+            <div className="w-6 h-6 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+            <span className="text-xl text-emerald-400">Initializing Application...</span>
+          </div>
+          <p className="text-sm text-medium-grey">Setting up services and loading resources...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    // <ErrorBoundary>
-    //   <AccessibilityProvider>
-        <Router>
-        <div className="min-h-screen glass-background-main">
-          {/* Brand Banner */}
-          <motion.div 
+    <ErrorBoundary
+      level="critical"
+      context="app-root"
+      onError={(error, errorInfo) => {
+        console.error('Critical app error:', error, errorInfo);
+      }}
+    >
+      <div className="min-h-screen glass-background-main">
+        {/* Brand Banner */}
+        <motion.div 
           className="glass-brand-banner"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -106,7 +110,7 @@ export default function App() {
                   AI Systems Online
                 </span>
                 <span className="text-gunmetal">|</span>
-                <span>Portfolio v3.0</span>
+                <span>Portfolio v4.0</span>
               </motion.div>
             </div>
           </div>
@@ -114,68 +118,28 @@ export default function App() {
 
         <Navigation />
         
-        <main id="main-content" className="pt-16 lg:pt-20">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/portfolio" element={<Portfolio />} />
-            <Route path="/bio" element={<Bio />} />
-            <Route path="/contact" element={<Contact />} />
-            {/* Flagship Applications Routes */}
-            <Route path="/calculator" element={<Calculator />} />
-            <Route path="/quiz-ninja" element={<QuizNinja />} />
-            <Route path="/countdown" element={<Countdown />} />
-            <Route path="/knucklebones" element={<Knucklebones />} />
-            <Route path="/comptia-trainer" element={<CompTIA />} />
-            <Route path="/interactive" element={<InteractivePortfolio />} />
-            <Route path="/content-sections" element={<ContentSections />} />
-            <Route path="/polished" element={<PolishedPortfolio />} />
-            {/* New Enhanced Routes with Lazy Loading */}
-            <Route 
-              path="/dashboard" 
-              element={
-                <Suspense fallback={
-                  <div className="min-h-screen bg-gradient-to-br from-charcoal via-charcoal to-hunter-green flex items-center justify-center">
-                    <div className="glass p-8 border border-emerald-500/20 text-center">
-                      <div className="flex items-center justify-center space-x-2 mb-4">
-                        <div className="w-6 h-6 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
-                        <span className="text-xl text-emerald-400">Loading Dashboard...</span>
-                      </div>
-                    </div>
-                  </div>
-                }>
-                  <Dashboard />
-                </Suspense>
-              } 
-            />
-            <Route 
-              path="/archive" 
-              element={
-                <Suspense fallback={
-                  <div className="min-h-screen bg-gradient-to-br from-charcoal via-charcoal to-hunter-green flex items-center justify-center">
-                    <div className="glass p-8 border border-emerald-500/20 text-center">
-                      <div className="flex items-center justify-center space-x-2 mb-4">
-                        <div className="w-6 h-6 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
-                        <span className="text-xl text-emerald-400">Loading Archive...</span>
-                      </div>
-                    </div>
-                  </div>
-                }>
-                  <Archive />
-                </Suspense>
-              } 
-            />
-            <Route path="/other" element={<div className="text-center text-xl text-white">Other Page - Coming Soon</div>} />
-          </Routes>
-        </main>
+        {/* Main Router with Error Boundaries */}
+        <ErrorBoundary
+          level="page"
+          context="main-router"
+          showDetails={import.meta.env.VITE_ENVIRONMENT === 'development'}
+        >
+          <AppRouter />
+        </ErrorBoundary>
         
-        {/* Advanced Features */}
-        <ChatbotWidget />
-        <AIChat />
-        <Performance />
-        </div>
-      </Router>
-    //   </AccessibilityProvider>
-    // </ErrorBoundary>
+        {/* Advanced Features with Error Boundaries */}
+        <ErrorBoundary level="component" context="chatbot-widget">
+          <ChatbotWidget />
+        </ErrorBoundary>
+        
+        <ErrorBoundary level="component" context="ai-chat">
+          <AIChat />
+        </ErrorBoundary>
+        
+        <ErrorBoundary level="component" context="performance">
+          <Performance />
+        </ErrorBoundary>
+      </div>
+    </ErrorBoundary>
   );
 }

@@ -1,280 +1,489 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { PerformanceMetrics } from '../components/portfolio/MetricsDashboard';
 
-export interface UsePerformanceMetricsOptions {
-  trackingInterval?: number; // milliseconds
-  enableMemoryTracking?: boolean;
-  enableUserInteractionTracking?: boolean;
-  enableErrorTracking?: boolean;
-  maxHistoryLength?: number;
+interface PerformanceMetrics {
+  fps: number;
+  memory: number;
+  cpu: number;
+  renderTime: number;
+  frameDrops: number;
+  totalFrames: number;
+  averageFps: number;
+  memoryPeak: number;
+  loadTime: number;
+  userInteractions: number;
+  errorCount: number;
+  warningCount: number;
 }
 
-export interface PerformanceHistory {
-  timestamp: number;
+interface PerformanceConfig {
+  trackingInterval: number;
+  enableMemoryTracking: boolean;
+  enableUserInteractionTracking: boolean;
+  enableErrorTracking: boolean;
+  enableDetailedMetrics: boolean;
+  maxHistorySize: number;
+  alertThresholds: {
+    lowFps: number;
+    highMemory: number;
+    highCpu: number;
+  };
+}
+
+interface PerformanceAlert {
+  type: 'fps' | 'memory' | 'cpu' | 'error';
+  message: string;
+  timestamp: Date;
+  value: number;
+  threshold: number;
+}
+
+interface PerformanceHistory {
+  timestamp: Date;
   metrics: PerformanceMetrics;
 }
 
-export interface UsePerformanceMetricsReturn {
-  metrics: PerformanceMetrics;
-  history: PerformanceHistory[];
-  isTracking: boolean;
-  startTracking: () => void;
-  stopTracking: () => void;
-  resetMetrics: () => void;
-  recordInteraction: (type: string) => void;
-  recordError: (error: Error | string) => void;
-  getAverageMetrics: (timeRange?: number) => Partial<PerformanceMetrics>;
-}
-
-const DEFAULT_OPTIONS: Required<UsePerformanceMetricsOptions> = {
+const defaultConfig: PerformanceConfig = {
   trackingInterval: 1000,
   enableMemoryTracking: true,
   enableUserInteractionTracking: true,
   enableErrorTracking: true,
-  maxHistoryLength: 100
-};
-
-const getMemoryUsage = (): number => {
-  if ('memory' in performance) {
-    const memory = (performance as any).memory;
-    return Math.round(memory.usedJSHeapSize / 1024 / 1024); // Convert to MB
+  enableDetailedMetrics: false,
+  maxHistorySize: 100,
+  alertThresholds: {
+    lowFps: 30,
+    highMemory: 100, // MB
+    highCpu: 80 // %
   }
-  return 0;
 };
 
-const getCPUUsage = (): number => {
-  // Simulate CPU usage based on performance timing
-  const now = performance.now();
-  const timingEntry = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+export const usePerformanceMetrics = (config: Partial<PerformanceConfig> = {}) => {
+  const finalConfig = { ...defaultConfig, ...config };
   
-  if (timingEntry) {
-    const totalTime = timingEntry.loadEventEnd - timingEntry.fetchStart;
-    const processingTime = timingEntry.domContentLoadedEventEnd - timingEntry.domContentLoadedEventStart;
-    
-    if (totalTime > 0) {
-      return Math.min(Math.round((processingTime / totalTime) * 100), 100);
-    }
-  }
-  
-  // Fallback: simulate based on recent render times
-  return Math.round(Math.random() * 30 + 10); // 10-40% range
-};
-
-const getRenderTime = (): number => {
-  const entries = performance.getEntriesByType('measure');
-  if (entries.length > 0) {
-    const recentEntry = entries[entries.length - 1];
-    return Math.round(recentEntry.duration);
-  }
-  
-  // Fallback: measure a simple operation
-  const start = performance.now();
-  // Simulate some work
-  for (let i = 0; i < 1000; i++) {
-    Math.random();
-  }
-  const end = performance.now();
-  return Math.round(end - start);
-};
-
-const getResponseTime = (): number => {
-  const entries = performance.getEntriesByType('resource') as PerformanceResourceTiming[];
-  if (entries.length > 0) {
-    const recentEntries = entries.slice(-5); // Last 5 requests
-    const avgResponseTime = recentEntries.reduce((sum, entry) => {
-      return sum + (entry.responseEnd - entry.requestStart);
-    }, 0) / recentEntries.length;
-    return Math.round(avgResponseTime);
-  }
-  return Math.round(Math.random() * 50 + 10); // 10-60ms fallback
-};
-
-export const usePerformanceMetrics = (
-  options: UsePerformanceMetricsOptions = {}
-): UsePerformanceMetricsReturn => {
-  const opts = { ...DEFAULT_OPTIONS, ...options };
-  
-  const [isTracking, setIsTracking] = useState(false);
   const [metrics, setMetrics] = useState<PerformanceMetrics>({
+    fps: 0,
+    memory: 0,
+    cpu: 0,
     renderTime: 0,
-    memoryUsage: 0,
-    cpuUsage: 0,
-    errorCount: 0,
-    successRate: 100,
-    responseTime: 0,
+    frameDrops: 0,
+    totalFrames: 0,
+    averageFps: 0,
+    memoryPeak: 0,
+    loadTime: 0,
     userInteractions: 0,
-    sessionDuration: 0
+    errorCount: 0,
+    warningCount: 0
   });
   
+  const [isTracking, setIsTracking] = useState(false);
+  const [alerts, setAlerts] = useState<PerformanceAlert[]>([]);
   const [history, setHistory] = useState<PerformanceHistory[]>([]);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
-  const sessionStartRef = useRef<number>(Date.now());
-  const interactionCountRef = useRef<number>(0);
-  const errorCountRef = useRef<number>(0);
-  const successCountRef = useRef<number>(0);
-  const totalOperationsRef = useRef<number>(0);
-
+  
+  // Refs for tracking
+  const trackingInterval = useRef<NodeJS.Timeout | null>(null);
+  const frameCount = useRef(0);
+  const lastFrameTime = useRef(performance.now());
+  const frameDropCount = useRef(0);
+  const totalFrameCount = useRef(0);
+  const startTime = useRef<number | null>(null);
+  const interactionCount = useRef(0);
+  const errorCountRef = useRef(0);
+  const warningCountRef = useRef(0);
+  const memoryPeakRef = useRef(0);
+  
+  // Performance observer for detailed metrics
+  const performanceObserver = useRef<PerformanceObserver | null>(null);
+  
+  // FPS calculation
+  const calculateFPS = useCallback(() => {
+    const now = performance.now();
+    const delta = now - lastFrameTime.current;
+    
+    if (delta >= 1000) {
+      const fps = Math.round((frameCount.current * 1000) / delta);
+      frameCount.current = 0;
+      lastFrameTime.current = now;
+      return fps;
+    }
+    
+    frameCount.current++;
+    totalFrameCount.current++;
+    
+    return null;
+  }, []);
+  
+  // Memory usage calculation
+  const getMemoryUsage = useCallback((): number => {
+    if (!finalConfig.enableMemoryTracking) return 0;
+    
+    try {
+      // @ts-ignore - performance.memory is not in all browsers
+      if (performance.memory) {
+        // @ts-ignore
+        const memoryMB = performance.memory.usedJSHeapSize / 1024 / 1024;
+        memoryPeakRef.current = Math.max(memoryPeakRef.current, memoryMB);
+        return Math.round(memoryMB);
+      }
+    } catch (error) {
+      console.warn('Memory tracking not supported:', error);
+    }
+    
+    return 0;
+  }, [finalConfig.enableMemoryTracking]);
+  
+  // CPU usage estimation (simplified)
+  const estimateCPUUsage = useCallback((): number => {
+    try {
+      const start = performance.now();
+      
+      // Simple CPU-intensive operation for estimation
+      let iterations = 0;
+      const maxTime = 5; // 5ms max
+      
+      while (performance.now() - start < maxTime) {
+        iterations++;
+      }
+      
+      const actualTime = performance.now() - start;
+      const efficiency = iterations / actualTime;
+      
+      // Normalize to percentage (this is a rough estimation)
+      const cpuUsage = Math.min(100, Math.max(0, 100 - (efficiency / 1000)));
+      
+      return Math.round(cpuUsage);
+    } catch (error) {
+      return 0;
+    }
+  }, []);
+  
+  // Check for performance alerts
+  const checkAlerts = useCallback((currentMetrics: PerformanceMetrics) => {
+    const newAlerts: PerformanceAlert[] = [];
+    
+    // FPS alert
+    if (currentMetrics.fps > 0 && currentMetrics.fps < finalConfig.alertThresholds.lowFps) {
+      newAlerts.push({
+        type: 'fps',
+        message: `Low FPS detected: ${currentMetrics.fps}`,
+        timestamp: new Date(),
+        value: currentMetrics.fps,
+        threshold: finalConfig.alertThresholds.lowFps
+      });
+    }
+    
+    // Memory alert
+    if (currentMetrics.memory > finalConfig.alertThresholds.highMemory) {
+      newAlerts.push({
+        type: 'memory',
+        message: `High memory usage: ${currentMetrics.memory}MB`,
+        timestamp: new Date(),
+        value: currentMetrics.memory,
+        threshold: finalConfig.alertThresholds.highMemory
+      });
+    }
+    
+    // CPU alert
+    if (currentMetrics.cpu > finalConfig.alertThresholds.highCpu) {
+      newAlerts.push({
+        type: 'cpu',
+        message: `High CPU usage: ${currentMetrics.cpu}%`,
+        timestamp: new Date(),
+        value: currentMetrics.cpu,
+        threshold: finalConfig.alertThresholds.highCpu
+      });
+    }
+    
+    if (newAlerts.length > 0) {
+      setAlerts(prev => [...prev, ...newAlerts].slice(-10)); // Keep last 10 alerts
+    }
+  }, [finalConfig.alertThresholds]);
+  
+  // Update metrics
   const updateMetrics = useCallback(() => {
-    const now = Date.now();
-    const sessionDuration = now - sessionStartRef.current;
+    if (!isTracking) return;
     
-    const newMetrics: PerformanceMetrics = {
-      renderTime: getRenderTime(),
-      memoryUsage: opts.enableMemoryTracking ? getMemoryUsage() : 0,
-      cpuUsage: getCPUUsage(),
-      errorCount: errorCountRef.current,
-      successRate: totalOperationsRef.current > 0 
-        ? Math.round((successCountRef.current / totalOperationsRef.current) * 100)
-        : 100,
-      responseTime: getResponseTime(),
-      userInteractions: interactionCountRef.current,
-      sessionDuration
-    };
+    const fps = calculateFPS();
+    const memory = getMemoryUsage();
+    const cpu = estimateCPUUsage();
     
-    setMetrics(newMetrics);
-    
-    // Add to history
-    setHistory(prev => {
-      const newHistory = [...prev, { timestamp: now, metrics: newMetrics }];
-      return newHistory.slice(-opts.maxHistoryLength);
-    });
-  }, [opts.enableMemoryTracking, opts.maxHistoryLength]);
-
+    if (fps !== null) {
+      const currentTime = performance.now();
+      const loadTime = startTime.current ? currentTime - startTime.current : 0;
+      const averageFps = totalFrameCount.current > 0 ? 
+        (totalFrameCount.current / (loadTime / 1000)) : 0;
+      
+      const newMetrics: PerformanceMetrics = {
+        fps,
+        memory,
+        cpu,
+        renderTime: currentTime - lastFrameTime.current,
+        frameDrops: frameDropCount.current,
+        totalFrames: totalFrameCount.current,
+        averageFps: Math.round(averageFps),
+        memoryPeak: memoryPeakRef.current,
+        loadTime: Math.round(loadTime),
+        userInteractions: interactionCount.current,
+        errorCount: errorCountRef.current,
+        warningCount: warningCountRef.current
+      };
+      
+      setMetrics(newMetrics);
+      checkAlerts(newMetrics);
+      
+      // Add to history
+      setHistory(prev => {
+        const newHistory = [...prev, {
+          timestamp: new Date(),
+          metrics: newMetrics
+        }];
+        
+        // Keep only recent history
+        return newHistory.slice(-finalConfig.maxHistorySize);
+      });
+    }
+  }, [isTracking, calculateFPS, getMemoryUsage, estimateCPUUsage, checkAlerts, finalConfig.maxHistorySize]);
+  
+  // Track user interactions
+  const trackUserInteraction = useCallback(() => {
+    if (finalConfig.enableUserInteractionTracking) {
+      interactionCount.current++;
+    }
+  }, [finalConfig.enableUserInteractionTracking]);
+  
+  // Track errors
+  const trackError = useCallback((error: Error) => {
+    if (finalConfig.enableErrorTracking) {
+      errorCountRef.current++;
+      
+      setAlerts(prev => [...prev, {
+        type: 'error',
+        message: `Error: ${error.message}`,
+        timestamp: new Date(),
+        value: errorCountRef.current,
+        threshold: 0
+      }].slice(-10));
+    }
+  }, [finalConfig.enableErrorTracking]);
+  
+  // Track warnings
+  const trackWarning = useCallback((message: string) => {
+    if (finalConfig.enableErrorTracking) {
+      warningCountRef.current++;
+    }
+  }, [finalConfig.enableErrorTracking]);
+  
+  // Start tracking
   const startTracking = useCallback(() => {
     if (isTracking) return;
     
     setIsTracking(true);
-    sessionStartRef.current = Date.now();
+    startTime.current = performance.now();
+    frameCount.current = 0;
+    totalFrameCount.current = 0;
+    frameDropCount.current = 0;
+    interactionCount.current = 0;
+    errorCountRef.current = 0;
+    warningCountRef.current = 0;
+    memoryPeakRef.current = 0;
+    lastFrameTime.current = performance.now();
     
-    // Initial measurement
-    updateMetrics();
+    // Start tracking interval
+    trackingInterval.current = setInterval(updateMetrics, finalConfig.trackingInterval);
     
-    // Set up interval
-    intervalRef.current = setInterval(updateMetrics, opts.trackingInterval);
-    
-    // Set up performance observer for more accurate render time tracking
-    if ('PerformanceObserver' in window) {
+    // Setup performance observer for detailed metrics
+    if (finalConfig.enableDetailedMetrics && 'PerformanceObserver' in window) {
       try {
-        const observer = new PerformanceObserver((list) => {
+        performanceObserver.current = new PerformanceObserver((list) => {
           const entries = list.getEntries();
-          entries.forEach((entry) => {
+          entries.forEach(entry => {
             if (entry.entryType === 'measure' || entry.entryType === 'navigation') {
-              // Performance entry detected, will be picked up in next update
+              // Track detailed performance metrics
+              console.log('Performance entry:', entry);
             }
           });
         });
         
-        observer.observe({ entryTypes: ['measure', 'navigation'] });
+        performanceObserver.current.observe({ 
+          entryTypes: ['measure', 'navigation', 'resource'] 
+        });
       } catch (error) {
-        console.warn('PerformanceObserver not supported:', error);
+        console.warn('Performance observer not supported:', error);
       }
     }
-  }, [isTracking, updateMetrics, opts.trackingInterval]);
-
+    
+    // Setup user interaction tracking
+    if (finalConfig.enableUserInteractionTracking) {
+      const events = ['click', 'keydown', 'touchstart', 'scroll'];
+      events.forEach(event => {
+        document.addEventListener(event, trackUserInteraction, { passive: true });
+      });
+    }
+    
+    // Setup error tracking
+    if (finalConfig.enableErrorTracking) {
+      window.addEventListener('error', (event) => {
+        trackError(event.error || new Error(event.message));
+      });
+      
+      window.addEventListener('unhandledrejection', (event) => {
+        trackError(new Error(event.reason));
+      });
+    }
+  }, [isTracking, finalConfig, updateMetrics, trackUserInteraction, trackError]);
+  
+  // Stop tracking
   const stopTracking = useCallback(() => {
     if (!isTracking) return;
     
     setIsTracking(false);
     
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
+    if (trackingInterval.current) {
+      clearInterval(trackingInterval.current);
+      trackingInterval.current = null;
     }
-  }, [isTracking]);
-
-  const resetMetrics = useCallback(() => {
-    sessionStartRef.current = Date.now();
-    interactionCountRef.current = 0;
-    errorCountRef.current = 0;
-    successCountRef.current = 0;
-    totalOperationsRef.current = 0;
     
+    if (performanceObserver.current) {
+      performanceObserver.current.disconnect();
+      performanceObserver.current = null;
+    }
+    
+    // Remove event listeners
+    if (finalConfig.enableUserInteractionTracking) {
+      const events = ['click', 'keydown', 'touchstart', 'scroll'];
+      events.forEach(event => {
+        document.removeEventListener(event, trackUserInteraction);
+      });
+    }
+  }, [isTracking, finalConfig.enableUserInteractionTracking, trackUserInteraction]);
+  
+  // Reset metrics
+  const resetMetrics = useCallback(() => {
     setMetrics({
+      fps: 0,
+      memory: 0,
+      cpu: 0,
       renderTime: 0,
-      memoryUsage: 0,
-      cpuUsage: 0,
-      errorCount: 0,
-      successRate: 100,
-      responseTime: 0,
+      frameDrops: 0,
+      totalFrames: 0,
+      averageFps: 0,
+      memoryPeak: 0,
+      loadTime: 0,
       userInteractions: 0,
-      sessionDuration: 0
+      errorCount: 0,
+      warningCount: 0
     });
     
+    setAlerts([]);
     setHistory([]);
+    
+    frameCount.current = 0;
+    totalFrameCount.current = 0;
+    frameDropCount.current = 0;
+    interactionCount.current = 0;
+    errorCountRef.current = 0;
+    warningCountRef.current = 0;
+    memoryPeakRef.current = 0;
+    startTime.current = null;
   }, []);
-
-  const recordInteraction = useCallback((type: string) => {
-    if (!opts.enableUserInteractionTracking) return;
+  
+  // Get performance summary
+  const getPerformanceSummary = useCallback(() => {
+    const recentHistory = history.slice(-10);
     
-    interactionCountRef.current += 1;
-    totalOperationsRef.current += 1;
-    successCountRef.current += 1; // Assume interactions are successful
+    if (recentHistory.length === 0) {
+      return {
+        averageFps: 0,
+        averageMemory: 0,
+        averageCpu: 0,
+        totalAlerts: alerts.length,
+        uptime: 0,
+        stability: 'unknown'
+      };
+    }
     
-    // Mark as performance measure for tracking
-    performance.mark(`interaction-${type}-${Date.now()}`);
-  }, [opts.enableUserInteractionTracking]);
-
-  const recordError = useCallback((error: Error | string) => {
-    if (!opts.enableErrorTracking) return;
+    const avgFps = recentHistory.reduce((sum, h) => sum + h.metrics.fps, 0) / recentHistory.length;
+    const avgMemory = recentHistory.reduce((sum, h) => sum + h.metrics.memory, 0) / recentHistory.length;
+    const avgCpu = recentHistory.reduce((sum, h) => sum + h.metrics.cpu, 0) / recentHistory.length;
     
-    errorCountRef.current += 1;
-    totalOperationsRef.current += 1;
+    const uptime = startTime.current ? performance.now() - startTime.current : 0;
     
-    console.warn('Performance tracking - Error recorded:', error);
-  }, [opts.enableErrorTracking]);
-
-  const getAverageMetrics = useCallback((timeRange?: number): Partial<PerformanceMetrics> => {
-    if (history.length === 0) return {};
-    
-    const now = Date.now();
-    const relevantHistory = timeRange 
-      ? history.filter(entry => now - entry.timestamp <= timeRange)
-      : history;
-    
-    if (relevantHistory.length === 0) return {};
-    
-    const totals = relevantHistory.reduce(
-      (acc, entry) => ({
-        renderTime: acc.renderTime + entry.metrics.renderTime,
-        memoryUsage: acc.memoryUsage + entry.metrics.memoryUsage,
-        cpuUsage: acc.cpuUsage + entry.metrics.cpuUsage,
-        responseTime: acc.responseTime + entry.metrics.responseTime,
-        successRate: acc.successRate + entry.metrics.successRate
-      }),
-      { renderTime: 0, memoryUsage: 0, cpuUsage: 0, responseTime: 0, successRate: 0 }
-    );
-    
-    const count = relevantHistory.length;
+    let stability = 'excellent';
+    if (avgFps < 30 || avgMemory > 100 || avgCpu > 80) {
+      stability = 'poor';
+    } else if (avgFps < 45 || avgMemory > 75 || avgCpu > 60) {
+      stability = 'fair';
+    } else if (avgFps < 55 || avgMemory > 50 || avgCpu > 40) {
+      stability = 'good';
+    }
     
     return {
-      renderTime: Math.round(totals.renderTime / count),
-      memoryUsage: Math.round(totals.memoryUsage / count),
-      cpuUsage: Math.round(totals.cpuUsage / count),
-      responseTime: Math.round(totals.responseTime / count),
-      successRate: Math.round(totals.successRate / count)
+      averageFps: Math.round(avgFps),
+      averageMemory: Math.round(avgMemory),
+      averageCpu: Math.round(avgCpu),
+      totalAlerts: alerts.length,
+      uptime: Math.round(uptime),
+      stability
     };
-  }, [history]);
-
+  }, [history, alerts, startTime]);
+  
+  // Export performance data
+  const exportPerformanceData = useCallback(() => {
+    const data = {
+      metrics,
+      history,
+      alerts,
+      summary: getPerformanceSummary(),
+      config: finalConfig,
+      exportedAt: new Date().toISOString()
+    };
+    
+    const blob = new Blob([JSON.stringify(data, null, 2)], {
+      type: 'application/json'
+    });
+    
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `performance_metrics_${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }, [metrics, history, alerts, getPerformanceSummary, finalConfig]);
+  
   // Cleanup on unmount
   useEffect(() => {
     return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
+      stopTracking();
     };
-  }, []);
-
+  }, [stopTracking]);
+  
   return {
+    // State
     metrics,
-    history,
     isTracking,
+    alerts,
+    history,
+    
+    // Actions
     startTracking,
     stopTracking,
     resetMetrics,
-    recordInteraction,
-    recordError,
-    getAverageMetrics
+    trackError,
+    trackWarning,
+    trackUserInteraction,
+    
+    // Data
+    getPerformanceSummary,
+    exportPerformanceData,
+    
+    // Config
+    config: finalConfig
   };
 };
 
-export default usePerformanceMetrics;
+export type { 
+  PerformanceMetrics, 
+  PerformanceConfig, 
+  PerformanceAlert, 
+  PerformanceHistory 
+};
