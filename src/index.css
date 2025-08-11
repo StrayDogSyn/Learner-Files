@@ -1,9 +1,9 @@
+/* Import StrayDog Syndications Glassmorphic Design System */
+@import './css/glassmorphic-design-system.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* Import StrayDog Syndications Glassmorphic Design System */
-@import './css/glassmorphic-design-system.css';
 
 /* Base Reset and Optimization */
 * {

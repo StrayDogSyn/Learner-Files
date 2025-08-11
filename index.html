@@ -1,231 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eric 'Hunter' Petross - Full Stack Developer</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        'glass': {
-                            'bg': 'rgba(255, 255, 255, 0.1)',
-                            'border': 'rgba(255, 255, 255, 0.2)'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        .gradient-text {
-            background: linear-gradient(135deg, #3B82F6, #8B5CF6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .animate-float {
-            animation: float 6s ease-in-out infinite;
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-        .animate-pulse-slow {
-            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-    </style>
-</head>
-<body class="bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900 text-white min-h-screen">
-    <!-- Modern Navigation -->
-    <nav class="glass-effect rounded-2xl m-4 p-4 sticky top-4 z-50">
-        <div class="flex justify-between items-center max-w-6xl mx-auto">
-            <h1 class="text-2xl font-bold gradient-text">StrayDog Syndications</h1>
-            <div class="hidden md:flex space-x-6">
-                <a href="#projects" class="hover:text-blue-400 transition">Projects</a>
-                <a href="#about" class="hover:text-blue-400 transition">About</a>
-                <a href="#contact" class="hover:text-blue-400 transition">Contact</a>
-            </div>
-            <div class="md:hidden">
-                <button class="text-white hover:text-blue-400">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </nav>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="StrayDog Syndications - AI-Enhanced Full Stack Developer Portfolio. Specializing in React, TypeScript, AI integration, and justice reform technology." />
+    <meta name="keywords" content="React, TypeScript, AI, Full Stack Developer, Portfolio, Justice Reform, Web Development" />
+    <meta name="author" content="StrayDog Syndications" />
 
-    <!-- Hero Section -->
-    <main class="max-w-6xl mx-auto px-4 py-16">
-        <section class="text-center mb-20">
-            <div class="animate-float mb-8">
-                <div class="text-8xl mb-4">🚀</div>
-            </div>
-            <h1 class="text-6xl font-bold mb-6 leading-tight">
-                Full Stack Developer
-                <span class="gradient-text block">+ AI Integration Specialist</span>
-            </h1>
-            <p class="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
-                Building modern web applications with React, TypeScript, and AI integration. 
-                Specializing in justice reform technology and real-time analytics platforms.
-            </p>
-            <div class="glass-effect rounded-xl p-6 inline-block animate-pulse-slow">
-                <p class="text-amber-400 text-lg font-semibold">🎯 React + Analytics Platform Successfully Deployed!</p>
-                <p class="text-sm text-gray-300 mt-2">Modern portfolio with real-time visitor tracking now live</p>
-            </div>
-        </section>
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://straydogsyn.github.io/Learner-Files/" />
+    <meta property="og:title" content="StrayDog Syndications - AI-Enhanced Full Stack Developer" />
+    <meta property="og:description" content="Professional portfolio showcasing AI integration, justice reform technology, and modern full-stack development." />
+    <meta property="og:image" content="https://straydogsyn.github.io/Learner-Files/og-image.jpg" />
 
-        <!-- Projects Grid -->
-        <section id="projects" class="mb-20">
-            <h2 class="text-4xl font-bold text-center mb-12">Featured Projects</h2>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="glass-effect rounded-xl p-8 hover:bg-white/20 transition group transform hover:scale-105">
-                    <div class="text-4xl mb-4">🎲</div>
-                    <h3 class="text-2xl font-bold mb-4">Knucklebones Game</h3>
-                    <p class="text-gray-300 mb-6">Strategic dice game with advanced scoring logic and real-time gameplay.</p>
-                    <a href="/projects/knucklebones/" class="text-blue-400 hover:text-blue-300 font-medium">Play Game →</a>
-                </div>
-                <div class="glass-effect rounded-xl p-8 hover:bg-white/20 transition group transform hover:scale-105">
-                    <div class="text-4xl mb-4">📚</div>
-                    <h3 class="text-2xl font-bold mb-4">Quiz Ninja Pro</h3>
-                    <p class="text-gray-300 mb-6">Dynamic quiz system with performance analytics and progress tracking.</p>
-                    <a href="/projects/quiz-ninja2.1/" class="text-blue-400 hover:text-blue-300 font-medium">Take Quiz →</a>
-                </div>
-                <div class="glass-effect rounded-xl p-8 hover:bg-white/20 transition group transform hover:scale-105">
-                    <div class="text-4xl mb-4">🧮</div>
-                    <h3 class="text-2xl font-bold mb-4">Calculator Pro</h3>
-                    <p class="text-gray-300 mb-6">Scientific calculator with explosion effects and advanced functions.</p>
-                    <a href="/projects/calculator/" class="text-blue-400 hover:text-blue-300 font-medium">Calculate →</a>
-                </div>
-            </div>
-        </section>
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://straydogsyn.github.io/Learner-Files/" />
+    <meta property="twitter:title" content="StrayDog Syndications - AI-Enhanced Full Stack Developer" />
+    <meta property="twitter:description" content="Professional portfolio showcasing AI integration, justice reform technology, and modern full-stack development." />
+    <meta property="twitter:image" content="https://straydogsyn.github.io/Learner-Files/og-image.jpg" />
 
-        <!-- Analytics Platform Status -->
-        <section class="mb-20">
-            <div class="glass-effect rounded-xl p-12 text-center">
-                <h2 class="text-4xl font-bold mb-6">🔍 Real-Time Analytics Platform</h2>
-                <p class="text-xl text-gray-300 mb-8">
-                    Comprehensive visitor tracking, performance monitoring, and professional metrics 
-                    system now live with React deployment.
-                </p>
-                <div class="grid md:grid-cols-3 gap-6 text-sm">
-                    <div class="bg-green-500/20 rounded-lg p-4 border border-green-500/30">
-                        <h4 class="font-bold mb-2 text-green-400">✅ Visitor Analytics</h4>
-                        <p>Real-time tracking & engagement metrics</p>
-                    </div>
-                    <div class="bg-blue-500/20 rounded-lg p-4 border border-blue-500/30">
-                        <h4 class="font-bold mb-2 text-blue-400">✅ Performance Monitoring</h4>
-                        <p>Core Web Vitals & optimization insights</p>
-                    </div>
-                    <div class="bg-purple-500/20 rounded-lg p-4 border border-purple-500/30">
-                        <h4 class="font-bold mb-2 text-purple-400">✅ Professional Metrics</h4>
-                        <p>Career-focused conversion tracking</p>
-                    </div>
-                </div>
-                <div class="mt-8 p-4 bg-green-500/10 rounded-lg border border-green-500/20">
-                    <p class="text-green-400 font-semibold">🎉 Deployment Status: SUCCESS</p>
-                    <p class="text-sm text-gray-300">React application with analytics platform successfully deployed</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- About Section -->
-        <section id="about" class="mb-20">
-            <div class="glass-effect rounded-xl p-12">
-                <h2 class="text-4xl font-bold text-center mb-12">About Me</h2>
-                <div class="grid md:grid-cols-2 gap-12 items-center">
-                    <div>
-                        <h3 class="text-2xl font-bold mb-4 gradient-text">Eric 'Hunter' Petross</h3>
-                        <p class="text-gray-300 mb-6">
-                            Full-stack developer passionate about justice reform technology and AI integration. 
-                            Specializing in React, TypeScript, and real-time analytics platforms.
-                        </p>
-                        <div class="space-y-3">
-                            <div class="flex items-center">
-                                <span class="text-blue-400 mr-3">🎯</span>
-                                <span>Justice Reform Technology</span>
-                            </div>
-                            <div class="flex items-center">
-                                <span class="text-purple-400 mr-3">🤖</span>
-                                <span>AI Integration Specialist</span>
-                            </div>
-                            <div class="flex items-center">
-                                <span class="text-green-400 mr-3">📊</span>
-                                <span>Real-Time Analytics</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <div class="text-8xl mb-4">👨‍💻</div>
-                        <p class="text-gray-300">Building the future of web applications</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact -->
-        <section id="contact" class="text-center">
-            <div class="glass-effect rounded-xl p-12">
-                <h2 class="text-4xl font-bold mb-6">Let's Build Something Amazing</h2>
-                <p class="text-xl text-gray-300 mb-8">
-                    Ready to discuss opportunities in justice reform technology?
-                </p>
-                <div class="flex justify-center space-x-6">
-                    <a href="https://github.com/StrayDogSyn" 
-                       class="glass-effect px-6 py-3 rounded-lg hover:bg-white/20 transition">
-                        GitHub
-                    </a>
-                    <a href="mailto:contact@example.com" 
-                       class="glass-effect px-6 py-3 rounded-lg hover:bg-white/20 transition">
-                        Email
-                    </a>
-                    <a href="#" 
-                       class="glass-effect px-6 py-3 rounded-lg hover:bg-white/20 transition">
-                        LinkedIn
-                    </a>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="text-center py-8 text-gray-400">
-        <p>&copy; 2025 StrayDog Syndications. React + Analytics Platform Successfully Deployed.</p>
-    </footer>
-
-    <script>
-        // Simple analytics tracking
-        console.log('Portfolio loaded successfully');
-        
-        // Track page views
-        if (typeof gtag !== 'undefined') {
-            gtag('config', 'GA_MEASUREMENT_ID', {
-                page_title: 'Portfolio - Eric Petross',
-                page_location: window.location.href
-            });
-        }
-        
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-    </script>
-</body>
+    <title>StrayDog Syndications - AI-Enhanced Full Stack Developer</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>

@@ -5,7 +5,7 @@ import { initSentryWithEnvironment } from "@/utils/sentry";
 import { ErrorBoundary } from "@/components/error/ErrorBoundary";
 import { AppRouter } from "@/router";
 import { useAppStore } from "@/store/appStore";
-import { getUnifiedAPIService } from "@/services/api";
+import { getUnifiedAPI } from "@/services/api";
 import ChatbotWidget from "@/components/ChatbotWidget";
 import AIChat from "@/components/AIChat";
 import Performance from "@/components/Performance";
@@ -18,7 +18,6 @@ import "./css/brand-system.css";
 import "./css/hero.css";
 import "./css/projects.css";
 import "./css/navigation.css";
-import "./styles/theme-transitions.css";
 import "./styles/animations.css";
 import "./styles/accessibility.css";
 import "./styles/performance-optimizations.css";
@@ -36,7 +35,7 @@ export default function App() {
         initializeFontLoading();
         
         // Initialize the unified API service
-        const apiService = getUnifiedAPIService();
+        const apiService = getUnifiedAPI();
         await apiService.initialize();
         
         // Initialize the app store
