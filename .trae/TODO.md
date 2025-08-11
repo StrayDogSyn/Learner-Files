@@ -1,12 +1,8 @@
 # TODO:
 
-- [x] pwa_implementation: Implement Progressive Web App with service worker, offline functionality, and web app manifest (priority: High)
-- [x] desktop_foundation: Set up Electron configuration and desktop-specific UI components (priority: High)
-- [x] cli_tool_development: Create Node.js CLI package for portfolio interaction and developer tools (priority: High)
-- [x] mobile_optimization: Create mobile-optimized components with touch gestures and responsive design patterns (priority: High)
-- [x] shared_component_library: Build unified component library for cross-platform consistency (priority: Medium)
-- [ ] unified_api_layer: Implement GraphQL/REST API endpoints for all platforms (**IN PROGRESS**) (priority: Medium)
-- [ ] cross_platform_sync: Add state synchronization and offline-first architecture (priority: Medium)
-- [ ] platform_analytics: Create analytics dashboard for cross-platform usage tracking (priority: Medium)
-- [ ] performance_optimization: Implement platform-specific performance optimizations (priority: Low)
-- [ ] ecosystem_testing: Test and validate all platform integrations (priority: Low)
+- [x] disable_conflicting_workflows: Disable/delete conflicting workflows: deploy-static-site.yml and deploy-portfolio.yml (priority: High)
+- [x] add_gh_pages_dependency: Add missing gh-pages dependency to package.json devDependencies (priority: High)
+- [x] update_deployment_scripts: Update package.json scripts for proper GitHub Pages deployment (priority: High)
+- [x] check_router_config: Check router configuration and switch to HashRouter if needed for GitHub Pages (priority: Medium)
+- [x] verify_vite_config: Verify vite.config.ts is properly configured for GitHub Pages with correct base path (priority: Medium)
+- [ ] test_build_and_deploy: Test build process and deploy to verify React app shows on live site (**IN PROGRESS**) (priority: High)

@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react';
-import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
+import { createHashRouter, RouterProvider, Outlet } from 'react-router-dom';
 import { ErrorBoundary } from 'react-error-boundary';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import { ErrorFallback } from '@/components/ui/ErrorFallback';
@@ -383,7 +383,7 @@ export const routeConfig = {
 };
 
 // Create the router with all routes
-export const router = createBrowserRouter([
+export const router = createHashRouter([
   {
     path: '/',
     element: (

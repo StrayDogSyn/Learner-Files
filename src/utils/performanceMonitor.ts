@@ -3,12 +3,12 @@
  * Tracks bundle sizes, loading times, Core Web Vitals, and provides detailed analytics
  */
 
-import { getCLS, getFID, getFCP, getLCP, getTTFB } from 'web-vitals';
+import { onCLS, onINP, onFCP, onLCP, onTTFB } from 'web-vitals';
 
 interface PerformanceMetrics {
   // Core Web Vitals
   cls?: number;
-  fid?: number;
+  inp?: number;
   fcp?: number;
   lcp?: number;
   ttfb?: number;
@@ -88,27 +88,27 @@ class PerformanceMonitor {
   }
   
   private initWebVitals() {
-    getCLS((metric) => {
+    onCLS((metric) => {
       this.metrics.cls = metric.value;
       this.reportMetric('CLS', metric.value);
     });
     
-    getFID((metric) => {
-      this.metrics.fid = metric.value;
-      this.reportMetric('FID', metric.value);
+    onINP((metric) => {
+      this.metrics.inp = metric.value;
+      this.reportMetric('INP', metric.value);
     });
     
-    getFCP((metric) => {
+    onFCP((metric) => {
       this.metrics.fcp = metric.value;
       this.reportMetric('FCP', metric.value);
     });
     
-    getLCP((metric) => {
+    onLCP((metric) => {
       this.metrics.lcp = metric.value;
       this.reportMetric('LCP', metric.value);
     });
     
-    getTTFB((metric) => {
+    onTTFB((metric) => {
       this.metrics.ttfb = metric.value;
       this.reportMetric('TTFB', metric.value);
     });
@@ -176,7 +176,7 @@ class PerformanceMonitor {
     // Calculate Time to Interactive (TTI)
     const navigationEntry = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
     if (navigationEntry) {
-      this.metrics.timeToInteractive = navigationEntry.domInteractive - navigationEntry.navigationStart;
+      this.metrics.timeToInteractive = navigationEntry.domInteractive - navigationEntry.startTime;
     }
     
     // Report initial metrics
@@ -263,7 +263,7 @@ class PerformanceMonitor {
     const summary = {
       coreWebVitals: {
         cls: this.metrics.cls,
-        fid: this.metrics.fid,
+        inp: this.metrics.inp,
         fcp: this.metrics.fcp,
         lcp: this.metrics.lcp,
         ttfb: this.metrics.ttfb

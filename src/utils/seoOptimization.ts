@@ -349,8 +349,8 @@ Sitemap: ${window.location.origin}/sitemap.xml`;
    */
   public trackPageView(path: string, title: string): void {
     // Google Analytics 4
-    if (typeof gtag !== 'undefined') {
-      gtag('config', 'GA_MEASUREMENT_ID', {
+    if (typeof (window as any).gtag !== 'undefined') {
+      (window as any).gtag('config', 'GA_MEASUREMENT_ID', {
         page_path: path,
         page_title: title
       });
