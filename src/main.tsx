@@ -21,7 +21,8 @@ document.body.insertBefore(skipLink, document.body.firstChild);
 // Preferences are automatically loaded in the constructor
 
 // Initialize cross-browser compatibility
-initializeCompatibility();
+// Temporarily disabled to debug React.Children error
+// initializeCompatibility();
 
 // Announce page load
 announceToScreenReader('Portfolio application loaded successfully');
