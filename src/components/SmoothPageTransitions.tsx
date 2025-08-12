@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState, useRef } from 'react';
+import React, { ReactNode, useEffect, useState, useRef, Children } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { cn } from '../utils/cn';
 
@@ -233,7 +233,7 @@ export const StaggeredEntrance: React.FC<StaggeredEntranceProps> = ({
   direction = 'up',
   className
 }) => {
-  const childrenArray = React.Children.toArray(children);
+  const childrenArray = Children.toArray(children);
   const [visibleItems, setVisibleItems] = useState<boolean[]>(new Array(childrenArray.length).fill(false));
   const containerRef = useRef<HTMLDivElement>(null);
 
