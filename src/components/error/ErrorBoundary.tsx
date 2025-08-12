@@ -170,19 +170,19 @@ export class ErrorBoundary extends Component<Props, State> {
       // });
 
       // Report to Sentry (if configured)
-      if (window.Sentry) {
-        window.Sentry.withScope((scope) => {
-          scope.setTag('errorBoundary', true);
-          scope.setTag('level', this.props.level);
-          scope.setContext('errorInfo', {
-            errorId,
-            componentStack: errorInfo.componentStack,
-            context: this.props.context,
-            retryCount: this.state.retryCount
-          });
-          window.Sentry.captureException(error);
-        });
-      }
+      // if (window.Sentry) {
+      //   window.Sentry.withScope((scope) => {
+      //     scope.setTag('errorBoundary', true);
+      //     scope.setTag('level', this.props.level);
+      //     scope.setContext('errorInfo', {
+      //       errorId,
+      //       componentStack: errorInfo.componentStack,
+      //       context: this.props.context,
+      //       retryCount: this.state.retryCount
+      //     });
+      //     window.Sentry.captureException(error);
+      //   });
+      // }
 
       // Create GitHub issue for critical errors
       if (this.props.level === 'critical') {
@@ -548,13 +548,13 @@ export const useErrorReporting = () => {
       //   timestamp: Date.now()
       // });
 
-      if (window.Sentry) {
-        window.Sentry.withScope((scope) => {
-          scope.setTag('manualReport', true);
-          if (context) scope.setContext('reportContext', { context });
-          window.Sentry.captureException(error);
-        });
-      }
+      // if (window.Sentry) {
+      //   window.Sentry.withScope((scope) => {
+      //     scope.setTag('manualReport', true);
+      //     if (context) scope.setContext('reportContext', { context });
+      //     window.Sentry.captureException(error);
+      //   });
+      // }
     } catch (reportingError) {
       console.error('Failed to report error:', reportingError);
     }

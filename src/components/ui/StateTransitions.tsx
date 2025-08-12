@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, createContext, useContext, isValidElement } from 'react';
+import React, { useState, useEffect, useRef, createContext, useContext, isValidElement, Children } from 'react';
 
 // Transition Context
 interface TransitionContextType {
@@ -185,7 +185,7 @@ export const StaggeredAnimation: React.FC<StaggeredAnimationProps> = ({
 
   return (
     <div ref={containerRef} className={className}>
-      {children && React.Children.map(children, (child, index) => (
+      {children && Children.map(children, (child, index) => (
         <div
           key={index}
           data-index={index}
@@ -320,7 +320,7 @@ export const TabTransition: React.FC<TabTransitionProps> = ({
 
   return (
     <div className={`${getTransitionClasses()} ${className}`}>
-      {children && React.Children.map(children, (child) => {
+      {children && Children.map(children, (child) => {
         if (isValidElement(child) && child.props.value === currentTab) {
           return child;
         }

@@ -2,14 +2,15 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tsconfigPaths from "vite-tsconfig-paths";
 import { traeBadgePlugin } from 'vite-plugin-trae-solo-badge';
-// import { visualizer } from 'rollup-plugin-visualizer';
-import { splitVendorChunkPlugin } from 'vite';
 
 // https://vite.dev/config/
 export default defineConfig({
   base: process.env.NODE_ENV === 'production' ? '/Learner-Files/' : '/',
   plugins: [
-    react(),
+    react({
+      // Remove the babel plugins configuration entirely
+      // No babel plugins needed for production
+    }),
     traeBadgePlugin({
       variant: 'dark',
       position: 'bottom-right',
@@ -20,66 +21,25 @@ export default defineConfig({
       autoThemeTarget: '#root'
     }), 
     tsconfigPaths(),
-    splitVendorChunkPlugin()
-    // Bundle analyzer - only in production build with ANALYZE=true
-    // process.env.ANALYZE && visualizer({
-    //   filename: 'dist/stats.html',
-    //   open: true,
-    //   gzipSize: true,
-    //   brotliSize: true,
-    //   template: 'treemap'
-    // })
-  ].filter(Boolean),
+  ],
+  resolve: {
+    alias: {
+      react: 'react',
+      'react-dom': 'react-dom'
+    },
+    dedupe: ['react', 'react-dom'] // Ensure single React instance
+  },
   build: {
     outDir: 'dist',
-    sourcemap: false,
+    sourcemap: true, // Enable for debugging
     rollupOptions: {
       output: {
-        manualChunks: (id) => {
-          // Core React libraries
-          if (id.includes('react') || id.includes('react-dom')) {
-            return 'vendor-react';
-          }
-          // Router and navigation
-          if (id.includes('react-router')) {
-            return 'vendor-router';
-          }
-          // Animation libraries
-          if (id.includes('framer-motion') || id.includes('three')) {
-            return 'vendor-animations';
-          }
-          // Icon libraries
-          if (id.includes('lucide-react')) {
-            return 'vendor-icons';
-          }
-          // AI and ML libraries
-          if (id.includes('openai') || id.includes('@anthropic-ai/sdk')) {
-            return 'vendor-ai';
-          }
-          // Chart and visualization
-          if (id.includes('recharts') || id.includes('chart.js')) {
-            return 'vendor-charts';
-          }
-          // Markdown and syntax highlighting
-          if (id.includes('react-markdown') || id.includes('rehype') || id.includes('shiki')) {
-            return 'vendor-markdown';
-          }
-          // State management
-          if (id.includes('zustand') || id.includes('@tanstack/react-query')) {
-            return 'vendor-state';
-          }
-          // Utility libraries
-          if (id.includes('clsx') || id.includes('tailwind-merge') || id.includes('zod')) {
-            return 'vendor-utils';
-          }
-          // Game-specific libraries
-          if (id.includes('mathjs') || id.includes('typed.js')) {
-            return 'vendor-games';
-          }
-          // Large node_modules
-          if (id.includes('node_modules')) {
-            return 'vendor-misc';
-          }
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          router: ['react-router-dom'],
+          animations: ['framer-motion'],
+          icons: ['lucide-react'],
+          utils: ['clsx', 'tailwind-merge']
         },
         // Optimize chunk naming
         chunkFileNames: (chunkInfo) => {
@@ -101,30 +61,18 @@ export default defineConfig({
         }
       }
     },
-    // Enable compression and optimization
     minify: 'terser',
     terserOptions: {
       compress: {
-        drop_console: process.env.NODE_ENV === 'production',
+        drop_console: true,
         drop_debugger: true,
-        pure_funcs: ['console.log', 'console.info'],
-        passes: 2
+        pure_funcs: ['console.log'] // More aggressive console removal
       },
       mangle: {
-        safari10: true
-      },
-      format: {
-        comments: false
+        safari10: true // Better Safari compatibility
       }
     },
-    // Target modern browsers for better optimization
-    target: 'esnext',
-    // Optimize chunk size
-    chunkSizeWarningLimit: 1000,
-    // Enable CSS code splitting
-    cssCodeSplit: true,
-    // Optimize asset inlining
-    assetsInlineLimit: 4096
+    chunkSizeWarningLimit: 1000
   },
   server: {
     proxy: {

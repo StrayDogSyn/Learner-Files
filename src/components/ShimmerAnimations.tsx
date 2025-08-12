@@ -1,4 +1,4 @@
-import React, { ReactNode, HTMLAttributes, useEffect, useState } from 'react';
+import React, { ReactNode, HTMLAttributes, useEffect, useState, Children } from 'react';
 import { cn } from '../utils/cn';
 
 interface ShimmerProps extends HTMLAttributes<HTMLDivElement> {
@@ -327,7 +327,7 @@ export const StaggeredReveal: React.FC<StaggeredRevealProps> = ({
   direction = 'up',
   className
 }) => {
-  const childrenArray = React.Children.toArray(children);
+  const childrenArray = Children.toArray(children);
   
   return (
     <div className={className}>

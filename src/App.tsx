@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { initializeFontLoading } from "@/utils/fontLoading";
-import { initSentryWithEnvironment } from "@/utils/sentry";
+// import { initSentryWithEnvironment } from "@/utils/sentry";
 import { ErrorBoundary } from "@/components/error/ErrorBoundary";
 import { AppRouter } from "@/router";
 import { useAppStore } from "@/store/appStore";
@@ -29,7 +29,7 @@ export default function App() {
     const initializeApplication = async () => {
       try {
         // Initialize Sentry for error monitoring
-        initSentryWithEnvironment();
+  // initSentryWithEnvironment();
         
         // Initialize optimized font loading
         initializeFontLoading();
@@ -55,9 +55,9 @@ export default function App() {
         console.error('Failed to initialize application:', error);
         
         // Report initialization error
-        if (window.Sentry) {
-          window.Sentry.captureException(error);
-        }
+        // if (window.Sentry) {
+    //   window.Sentry.captureException(error);
+    // }
       }
     };
     
