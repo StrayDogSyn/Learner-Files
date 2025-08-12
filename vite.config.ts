@@ -1,45 +1,92 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tsconfigPaths from "vite-tsconfig-paths";
-import { traeBadgePlugin } from 'vite-plugin-trae-solo-badge';
+// import { traeBadgePlugin } from 'vite-plugin-trae-solo-badge'; // COMMENTED OUT - Testing React.Children fix
+import path from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
   base: process.env.NODE_ENV === 'production' ? '/Learner-Files/' : '/',
   plugins: [
     react({
-      // Remove the babel plugins configuration entirely
-      // No babel plugins needed for production
+      // Force React to use the new JSX transform
+      jsxRuntime: 'automatic',
+      jsxImportSource: 'react',
+      babel: {
+        // Only use production-safe plugins
+        plugins: [],
+        presets: [
+          ['@babel/preset-react', {
+            runtime: 'automatic'
+          }]
+        ]
+      }
     }),
-    traeBadgePlugin({
-      variant: 'dark',
-      position: 'bottom-right',
-      prodOnly: true,
-      clickable: true,
-      clickUrl: 'https://www.trae.ai/solo?showJoin=1',
-      autoTheme: true,
-      autoThemeTarget: '#root'
-    }), 
+    // TEMPORARILY DISABLED: traeBadgePlugin may be causing React.Children error
+    // traeBadgePlugin({
+    //   variant: 'dark',
+    //   position: 'bottom-right',
+    //   prodOnly: true,
+    //   clickable: true,
+    //   clickUrl: 'https://www.trae.ai/solo?showJoin=1',
+    //   autoTheme: true,
+    //   autoThemeTarget: '#root'
+    // }), 
     tsconfigPaths(),
   ],
   resolve: {
     alias: {
-      react: 'react',
-      'react-dom': 'react-dom'
+      '@': path.resolve(__dirname, './src'),
+      'react': path.resolve('./node_modules/react'),
+      'react-dom': path.resolve('./node_modules/react-dom'),
     },
-    dedupe: ['react', 'react-dom'] // Ensure single React instance
+    dedupe: ['react', 'react-dom']
+  },
+  optimizeDeps: {
+    include: [
+      'react', 
+      'react-dom', 
+      'react/jsx-runtime',
+      'react-dom/client'
+    ],
+    force: true,
+    esbuildOptions: {
+      define: {
+        global: 'globalThis'
+      }
+    }
   },
   build: {
     outDir: 'dist',
-    sourcemap: true, // Enable for debugging
+    sourcemap: true,
+    commonjsOptions: {
+      // Ensure proper React transformation
+      transformMixedEsModules: true,
+      include: [/node_modules/],
+    },
     rollupOptions: {
+      external: [],
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          router: ['react-router-dom'],
-          animations: ['framer-motion'],
-          icons: ['lucide-react'],
-          utils: ['clsx', 'tailwind-merge']
+        manualChunks: (id) => {
+          // Keep React completely separate
+          if (id.includes('node_modules/react-dom')) {
+            return 'react-dom';
+          }
+          if (id.includes('node_modules/react')) {
+            return 'react';
+          }
+          if (id.includes('framer-motion')) {
+            return 'framer-motion';
+          }
+          if (id.includes('lucide-react')) {
+            return 'icons';
+          }
+          if (id.includes('react-router')) {
+            return 'router';
+          }
+          if (id.includes('clsx') || id.includes('tailwind-merge')) {
+            return 'utils';
+          }
         },
         // Optimize chunk naming
         chunkFileNames: (chunkInfo) => {

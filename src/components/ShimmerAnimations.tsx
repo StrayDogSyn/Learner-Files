@@ -1,5 +1,7 @@
-import React, { ReactNode, HTMLAttributes, useEffect, useState, Children } from 'react';
+import * as React from 'react';
+const { ReactNode, HTMLAttributes, useEffect, useState } = React;
 import { cn } from '../utils/cn';
+import * as ChildrenUtils from '../utils/react-children-polyfill';
 
 interface ShimmerProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;

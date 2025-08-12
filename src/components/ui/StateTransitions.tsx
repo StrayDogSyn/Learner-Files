@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useRef, createContext, useContext, isValidElement, Children } from 'react';
+import * as React from 'react';
+const { useState, useEffect, useRef, createContext, useContext, isValidElement } = React;
+import * as ChildrenUtils from '../../utils/react-children-polyfill';
 
 // Transition Context
 interface TransitionContextType {
@@ -185,7 +187,7 @@ export const StaggeredAnimation: React.FC<StaggeredAnimationProps> = ({
 
   return (
     <div ref={containerRef} className={className}>
-      {children && Children.map(children, (child, index) => (
+      {children && ChildrenUtils.map(children, (child, index) => (
         <div
           key={index}
           data-index={index}

@@ -1,6 +1,8 @@
-import React, { ReactNode, useEffect, useState, useRef, Children } from 'react';
+import * as React from 'react';
+const { ReactNode, useEffect, useState, useRef } = React;
 import { useLocation, useNavigate } from 'react-router-dom';
 import { cn } from '../utils/cn';
+import * as ChildrenUtils from '../utils/react-children-polyfill';
 
 interface PageTransitionProps {
   children: ReactNode;
@@ -233,7 +235,7 @@ export const StaggeredEntrance: React.FC<StaggeredEntranceProps> = ({
   direction = 'up',
   className
 }) => {
-  const childrenArray = Children.toArray(children);
+  const childrenArray = React.Children.toArray(children);
   const [visibleItems, setVisibleItems] = useState<boolean[]>(new Array(childrenArray.length).fill(false));
   const containerRef = useRef<HTMLDivElement>(null);
 
