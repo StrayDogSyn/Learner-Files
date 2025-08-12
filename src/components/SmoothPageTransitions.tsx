@@ -219,7 +219,7 @@ export const LoadingTransition: React.FC<LoadingTransitionProps> = ({
 };
 
 interface StaggeredEntranceProps {
-  children: ReactNode[];
+  children: ReactNode;
   delay?: number;
   type?: 'fade' | 'slide' | 'scale';
   direction?: 'up' | 'down' | 'left' | 'right';
@@ -233,14 +233,15 @@ export const StaggeredEntrance: React.FC<StaggeredEntranceProps> = ({
   direction = 'up',
   className
 }) => {
-  const [visibleItems, setVisibleItems] = useState<boolean[]>(new Array(children.length).fill(false));
+  const childrenArray = React.Children.toArray(children);
+  const [visibleItems, setVisibleItems] = useState<boolean[]>(new Array(childrenArray.length).fill(false));
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          children.forEach((_, index) => {
+          childrenArray.forEach((_, index) => {
             setTimeout(() => {
               setVisibleItems(prev => {
                 const newState = [...prev];
@@ -260,7 +261,7 @@ export const StaggeredEntrance: React.FC<StaggeredEntranceProps> = ({
     }
 
     return () => observer.disconnect();
-  }, [children.length, delay]);
+  }, [childrenArray.length, delay]);
 
   const getItemClasses = (index: number) => {
     const baseClasses = 'transition-all duration-500 ease-out';
@@ -289,7 +290,7 @@ export const StaggeredEntrance: React.FC<StaggeredEntranceProps> = ({
 
   return (
     <div ref={containerRef} className={className}>
-      {children.map((child, index) => (
+      {childrenArray.map((child, index) => (
         <div key={index} className={getItemClasses(index)}>
           {child}
         </div>

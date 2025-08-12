@@ -315,7 +315,7 @@ export const RevealAnimation: React.FC<RevealAnimationProps> = ({
 };
 
 interface StaggeredRevealProps {
-  children: ReactNode[];
+  children: ReactNode;
   staggerDelay?: number;
   direction?: 'up' | 'down' | 'left' | 'right' | 'fade';
   className?: string;
@@ -327,9 +327,11 @@ export const StaggeredReveal: React.FC<StaggeredRevealProps> = ({
   direction = 'up',
   className
 }) => {
+  const childrenArray = React.Children.toArray(children);
+  
   return (
     <div className={className}>
-      {children.map((child, index) => (
+      {childrenArray.map((child, index) => (
         <RevealAnimation
           key={index}
           delay={index * staggerDelay}
