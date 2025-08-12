@@ -185,7 +185,7 @@ export const StaggeredAnimation: React.FC<StaggeredAnimationProps> = ({
 
   return (
     <div ref={containerRef} className={className}>
-      {React.Children.map(children, (child, index) => (
+      {children && React.Children.map(children, (child, index) => (
         <div
           key={index}
           data-index={index}
@@ -320,7 +320,7 @@ export const TabTransition: React.FC<TabTransitionProps> = ({
 
   return (
     <div className={`${getTransitionClasses()} ${className}`}>
-      {React.Children.map(children, (child) => {
+      {children && React.Children.map(children, (child) => {
         if (React.isValidElement(child) && child.props.value === currentTab) {
           return child;
         }

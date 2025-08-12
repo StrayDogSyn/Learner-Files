@@ -1,0 +1,748 @@
+/**
+ * Performance Optimization CSS
+ * Styles for lazy loading, image optimization, and performance indicators
+ */
+
+/* Lazy Loading Styles */
+.lazy-placeholder {
+  background: linear-gradient(90deg, #f0f0f0 25%, transparent 25%),
+              linear-gradient(90deg, transparent 75%, #f0f0f0 75%),
+              linear-gradient(0deg, #f0f0f0 25%, transparent 25%),
+              linear-gradient(0deg, transparent 75%, #f0f0f0 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 0, 10px 10px, 10px 10px;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.lazy-placeholder::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  animation: loading-shimmer 1.5s infinite;
+}
+
+@keyframes loading-shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.lazy-loaded {
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.lazy-error {
+  background: #fee;
+  border: 2px dashed #f99;
+  color: #c66;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+
+.lazy-error::after {
+  content: 'Failed to load image';
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Responsive Image Styles */
+.responsive-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.responsive-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Blur-up Effect */
+.blur-up {
+  position: relative;
+  overflow: hidden;
+}
+
+.blur-up img {
+  transition: filter 0.3s ease-in-out;
+}
+
+.blur-up.loading img {
+  filter: blur(5px);
+}
+
+.blur-up.loaded img {
+  filter: blur(0);
+}
+
+/* Performance Indicators */
+.performance-indicator {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-family: 'Monaco', 'Consolas', monospace;
+  font-size: 12px;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 300px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.performance-indicator.hidden {
+  display: none;
+}
+
+.performance-metric {
+  display: flex;
+  justify-content: space-between;
+  margin: 2px 0;
+  align-items: center;
+}
+
+.performance-metric-name {
+  color: #aaa;
+  margin-right: 10px;
+}
+
+.performance-metric-value {
+  font-weight: bold;
+}
+
+.performance-metric-value.good {
+  color: #4ade80;
+}
+
+.performance-metric-value.needs-improvement {
+  color: #fbbf24;
+}
+
+.performance-metric-value.poor {
+  color: #f87171;
+}
+
+/* Performance Alert */
+.performance-alert {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 10001;
+  background: #fee;
+  border: 1px solid #f99;
+  color: #c66;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  max-width: 300px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  animation: alert-slide-in 0.3s ease-out;
+}
+
+.performance-alert .alert-title {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.performance-alert .alert-message {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.performance-alert .alert-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: none;
+  border: none;
+  color: #c66;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes alert-slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Loading States */
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-dots {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.loading-dots div {
+  position: absolute;
+  top: 33px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #3498db;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+
+.loading-dots div:nth-child(1) {
+  left: 8px;
+  animation: dots1 0.6s infinite;
+}
+
+.loading-dots div:nth-child(2) {
+  left: 8px;
+  animation: dots2 0.6s infinite;
+}
+
+.loading-dots div:nth-child(3) {
+  left: 32px;
+  animation: dots2 0.6s infinite;
+}
+
+.loading-dots div:nth-child(4) {
+  left: 56px;
+  animation: dots3 0.6s infinite;
+}
+
+@keyframes dots1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes dots3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+
+@keyframes dots2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
+}
+
+/* Skeleton Loading */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.skeleton-text {
+  height: 1em;
+  margin: 0.5em 0;
+  border-radius: 4px;
+}
+
+.skeleton-text.short {
+  width: 60%;
+}
+
+.skeleton-text.medium {
+  width: 80%;
+}
+
+.skeleton-text.long {
+  width: 95%;
+}
+
+.skeleton-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+.skeleton-card {
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #eee;
+}
+
+/* Progressive Image Enhancement */
+.progressive-image {
+  position: relative;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.progressive-image img {
+  width: 100%;
+  height: auto;
+  transition: opacity 0.3s ease;
+}
+
+.progressive-image .placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  filter: blur(2px);
+  transform: scale(1.1);
+  z-index: 1;
+}
+
+.progressive-image .main-image {
+  position: relative;
+  z-index: 2;
+  opacity: 0;
+}
+
+.progressive-image.loaded .main-image {
+  opacity: 1;
+}
+
+.progressive-image.loaded .placeholder {
+  opacity: 0;
+}
+
+/* Critical CSS Inline Styles */
+.critical-above-fold {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  text-align: center;
+}
+
+.critical-navigation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.95);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 1rem 2rem;
+}
+
+.critical-logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Resource Hints Optimization */
+.preload-indicator {
+  position: relative;
+}
+
+.preload-indicator::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #4ade80, #06d6a0);
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  animation: preload-glow 2s ease-in-out infinite;
+}
+
+@keyframes preload-glow {
+  0%, 100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* Service Worker Update Notification */
+.sw-update-notification {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: white;
+  padding: 16px 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 10002;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  animation: notification-slide-up 0.3s ease-out;
+}
+
+.sw-update-notification .notification-text {
+  flex: 1;
+  font-size: 14px;
+}
+
+.sw-update-notification .notification-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.sw-update-notification button {
+  background: #4ade80;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.sw-update-notification button:hover {
+  background: #22c55e;
+}
+
+.sw-update-notification button.secondary {
+  background: transparent;
+  border: 1px solid #666;
+}
+
+.sw-update-notification button.secondary:hover {
+  background: #444;
+}
+
+@keyframes notification-slide-up {
+  from {
+    transform: translate(-50%, 100%);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+
+/* Network Quality Indicator */
+.network-indicator {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-family: monospace;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.network-indicator .signal-strength {
+  display: flex;
+  gap: 2px;
+  align-items: flex-end;
+}
+
+.network-indicator .signal-bar {
+  width: 3px;
+  background: #666;
+  border-radius: 1px;
+}
+
+.network-indicator .signal-bar:nth-child(1) { height: 6px; }
+.network-indicator .signal-bar:nth-child(2) { height: 10px; }
+.network-indicator .signal-bar:nth-child(3) { height: 14px; }
+.network-indicator .signal-bar:nth-child(4) { height: 18px; }
+
+.network-indicator.slow .signal-bar:nth-child(1) { background: #f87171; }
+.network-indicator.slow .signal-bar:nth-child(2) { background: #f87171; }
+
+.network-indicator.medium .signal-bar:nth-child(1) { background: #fbbf24; }
+.network-indicator.medium .signal-bar:nth-child(2) { background: #fbbf24; }
+.network-indicator.medium .signal-bar:nth-child(3) { background: #fbbf24; }
+
+.network-indicator.fast .signal-bar { background: #4ade80; }
+
+/* Memory Usage Indicator */
+.memory-indicator {
+  position: fixed;
+  bottom: 60px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: monospace;
+  z-index: 10000;
+  min-width: 120px;
+}
+
+.memory-bar {
+  width: 100%;
+  height: 4px;
+  background: #333;
+  border-radius: 2px;
+  margin: 4px 0;
+  overflow: hidden;
+}
+
+.memory-bar .memory-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4ade80, #fbbf24, #f87171);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+/* Performance Budget Warning */
+.budget-warning {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 0, 0, 0.9);
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  z-index: 10003;
+  text-align: center;
+  max-width: 400px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.budget-warning h3 {
+  margin: 0 0 10px 0;
+  font-size: 18px;
+}
+
+.budget-warning p {
+  margin: 0 0 15px 0;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.budget-warning button {
+  background: white;
+  color: #c00;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+/* Accessibility Improvements */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .lazy-placeholder {
+    background: linear-gradient(90deg, #333 25%, transparent 25%),
+                linear-gradient(90deg, transparent 75%, #333 75%),
+                linear-gradient(0deg, #333 25%, transparent 25%),
+                linear-gradient(0deg, transparent 75%, #333 75%);
+  }
+
+  .skeleton {
+    background: linear-gradient(90deg, #333 25%, #444 50%, #333 75%);
+    background-size: 200% 100%;
+  }
+
+  .critical-above-fold {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  }
+
+  .critical-navigation {
+    background: rgba(0, 0, 0, 0.95);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .critical-logo {
+    color: #fff;
+  }
+}
+
+/* Print Styles for Performance Reports */
+@media print {
+  .performance-indicator,
+  .performance-alert,
+  .sw-update-notification,
+  .network-indicator,
+  .memory-indicator {
+    display: none !important;
+  }
+
+  .lazy-placeholder,
+  .skeleton {
+    background: #f5f5f5 !important;
+  }
+
+  .loading-spinner,
+  .loading-dots {
+    display: none !important;
+  }
+}
+
+/* High DPI / Retina Optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .performance-indicator {
+    border-width: 0.5px;
+  }
+
+  .signal-bar {
+    width: 2px;
+  }
+
+  .memory-bar {
+    height: 3px;
+  }
+}
+
+/* Container Queries for Responsive Components - Fallback for older browsers */
+@supports (container-type: inline-size) {
+  .performance-container {
+    container-type: inline-size;
+  }
+
+  @container (max-width: 300px) {
+    .performance-indicator {
+      font-size: 10px;
+      padding: 6px 10px;
+    }
+
+    .performance-metric {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .performance-metric-name {
+      margin-right: 0;
+      margin-bottom: 2px;
+    }
+  }
+}
+
+/* Fallback for browsers without container query support */
+@media (max-width: 400px) {
+  .performance-indicator {
+    font-size: 10px;
+    padding: 6px 10px;
+  }
+
+  .performance-metric {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .performance-metric-name {
+    margin-right: 0;
+    margin-bottom: 2px;
+  }
+}
+
+/* Focus Management for Performance Tools */
+.performance-tool:focus-visible {
+  outline: 2px solid #4ade80;
+  outline-offset: 2px;
+}
+
+.performance-button {
+  background: none;
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s ease;
+}
+
+.performance-button:hover {
+  background: #f5f5f5;
+  border-color: #999;
+}
+
+.performance-button:focus-visible {
+  outline: 2px solid #4ade80;
+  outline-offset: 2px;
+}
+
+.performance-button.active {
+  background: #4ade80;
+  color: white;
+  border-color: #4ade80;
+}
