@@ -9,13 +9,7 @@ import { splitVendorChunkPlugin } from 'vite';
 export default defineConfig({
   base: process.env.NODE_ENV === 'production' ? '/Learner-Files/' : '/',
   plugins: [
-    react({
-      babel: {
-        plugins: [
-          'react-dev-locator',
-        ],
-      },
-    }),
+    react(),
     traeBadgePlugin({
       variant: 'dark',
       position: 'bottom-right',
