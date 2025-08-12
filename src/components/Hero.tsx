@@ -16,9 +16,9 @@ import {
   Cpu,
   Zap
 } from 'lucide-react';
-import Particles from 'react-tsparticles';
-import { loadSlim } from 'tsparticles-slim';
-import type { Container, Engine } from 'tsparticles-engine';
+import Particles, { initParticlesEngine } from '@tsparticles/react';
+import { loadSlim } from '@tsparticles/slim';
+import type { Container, Engine } from '@tsparticles/engine';
 import BrandLogo from './BrandLogo';
 import SkillBadges from './SkillBadges';
 
@@ -75,21 +75,30 @@ const TypewriterText: React.FC<{
   );
 };
 
-// Enhanced Particle System with react-tsparticles
+// Enhanced Particle System with @tsparticles/react
 const ParticleBackground: React.FC = () => {
-  const particlesInit = useCallback(async (engine: Engine) => {
-    await loadSlim(engine);
+  const [init, setInit] = useState(false);
+
+  useEffect(() => {
+    initParticlesEngine(async (engine) => {
+      await loadSlim(engine);
+    }).then(() => {
+      setInit(true);
+    });
   }, []);
 
   const particlesLoaded = useCallback(async (container: Container | undefined) => {
     // Particles loaded callback
   }, []);
 
+  if (!init) {
+    return null;
+  }
+
   return (
     <Particles
       id="tsparticles"
-      init={particlesInit}
-      loaded={particlesLoaded}
+      particlesLoaded={particlesLoaded}
       className="absolute inset-0"
       options={{
         background: {
